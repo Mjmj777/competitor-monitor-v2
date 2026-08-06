@@ -1,0 +1,8 @@
+IMPORTANT
+=========
+The active GitHub Actions workflow must be located at:
+.github/workflows/monitor.yml
+
+A duplicate monitor.yml is also included in the project root only so it is easy to see.
+Do not keep both active in GitHub. Upload the .github folder and use the nested workflow file.
+The root monitor.yml can be deleted after confirming the nested file exists.

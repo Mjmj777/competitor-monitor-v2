@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Bilingual competitor offers and social activity intelligence dashboard.">
+  <title>Competitor Intelligence Monitor</title>
+  <link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="site-header__inner">
+      <a class="brand" href="index.html"><span class="brand__mark">CI</span><span><strong data-i18n="appTitle"></strong><small data-i18n="appSubtitle"></small></span></a>
+      <div class="header-actions"><button class="button button--ghost" onclick="location.reload()">↻</button><button class="language-button" data-language-toggle></button></div>
+    </div>
+  </header>
+
+  <main class="page-shell">
+    <div id="loading" class="loading-state"><span class="spinner"></span>Loading…</div>
+    <div id="error"></div>
+    <div id="content" hidden>
+      <section class="hero">
+        <div><span class="eyebrow" data-i18n="marketPulse"></span><h1 data-i18n="appTitle"></h1><p data-i18n="appSubtitle"></p></div>
+        <div class="hero__meta"><span id="freshness" class="status-chip"></span><span id="last-check" class="meta-chip"></span><span id="source-health" class="meta-chip"></span></div>
+      </section>
+
+      <section class="notice-grid">
+        <div class="notice"><strong data-i18n="offerDefinitionNote"></strong></div>
+        <div class="notice"><span data-i18n="initialImportNote"></span></div>
+      </section>
+
+      <section class="section alert-section" aria-labelledby="alerts-title">
+        <div class="section-heading"><div><span class="eyebrow" data-i18n="alertsSubtitle"></span><h2 id="alerts-title"><span data-i18n="alerts"></span> <span id="alert-count" class="count-badge"></span></h2></div><button id="mark-reviewed" class="button button--secondary" data-i18n="markReviewed"></button></div>
+        <div id="alerts-list" class="alert-list"></div>
+      </section>
+
+      <section class="section">
+        <div class="section-heading"><div><span class="eyebrow" data-i18n="quickView"></span><h2 data-i18n="overview"></h2></div></div>
+        <div id="kpi-grid" class="kpi-grid"></div>
+      </section>
+
+      <section class="section">
+        <div class="section-heading"><div><span class="eyebrow" data-i18n="marketPulse"></span><h2 data-i18n="analysisSummary"></h2></div></div>
+        <div class="chart-grid">
+          <article class="chart-card"><header><h3 data-i18n="offersByCompetitor"></h3><p data-i18n="offerDefinitionNote"></p></header><div id="offers-chart" class="chart-body"></div></article>
+          <article class="chart-card"><header><h3 data-i18n="partnerByCompetitor"></h3><p data-i18n="partnerDiscounts"></p></header><div id="partner-chart" class="chart-body"></div></article>
+          <article class="chart-card chart-card--wide"><header><h3 data-i18n="activity30d"></h3><p data-i18n="initialImportNote"></p></header><div id="activity-chart" class="chart-body"></div></article>
+          <article class="chart-card chart-card--wide"><header><h3 data-i18n="channelActivity7d"></h3><p data-i18n="socialShare"></p></header><div id="channel-matrix" class="chart-body"></div></article>
+          <article class="chart-card chart-card--full"><header><h3 data-i18n="productHeatmap"></h3><p data-i18n="categoryCoverage"></p></header><div id="heatmap" class="chart-body chart-body--scroll"></div></article>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-heading"><div><span class="eyebrow" data-i18n="competitors"></span><h2 data-i18n="quickView"></h2></div></div>
+        <div id="competitor-grid" class="competitor-grid"></div>
+      </section>
+
+      <section class="section">
+        <div class="section-heading"><div><span class="eyebrow" data-i18n="latestMedia"></span><h2 data-i18n="latestMedia"></h2></div></div>
+        <div id="media-grid" class="media-grid"></div>
+      </section>
+
+      <section class="section">
+        <div class="section-heading"><div><span class="eyebrow" data-i18n="latestUpdates"></span><h2 data-i18n="allContent"></h2></div><span id="result-count" class="result-meta"></span></div>
+        <div class="tabs" id="content-tabs">
+          <button class="tab is-active" data-type="all" data-i18n="allContent"></button>
+          <button class="tab" data-type="offer" data-i18n="offers"></button>
+          <button class="tab" data-type="partner_offer" data-i18n="partnerOffers"></button>
+          <button class="tab" data-type="posts" data-i18n="posts"></button>
+          <button class="tab" data-type="review" data-i18n="reviewQueue"></button>
+        </div>
+        <div class="filter-panel">
+          <div class="filter-grid">
+            <label><span data-i18n="search"></span><input id="search" type="search" data-i18n-placeholder="searchPlaceholder"></label>
+            <label><span data-i18n="competitors"></span><select id="competitor-filter"></select></label>
+            <label><span data-i18n="categories"></span><select id="category-filter"></select></label>
+            <label><span data-i18n="source"></span><select id="source-filter"></select></label>
+            <button id="clear-filters" class="button button--ghost" data-i18n="clearFilters"></button>
+          </div>
+        </div>
+        <div id="item-list" class="item-list"></div>
+      </section>
+
+      <section class="section"><details class="panel"><summary data-i18n="sourceDetails"></summary><div id="source-list" class="source-list"></div></details></section>
+    </div>
+  </main>
+  <footer class="footer">Competitor Intelligence Monitor · GitHub Pages</footer>
+  <script src="assets/common.js" defer></script>
+  <script src="assets/index.js" defer></script>
+</body>
+</html>

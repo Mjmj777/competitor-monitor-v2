@@ -1,0 +1,201 @@
+{
+  "schema_version": 3,
+  "generated_at": "2026-08-06T10:28:20.693542+00:00",
+  "new_badge_hours": 24,
+  "competitors": [
+    {
+      "id": "stc-bank",
+      "name_ar": "STC Bank",
+      "name_en": "STC Bank",
+      "website": "https://www.stcbank.com.sa/",
+      "offers_url": "https://www.stcbank.com.sa/en/offers"
+    },
+    {
+      "id": "barq",
+      "name_ar": "barq",
+      "name_en": "barq",
+      "website": "https://barq.com/",
+      "offers_url": "https://barq.com/ar/offers/"
+    },
+    {
+      "id": "mobily-pay",
+      "name_ar": "Mobily Pay",
+      "name_en": "Mobily Pay",
+      "website": "https://mobilypay.sa/",
+      "offers_url": "https://mobilypay.sa/"
+    },
+    {
+      "id": "tiqmo",
+      "name_ar": "tiqmo",
+      "name_en": "tiqmo",
+      "website": "https://www.tiqmo.com/",
+      "offers_url": "https://www.tiqmo.com/en/offers"
+    },
+    {
+      "id": "urpay",
+      "name_ar": "urpay",
+      "name_en": "urpay",
+      "website": "https://www.urpay.com.sa/",
+      "offers_url": "https://www.urpay.com.sa/ar/all-offers"
+    },
+    {
+      "id": "alinma-pay",
+      "name_ar": "alinma pay",
+      "name_en": "alinma pay",
+      "website": "https://www.alinmapay.com.sa/",
+      "offers_url": "https://www.alinmapay.com.sa/Offers"
+    }
+  ],
+  "categories": [
+    {
+      "id": "international_transfer",
+      "name_ar": "التحويل الدولي",
+      "name_en": "International Transfer",
+      "priority": 10
+    },
+    {
+      "id": "international_card_fees",
+      "name_ar": "رسوم البطاقات الدولية",
+      "name_en": "International Card Fees",
+      "priority": 20
+    },
+    {
+      "id": "travel",
+      "name_ar": "السفر والسياحة",
+      "name_en": "Travel & Tourism",
+      "priority": 30
+    },
+    {
+      "id": "masaned",
+      "name_ar": "مساند ورواتب العمالة",
+      "name_en": "Musaned & Payroll",
+      "priority": 40
+    },
+    {
+      "id": "sadad",
+      "name_ar": "سداد والفواتير",
+      "name_en": "SADAD & Bills",
+      "priority": 50
+    },
+    {
+      "id": "local_transfer",
+      "name_ar": "التحويل المحلي",
+      "name_en": "Local Transfer",
+      "priority": 60
+    },
+    {
+      "id": "in_app_marketplace",
+      "name_ar": "المتجر داخل التطبيق",
+      "name_en": "In-app Marketplace",
+      "priority": 65
+    },
+    {
+      "id": "cards",
+      "name_ar": "البطاقات",
+      "name_en": "Cards",
+      "priority": 70
+    },
+    {
+      "id": "other",
+      "name_ar": "أخرى",
+      "name_en": "Other",
+      "priority": 999
+    }
+  ],
+  "benefit_types": [
+    {
+      "id": "discount",
+      "name_ar": "خصم",
+      "name_en": "Discount",
+      "priority": 10
+    },
+    {
+      "id": "cashback",
+      "name_ar": "كاش باك",
+      "name_en": "Cashback",
+      "priority": 20
+    },
+    {
+      "id": "fee_waiver",
+      "name_ar": "إعفاء من الرسوم",
+      "name_en": "Fee Waiver",
+      "priority": 30
+    },
+    {
+      "id": "prize",
+      "name_ar": "جائزة أو سحب",
+      "name_en": "Prize or Draw",
+      "priority": 40
+    },
+    {
+      "id": "bonus_points",
+      "name_ar": "نقاط أو مكافآت إضافية",
+      "name_en": "Bonus Points",
+      "priority": 50
+    },
+    {
+      "id": "preferred_rate",
+      "name_ar": "سعر صرف أو سعر تفضيلي",
+      "name_en": "Preferred Rate",
+      "priority": 60
+    },
+    {
+      "id": "free_service",
+      "name_ar": "خدمة أو منتج مجاني",
+      "name_en": "Free Service",
+      "priority": 70
+    }
+  ],
+  "content_types": [
+    {
+      "id": "offer",
+      "name_ar": "عرض مؤكد",
+      "name_en": "Confirmed Offer",
+      "priority": 10
+    },
+    {
+      "id": "partner_offer",
+      "name_ar": "خصم أو عرض شريك",
+      "name_en": "Partner Discount",
+      "priority": 20
+    },
+    {
+      "id": "product_post",
+      "name_ar": "منشور منتج أو خدمة",
+      "name_en": "Product Post",
+      "priority": 30
+    },
+    {
+      "id": "awareness",
+      "name_ar": "توعية أو محتوى تسويقي",
+      "name_en": "Awareness",
+      "priority": 40
+    },
+    {
+      "id": "general_post",
+      "name_ar": "منشور عام",
+      "name_en": "General Post",
+      "priority": 50
+    },
+    {
+      "id": "uncertain",
+      "name_ar": "بحاجة إلى مراجعة",
+      "name_en": "Needs Review",
+      "priority": 60
+    }
+  ],
+  "source_status": [],
+  "stats": {
+    "total_history": 0,
+    "active_items": 0,
+    "confirmed_offers": 0,
+    "partner_offers": 0,
+    "social_posts_7d": 0,
+    "activity_30d": 0,
+    "review_required": 0,
+    "healthy_sources": 0,
+    "failed_sources": 0,
+    "total_sources": 0
+  },
+  "items": []
+}
