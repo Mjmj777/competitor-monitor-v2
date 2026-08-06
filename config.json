@@ -1,0 +1,518 @@
+{
+  "schema_version": 4,
+  "settings": {
+    "new_badge_hours": 24,
+    "inactive_after_missed_runs": 3,
+    "history_retention_days": 365,
+    "request_timeout_seconds": 18,
+    "max_items_per_source": 80,
+    "inventory_path": "inventory.json",
+    "manual_overrides_path": "manual_overrides.json"
+  },
+  "content_types": [
+    {
+      "id": "campaign",
+      "name_ar": "حملة أو عرض",
+      "name_en": "Campaign / Offer",
+      "priority": 10
+    },
+    {
+      "id": "merchant_offer",
+      "name_ar": "عرض شريك",
+      "name_en": "Merchant Offer",
+      "priority": 20
+    },
+    {
+      "id": "social_post",
+      "name_ar": "منشور اجتماعي",
+      "name_en": "Social Post",
+      "priority": 30
+    },
+    {
+      "id": "awareness",
+      "name_ar": "محتوى توعوي",
+      "name_en": "Awareness",
+      "priority": 40
+    },
+    {
+      "id": "review",
+      "name_ar": "بحاجة إلى مراجعة",
+      "name_en": "Needs Review",
+      "priority": 50
+    }
+  ],
+  "categories": [
+    {
+      "id": "remittance",
+      "name_ar": "التحويل الدولي",
+      "name_en": "Remittance",
+      "priority": 10,
+      "keywords": [
+        "remittance",
+        "international transfer",
+        "international transfers",
+        "تحويل دولي",
+        "حوالة دولية",
+        "الحوالات الدولية"
+      ]
+    },
+    {
+      "id": "musaned",
+      "name_ar": "مساند",
+      "name_en": "Musaned",
+      "priority": 20,
+      "keywords": [
+        "musaned",
+        "masaned",
+        "domestic worker salary",
+        "مساند",
+        "راتب العمالة",
+        "العمالة المنزلية"
+      ]
+    },
+    {
+      "id": "sadad",
+      "name_ar": "سداد",
+      "name_en": "SADAD",
+      "priority": 30,
+      "keywords": [
+        "sadad",
+        "bill payment",
+        "سداد",
+        "فواتير"
+      ]
+    },
+    {
+      "id": "card",
+      "name_ar": "البطاقات",
+      "name_en": "Card",
+      "priority": 40,
+      "keywords": [
+        "card",
+        "cards",
+        "visa",
+        "mastercard",
+        "mada",
+        "international spend",
+        "بطاقة",
+        "بطاقات",
+        "فيزا",
+        "مدى",
+        "انفق",
+        "مشتريات"
+      ]
+    },
+    {
+      "id": "engagement",
+      "name_ar": "التفاعل والمسابقات",
+      "name_en": "Engagement",
+      "priority": 50,
+      "keywords": [
+        "quiz",
+        "game",
+        "prediction",
+        "leaderboard",
+        "competition",
+        "مسابقة",
+        "لعبة",
+        "توقع"
+      ]
+    },
+    {
+      "id": "other",
+      "name_ar": "أخرى",
+      "name_en": "Other",
+      "priority": 60,
+      "keywords": []
+    },
+    {
+      "id": "merchant",
+      "name_ar": "عروض الشركاء",
+      "name_en": "Merchant",
+      "priority": 90,
+      "keywords": [
+        "merchant",
+        "partner",
+        "شريك",
+        "خصم لدى"
+      ]
+    }
+  ],
+  "mechanic_types": [
+    {
+      "id": "discount",
+      "name_ar": "خصم",
+      "name_en": "Discount",
+      "priority": 10
+    },
+    {
+      "id": "cashback",
+      "name_ar": "كاش باك",
+      "name_en": "Cashback",
+      "priority": 20
+    },
+    {
+      "id": "fee_waiver",
+      "name_ar": "إعفاء من الرسوم",
+      "name_en": "Fee Waiver",
+      "priority": 30
+    },
+    {
+      "id": "prize_draw",
+      "name_ar": "جائزة أو سحب",
+      "name_en": "Prize / Draw",
+      "priority": 40
+    },
+    {
+      "id": "reward",
+      "name_ar": "مكافأة أو نقاط",
+      "name_en": "Reward / Points",
+      "priority": 50
+    },
+    {
+      "id": "preferred_rate",
+      "name_ar": "سعر تفضيلي",
+      "name_en": "Preferred Rate",
+      "priority": 60
+    },
+    {
+      "id": "other",
+      "name_ar": "أخرى",
+      "name_en": "Other",
+      "priority": 99
+    }
+  ],
+  "themes": [
+    {
+      "id": "international_transfer",
+      "name_ar": "التحويل الدولي",
+      "name_en": "International Transfer"
+    },
+    {
+      "id": "travel",
+      "name_ar": "السفر",
+      "name_en": "Travel"
+    },
+    {
+      "id": "international_fees",
+      "name_ar": "الرسوم الدولية",
+      "name_en": "International Fees"
+    },
+    {
+      "id": "cards",
+      "name_ar": "البطاقات",
+      "name_en": "Cards"
+    },
+    {
+      "id": "musaned",
+      "name_ar": "مساند",
+      "name_en": "Musaned"
+    },
+    {
+      "id": "sadad",
+      "name_ar": "سداد",
+      "name_en": "SADAD"
+    },
+    {
+      "id": "engagement",
+      "name_ar": "التفاعل",
+      "name_en": "Engagement"
+    },
+    {
+      "id": "other",
+      "name_ar": "أخرى",
+      "name_en": "Other"
+    }
+  ],
+  "classification": {
+    "awareness_keywords": [
+      "learn more",
+      "discover",
+      "tips",
+      "awareness",
+      "how to",
+      "اعرف أكثر",
+      "اكتشف",
+      "تعرف على",
+      "نصائح",
+      "توعية",
+      "كيف تستخدم"
+    ],
+    "partner_keywords": [
+      "partner",
+      "partners",
+      "merchant partner",
+      "discount at",
+      "available at",
+      "in partnership with",
+      "partner offer",
+      "شريك",
+      "شركائنا",
+      "الشركاء",
+      "خصم لدى",
+      "متوفر لدى",
+      "بالتعاون مع",
+      "عرض شريك"
+    ],
+    "campaign_keywords": [
+      "offer",
+      "campaign",
+      "promotion",
+      "cashback",
+      "discount",
+      "fee-free",
+      "win",
+      "reward",
+      "عرض",
+      "حملة",
+      "خصم",
+      "كاش باك",
+      "اربح",
+      "مكافأة"
+    ]
+  },
+  "competitors": [
+    {
+      "id": "stc-bank",
+      "name_en": "STC Bank",
+      "website": "https://stcbank.com.sa/",
+      "offers_url": "https://stcbank.com.sa/en/web/guest/offers",
+      "website_sources": [
+        {
+          "id": "offers",
+          "url": "https://stcbank.com.sa/en/web/guest/offers",
+          "link_keywords": [
+            "/web/guest/w/",
+            "offer",
+            "عرض",
+            "عروض",
+            "valid until"
+          ],
+          "detail_link_patterns": [
+            "/en/web/guest/w/.+",
+            "/web/guest/w/.+"
+          ],
+          "require_detail_link": true,
+          "exclude_keywords": [
+            "privacy",
+            "terms",
+            "contact",
+            "faq",
+            "سياسة الخصوصية",
+            "الشروط والأحكام"
+          ]
+        }
+      ],
+      "social_feeds": {
+        "instagram": "https://rss.app/feeds/1sE2fMnpZVM9RLMg.xml",
+        "facebook": "https://rss.app/feeds/BQFgXRdCvLC9OGuU.xml",
+        "x": "https://rss.app/feeds/LEIWnGXbUvfLCiHf.xml",
+        "tiktok": "https://rss.app/feeds/3yGbCJv2HxJJ2l2w.xml"
+      },
+      "name_ar": "STC Bank"
+    },
+    {
+      "id": "barq",
+      "name_en": "barq",
+      "website": "https://barq.com/",
+      "offers_url": "https://barq.com/ar/offers/",
+      "website_sources": [
+        {
+          "id": "offers",
+          "url": "https://barq.com/ar/offers/",
+          "link_keywords": [
+            "offer",
+            "offers",
+            "عرض",
+            "عروض",
+            "اعرف المزيد",
+            "view details"
+          ],
+          "detail_link_patterns": [
+            "/offers(?:/|\\?).+",
+            "/offer(?:/|\\?).+"
+          ],
+          "require_detail_link": true,
+          "exclude_keywords": [
+            "privacy",
+            "terms",
+            "contact",
+            "faq",
+            "سياسة الخصوصية",
+            "الشروط والأحكام"
+          ]
+        }
+      ],
+      "social_feeds": {
+        "instagram": "https://rss.app/feeds/SJAWDCMM7zFIZbAM.xml",
+        "facebook": "https://rss.app/feeds/X7l2ZkzXWCw7UOdf.xml",
+        "x": "https://rss.app/feeds/8VN62tzPD3L0WA4x.xml",
+        "tiktok": "https://rss.app/feeds/JOQgdBYtMeUAAkOz.xml"
+      },
+      "name_ar": "barq"
+    },
+    {
+      "id": "mobily-pay",
+      "name_en": "Mobily Pay",
+      "website": "https://mobilypay.sa/",
+      "offers_url": "https://mobilypay.sa/",
+      "website_sources": [
+        {
+          "id": "offers",
+          "url": "https://mobilypay.sa/",
+          "link_keywords": [
+            "offer-details",
+            "offer",
+            "عرض",
+            "العروض",
+            "استكشف المزيد"
+          ],
+          "detail_link_patterns": [
+            "offer-details\\.html\\?.*id=",
+            "/ar/offers/offer-[^/?]+\\.html",
+            "/offer(?:/|\\?).+"
+          ],
+          "require_detail_link": true,
+          "exclude_keywords": [
+            "privacy",
+            "terms",
+            "contact",
+            "faq",
+            "سياسة الخصوصية",
+            "الشروط والأحكام"
+          ]
+        }
+      ],
+      "social_feeds": {
+        "instagram": "https://rss.app/feeds/42ld972Y8MEm9lIg.xml",
+        "facebook": "https://rss.app/feeds/VgDZJtfNiTCPdbKl.xml",
+        "x": "https://rss.app/feeds/zuy6dVGDvDrj9awG.xml",
+        "tiktok": "https://rss.app/feeds/zZeZod7YDmn9rZKx.xml"
+      },
+      "name_ar": "Mobily Pay"
+    },
+    {
+      "id": "tiqmo",
+      "name_en": "tiqmo",
+      "website": "https://www.tiqmo.com/",
+      "offers_url": "https://www.tiqmo.com/ar/offers",
+      "website_sources": [
+        {
+          "id": "offers",
+          "url": "https://www.tiqmo.com/ar/offers",
+          "link_keywords": [
+            "offer",
+            "offers",
+            "campaign",
+            "campaigns",
+            "عرض",
+            "عروض",
+            "learn more"
+          ],
+          "detail_link_patterns": [
+            "/offers(?:/|\\?).+",
+            "/campaigns?(?:/|\\?).+"
+          ],
+          "require_detail_link": true,
+          "exclude_keywords": [
+            "privacy",
+            "terms",
+            "contact",
+            "faq",
+            "سياسة الخصوصية",
+            "الشروط والأحكام"
+          ]
+        }
+      ],
+      "social_feeds": {
+        "instagram": "https://rss.app/feeds/W5yIZ4HQir0UpJXE.xml",
+        "facebook": "https://rss.app/feeds/96Wcmzj4v9vbSi5R.xml",
+        "x": "https://rss.app/feeds/HA0veIfJB6u2BeOq.xml",
+        "tiktok": "https://rss.app/feeds/h6bamo8PZDh2nw6U.xml"
+      },
+      "name_ar": "tiqmo"
+    },
+    {
+      "id": "urpay",
+      "name_en": "urpay",
+      "website": "https://www.urpay.com.sa/",
+      "offers_url": "https://www.urpay.com.sa/en/all-offers",
+      "website_sources": [
+        {
+          "id": "offers",
+          "url": "https://www.urpay.com.sa/en/all-offers",
+          "link_keywords": [
+            "offer",
+            "offers",
+            "urpay-offers",
+            "عرض",
+            "عروض",
+            "تفاصيل العرض"
+          ],
+          "detail_link_patterns": [
+            "/urpay-offers(?:/|\\?).+",
+            "/offers(?:/|\\?).+",
+            "/offer(?:/|\\?).+"
+          ],
+          "require_detail_link": true,
+          "exclude_keywords": [
+            "privacy",
+            "terms",
+            "contact",
+            "faq",
+            "سياسة الخصوصية",
+            "الشروط والأحكام"
+          ]
+        }
+      ],
+      "social_feeds": {
+        "instagram": "https://rss.app/feeds/0uy4n6RFwRXbEbBc.xml",
+        "facebook": "https://rss.app/feeds/nS5l8YQ7cP9tPG9E.xml",
+        "x": "https://rss.app/feeds/n3UMZvxtEOfBDGbW.xml",
+        "tiktok": "https://rss.app/feeds/bSvhhEdev3qgtp2Z.xml"
+      },
+      "name_ar": "urpay"
+    },
+    {
+      "id": "alinma-pay",
+      "name_en": "alinma pay",
+      "website": "https://www.alinmapay.com.sa/",
+      "offers_url": "https://www.alinmapay.com.sa/Offers",
+      "website_sources": [
+        {
+          "id": "offers",
+          "url": "https://www.alinmapay.com.sa/Offers",
+          "link_keywords": [
+            "offer",
+            "offers",
+            "عرض",
+            "عروض",
+            "تفاصيل"
+          ],
+          "detail_link_patterns": [
+            "/Offers(?:/|\\?).+",
+            "/Offer(?:/|\\?).+",
+            "Offers\\?.*(id|offer)="
+          ],
+          "require_detail_link": true,
+          "exclude_keywords": [
+            "privacy",
+            "terms",
+            "contact",
+            "faq",
+            "سياسة الخصوصية",
+            "الشروط والأحكام"
+          ]
+        }
+      ],
+      "social_feeds": {
+        "instagram": "https://rss.app/feeds/GLy6tPVdUqQNbjeo.xml",
+        "facebook": "https://rss.app/feeds/LxC6FNqeCiGO9mDB.xml",
+        "x": "https://rss.app/feeds/Qji6gWs8zzpkCVL4.xml",
+        "tiktok": "https://rss.app/feeds/lSjOg6bKDN1HJp7Q.xml"
+      },
+      "name_ar": "alinma pay"
+    }
+  ],
+  "classification_overrides": []
+}
