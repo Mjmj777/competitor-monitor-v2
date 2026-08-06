@@ -1,0 +1,140 @@
+{
+  "schema_version": 2,
+  "generated_at": "2026-08-06T09:34:49.163673+00:00",
+  "new_badge_hours": 24,
+  "default_strategic_only": true,
+  "competitors": [
+    {
+      "id": "stc-bank",
+      "name_ar": "STC Bank",
+      "name_en": "STC Bank",
+      "website": "https://www.stcbank.com.sa/",
+      "offers_url": "https://www.stcbank.com.sa/en/offers"
+    },
+    {
+      "id": "barq",
+      "name_ar": "برق",
+      "name_en": "barq",
+      "website": "https://barq.com/",
+      "offers_url": "https://barq.com/ar/offers/"
+    },
+    {
+      "id": "mobily-pay",
+      "name_ar": "موبايلي باي",
+      "name_en": "Mobily Pay",
+      "website": "https://mobilypay.sa/",
+      "offers_url": "https://mobilypay.sa/"
+    },
+    {
+      "id": "tiqmo",
+      "name_ar": "تيقمو",
+      "name_en": "tiqmo",
+      "website": "https://www.tiqmo.com/",
+      "offers_url": "https://www.tiqmo.com/en/offers"
+    },
+    {
+      "id": "urpay",
+      "name_ar": "urpay",
+      "name_en": "urpay",
+      "website": "https://www.urpay.com.sa/",
+      "offers_url": "https://www.urpay.com.sa/ar/all-offers"
+    },
+    {
+      "id": "alinma-pay",
+      "name_ar": "الإنماء باي",
+      "name_en": "alinma pay",
+      "website": "https://www.alinmapay.com.sa/",
+      "offers_url": "https://www.alinmapay.com.sa/Offers"
+    }
+  ],
+  "categories": [
+    {
+      "id": "international_transfer",
+      "name_ar": "التحويل الدولي",
+      "name_en": "International Transfer",
+      "strategic": true,
+      "priority": 10
+    },
+    {
+      "id": "travel",
+      "name_ar": "السفر والسياحة",
+      "name_en": "Travel & Tourism",
+      "strategic": true,
+      "priority": 30
+    },
+    {
+      "id": "international_fees",
+      "name_ar": "الرسوم والإنفاق الدولي",
+      "name_en": "International Fees & Spending",
+      "strategic": true,
+      "priority": 20
+    },
+    {
+      "id": "cards",
+      "name_ar": "البطاقات",
+      "name_en": "Cards",
+      "strategic": true,
+      "priority": 70
+    },
+    {
+      "id": "masaned",
+      "name_ar": "مساند ورواتب العمالة",
+      "name_en": "Masaned & Payroll",
+      "strategic": true,
+      "priority": 40
+    },
+    {
+      "id": "sadad",
+      "name_ar": "سداد والفواتير",
+      "name_en": "SADAD & Bills",
+      "strategic": true,
+      "priority": 50
+    },
+    {
+      "id": "local_transfer",
+      "name_ar": "التحويل المحلي",
+      "name_en": "Local Transfer",
+      "strategic": true,
+      "priority": 60
+    },
+    {
+      "id": "cashback_rewards",
+      "name_ar": "الكاش باك والمكافآت",
+      "name_en": "Cashback & Rewards",
+      "strategic": true,
+      "priority": 80
+    },
+    {
+      "id": "merchant_offers",
+      "name_ar": "عروض التجار",
+      "name_en": "Merchant Offers",
+      "strategic": false,
+      "priority": 90
+    },
+    {
+      "id": "awareness",
+      "name_ar": "توعية ومحتوى تسويقي",
+      "name_en": "Awareness & Marketing",
+      "strategic": false,
+      "priority": 100
+    },
+    {
+      "id": "other",
+      "name_ar": "أخرى",
+      "name_en": "Other",
+      "strategic": false,
+      "priority": 999
+    }
+  ],
+  "source_status": [],
+  "stats": {
+    "total_history": 0,
+    "active_items": 0,
+    "strategic_active_items": 0,
+    "new_or_updated_items": 0,
+    "healthy_sources": 0,
+    "failed_sources": 0,
+    "total_sources": 0
+  },
+  "items": []
+}
