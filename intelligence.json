@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-08-09T19:20:57.042477+00:00",
+  "generated_at": "2026-08-09T21:06:44.210100+00:00",
   "score_methodology": {
     "name": "Competitive Activity Score",
     "scale": "0-100",
@@ -15,7 +15,7 @@
   "market": {
     "active_campaigns": 24,
     "active_merchant_offers": 15,
-    "social_posts_7d": 185,
+    "social_posts_7d": 186,
     "category_intensity": [
       {
         "category_id": "remittance",
@@ -433,7 +433,7 @@
         "remittance"
       ],
       "priority_breadth": 0.5,
-      "social_posts_7d": 55,
+      "social_posts_7d": 56,
       "avg_platform_coverage": 2.0,
       "score": 78,
       "components": {
@@ -460,7 +460,7 @@
       "components": {
         "campaign_intensity": 100,
         "priority_category_breadth": 75,
-        "social_activity_7d": 33,
+        "social_activity_7d": 32,
         "platform_coverage": 50
       }
     },
@@ -479,7 +479,7 @@
       "components": {
         "campaign_intensity": 100,
         "priority_category_breadth": 25,
-        "social_activity_7d": 69,
+        "social_activity_7d": 68,
         "platform_coverage": 50
       }
     },
@@ -494,13 +494,13 @@
         "sadad"
       ],
       "priority_breadth": 0.75,
-      "social_posts_7d": 21,
+      "social_posts_7d": 20,
       "avg_platform_coverage": 3.33,
       "score": 64,
       "components": {
         "campaign_intensity": 60,
         "priority_category_breadth": 75,
-        "social_activity_7d": 38,
+        "social_activity_7d": 36,
         "platform_coverage": 83
       }
     },
@@ -514,13 +514,13 @@
         "remittance"
       ],
       "priority_breadth": 0.5,
-      "social_posts_7d": 37,
+      "social_posts_7d": 38,
       "avg_platform_coverage": 2.0,
       "score": 57,
       "components": {
         "campaign_intensity": 60,
         "priority_category_breadth": 50,
-        "social_activity_7d": 67,
+        "social_activity_7d": 68,
         "platform_coverage": 50
       }
     },
