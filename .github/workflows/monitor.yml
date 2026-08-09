@@ -6,6 +6,7 @@ on:
     paths-ignore:
       - data.json
       - state.json
+      - ai_summary.json
   schedule:
     - cron: "*/20 * * * *"
   workflow_dispatch:
@@ -44,12 +45,20 @@ jobs:
       - name: Collect competitor intelligence
         run: python monitor.py
 
+      - name: Generate AI executive summary
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          OPENAI_MODEL: gpt-5.6-sol
+          OPENAI_REASONING_EFFORT: xhigh
+          OPENAI_MAX_OUTPUT_TOKENS: "8000"
+        run: python generate_ai_summary.py
+
       - name: Commit monitoring data
         shell: bash
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data.json state.json
+          git add data.json state.json ai_summary.json
           if git diff --cached --quiet; then
             echo "No data changes to commit."
           else
@@ -62,7 +71,7 @@ jobs:
         run: |
           rm -rf _site
           mkdir -p _site/assets
-          cp index.html competitor.html item.html data.json manual_overrides.json _site/
+          cp index.html competitor.html item.html data.json ai_summary.json manual_overrides.json _site/
           cp -R assets/. _site/assets/
           touch _site/.nojekyll
 
