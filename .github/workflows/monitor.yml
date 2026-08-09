@@ -68,15 +68,38 @@ jobs:
       - name: Commit monitoring and intelligence data
         shell: bash
         run: |
+          set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add data.json state.json ai_summary.json intelligence.json market_history.json
+
           if git diff --cached --quiet; then
             echo "No data changes to commit."
-          else
-            git commit -m "chore: refresh competitor intelligence"
-            git push origin HEAD:main
+            exit 0
           fi
+
+          git commit -m "chore: refresh competitor intelligence"
+
+          # A human edit or another run may update main after checkout.
+          # Rebase the generated-data commit onto the latest main and retry safely.
+          for attempt in 1 2 3; do
+            if git push origin HEAD:main; then
+              echo "Push succeeded on attempt ${attempt}."
+              exit 0
+            fi
+
+            echo "Push was rejected; syncing with latest main (attempt ${attempt}/3)..."
+            git fetch origin main
+
+            if ! git rebase origin/main; then
+              echo "Automatic rebase failed. Aborting to avoid overwriting remote changes."
+              git rebase --abort || true
+              exit 1
+            fi
+          done
+
+          echo "Push failed after 3 attempts."
+          exit 1
 
       - name: Prepare GitHub Pages site
         shell: bash
