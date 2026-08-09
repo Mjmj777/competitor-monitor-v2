@@ -1,7 +1,7 @@
 [
   {
     "date": "2026-08-09",
-    "captured_at": "2026-08-09T19:20:57.042477+00:00",
+    "captured_at": "2026-08-09T23:00:30.048533+00:00",
     "active_campaigns": 24,
     "categories": {
       "remittance": 8,
@@ -16,7 +16,7 @@
         "card": 5,
         "musaned": 0,
         "sadad": 0,
-        "activity_score": 65
+        "activity_score": 64
       },
       "barq": {
         "active_campaigns": 5,
@@ -32,7 +32,7 @@
         "card": 1,
         "musaned": 0,
         "sadad": 0,
-        "activity_score": 57
+        "activity_score": 56
       },
       "tiqmo": {
         "active_campaigns": 3,
@@ -40,7 +40,7 @@
         "card": 1,
         "musaned": 0,
         "sadad": 1,
-        "activity_score": 64
+        "activity_score": 63
       },
       "urpay": {
         "active_campaigns": 3,

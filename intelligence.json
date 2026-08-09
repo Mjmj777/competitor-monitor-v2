@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-08-09T21:06:44.210100+00:00",
+  "generated_at": "2026-08-09T23:00:30.048533+00:00",
   "score_methodology": {
     "name": "Competitive Activity Score",
     "scale": "0-100",
@@ -15,7 +15,7 @@
   "market": {
     "active_campaigns": 24,
     "active_merchant_offers": 15,
-    "social_posts_7d": 186,
+    "social_posts_7d": 190,
     "category_intensity": [
       {
         "category_id": "remittance",
@@ -433,7 +433,7 @@
         "remittance"
       ],
       "priority_breadth": 0.5,
-      "social_posts_7d": 56,
+      "social_posts_7d": 60,
       "avg_platform_coverage": 2.0,
       "score": 78,
       "components": {
@@ -460,7 +460,7 @@
       "components": {
         "campaign_intensity": 100,
         "priority_category_breadth": 75,
-        "social_activity_7d": 32,
+        "social_activity_7d": 30,
         "platform_coverage": 50
       }
     },
@@ -475,11 +475,11 @@
       "priority_breadth": 0.25,
       "social_posts_7d": 38,
       "avg_platform_coverage": 2.0,
-      "score": 65,
+      "score": 64,
       "components": {
         "campaign_intensity": 100,
         "priority_category_breadth": 25,
-        "social_activity_7d": 68,
+        "social_activity_7d": 63,
         "platform_coverage": 50
       }
     },
@@ -496,11 +496,11 @@
       "priority_breadth": 0.75,
       "social_posts_7d": 20,
       "avg_platform_coverage": 3.33,
-      "score": 64,
+      "score": 63,
       "components": {
         "campaign_intensity": 60,
         "priority_category_breadth": 75,
-        "social_activity_7d": 36,
+        "social_activity_7d": 33,
         "platform_coverage": 83
       }
     },
@@ -516,11 +516,11 @@
       "priority_breadth": 0.5,
       "social_posts_7d": 38,
       "avg_platform_coverage": 2.0,
-      "score": 57,
+      "score": 56,
       "components": {
         "campaign_intensity": 60,
         "priority_category_breadth": 50,
-        "social_activity_7d": 68,
+        "social_activity_7d": 63,
         "platform_coverage": 50
       }
     },
@@ -541,7 +541,7 @@
       "components": {
         "campaign_intensity": 60,
         "priority_category_breadth": 75,
-        "social_activity_7d": 29,
+        "social_activity_7d": 27,
         "platform_coverage": 33
       }
     }
@@ -549,7 +549,7 @@
   "history": [
     {
       "date": "2026-08-09",
-      "captured_at": "2026-08-09T19:20:57.042477+00:00",
+      "captured_at": "2026-08-09T23:00:30.048533+00:00",
       "active_campaigns": 24,
       "categories": {
         "remittance": 8,
@@ -564,7 +564,7 @@
           "card": 5,
           "musaned": 0,
           "sadad": 0,
-          "activity_score": 65
+          "activity_score": 64
         },
         "barq": {
           "active_campaigns": 5,
@@ -580,7 +580,7 @@
           "card": 1,
           "musaned": 0,
           "sadad": 0,
-          "activity_score": 57
+          "activity_score": 56
         },
         "tiqmo": {
           "active_campaigns": 3,
@@ -588,7 +588,7 @@
           "card": 1,
           "musaned": 0,
           "sadad": 1,
-          "activity_score": 64
+          "activity_score": 63
         },
         "urpay": {
           "active_campaigns": 3,
