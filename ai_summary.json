@@ -1,0 +1,134 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-08-09T08:58:00Z",
+  "model": "seeded-chatgpt-analysis",
+  "snapshot_hash": "seed-v4-2026-08-06",
+  "market": {
+    "ar": {
+      "summary": "المشهد التنافسي في المخزون الحالي يتركز بوضوح على البطاقات والإنفاق الدولي، مع اعتماد واسع على الجوائز والكاش باك وإعفاءات الرسوم. STC Bank وbarq وalinma pay يملكون أكبر عدد من الحملات الحالية في هذه اللقطة، بينما يبقى التحويل الدولي ثاني أكبر محور تنافسي بعد البطاقات.",
+      "bullets": [
+        "البطاقات هي الفئة الأكبر بـ11 حملة حالية، يليها التحويل الدولي بـ8 حملات.",
+        "STC Bank وbarq وalinma pay يظهر لكل منهم 5 حملات حالية في المخزون الحالي.",
+        "الجوائز والسحوبات هي الآلية الأكثر تكرارًا، مع حضور قوي للكاش باك والإعفاء من الرسوم."
+      ]
+    },
+    "en": {
+      "summary": "The current inventory shows a clear competitive focus on cards and international spending, with prizes, cashback and fee waivers used heavily. STC Bank, barq and alinma pay have the largest campaign counts in this snapshot, while remittance remains the second-largest competitive theme after cards.",
+      "bullets": [
+        "Cards lead with 11 current campaigns, followed by remittance with 8.",
+        "STC Bank, barq and alinma pay each show 5 current campaigns in the present inventory.",
+        "Prize mechanics are the most common, with cashback and fee waivers also used heavily."
+      ]
+    }
+  },
+  "competitors": {
+    "stc-bank": {
+      "ar": {
+        "summary": "STC Bank يركز بقوة على البطاقات والإنفاق الدولي، ويجمع بين إعفاءات الرسوم والمكافآت والجوائز لتحفيز الاستخدام. عدة عروض في المخزون لها تواريخ انتهاء قريبة نسبيًا، لذلك أي تمديد أو استبدال يستحق المتابعة.",
+        "bullets": [
+          "جميع الحملات الحالية المرصودة تقريبًا مرتبطة بالبطاقات والإنفاق.",
+          "العروض تشمل 0% رسوم دولية، قسائم سفر، جوائز أجهزة وكاش باك.",
+          "أقرب نقاط المتابعة هي الحملات ذات تواريخ الانتهاء في أغسطس وسبتمبر."
+        ]
+      },
+      "en": {
+        "summary": "STC Bank is strongly focused on cards and international spend, combining fee waivers, rewards and prizes to drive usage. Several campaigns in the inventory have relatively near end dates, making extensions or replacements important to watch.",
+        "bullets": [
+          "Most current tracked campaigns are tied to cards and spending.",
+          "Mechanics include 0% international fees, travel vouchers, device prizes and cashback.",
+          "The nearest watchpoints are campaigns ending across August and September."
+        ]
+      }
+    },
+    "barq": {
+      "ar": {
+        "summary": "barq يمزج بين التحويل الدولي والبطاقات وحملات التفاعل، مع تركيز واضح على الرسوم الصفرية والجوائز الكبيرة لزيادة الاستخدام. أغلب الحملات الحالية لا تعلن تاريخ انتهاء، ما يجعل استمرار الرصد مهمًا.",
+        "bullets": [
+          "التحويل الدولي بدون رسوم أحد الرسائل الأساسية الحالية.",
+          "هناك حضور قوي للمسابقات والتفاعل مثل Marathon وPrediction Game.",
+          "عدد من الحملات لا يحمل تاريخ انتهاء معلن."
+        ]
+      },
+      "en": {
+        "summary": "barq mixes remittance, card and engagement campaigns, with a clear emphasis on zero-fee propositions and large prizes to drive usage. Most current campaigns do not state an end date, so continued monitoring matters.",
+        "bullets": [
+          "Zero-fee international transfer is one of the core current messages.",
+          "Engagement campaigns such as Marathon and Prediction Game are prominent.",
+          "Several current campaigns have no stated end date."
+        ]
+      }
+    },
+    "mobily-pay": {
+      "ar": {
+        "summary": "Mobily Pay يركز حاليًا على التحويل الدولي مع دعم ذلك بعرض بطاقات صيفي، ويستخدم مزيجًا من الرسوم الصفرية والجوائز والكاش باك. عرض التحويل بدون رسوم ممتد في المخزون حتى نهاية أكتوبر 2026.",
+        "bullets": [
+          "حملتان من أصل ثلاث حملات حالية تركزان مباشرة على التحويل الدولي.",
+          "عرض الصيف يجمع 0% رسوم دولية مع كاش باك وإصدار بطاقة بلاستيكية مجانًا.",
+          "الجوائز الأسبوعية تستخدم كحافز إضافي للتحويل الدولي."
+        ]
+      },
+      "en": {
+        "summary": "Mobily Pay is currently leaning into international transfers while supporting that focus with a summer card campaign, using zero fees, prizes and cashback. The zero-fee remittance offer in the inventory runs through the end of October 2026.",
+        "bullets": [
+          "Two of the three current campaigns directly target international transfers.",
+          "The summer card offer combines 0% international fees, cashback and free physical-card issuance.",
+          "Weekly prizes provide an additional incentive for remittance usage."
+        ]
+      }
+    },
+    "tiqmo": {
+      "ar": {
+        "summary": "tiqmo يغطي ثلاث حالات استخدام مختلفة: التحويل الدولي، الإنفاق الدولي بالبطاقة، وسداد الفواتير. الاستراتيجية الحالية تعتمد على بناء تكرار الاستخدام عبر كاش باك متدرج ورسوم صفرية وسحب يومي.",
+        "bullets": [
+          "حملة التحويل الدولي تكافئ الاستمرارية الشهرية مع حد تحويل مؤهل.",
+          "عرض البطاقة يركز على 0% رسوم دولية وسحوبات خارجية بدون رسوم.",
+          "SADAD يستخدم سحب كاش باك يومي لتحفيز دفع الفواتير."
+        ]
+      },
+      "en": {
+        "summary": "tiqmo spans three distinct use cases: remittance, international card spend and bill payment. Its current strategy uses recurring cashback, zero fees and daily prize mechanics to encourage repeated usage.",
+        "bullets": [
+          "The remittance campaign rewards monthly streak behavior above a qualifying threshold.",
+          "The card proposition focuses on 0% international fees and fee-free overseas withdrawals.",
+          "SADAD uses a daily cashback draw to stimulate bill-payment activity."
+        ]
+      }
+    },
+    "urpay": {
+      "ar": {
+        "summary": "urpay يعتمد بشكل واضح على أسلوب الألعاب والسحوبات عبر البطاقات والتحويل الدولي ومساند، بدل التركيز فقط على خفض الرسوم. هذا يعطيه نمطًا تسويقيًا قائمًا على الجوائز والتفاعل المتكرر.",
+        "bullets": [
+          "حملة Visa Platinum تستخدم لعبة كاش باك تصل إلى 100% وفق الشروط.",
+          "التحويل الدولي يستخدم Scratch & Win بجوائز نقدية.",
+          "مساند مرتبط بسحب على تذكرة سفر للعامل المنزلي."
+        ]
+      },
+      "en": {
+        "summary": "urpay relies heavily on gamification and prize mechanics across cards, remittance and Musaned rather than competing only on lower fees. This creates a marketing pattern centered on rewards and repeat engagement.",
+        "bullets": [
+          "The Visa Platinum campaign uses a cashback game with rewards up to 100% under its terms.",
+          "International transfer uses a Scratch & Win cash-prize mechanic.",
+          "Musaned is linked to a travel-ticket prize draw for domestic workers."
+        ]
+      }
+    },
+    "alinma-pay": {
+      "ar": {
+        "summary": "alinma pay يجمع بين التحويل الدولي والبطاقات ومساند، مع تركيز قوي على خفض تكلفة الاستخدام عبر رسوم تحويل منخفضة أو صفرية ورسوم دولية صفرية، إضافة إلى الكاش باك والسحوبات.",
+        "bullets": [
+          "التحويل الدولي يظهر بعدة عروض، منها رسوم SAR 5 وتحويلات للهند بدون رسوم وفق الشروط.",
+          "البطاقات تركز على الرسوم الدولية الصفرية مع مزايا كاش باك.",
+          "مساند مدعوم بسحب كاش باك 100% بحد أقصى محدد للحملة."
+        ]
+      },
+      "en": {
+        "summary": "alinma pay combines remittance, cards and Musaned, with a strong emphasis on lowering usage cost through low or zero transfer fees and zero international card fees, alongside cashback and prize draws.",
+        "bullets": [
+          "Remittance appears across multiple offers, including SAR 5 fees and conditional zero-fee India transfers.",
+          "Cards emphasize zero international fees alongside cashback benefits.",
+          "Musaned is supported by a 100% cashback draw with a campaign cap."
+        ]
+      }
+    }
+  }
+}

@@ -1,7 +1,7 @@
 (() => {
   "use strict";
   const C = window.CM;
-  const state = { data: null, tab: "campaign", filters: { q: "", competitor: "", category: "", source: "" } };
+  const state = { data: null, ai: null, tab: "campaign", filters: { q: "", competitor: "", category: "", source: "" } };
 
   function kpi(label, value, detail, kind = "default") { return C.el("article", { class: `kpi-card kpi-card--${kind}` }, C.el("span", { class: "kpi-card__label" }, label), C.el("strong", {}, String(value)), C.el("small", {}, detail)); }
   function activeCampaigns() { return C.activeCampaigns(state.data.items); }
@@ -12,7 +12,7 @@
     const stats = state.data.stats || {};
     document.getElementById("source-health-summary").textContent = `${stats.healthy_sources || 0} ${C.t("healthy")} · ${stats.failed_sources || 0} ${C.t("failed")}`;
     const inventory = state.data.inventory_source || {};
-    document.getElementById("inventory-meta").textContent = `${C.t("excelAligned")}: ${inventory.review_date || "—"}`;
+    document.getElementById("inventory-meta").textContent = `${C.t("inventoryReviewed")}: ${inventory.review_date || "—"}`;
   }
 
   function renderAlerts() {
@@ -21,6 +21,18 @@
     document.getElementById("alerts-summary-text").textContent = rows.length ? `${C.t("alerts")}: ${rows.length}` : C.t("noAlerts");
     if (!rows.length) return container.appendChild(C.el("div", { class: "empty-state empty-state--compact" }, C.t("noAlerts")));
     rows.slice(0, 15).forEach(item => container.appendChild(C.el("a", { class: "alert-row", href: `item.html?id=${encodeURIComponent(item.id)}` }, C.el("span", { class: "alert-row__type" }, C.alertLabel(item)), C.el("strong", {}, item.title || "—"), C.el("small", {}, C.timeAgo(item.last_changed || item.first_seen)))));
+  }
+
+  function renderAiSummary() {
+    const section = document.getElementById("ai-summary-section");
+    const payload = state.ai?.market;
+    const localized = payload?.[C.language()] || payload?.en || payload?.ar;
+    if (!localized?.summary) { section.hidden = true; return; }
+    section.hidden = false;
+    document.getElementById("ai-summary-text").textContent = localized.summary;
+    document.getElementById("ai-summary-meta").textContent = state.ai?.generated_at ? `${C.t("aiGenerated")}: ${C.formatDate(state.ai.generated_at, true)}` : C.t("aiFallback");
+    const bullets = document.getElementById("ai-summary-bullets"); C.clear(bullets);
+    (localized.bullets || []).slice(0, 3).forEach(text => bullets.appendChild(C.el("div", { class: "ai-summary-bullet" }, C.el("span", { class: "ai-summary-bullet__dot" }, "•"), C.el("span", {}, text))));
   }
 
   function renderKpis() {
@@ -102,7 +114,7 @@
     document.getElementById("clear-filters").onclick = () => { state.filters = { q: "", competitor: "", category: "", source: "" }; ["search", "competitor-filter", "category-filter", "source-filter"].forEach(id => document.getElementById(id).value = ""); renderInventory(); };
   }
 
-  function renderAll() { renderHero(); renderAlerts(); renderKpis(); renderCharts(); renderSignals(); renderCompetitors(); renderMedia(); setupFilters(); renderInventory(); renderSources(); }
-  async function init() { C.initLanguage(); try { state.data = await C.loadData(); document.getElementById("loading").hidden = true; document.getElementById("content").hidden = false; renderAll(); bind(); window.addEventListener("cm:language", () => location.reload()); } catch (error) { document.getElementById("loading").hidden = true; C.showError(document.getElementById("error"), error); } }
+  function renderAll() { renderHero(); renderAlerts(); renderAiSummary(); renderKpis(); renderCharts(); renderSignals(); renderCompetitors(); renderMedia(); setupFilters(); renderInventory(); renderSources(); }
+  async function init() { C.initLanguage(); try { state.data = await C.loadData(); state.ai = await C.loadAiSummary(); document.getElementById("loading").hidden = true; document.getElementById("content").hidden = false; renderAll(); bind(); window.addEventListener("cm:language", () => location.reload()); } catch (error) { document.getElementById("loading").hidden = true; C.showError(document.getElementById("error"), error); } }
   document.addEventListener("DOMContentLoaded", init);
 })();

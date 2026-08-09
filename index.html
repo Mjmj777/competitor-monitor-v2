@@ -16,11 +16,20 @@
   <main class="page-shell">
     <div id="loading" class="loading-state"><span class="spinner"></span><span data-i18n="loading"></span></div><div id="error"></div>
     <div id="content" hidden>
-      <section class="hero hero--executive"><div><span class="eyebrow" data-i18n="marketAnalysis"></span><h1 data-i18n="appTitle"></h1><p data-i18n="appSubtitle"></p><div class="hero-notes"><span><strong data-i18n="dataBasis"></strong> · <span data-i18n="dataBasisText"></span></span><span><strong data-i18n="excelAligned"></strong> · <span data-i18n="excelAlignedText"></span></span></div></div><div class="hero__meta"><span id="last-check" class="meta-chip"></span><span id="inventory-meta" class="meta-chip"></span></div></section>
+      <section class="hero hero--executive"><div><span class="eyebrow" data-i18n="marketAnalysis"></span><h1 data-i18n="appTitle"></h1><p data-i18n="appSubtitle"></p></div><div class="hero__meta"><span id="last-check" class="meta-chip"></span><span id="inventory-meta" class="meta-chip"></span></div></section>
 
       <section class="compact-drawers">
         <details class="compact-drawer alert-drawer"><summary><span class="drawer-icon">🔔</span><strong id="alerts-summary-text"></strong><span id="alert-count" class="count-badge"></span></summary><div class="drawer-body"><div class="drawer-actions"><span data-i18n="alertsHint"></span><button id="mark-reviewed" class="button button--secondary" data-i18n="markReviewed"></button></div><div id="alerts-list" class="alert-list"></div></div></details>
         <details class="compact-drawer source-drawer"><summary><span class="drawer-icon">◉</span><strong data-i18n="sourceHealth"></strong><span id="source-health-summary" class="status-summary"></span></summary><div class="drawer-body"><p class="drawer-description" data-i18n="sourceHealthHint"></p><div id="source-list" class="source-list"></div></div></details>
+      </section>
+
+
+      <section class="section ai-summary-section" id="ai-summary-section">
+        <div class="ai-summary-shell">
+          <div class="ai-summary-head"><div><span class="eyebrow" data-i18n="aiInsight"></span><h2 data-i18n="aiMarketSummary"></h2></div><span id="ai-summary-meta" class="ai-summary-meta"></span></div>
+          <p id="ai-summary-text" class="ai-summary-text"></p>
+          <div id="ai-summary-bullets" class="ai-summary-bullets"></div>
+        </div>
       </section>
 
       <section class="section"><div class="section-heading"><div><span class="eyebrow" data-i18n="overview"></span><h2 data-i18n="marketAnalysis"></h2></div></div><div id="kpi-grid" class="kpi-grid"></div></section>
@@ -30,7 +39,7 @@
       <section class="section"><div class="section-heading"><div><span class="eyebrow" data-i18n="marketAnalysis"></span><h2 data-i18n="campaigns"></h2></div></div>
         <div class="chart-grid">
           <article class="chart-card"><header><h3 data-i18n="campaignsByCompetitor"></h3><p data-i18n="activeCampaignsDetail"></p></header><div id="campaigns-chart" class="chart-body"></div></article>
-          <article class="chart-card"><header><h3 data-i18n="categoryMix"></h3><p data-i18n="excelAlignedText"></p></header><div id="category-chart" class="chart-body"></div></article>
+          <article class="chart-card"><header><h3 data-i18n="categoryMix"></h3></header><div id="category-chart" class="chart-body"></div></article>
           <article class="chart-card"><header><h3 data-i18n="remittanceComparison"></h3></header><div id="remittance-chart" class="chart-body"></div></article>
           <article class="chart-card"><header><h3 data-i18n="merchantComparison"></h3><p data-i18n="merchantPortfolioDetail"></p></header><div id="merchant-chart" class="chart-body"></div></article>
           <article class="chart-card"><header><h3 data-i18n="mechanicsMix"></h3></header><div id="mechanics-chart" class="chart-body"></div></article>
@@ -51,7 +60,7 @@
       </section>
     </div>
   </main>
-  <footer class="footer">Competitor Intelligence Dashboard · Excel-aligned · GitHub Pages</footer>
+  <footer class="footer">Competitor Intelligence Dashboard · GitHub Pages</footer>
   <script src="assets/common.js" defer></script><script src="assets/index.js" defer></script>
 </body>
 </html>

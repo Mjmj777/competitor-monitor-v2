@@ -17,6 +17,8 @@
       alerts: "التنبيهات", alertsHint: "تحديثات منذ آخر فتح", openAlerts: "فتح التنبيهات", markReviewed: "تحديد الكل كمراجع", noAlerts: "لا توجد تنبيهات جديدة.",
       sourceHealth: "سلامة المصادر", sourceHealthHint: "افتح لمعرفة المصادر المتعثرة وتفاصيل الخطأ", healthy: "يعمل", failed: "متعثر", noItems: "يعمل بدون عناصر", lastSuccess: "آخر نجاح", lastCheck: "آخر فحص", extracted: "عناصر مستخرجة", error: "الخطأ", openSource: "فتح المصدر",
       marketAnalysis: "التحليل العام", campaignsByCompetitor: "الحملات الحالية حسب المنافس", categoryMix: "توزيع تصنيفات الحملات", remittanceComparison: "مقارنة التحويل الدولي", merchantComparison: "عروض الشركاء حسب المنافس", expiryRisk: "مخاطر انتهاء الحملات", mechanicsMix: "آليات العروض", channelActivity7d: "نشاط القنوات خلال 7 أيام", platformCoverage: "تغطية الحملات عبر المنصات", competitiveMatrix: "مصفوفة التغطية التنافسية",
+      aiInsight: "ملخص ذكي", aiMarketSummary: "ملخص الوضع التنافسي", aiCompetitorSummary: "قراءة سريعة للمنافس", aiGenerated: "محدّث", aiFallback: "ملخص محسوب من البيانات الحالية",
+      priorityView: "أولوية المتابعة", currentOffers: "العروض الحالية", currentOffersHint: "أبرز الحملات والعروض النشطة لهذا المنافس", noCurrentOffers: "لا توجد عروض نشطة حاليًا.", offerEnds: "ينتهي", noEndDate: "بدون تاريخ انتهاء معلن", viewOffer: "عرض التفاصيل", inventoryReviewed: "آخر مراجعة للمخزون",
       marketingSignals: "إشارات تسويقية سريعة", mostActiveCompetitor: "الأكثر نشاطًا اجتماعيًا", bestPlatformCoverage: "الأفضل في التغطية متعددة القنوات", strongestCategory: "أبرز تصنيف في السوق", highestExpiryRisk: "أعلى مخاطر انتهاء", shareOfVoice: "حصة الصوت الاجتماعي",
       competitors: "المنافسون", viewCompetitor: "فتح تحليل المنافس", latestMedia: "أحدث الصور والفيديو", noMedia: "لا توجد وسائط متاحة من RSS حاليًا.",
       inventory: "مخزون الحملات", search: "بحث", searchPlaceholder: "ابحث باسم الحملة أو الملخص…", category: "التصنيف", contentType: "نوع السجل", status: "الحالة", source: "المصدر", platform: "المنصة", clear: "مسح",
@@ -29,7 +31,6 @@
       discount: "خصم", cashback: "كاش باك", fee_waiver: "إعفاء من الرسوم", prize_draw: "جائزة أو سحب", reward: "مكافأة أو نقاط", preferred_rate: "سعر تفضيلي",
       instagram: "Instagram", facebook: "Facebook", x: "X", tiktok: "TikTok", website: "Website", inventorySource: "Excel Inventory",
       noData: "لا توجد بيانات مطابقة.", loading: "جارٍ تحميل البيانات…", loadError: "تعذر تحميل البيانات. تأكد من نجاح GitHub Actions.", retry: "إعادة المحاولة", results: "نتيجة", back: "العودة", officialWebsite: "الموقع الرسمي", officialOffers: "صفحة العروض",
-      dataBasis: "أساس الحساب", dataBasisText: "الملخص يحسب جميع الحملات والعروض النشطة حاليًا، وليس فقط ما ظهر منذ آخر زيارة.", excelAligned: "متوافق مع ملف Excel", excelAlignedText: "التصنيفات والأعمدة تتبع المخزون المعتمد بتاريخ 6 أغسطس 2026.",
       newCampaign: "حملة جديدة", updatedCampaign: "حملة تم تحديثها", newMerchant: "عرض شريك جديد", newPost: "منشور جديد", reviewAlert: "عنصر يحتاج تصنيفًا",
       sourceStatusSuccess: "المصدر يعمل", sourceStatusFailed: "المصدر متعثر", zeroItemsMeaning: "نجح الاتصال لكن لم تُستخرج عناصر؛ راجع رابط RSS أو بنية الصفحة.",
       campaignTimeline: "سجل التغييرات", classification: "التصنيف", media: "الوسائط", linkedCampaign: "الحملة المرتبطة", companyNames: "أسماء الشركات تظهر بالإنجليزية في اللغتين.",
@@ -45,6 +46,8 @@
       alerts: "Alerts", alertsHint: "Changes since your last visit", openAlerts: "Open alerts", markReviewed: "Mark all reviewed", noAlerts: "No new alerts.",
       sourceHealth: "Source health", sourceHealthHint: "Open to inspect failed sources and error details", healthy: "Healthy", failed: "Failed", noItems: "Healthy with zero items", lastSuccess: "Last success", lastCheck: "Last check", extracted: "Extracted items", error: "Error", openSource: "Open source",
       marketAnalysis: "Market analysis", campaignsByCompetitor: "Current campaigns by competitor", categoryMix: "Campaign category mix", remittanceComparison: "Remittance comparison", merchantComparison: "Merchant offers by competitor", expiryRisk: "Campaign expiry risk", mechanicsMix: "Offer mechanics", channelActivity7d: "Channel activity over 7 days", platformCoverage: "Campaign platform coverage", competitiveMatrix: "Competitive coverage matrix",
+      aiInsight: "AI insight", aiMarketSummary: "Competitive situation summary", aiCompetitorSummary: "Competitor quick read", aiGenerated: "Updated", aiFallback: "Summary calculated from current data",
+      priorityView: "Priority view", currentOffers: "Current offers", currentOffersHint: "The most relevant active campaigns and offers for this competitor", noCurrentOffers: "No active offers are currently detected.", offerEnds: "Ends", noEndDate: "No stated end date", viewOffer: "View details", inventoryReviewed: "Inventory reviewed",
       marketingSignals: "Marketing signals", mostActiveCompetitor: "Most socially active", bestPlatformCoverage: "Best multi-channel coverage", strongestCategory: "Strongest market category", highestExpiryRisk: "Highest expiry risk", shareOfVoice: "Social share of voice",
       competitors: "Competitors", viewCompetitor: "Open competitor analysis", latestMedia: "Latest images and video", noMedia: "No media is currently available from RSS.",
       inventory: "Campaign inventory", search: "Search", searchPlaceholder: "Search campaign name or summary…", category: "Category", contentType: "Record type", status: "Status", source: "Source", platform: "Platform", clear: "Clear",
@@ -57,7 +60,6 @@
       discount: "Discount", cashback: "Cashback", fee_waiver: "Fee waiver", prize_draw: "Prize / draw", reward: "Reward / points", preferred_rate: "Preferred rate",
       instagram: "Instagram", facebook: "Facebook", x: "X", tiktok: "TikTok", website: "Website", inventorySource: "Excel Inventory",
       noData: "No matching data.", loading: "Loading data…", loadError: "Unable to load data. Confirm GitHub Actions succeeded.", retry: "Retry", results: "results", back: "Back", officialWebsite: "Official website", officialOffers: "Offers page",
-      dataBasis: "Calculation basis", dataBasisText: "The summary counts all currently active campaigns and offers, not only items detected since the previous visit.", excelAligned: "Excel aligned", excelAlignedText: "Categories and fields follow the approved inventory reviewed on 6 August 2026.",
       newCampaign: "New campaign", updatedCampaign: "Campaign updated", newMerchant: "New merchant offer", newPost: "New post", reviewAlert: "Item needs classification",
       sourceStatusSuccess: "Source is healthy", sourceStatusFailed: "Source failed", zeroItemsMeaning: "The connection succeeded but no items were extracted; review the RSS URL or page structure.",
       campaignTimeline: "Change history", classification: "Classification", media: "Media", linkedCampaign: "Linked campaign", companyNames: "Company names remain English in both languages.",
@@ -111,6 +113,16 @@
   }
   function applyOverrides(data) { const overrides = getOverrides().items || {}; return { ...data, items: (data.items || []).map(item => applyOverride(item, overrides[item.id])) }; }
   async function loadData() { const response = await fetch(`data.json?_=${Date.now()}`, { cache: "no-store" }); if (!response.ok) throw new Error(`HTTP ${response.status}`); return applyOverrides(await response.json()); }
+  async function loadAiSummary() {
+    try {
+      const response = await fetch(`ai_summary.json?v=${Date.now()}`, { cache: "no-store" });
+      if (!response.ok) return null;
+      return await response.json();
+    } catch (_error) {
+      return null;
+    }
+  }
+
   function saveItemOverride(itemId, patch) { const value = getOverrides(); value.updated_at = new Date().toISOString(); value.items ||= {}; value.items[itemId] = { ...(value.items[itemId] || {}), ...patch }; setOverrides(value); window.dispatchEvent(new CustomEvent("cm:overrides")); }
   function resetItemOverride(itemId) { const value = getOverrides(); delete value.items?.[itemId]; value.updated_at = new Date().toISOString(); setOverrides(value); window.dispatchEvent(new CustomEvent("cm:overrides")); }
   function exportOverrides() { const value = getOverrides(); value.updated_at = new Date().toISOString(); const blob = new Blob([JSON.stringify(value, null, 2)], { type: "application/json" }); const a = el("a", { href: URL.createObjectURL(blob), download: "manual_overrides.json" }); document.body.appendChild(a); a.click(); setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 500); }
@@ -190,5 +202,5 @@
   function sourceRow(status, data) { const comp = byId(data.competitors)[status.competitor_id]; const state = status.success ? status.item_count ? t("healthy") : t("noItems") : t("failed"); return el("article", { class: `source-card ${status.success ? "source-card--ok" : "source-card--failed"}` }, el("div", {}, el("strong", {}, `${competitorName(comp)} · ${t(status.platform || "website")}`), el("span", { class: "source-state" }, state)), el("dl", {}, el("div", {}, el("dt", {}, t("lastCheck")), el("dd", {}, formatDate(status.checked_at, true))), el("div", {}, el("dt", {}, t("lastSuccess")), el("dd", {}, formatDate(status.last_success_at, true))), el("div", {}, el("dt", {}, t("extracted")), el("dd", {}, String(status.item_count || 0)))), status.error ? el("code", {}, status.error) : status.success && !status.item_count ? el("p", { class: "source-note" }, t("zeroItemsMeaning")) : null, el("a", { href: status.url, target: "_blank", rel: "noopener noreferrer" }, t("openSource"))); }
   function showError(container, error) { clear(container); container.appendChild(el("div", { class: "error-state" }, el("strong", {}, t("loadError")), el("code", {}, String(error)), el("button", { class: "button button--primary", onclick: () => location.reload() }, t("retry")))); }
 
-  window.CM = { t, language, setLanguage, initLanguage, loadData, el, clear, byId, competitorName, taxonomyName, formatDate, timeAgo, withinDays, countBy, getOverrides, exportOverrides, importOverrides, activeCampaigns, activeMerchants, socialPosts, alerts, acknowledgeAlerts, alertLabel, pill, renderBarChart, renderMatrix, renderMedia, renderItemCard, renderMediaCard, openEditor, sourceRow, showError, categoryLabel, contentLabel };
+  window.CM = { t, language, setLanguage, initLanguage, loadData, loadAiSummary, el, clear, byId, competitorName, taxonomyName, formatDate, timeAgo, withinDays, countBy, getOverrides, exportOverrides, importOverrides, activeCampaigns, activeMerchants, socialPosts, alerts, acknowledgeAlerts, alertLabel, pill, renderBarChart, renderMatrix, renderMedia, renderItemCard, renderMediaCard, openEditor, sourceRow, showError, categoryLabel, contentLabel };
 })();
