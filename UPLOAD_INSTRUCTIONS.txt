@@ -1,26 +1,14 @@
-Competitor Monitor V8 — Safe Update
+V8 HOTFIX — missing intelligence.json
 
-Upload these files/folders into the ROOT of the existing competitor-monitor-v2 repository.
-Preserve the folder paths exactly, especially:
-  .github/workflows/monitor.yml
-  assets/common.js
-  assets/index.js
-  assets/competitor.js
-  assets/styles.css
+Upload these two files to the same paths in your GitHub repository and replace the existing files:
 
-This package intentionally does NOT contain or overwrite:
-  data.json
-  state.json
-  ai_summary.json
-  intelligence.json
-  market_history.json
-  manual_overrides.json
-  CNAME
+1) generate_ai_summary.py
+2) .github/workflows/monitor.yml
 
-After commit, GitHub Actions will:
-1. Run monitor.py
-2. Build deterministic zero-cost metrics into intelligence.json and market_history.json
-3. Make one GPT-5.6 Sol xhigh API call only if a material campaign/offer change is detected (or the AI schema needs its one-time upgrade refresh)
-4. Publish all dashboard files to GitHub Pages
+The workflow now runs:
+monitor.py -> build_intelligence_metrics.py -> generate_ai_summary.py -> deploy
 
-On the first V8 run, expect one AI call because the AI output schema/prompt version has changed.
+There is also a fallback in generate_ai_summary.py: if intelligence.json is missing, it builds it automatically before calling OpenAI.
+
+After committing, open Actions -> Competitor Intelligence Monitor -> Run workflow.
+For the first run, you may enable force_ai=true to regenerate the V8 AI package immediately.

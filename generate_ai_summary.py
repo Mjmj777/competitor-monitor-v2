@@ -290,7 +290,15 @@ def main() -> int:
     if not data:
         raise SystemExit("data.json is missing or empty")
     if not intelligence:
-        raise SystemExit("intelligence.json is missing; run build_intelligence_metrics.py first")
+        print("intelligence.json is missing; building deterministic intelligence metrics now...")
+        try:
+            from build_intelligence_metrics import main as build_intelligence_metrics
+            build_intelligence_metrics()
+            intelligence = load_json(INTELLIGENCE_PATH, {})
+        except Exception as exc:
+            raise SystemExit(f"Could not build intelligence.json automatically: {type(exc).__name__}: {exc}") from exc
+        if not intelligence:
+            raise SystemExit("intelligence.json is still missing after automatic build")
 
     snapshot = current_material_snapshot(data)
     digest = snapshot_hash(snapshot)
