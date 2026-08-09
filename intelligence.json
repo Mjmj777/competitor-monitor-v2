@@ -1,0 +1,612 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-08-09T10:43:06.435842+00:00",
+  "score_methodology": {
+    "name": "Competitive Activity Score",
+    "scale": "0-100",
+    "weights": {
+      "campaign_intensity": 0.35,
+      "priority_category_breadth": 0.25,
+      "social_activity_7d": 0.2,
+      "platform_coverage": 0.2
+    },
+    "note": "Deterministic activity indicator; it does not measure market share, campaign performance, customer adoption, or commercial attractiveness."
+  },
+  "market": {
+    "active_campaigns": 24,
+    "active_merchant_offers": 15,
+    "social_posts_7d": 179,
+    "category_intensity": [
+      {
+        "category_id": "remittance",
+        "name_ar": "التحويل الدولي",
+        "name_en": "Remittance",
+        "active_campaigns": 8,
+        "competitors_active": 5,
+        "competitor_coverage_pct": 83,
+        "intensity": "high"
+      },
+      {
+        "category_id": "musaned",
+        "name_ar": "مساند",
+        "name_en": "Musaned",
+        "active_campaigns": 2,
+        "competitors_active": 2,
+        "competitor_coverage_pct": 33,
+        "intensity": "medium"
+      },
+      {
+        "category_id": "sadad",
+        "name_ar": "سداد",
+        "name_en": "SADAD",
+        "active_campaigns": 1,
+        "competitors_active": 1,
+        "competitor_coverage_pct": 17,
+        "intensity": "low"
+      },
+      {
+        "category_id": "card",
+        "name_ar": "البطاقات",
+        "name_en": "Card",
+        "active_campaigns": 11,
+        "competitors_active": 6,
+        "competitor_coverage_pct": 100,
+        "intensity": "high"
+      },
+      {
+        "category_id": "engagement",
+        "name_ar": "التفاعل والمسابقات",
+        "name_en": "Engagement",
+        "active_campaigns": 2,
+        "competitors_active": 1,
+        "competitor_coverage_pct": 17,
+        "intensity": "medium"
+      },
+      {
+        "category_id": "other",
+        "name_ar": "أخرى",
+        "name_en": "Other",
+        "active_campaigns": 0,
+        "competitors_active": 0,
+        "competitor_coverage_pct": 0,
+        "intensity": "low"
+      }
+    ],
+    "expiry_watch": {
+      "within_7_days": [],
+      "within_14_days": [
+        {
+          "id": "campaign:mobily-pay:5",
+          "competitor_id": "mobily-pay",
+          "title": "Summer Card Offers – Fees on Us & Up to 2% Cashback",
+          "category": "card",
+          "record_type": "campaign",
+          "end_date": "2026-08-19T00:00:00+00:00",
+          "days_remaining": 10,
+          "link": "https://mobilypay.sa/offer-details.html?id=offer-53"
+        },
+        {
+          "id": "campaign:stc-bank:3",
+          "competitor_id": "stc-bank",
+          "title": "Visa Card Rewards: iPhone 17 Pro and Apple Watch",
+          "category": "card",
+          "record_type": "campaign",
+          "end_date": "2026-08-20T00:00:00+00:00",
+          "days_remaining": 11,
+          "link": "https://stcbank.com.sa/en/web/guest/w/visa_cards_rewards"
+        }
+      ],
+      "within_30_days": [
+        {
+          "id": "campaign:mobily-pay:5",
+          "competitor_id": "mobily-pay",
+          "title": "Summer Card Offers – Fees on Us & Up to 2% Cashback",
+          "category": "card",
+          "record_type": "campaign",
+          "end_date": "2026-08-19T00:00:00+00:00",
+          "days_remaining": 10,
+          "link": "https://mobilypay.sa/offer-details.html?id=offer-53"
+        },
+        {
+          "id": "campaign:stc-bank:3",
+          "competitor_id": "stc-bank",
+          "title": "Visa Card Rewards: iPhone 17 Pro and Apple Watch",
+          "category": "card",
+          "record_type": "campaign",
+          "end_date": "2026-08-20T00:00:00+00:00",
+          "days_remaining": 11,
+          "link": "https://stcbank.com.sa/en/web/guest/w/visa_cards_rewards"
+        },
+        {
+          "id": "campaign:stc-bank:8",
+          "competitor_id": "stc-bank",
+          "title": "Loca Beauty: 15% Off",
+          "category": "merchant",
+          "record_type": "merchant_offer",
+          "end_date": "2026-08-25T00:00:00+00:00",
+          "days_remaining": 16,
+          "link": "https://stcbank.com.sa/en/web/guest/w/loca"
+        },
+        {
+          "id": "campaign:stc-bank:1",
+          "competitor_id": "stc-bank",
+          "title": "0% International Transaction Fees and Free Cash Withdrawals",
+          "category": "card",
+          "record_type": "campaign",
+          "end_date": "2026-08-31T00:00:00+00:00",
+          "days_remaining": 22,
+          "link": "https://stcbank.com.sa/en/web/guest/w/international-purchases-with-0-fees"
+        },
+        {
+          "id": "campaign:stc-bank:2",
+          "competitor_id": "stc-bank",
+          "title": "International Spending Travel Voucher Campaign",
+          "category": "card",
+          "record_type": "campaign",
+          "end_date": "2026-09-03T00:00:00+00:00",
+          "days_remaining": 25,
+          "link": "https://stcbank.com.sa/en/web/guest/w/international-purchases-with-0-fees"
+        }
+      ]
+    },
+    "recent_change_signals": [
+      {
+        "id": "campaign:stc-bank:1",
+        "competitor_id": "stc-bank",
+        "title": "0% International Transaction Fees and Free Cash Withdrawals",
+        "record_type": "campaign",
+        "category": "card",
+        "last_changed": "2026-08-06T00:00:00+00:00",
+        "status": "Expiring 8–30 Days"
+      },
+      {
+        "id": "campaign:stc-bank:2",
+        "competitor_id": "stc-bank",
+        "title": "International Spending Travel Voucher Campaign",
+        "record_type": "campaign",
+        "category": "card",
+        "last_changed": "2026-08-06T00:00:00+00:00",
+        "status": "Expiring 8–30 Days"
+      },
+      {
+        "id": "campaign:stc-bank:3",
+        "competitor_id": "stc-bank",
+        "title": "Visa Card Rewards: iPhone 17 Pro and Apple Watch",
+        "record_type": "campaign",
+        "category": "card",
+        "last_changed": "2026-08-06T00:00:00+00:00",
+        "status": "Expiring 8–30 Days"
+      },
+      {
+        "id": "campaign:stc-bank:5",
+        "competitor_id": "stc-bank",
+        "title": "Almatar: Up to 10% Off",
+        "record_type": "merchant_offer",
+        "category": "merchant",
+        "last_changed": "2026-08-06T00:00:00+00:00",
+        "status": "Active"
+      },
+      {
+        "id": "campaign:stc-bank:8",
+        "competitor_id": "stc-bank",
+        "title": "Loca Beauty: 15% Off",
+        "record_type": "merchant_offer",
+        "category": "merchant",
+        "last_changed": "2026-08-06T00:00:00+00:00",
+        "status": "Expiring 8–30 Days"
+      },
+      {
+        "id": "campaign:stc-bank:9",
+        "competitor_id": "stc-bank",
+        "title": "Canton: 15% Off",
+        "record_type": "merchant_offer",
+        "category": "merchant",
+        "last_changed": "2026-08-06T00:00:00+00:00",
+        "status": "Active"
+      },
+      {
+        "id": "campaign:stc-bank:10",
+        "competitor_id": "stc-bank",
+        "title": "Dr. Nutrition: Up to 10% Off",
+        "record_type": "merchant_offer",
+        "category": "merchant",
+        "last_changed": "2026-08-06T00:00:00+00:00",
+        "status": "Active"
+      },
+      {
+        "id": "campaign:stc-bank:11",
+        "competitor_id": "stc-bank",
+        "title": "GO Sport: 10% Off",
+        "record_type": "merchant_offer",
+        "category": "merchant",
+        "last_changed": "2026-08-06T00:00:00+00:00",
+        "status": "Active"
+      },
+      {
+        "id": "campaign:stc-bank:12",
+        "competitor_id": "stc-bank",
+        "title": "iHerb: Up to 25% Off",
+        "record_type": "merchant_offer",
+        "category": "merchant",
+        "last_changed": "2026-08-06T00:00:00+00:00",
+        "status": "Active"
+      },
+      {
+        "id": "campaign:stc-bank:13",
+        "competitor_id": "stc-bank",
+        "title": "Abdullah Al Othaim Entertainment",
+        "record_type": "merchant_offer",
+        "category": "merchant",
+        "last_changed": "2026-08-06T00:00:00+00:00",
+        "status": "Active"
+      },
+      {
+        "id": "campaign:stc-bank:14",
+        "competitor_id": "stc-bank",
+        "title": "Yelo: 10% Off",
+        "record_type": "merchant_offer",
+        "category": "merchant",
+        "last_changed": "2026-08-06T00:00:00+00:00",
+        "status": "Active"
+      },
+      {
+        "id": "campaign:stc-bank:16",
+        "competitor_id": "stc-bank",
+        "title": "Targeted Cash Reward on International Purchases",
+        "record_type": "campaign",
+        "category": "card",
+        "last_changed": "2026-08-06T00:00:00+00:00",
+        "status": "Active"
+      },
+      {
+        "id": "campaign:barq:1",
+        "competitor_id": "barq",
+        "title": "barq Marathon",
+        "record_type": "campaign",
+        "category": "engagement",
+        "last_changed": "2026-08-06T00:00:00+00:00",
+        "status": "End Date Not Stated"
+      },
+      {
+        "id": "campaign:barq:2",
+        "competitor_id": "barq",
+        "title": "Prediction Game",
+        "record_type": "campaign",
+        "category": "engagement",
+        "last_changed": "2026-08-06T00:00:00+00:00",
+        "status": "End Date Not Stated"
+      },
+      {
+        "id": "campaign:barq:3",
+        "competitor_id": "barq",
+        "title": "Almatar Travel Offer",
+        "record_type": "merchant_offer",
+        "category": "merchant",
+        "last_changed": "2026-08-06T00:00:00+00:00",
+        "status": "End Date Not Stated"
+      },
+      {
+        "id": "campaign:barq:4",
+        "competitor_id": "barq",
+        "title": "Zero-Fee International Transfers",
+        "record_type": "campaign",
+        "category": "remittance",
+        "last_changed": "2026-08-06T00:00:00+00:00",
+        "status": "End Date Not Stated"
+      },
+      {
+        "id": "campaign:barq:5",
+        "competitor_id": "barq",
+        "title": "Zero Travel Fees with barq Visa",
+        "record_type": "campaign",
+        "category": "card",
+        "last_changed": "2026-08-06T00:00:00+00:00",
+        "status": "End Date Not Stated"
+      },
+      {
+        "id": "campaign:barq:6",
+        "competitor_id": "barq",
+        "title": "FX Rate Awareness Campaign",
+        "record_type": "campaign",
+        "category": "remittance",
+        "last_changed": "2026-08-06T00:00:00+00:00",
+        "status": "End Date Not Stated"
+      },
+      {
+        "id": "campaign:mobily-pay:2",
+        "competitor_id": "mobily-pay",
+        "title": "Zero-Fee International Transfers – Aug–Oct 2026",
+        "record_type": "campaign",
+        "category": "remittance",
+        "last_changed": "2026-08-06T00:00:00+00:00",
+        "status": "Active"
+      },
+      {
+        "id": "campaign:mobily-pay:3",
+        "competitor_id": "mobily-pay",
+        "title": "Weekly International Transfer Prizes – Up to SAR 20,000",
+        "record_type": "campaign",
+        "category": "remittance",
+        "last_changed": "2026-08-06T00:00:00+00:00",
+        "status": "End Date Not Stated"
+      },
+      {
+        "id": "campaign:mobily-pay:4",
+        "competitor_id": "mobily-pay",
+        "title": "Alpha Medical Laboratories: 50% Off",
+        "record_type": "merchant_offer",
+        "category": "merchant",
+        "last_changed": "2026-08-06T00:00:00+00:00",
+        "status": "Active"
+      },
+      {
+        "id": "campaign:mobily-pay:5",
+        "competitor_id": "mobily-pay",
+        "title": "Summer Card Offers – Fees on Us & Up to 2% Cashback",
+        "record_type": "campaign",
+        "category": "card",
+        "last_changed": "2026-08-06T00:00:00+00:00",
+        "status": "Expiring 8–30 Days"
+      },
+      {
+        "id": "campaign:tiqmo:4",
+        "competitor_id": "tiqmo",
+        "title": "Monthly International Transfer Streak Cashback",
+        "record_type": "campaign",
+        "category": "remittance",
+        "last_changed": "2026-08-06T00:00:00+00:00",
+        "status": "End Date Not Stated"
+      },
+      {
+        "id": "campaign:tiqmo:5",
+        "competitor_id": "tiqmo",
+        "title": "Zero International Card Transaction Fees",
+        "record_type": "campaign",
+        "category": "card",
+        "last_changed": "2026-08-06T00:00:00+00:00",
+        "status": "Active"
+      },
+      {
+        "id": "campaign:urpay:1",
+        "competitor_id": "urpay",
+        "title": "Visa Platinum Cashback Game",
+        "record_type": "campaign",
+        "category": "card",
+        "last_changed": "2026-08-06T00:00:00+00:00",
+        "status": "End Date Not Stated"
+      },
+      {
+        "id": "campaign:urpay:2",
+        "competitor_id": "urpay",
+        "title": "ALHABIB Bedding: 5% Off",
+        "record_type": "merchant_offer",
+        "category": "merchant",
+        "last_changed": "2026-08-06T00:00:00+00:00",
+        "status": "Active"
+      },
+      {
+        "id": "campaign:urpay:3",
+        "competitor_id": "urpay",
+        "title": "SQUATWOLF: Up to 10% Off",
+        "record_type": "merchant_offer",
+        "category": "merchant",
+        "last_changed": "2026-08-06T00:00:00+00:00",
+        "status": "Active"
+      },
+      {
+        "id": "campaign:urpay:4",
+        "competitor_id": "urpay",
+        "title": "MAGRABi: Up to 10% Off",
+        "record_type": "merchant_offer",
+        "category": "merchant",
+        "last_changed": "2026-08-06T00:00:00+00:00",
+        "status": "Active"
+      },
+      {
+        "id": "campaign:urpay:5",
+        "competitor_id": "urpay",
+        "title": "Bath & Body Works: Up to 5% Off",
+        "record_type": "merchant_offer",
+        "category": "merchant",
+        "last_changed": "2026-08-06T00:00:00+00:00",
+        "status": "Active"
+      },
+      {
+        "id": "campaign:urpay:6",
+        "competitor_id": "urpay",
+        "title": "Alnahdi Pharmacy: 5% Off",
+        "record_type": "merchant_offer",
+        "category": "merchant",
+        "last_changed": "2026-08-06T00:00:00+00:00",
+        "status": "Active"
+      }
+    ]
+  },
+  "competitor_scores": [
+    {
+      "competitor_id": "barq",
+      "name": "barq",
+      "active_campaigns": 5,
+      "priority_category_count": 2,
+      "priority_categories": [
+        "card",
+        "remittance"
+      ],
+      "priority_breadth": 0.5,
+      "social_posts_7d": 51,
+      "avg_platform_coverage": 2.0,
+      "score": 78,
+      "components": {
+        "campaign_intensity": 100,
+        "priority_category_breadth": 50,
+        "social_activity_7d": 100,
+        "platform_coverage": 50
+      }
+    },
+    {
+      "competitor_id": "alinma-pay",
+      "name": "alinma pay",
+      "active_campaigns": 5,
+      "priority_category_count": 3,
+      "priority_categories": [
+        "card",
+        "musaned",
+        "remittance"
+      ],
+      "priority_breadth": 0.75,
+      "social_posts_7d": 18,
+      "avg_platform_coverage": 2.0,
+      "score": 71,
+      "components": {
+        "campaign_intensity": 100,
+        "priority_category_breadth": 75,
+        "social_activity_7d": 35,
+        "platform_coverage": 50
+      }
+    },
+    {
+      "competitor_id": "stc-bank",
+      "name": "STC Bank",
+      "active_campaigns": 5,
+      "priority_category_count": 1,
+      "priority_categories": [
+        "card"
+      ],
+      "priority_breadth": 0.25,
+      "social_posts_7d": 37,
+      "avg_platform_coverage": 2.0,
+      "score": 66,
+      "components": {
+        "campaign_intensity": 100,
+        "priority_category_breadth": 25,
+        "social_activity_7d": 73,
+        "platform_coverage": 50
+      }
+    },
+    {
+      "competitor_id": "tiqmo",
+      "name": "tiqmo",
+      "active_campaigns": 3,
+      "priority_category_count": 3,
+      "priority_categories": [
+        "card",
+        "remittance",
+        "sadad"
+      ],
+      "priority_breadth": 0.75,
+      "social_posts_7d": 22,
+      "avg_platform_coverage": 3.33,
+      "score": 65,
+      "components": {
+        "campaign_intensity": 60,
+        "priority_category_breadth": 75,
+        "social_activity_7d": 43,
+        "platform_coverage": 83
+      }
+    },
+    {
+      "competitor_id": "mobily-pay",
+      "name": "Mobily Pay",
+      "active_campaigns": 3,
+      "priority_category_count": 2,
+      "priority_categories": [
+        "card",
+        "remittance"
+      ],
+      "priority_breadth": 0.5,
+      "social_posts_7d": 35,
+      "avg_platform_coverage": 2.0,
+      "score": 57,
+      "components": {
+        "campaign_intensity": 60,
+        "priority_category_breadth": 50,
+        "social_activity_7d": 69,
+        "platform_coverage": 50
+      }
+    },
+    {
+      "competitor_id": "urpay",
+      "name": "urpay",
+      "active_campaigns": 3,
+      "priority_category_count": 3,
+      "priority_categories": [
+        "card",
+        "musaned",
+        "remittance"
+      ],
+      "priority_breadth": 0.75,
+      "social_posts_7d": 16,
+      "avg_platform_coverage": 1.33,
+      "score": 53,
+      "components": {
+        "campaign_intensity": 60,
+        "priority_category_breadth": 75,
+        "social_activity_7d": 31,
+        "platform_coverage": 33
+      }
+    }
+  ],
+  "history": [
+    {
+      "date": "2026-08-09",
+      "captured_at": "2026-08-09T10:43:06.435842+00:00",
+      "active_campaigns": 24,
+      "categories": {
+        "remittance": 8,
+        "card": 11,
+        "musaned": 2,
+        "sadad": 1
+      },
+      "competitors": {
+        "stc-bank": {
+          "active_campaigns": 5,
+          "remittance": 0,
+          "card": 5,
+          "musaned": 0,
+          "sadad": 0,
+          "activity_score": 66
+        },
+        "barq": {
+          "active_campaigns": 5,
+          "remittance": 2,
+          "card": 1,
+          "musaned": 0,
+          "sadad": 0,
+          "activity_score": 78
+        },
+        "mobily-pay": {
+          "active_campaigns": 3,
+          "remittance": 2,
+          "card": 1,
+          "musaned": 0,
+          "sadad": 0,
+          "activity_score": 57
+        },
+        "tiqmo": {
+          "active_campaigns": 3,
+          "remittance": 1,
+          "card": 1,
+          "musaned": 0,
+          "sadad": 1,
+          "activity_score": 65
+        },
+        "urpay": {
+          "active_campaigns": 3,
+          "remittance": 1,
+          "card": 1,
+          "musaned": 1,
+          "sadad": 0,
+          "activity_score": 53
+        },
+        "alinma-pay": {
+          "active_campaigns": 5,
+          "remittance": 2,
+          "card": 2,
+          "musaned": 1,
+          "sadad": 0,
+          "activity_score": 71
+        }
+      }
+    }
+  ]
+}
