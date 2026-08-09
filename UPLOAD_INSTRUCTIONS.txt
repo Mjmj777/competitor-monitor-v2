@@ -1,0 +1,26 @@
+Competitor Monitor V8 — Safe Update
+
+Upload these files/folders into the ROOT of the existing competitor-monitor-v2 repository.
+Preserve the folder paths exactly, especially:
+  .github/workflows/monitor.yml
+  assets/common.js
+  assets/index.js
+  assets/competitor.js
+  assets/styles.css
+
+This package intentionally does NOT contain or overwrite:
+  data.json
+  state.json
+  ai_summary.json
+  intelligence.json
+  market_history.json
+  manual_overrides.json
+  CNAME
+
+After commit, GitHub Actions will:
+1. Run monitor.py
+2. Build deterministic zero-cost metrics into intelligence.json and market_history.json
+3. Make one GPT-5.6 Sol xhigh API call only if a material campaign/offer change is detected (or the AI schema needs its one-time upgrade refresh)
+4. Publish all dashboard files to GitHub Pages
+
+On the first V8 run, expect one AI call because the AI output schema/prompt version has changed.

@@ -1,7 +1,7 @@
 (() => {
   "use strict";
   const C = window.CM;
-  const state = { data: null, ai: null, tab: "campaign", filters: { q: "", competitor: "", category: "", source: "" } };
+  const state = { data: null, ai: null, intel: null, tab: "campaign", filters: { q: "", competitor: "", category: "", source: "" } };
 
   function kpi(label, value, detail, kind = "default") { return C.el("article", { class: `kpi-card kpi-card--${kind}` }, C.el("span", { class: "kpi-card__label" }, label), C.el("strong", {}, String(value)), C.el("small", {}, detail)); }
   function activeCampaigns() { return C.activeCampaigns(state.data.items); }
@@ -33,6 +33,77 @@
     document.getElementById("ai-summary-meta").textContent = state.ai?.generated_at ? `${C.t("aiGenerated")}: ${C.formatDate(state.ai.generated_at, true)}` : C.t("aiFallback");
     const bullets = document.getElementById("ai-summary-bullets"); C.clear(bullets);
     (localized.bullets || []).slice(0, 3).forEach(text => bullets.appendChild(C.el("div", { class: "ai-summary-bullet" }, C.el("span", { class: "ai-summary-bullet__dot" }, "•"), C.el("span", {}, text))));
+  }
+
+
+  function renderTextList(container, items, emptyText = "—") {
+    C.clear(container);
+    const rows = (items || []).filter(Boolean);
+    if (!rows.length) return container.appendChild(C.el("div", { class: "empty-state empty-state--compact" }, emptyText));
+    rows.forEach(text => container.appendChild(C.el("div", { class: "intelligence-list__item" }, C.el("span", { class: "intelligence-list__dot" }, "•"), C.el("span", {}, text))));
+  }
+
+  function renderAiStrategic() {
+    const section = document.getElementById("ai-strategic-section");
+    const localized = state.ai?.market?.[C.language()] || state.ai?.market?.en || state.ai?.market?.ar;
+    if (!localized?.management_takeaway) { section.hidden = true; return; }
+    section.hidden = false;
+    renderTextList(document.getElementById("ai-what-changed"), localized.what_changed, C.t("noMaterialChange"));
+    renderTextList(document.getElementById("ai-why-matters"), localized.why_it_matters);
+    document.getElementById("ai-management-takeaway").textContent = localized.management_takeaway || "—";
+    document.getElementById("ai-weekly-brief").textContent = localized.weekly_brief || "—";
+    const gaps = document.getElementById("ai-opportunity-gaps"); C.clear(gaps);
+    (localized.opportunity_gaps || []).forEach(text => gaps.appendChild(C.el("div", { class: "gap-card" }, text)));
+    const categories = C.byId(state.data.categories || []); const catGrid = document.getElementById("ai-category-insights"); C.clear(catGrid);
+    (localized.category_insights || []).forEach(row => { const cat = categories[row.category_id]; catGrid.appendChild(C.el("article", { class: "category-insight-card" }, C.el("strong", {}, cat ? C.taxonomyName(cat) : row.category_id), C.el("p", {}, row.insight))); });
+  }
+
+  function renderActivityScores() {
+    const grid = document.getElementById("activity-score-grid"); C.clear(grid);
+    const rows = state.intel?.competitor_scores || [];
+    if (!rows.length) return grid.appendChild(C.el("div", { class: "empty-state" }, C.t("noData")));
+    rows.forEach((row, index) => {
+      const comp = C.byId(state.data.competitors)[row.competitor_id];
+      grid.appendChild(C.el("a", { class: "score-card", href: `competitor.html?id=${encodeURIComponent(row.competitor_id)}` },
+        C.el("div", { class: "score-card__head" }, C.el("span", { class: "score-rank" }, `#${index + 1}`), C.el("strong", {}, comp ? C.competitorName(comp) : row.name), C.el("span", { class: "score-value" }, `${row.score}/100`)),
+        C.el("div", { class: "score-track" }, C.el("span", { class: "score-fill", style: `width:${row.score}%` })),
+        C.el("div", { class: "score-components" },
+          C.el("span", {}, `${C.t("campaignIntensity")}: ${row.components?.campaign_intensity ?? 0}`),
+          C.el("span", {}, `${C.t("priorityBreadth")}: ${row.components?.priority_category_breadth ?? 0}`),
+          C.el("span", {}, `${C.t("socialActivity")}: ${row.components?.social_activity_7d ?? 0}`),
+          C.el("span", {}, `${C.t("multiChannelCoverage")}: ${row.components?.platform_coverage ?? 0}`)
+        )
+      ));
+    });
+  }
+
+  function renderExpiryWatch() {
+    const container = document.getElementById("expiry-watch-list"); C.clear(container);
+    const rows = state.intel?.market?.expiry_watch?.within_30_days || [];
+    if (!rows.length) return container.appendChild(C.el("div", { class: "empty-state empty-state--compact" }, C.t("noExpiryWatch")));
+    const comps = C.byId(state.data.competitors);
+    rows.slice(0, 12).forEach(row => {
+      const bucket = row.days_remaining <= 7 ? C.t("within7") : row.days_remaining <= 14 ? C.t("within14") : C.t("within30");
+      container.appendChild(C.el("a", { class: "expiry-row", href: `item.html?id=${encodeURIComponent(row.id)}` },
+        C.el("div", {}, C.el("strong", {}, row.title || "—"), C.el("small", {}, comps[row.competitor_id] ? C.competitorName(comps[row.competitor_id]) : row.competitor_id)),
+        C.el("span", { class: `expiry-badge expiry-badge--${row.days_remaining <= 7 ? "urgent" : row.days_remaining <= 14 ? "soon" : "watch"}` }, bucket)
+      ));
+    });
+  }
+
+  function renderHistory() {
+    const history = state.intel?.history || [];
+    C.renderLineChart(document.getElementById("market-history-chart"), history.map(row => ({ label: row.date, value: Number(row.active_campaigns || 0) })));
+  }
+
+  function renderCategoryIntensity() {
+    const grid = document.getElementById("category-intensity-grid"); C.clear(grid);
+    const rows = state.intel?.market?.category_intensity || []; const cats = C.byId(state.data.categories);
+    if (!rows.length) return grid.appendChild(C.el("div", { class: "empty-state empty-state--compact" }, C.t("noData")));
+    rows.forEach(row => {
+      const cat = cats[row.category_id]; const label = row.intensity === "high" ? C.t("intensityHigh") : row.intensity === "medium" ? C.t("intensityMedium") : C.t("intensityLow");
+      grid.appendChild(C.el("div", { class: `intensity-row intensity-row--${row.intensity}` }, C.el("strong", {}, cat ? C.taxonomyName(cat) : row.category_id), C.el("span", {}, `${label} · ${row.active_campaigns}`)));
+    });
   }
 
   function renderKpis() {
@@ -88,7 +159,7 @@
     const container = document.getElementById("competitor-grid"); C.clear(container); const campaigns = activeCampaigns(), merchantRows = merchants(), social7 = C.socialPosts(state.data.items, 7);
     state.data.competitors.forEach(comp => {
       const cRows = campaigns.filter(item => item.competitor_id === comp.id); const avg = cRows.length ? (cRows.reduce((sum, item) => sum + Number(item.social_link_count || 0), 0) / cRows.length).toFixed(1) : "0.0";
-      container.appendChild(C.el("article", { class: "competitor-card" }, C.el("div", { class: "competitor-card__head" }, C.el("h3", {}, C.competitorName(comp)), C.el("a", { href: `competitor.html?id=${encodeURIComponent(comp.id)}` }, C.t("viewCompetitor"))), C.el("div", { class: "mini-kpis" }, C.el("span", {}, C.el("strong", {}, cRows.length), C.t("campaigns")), C.el("span", {}, C.el("strong", {}, merchantRows.filter(item => item.competitor_id === comp.id).length), C.t("merchantOffers")), C.el("span", {}, C.el("strong", {}, social7.filter(item => item.competitor_id === comp.id).length), C.t("posts")), C.el("span", {}, C.el("strong", {}, avg), C.t("socialLinks")))));
+      container.appendChild(C.el("article", { class: "competitor-card" }, C.el("div", { class: "competitor-card__head" }, C.el("h3", {}, C.competitorName(comp)), C.el("a", { href: `competitor.html?id=${encodeURIComponent(comp.id)}` }, C.t("viewCompetitor"))), C.el("div", { class: "mini-kpis" }, C.el("span", {}, C.el("strong", {}, cRows.length), C.t("campaigns")), C.el("span", {}, C.el("strong", {}, merchantRows.filter(item => item.competitor_id === comp.id).length), C.t("merchantOffers")), C.el("span", {}, C.el("strong", {}, social7.filter(item => item.competitor_id === comp.id).length), C.t("posts")), C.el("span", {}, C.el("strong", {}, avg), C.t("socialLinks")), C.el("span", {}, C.el("strong", {}, state.intel?.competitor_scores?.find(row => row.competitor_id === comp.id)?.score ?? "—"), C.t("activityScore")))));
     });
   }
 
@@ -114,7 +185,7 @@
     document.getElementById("clear-filters").onclick = () => { state.filters = { q: "", competitor: "", category: "", source: "" }; ["search", "competitor-filter", "category-filter", "source-filter"].forEach(id => document.getElementById(id).value = ""); renderInventory(); };
   }
 
-  function renderAll() { renderHero(); renderAlerts(); renderAiSummary(); renderKpis(); renderCharts(); renderSignals(); renderCompetitors(); renderMedia(); setupFilters(); renderInventory(); renderSources(); }
-  async function init() { C.initLanguage(); try { state.data = await C.loadData(); state.ai = await C.loadAiSummary(); document.getElementById("loading").hidden = true; document.getElementById("content").hidden = false; renderAll(); bind(); window.addEventListener("cm:language", () => location.reload()); } catch (error) { document.getElementById("loading").hidden = true; C.showError(document.getElementById("error"), error); } }
+  function renderAll() { renderHero(); renderAlerts(); renderAiSummary(); renderAiStrategic(); renderKpis(); renderActivityScores(); renderExpiryWatch(); renderHistory(); renderCategoryIntensity(); renderCharts(); renderSignals(); renderCompetitors(); renderMedia(); setupFilters(); renderInventory(); renderSources(); }
+  async function init() { C.initLanguage(); try { [state.data, state.ai, state.intel] = await Promise.all([C.loadData(), C.loadAiSummary(), C.loadIntelligence()]); document.getElementById("loading").hidden = true; document.getElementById("content").hidden = false; renderAll(); bind(); window.addEventListener("cm:language", () => location.reload()); } catch (error) { document.getElementById("loading").hidden = true; C.showError(document.getElementById("error"), error); } }
   document.addEventListener("DOMContentLoaded", init);
 })();

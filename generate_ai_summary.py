@@ -1,29 +1,30 @@
-"""Generate grounded bilingual AI summaries for the competitor dashboard.
+"""Generate one grounded AI intelligence package for the whole dashboard.
 
-Designed for GitHub Actions:
-- reads OPENAI_API_KEY only from the environment;
-- uses GPT-5.6 Sol in standard mode with xhigh reasoning by default;
-- calls OpenAI only when material campaign/offer data changes;
-- ordinary social-post churn does not trigger a paid API call;
-- preserves the last good summary if the API is unavailable or returns invalid output.
+Cost controls:
+- exactly one Responses API call per eligible refresh;
+- refreshes only when material campaign/offer data changes, or when the prompt/schema
+  version changes (one-time upgrade refresh), or when AI_SUMMARY_FORCE is set;
+- routine social-post churn does not trigger a paid call;
+- deterministic scores/history/expiry calculations come from intelligence.json;
+- last good AI output is preserved if the API is unavailable.
 """
 from __future__ import annotations
 
 import hashlib
 import json
 import os
-import re
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
-
 BASE_DIR = Path(__file__).resolve().parent
 DATA_PATH = BASE_DIR / "data.json"
+INTELLIGENCE_PATH = BASE_DIR / "intelligence.json"
 OUTPUT_PATH = BASE_DIR / "ai_summary.json"
 DEFAULT_MODEL = "gpt-5.6-sol"
 DEFAULT_REASONING_EFFORT = "xhigh"
-DEFAULT_MAX_OUTPUT_TOKENS = 8000
+DEFAULT_MAX_OUTPUT_TOKENS = 10000
+PROMPT_VERSION = 4
 
 
 def load_json(path: Path, default: Any) -> Any:
@@ -59,37 +60,34 @@ def _merchant_fact(item: dict[str, Any]) -> dict[str, Any]:
 
 
 def current_material_snapshot(data: dict[str, Any]) -> dict[str, Any]:
-    """Return only fields that are allowed to trigger a paid AI refresh.
+    """Only fields allowed to trigger a paid refresh.
 
-    Social posts are intentionally excluded: routine posts can change every monitor
-    cycle and should not spend API credit unless they alter a tracked campaign/offer.
+    Social posts are excluded from this hash. They can be context in a refresh that was
+    already triggered by a material campaign/offer change, but cannot trigger spending.
     """
-    active_campaigns: list[dict[str, Any]] = []
-    active_merchants: list[dict[str, Any]] = []
-
+    campaigns: list[dict[str, Any]] = []
+    merchants: list[dict[str, Any]] = []
     for item in data.get("items", []):
         if item.get("active") is False:
             continue
         if item.get("content_type") == "campaign":
-            active_campaigns.append(_campaign_fact(item))
+            campaigns.append(_campaign_fact(item))
         elif item.get("content_type") == "merchant_offer":
-            active_merchants.append(_merchant_fact(item))
-
-    active_campaigns.sort(key=lambda x: (x.get("competitor_id") or "", x.get("title") or ""))
-    active_merchants.sort(key=lambda x: (x.get("competitor_id") or "", x.get("title") or ""))
+            merchants.append(_merchant_fact(item))
+    campaigns.sort(key=lambda x: (x.get("competitor_id") or "", x.get("title") or ""))
+    merchants.sort(key=lambda x: (x.get("competitor_id") or "", x.get("title") or ""))
     return {
         "competitors": [
-            {"id": c.get("id"), "name": c.get("name_en") or c.get("name")}
+            {"id": c.get("id"), "name": c.get("name_en") or c.get("name_ar")}
             for c in data.get("competitors", [])
         ],
-        "active_campaigns": active_campaigns,
-        "active_merchants": active_merchants,
+        "active_campaigns": campaigns,
+        "active_merchants": merchants,
     }
 
 
-def latest_social_context(data: dict[str, Any], limit: int = 30) -> list[dict[str, Any]]:
-    """Context for analysis only; it does not participate in the material-change hash."""
-    posts: list[dict[str, Any]] = []
+def latest_social_context(data: dict[str, Any], limit: int = 24) -> list[dict[str, Any]]:
+    posts = []
     for item in data.get("items", []):
         if item.get("source_type") != "social":
             continue
@@ -100,10 +98,7 @@ def latest_social_context(data: dict[str, Any], limit: int = 30) -> list[dict[st
             "published_at": item.get("published_at"),
             "content_type": item.get("content_type"),
         })
-    posts.sort(
-        key=lambda x: (x.get("published_at") or "", x.get("competitor_id") or "", x.get("title") or ""),
-        reverse=True,
-    )
+    posts.sort(key=lambda x: (x.get("published_at") or "", x.get("competitor_id") or ""), reverse=True)
     return posts[:limit]
 
 
@@ -113,23 +108,15 @@ def snapshot_hash(snapshot: dict[str, Any]) -> str:
 
 
 def _keyed(rows: list[dict[str, Any]]) -> dict[str, dict[str, Any]]:
-    result: dict[str, dict[str, Any]] = {}
-    for row in rows:
-        key = f"{row.get('competitor_id') or ''}::{row.get('title') or ''}"
-        result[key] = row
-    return result
+    return {f"{row.get('competitor_id') or ''}::{row.get('title') or ''}": row for row in rows}
 
 
 def material_changes(previous: dict[str, Any], current: dict[str, Any]) -> list[dict[str, Any]]:
-    """Create a compact deterministic delta so the model knows what actually changed."""
     if not previous:
         return [{"type": "initial_generation", "detail": "No previous material snapshot is available."}]
-
     changes: list[dict[str, Any]] = []
     for section, label in (("active_campaigns", "campaign"), ("active_merchants", "merchant_offer")):
-        old = _keyed(previous.get(section, []))
-        new = _keyed(current.get(section, []))
-
+        old, new = _keyed(previous.get(section, [])), _keyed(current.get(section, []))
         for key in sorted(new.keys() - old.keys()):
             changes.append({"type": f"new_{label}", "current": new[key]})
         for key in sorted(old.keys() - new.keys()):
@@ -150,148 +137,230 @@ def material_changes(previous: dict[str, Any], current: dict[str, Any]) -> list[
     return changes
 
 
-def extract_json(text: str) -> dict[str, Any]:
-    value = text.strip()
-    value = re.sub(r"^```(?:json)?\s*", "", value, flags=re.I)
-    value = re.sub(r"\s*```$", "", value)
-    start, end = value.find("{"), value.rfind("}")
-    if start < 0 or end < start:
-        raise ValueError("Model response did not contain a JSON object")
-    return json.loads(value[start : end + 1])
+def localized_schema() -> dict[str, Any]:
+    return {
+        "type": "object",
+        "additionalProperties": False,
+        "required": [
+            "summary", "bullets", "what_changed", "why_it_matters",
+            "management_takeaway", "weekly_brief", "opportunity_gaps", "category_insights",
+        ],
+        "properties": {
+            "summary": {"type": "string"},
+            "bullets": {"type": "array", "items": {"type": "string"}, "minItems": 3, "maxItems": 3},
+            "what_changed": {"type": "array", "items": {"type": "string"}, "minItems": 1, "maxItems": 4},
+            "why_it_matters": {"type": "array", "items": {"type": "string"}, "minItems": 1, "maxItems": 4},
+            "management_takeaway": {"type": "string"},
+            "weekly_brief": {"type": "string"},
+            "opportunity_gaps": {"type": "array", "items": {"type": "string"}, "minItems": 1, "maxItems": 4},
+            "category_insights": {
+                "type": "array",
+                "minItems": 4,
+                "maxItems": 6,
+                "items": {
+                    "type": "object",
+                    "additionalProperties": False,
+                    "required": ["category_id", "insight"],
+                    "properties": {
+                        "category_id": {"type": "string"},
+                        "insight": {"type": "string"},
+                    },
+                },
+            },
+        },
+    }
 
 
-def validate_summary(payload: dict[str, Any], competitor_ids: set[str]) -> None:
-    for lang in ("ar", "en"):
-        section = payload.get("market", {}).get(lang, {})
-        if not section.get("summary") or not isinstance(section.get("bullets"), list):
-            raise ValueError(f"Missing market summary for {lang}")
-        if len(section["bullets"]) < 3:
-            raise ValueError(f"Market summary needs at least 3 bullets for {lang}")
-
-    comps = payload.get("competitors", {})
-    for competitor_id in competitor_ids:
-        for lang in ("ar", "en"):
-            section = comps.get(competitor_id, {}).get(lang, {})
-            if not section.get("summary") or not isinstance(section.get("bullets"), list):
-                raise ValueError(f"Missing {lang} summary for {competitor_id}")
-            if len(section["bullets"]) < 3:
-                raise ValueError(f"Competitor summary needs at least 3 bullets for {competitor_id}/{lang}")
+def competitor_localized_schema() -> dict[str, Any]:
+    return {
+        "type": "object",
+        "additionalProperties": False,
+        "required": ["summary", "bullets", "positioning", "what_changed", "watchpoints"],
+        "properties": {
+            "summary": {"type": "string"},
+            "bullets": {"type": "array", "items": {"type": "string"}, "minItems": 3, "maxItems": 3},
+            "positioning": {"type": "string"},
+            "what_changed": {"type": "array", "items": {"type": "string"}, "minItems": 1, "maxItems": 3},
+            "watchpoints": {"type": "array", "items": {"type": "string"}, "minItems": 1, "maxItems": 3},
+        },
+    }
 
 
-def build_prompt(
-    snapshot: dict[str, Any],
-    changes: list[dict[str, Any]],
-    social_context: list[dict[str, Any]],
-) -> str:
+def output_schema() -> dict[str, Any]:
+    return {
+        "type": "object",
+        "additionalProperties": False,
+        "required": ["market", "competitors"],
+        "properties": {
+            "market": {
+                "type": "object",
+                "additionalProperties": False,
+                "required": ["ar", "en"],
+                "properties": {"ar": localized_schema(), "en": localized_schema()},
+            },
+            "competitors": {
+                "type": "array",
+                "items": {
+                    "type": "object",
+                    "additionalProperties": False,
+                    "required": ["competitor_id", "ar", "en"],
+                    "properties": {
+                        "competitor_id": {"type": "string"},
+                        "ar": competitor_localized_schema(),
+                        "en": competitor_localized_schema(),
+                    },
+                },
+            },
+        },
+    }
+
+
+STATIC_INSTRUCTIONS = """You are the market-intelligence analyst for a Saudi digital-payments competitor dashboard.
+
+Use ONLY the supplied JSON facts. Never browse. Never invent, estimate, or imply undisclosed market share, customer numbers, campaign performance, causality, profitability, adoption, or commercial results. Merchant offers are reference items and must not be counted as campaign KPIs. An item with no stated end date is ongoing/unknown, never permanent. A deterministic Competitive Activity Score is an activity indicator only; never describe it as market share, performance, attractiveness, or success.
+
+The material_changes_since_last_ai_summary field is the authoritative delta. Routine social posts are context only and must not be described as a material market change unless the authoritative delta supports it. Category intensity and scores are deterministic calculations supplied by the application; explain them but do not recalculate or contradict them.
+
+Your job is to produce concise decision-support intelligence: current competitive situation, what changed, why it matters, management takeaway, visible gaps/opportunities, category insight, and a short 7-day executive brief. For every competitor, provide a concise summary, current positioning, genuine material changes (or explicitly say no material change was detected), and watchpoints.
+
+Arabic must be clear professional Arabic for management. English must be simple professional English. Keep claims tightly grounded in supplied facts. Prefer specific categories/mechanics/dates over generic marketing language."""
+
+
+def build_input(snapshot: dict[str, Any], changes: list[dict[str, Any]], social: list[dict[str, Any]], intelligence: dict[str, Any]) -> str:
+    # Keep the history compact to reduce tokens. The full history remains on the dashboard.
+    history = (intelligence.get("history") or [])[-30:]
     context = {
         "material_changes_since_last_ai_summary": changes,
         "current_material_snapshot": snapshot,
-        "latest_social_context": social_context,
+        "deterministic_intelligence": {
+            "score_methodology": intelligence.get("score_methodology", {}),
+            "competitor_scores": intelligence.get("competitor_scores", []),
+            "market": intelligence.get("market", {}),
+            "history_last_30_days": history,
+        },
+        "latest_social_context": social,
     }
-    return f"""You are the market-intelligence analyst for a Saudi digital-payments competitor dashboard.
+    return "SOURCE JSON:\n" + json.dumps(context, ensure_ascii=False, separators=(",", ":"))
 
-Use ONLY the supplied JSON facts. Do not browse. Do not invent, estimate, or infer undisclosed performance, market share, customer numbers, campaign results, causality, or commercial impact. Distinguish tracked campaigns from merchant offers. Merchant offers are reference items and must not be counted as campaign KPIs. Treat an item with no stated end date as ongoing/unknown, never permanent. Use cautious wording when dates or statuses are not explicit.
 
-The field material_changes_since_last_ai_summary is the authoritative delta. Use it to identify genuinely new, removed/inactive, extended, or updated offers. latest_social_context may add context, but routine social posts must not be described as a market change unless the material delta supports it.
+def normalize_competitors(generated: dict[str, Any], expected_ids: set[str]) -> dict[str, Any]:
+    rows = generated.get("competitors") or []
+    result = {row.get("competitor_id"): {"ar": row.get("ar", {}), "en": row.get("en", {})} for row in rows if row.get("competitor_id")}
+    missing = expected_ids - set(result)
+    extra = set(result) - expected_ids
+    if missing:
+        raise ValueError(f"AI output missing competitors: {sorted(missing)}")
+    if extra:
+        raise ValueError(f"AI output returned unknown competitors: {sorted(extra)}")
+    return result
 
-Output VALID JSON ONLY with exactly this shape:
-{{
-  "market": {{
-    "ar": {{"summary": "one concise paragraph", "bullets": ["point 1", "point 2", "point 3"]}},
-    "en": {{"summary": "one concise paragraph", "bullets": ["point 1", "point 2", "point 3"]}}
-  }},
-  "competitors": {{
-    "<competitor_id>": {{
-      "ar": {{"summary": "one concise paragraph", "bullets": ["point 1", "point 2", "point 3"]}},
-      "en": {{"summary": "one concise paragraph", "bullets": ["point 1", "point 2", "point 3"]}}
-    }}
-  }}
-}}
 
-Writing requirements:
-- Arabic: clear professional Arabic suitable for a management meeting.
-- English: simple professional English.
-- Market summary: 55-90 Arabic words / 45-75 English words.
-- Each competitor summary: 35-65 Arabic words / 30-55 English words.
-- Exactly 3 short factual bullets per section.
-- Lead with the most decision-relevant competitive signal, not generic marketing language.
-- Focus on category intensity (especially remittance, cards, Musaned and SADAD), offer mechanics, expiry/watchpoints, meaningful changes, and visible competitive gaps supported by the facts.
-- If there is no meaningful delta for a competitor, summarize its current positioning without claiming a new move.
+def validate_generated(generated: dict[str, Any], expected_ids: set[str]) -> None:
+    market = generated.get("market") or {}
+    for lang in ("ar", "en"):
+        section = market.get(lang) or {}
+        if not section.get("summary") or len(section.get("bullets") or []) != 3:
+            raise ValueError(f"Invalid market section: {lang}")
+    normalize_competitors(generated, expected_ids)
 
-SOURCE JSON:
-{json.dumps(context, ensure_ascii=False, indent=2)}
-"""
+
+def usage_payload(response: Any) -> dict[str, Any]:
+    usage = getattr(response, "usage", None)
+    if usage is None:
+        return {}
+    payload: dict[str, Any] = {}
+    for field in ("input_tokens", "output_tokens", "total_tokens"):
+        value = getattr(usage, field, None)
+        if value is not None:
+            payload[field] = value
+    details = getattr(usage, "input_tokens_details", None)
+    if details is not None:
+        cached = getattr(details, "cached_tokens", None)
+        cache_write = getattr(details, "cache_write_tokens", None)
+        if cached is not None:
+            payload["cached_input_tokens"] = cached
+        if cache_write is not None:
+            payload["cache_write_tokens"] = cache_write
+    return payload
 
 
 def main() -> int:
     data = load_json(DATA_PATH, {})
+    intelligence = load_json(INTELLIGENCE_PATH, {})
     if not data:
         raise SystemExit("data.json is missing or empty")
+    if not intelligence:
+        raise SystemExit("intelligence.json is missing; run build_intelligence_metrics.py first")
 
     snapshot = current_material_snapshot(data)
     digest = snapshot_hash(snapshot)
     existing = load_json(OUTPUT_PATH, {})
     force = os.getenv("AI_SUMMARY_FORCE", "").lower() in {"1", "true", "yes"}
-
-    if not force and existing.get("snapshot_hash") == digest:
-        print("AI summary unchanged: no material campaign/offer change detected.")
+    current_prompt = existing.get("prompt_version") == PROMPT_VERSION
+    if not force and current_prompt and existing.get("snapshot_hash") == digest:
+        print("AI intelligence unchanged: no material campaign/offer change detected.")
         return 0
 
     api_key = os.getenv("OPENAI_API_KEY")
     if not api_key:
-        print("OPENAI_API_KEY is not configured; keeping the existing AI summary file.")
+        print("OPENAI_API_KEY is not configured; keeping the existing AI file.")
         return 0
 
     previous_snapshot = existing.get("material_snapshot") or {}
     changes = material_changes(previous_snapshot, snapshot)
-    social_context = latest_social_context(data)
-
-    from openai import OpenAI
-
+    social = latest_social_context(data)
     model = os.getenv("OPENAI_MODEL", DEFAULT_MODEL)
     effort = os.getenv("OPENAI_REASONING_EFFORT", DEFAULT_REASONING_EFFORT)
     max_output_tokens = int(os.getenv("OPENAI_MAX_OUTPUT_TOKENS", str(DEFAULT_MAX_OUTPUT_TOKENS)))
+
+    from openai import OpenAI
 
     try:
         client = OpenAI(api_key=api_key)
         response = client.responses.create(
             model=model,
             reasoning={"effort": effort},
-            text={"verbosity": "low"},
+            instructions=STATIC_INSTRUCTIONS,
+            input=build_input(snapshot, changes, social, intelligence),
+            text={
+                "verbosity": "low",
+                "format": {
+                    "type": "json_schema",
+                    "name": "competitor_intelligence_package",
+                    "strict": True,
+                    "schema": output_schema(),
+                },
+            },
             max_output_tokens=max_output_tokens,
-            input=build_prompt(snapshot, changes, social_context),
+            store=False,
         )
-        generated = extract_json(response.output_text)
-        competitor_ids = {c["id"] for c in snapshot["competitors"] if c.get("id")}
-        validate_summary(generated, competitor_ids)
-    except Exception as exc:  # Keep monitoring/deployment alive if the AI layer fails.
-        print(f"AI summary generation failed; keeping last good summary: {type(exc).__name__}: {exc}")
+        generated = json.loads(response.output_text)
+        expected_ids = {c["id"] for c in snapshot["competitors"] if c.get("id")}
+        validate_generated(generated, expected_ids)
+        competitors = normalize_competitors(generated, expected_ids)
+    except Exception as exc:
+        print(f"AI intelligence generation failed; keeping last good output: {type(exc).__name__}: {exc}")
         return 0
 
-    usage = getattr(response, "usage", None)
-    usage_payload: dict[str, Any] = {}
-    if usage is not None:
-        for field in ("input_tokens", "output_tokens", "total_tokens"):
-            value = getattr(usage, field, None)
-            if value is not None:
-                usage_payload[field] = value
-
     output = {
-        "schema_version": 2,
+        "schema_version": 3,
+        "prompt_version": PROMPT_VERSION,
         "generated_at": datetime.now(timezone.utc).isoformat(),
         "model": model,
         "reasoning_effort": effort,
+        "call_strategy": "single_call_on_material_change",
         "snapshot_hash": digest,
         "material_change_count": len(changes),
+        "material_changes": changes,
         "material_snapshot": snapshot,
-        "usage": usage_payload,
+        "usage": usage_payload(response),
         "market": generated["market"],
-        "competitors": generated["competitors"],
+        "competitors": competitors,
     }
     OUTPUT_PATH.write_text(json.dumps(output, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-    print(f"AI summary generated with {model} / {effort}: {digest[:12]} ({len(changes)} material changes)")
-    if usage_payload:
-        print(f"OpenAI usage: {usage_payload}")
+    print(f"AI intelligence generated in ONE call with {model} / {effort}: {digest[:12]} ({len(changes)} material changes)")
+    if output["usage"]:
+        print(f"OpenAI usage: {output['usage']}")
     return 0
 
 

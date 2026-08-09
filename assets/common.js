@@ -18,6 +18,10 @@
       sourceHealth: "سلامة المصادر", sourceHealthHint: "افتح لمعرفة المصادر المتعثرة وتفاصيل الخطأ", healthy: "يعمل", failed: "متعثر", noItems: "يعمل بدون عناصر", lastSuccess: "آخر نجاح", lastCheck: "آخر فحص", extracted: "عناصر مستخرجة", error: "الخطأ", openSource: "فتح المصدر",
       marketAnalysis: "التحليل العام", campaignsByCompetitor: "الحملات الحالية حسب المنافس", categoryMix: "توزيع تصنيفات الحملات", remittanceComparison: "مقارنة التحويل الدولي", merchantComparison: "عروض الشركاء حسب المنافس", expiryRisk: "مخاطر انتهاء الحملات", mechanicsMix: "آليات العروض", channelActivity7d: "نشاط القنوات خلال 7 أيام", platformCoverage: "تغطية الحملات عبر المنصات", competitiveMatrix: "مصفوفة التغطية التنافسية",
       aiInsight: "ملخص ذكي", aiMarketSummary: "ملخص الوضع التنافسي", aiCompetitorSummary: "قراءة سريعة للمنافس", aiGenerated: "محدّث", aiFallback: "ملخص محسوب من البيانات الحالية",
+      strategicIntelligence: "التحليل الاستراتيجي بالذكاء الاصطناعي", whatChanged: "ما الذي تغير؟", whyItMatters: "لماذا يهم؟", managementTakeaway: "الخلاصة للإدارة", opportunityGaps: "الفرص والفجوات", weeklyBrief: "ملخص 7 أيام", categoryInsights: "قراءة الفئات", positioning: "التموضع الحالي", watchpoints: "نقاط المتابعة", noMaterialChange: "لا يوجد تغير جوهري جديد",
+      activityScore: "مؤشر النشاط التنافسي", activityScoreHint: "مؤشر محسوب من النشاط والتغطية؛ لا يمثل حصة سوقية أو أداء تجاري", scoreBreakdown: "تفاصيل المؤشر", campaignIntensity: "كثافة الحملات", priorityBreadth: "اتساع الفئات ذات الأولوية", socialActivity: "النشاط الاجتماعي", multiChannelCoverage: "التغطية متعددة القنوات",
+      expiryWatch: "متابعة انتهاء العروض", expiryWatchHint: "العروض التي تقترب من تاريخ الانتهاء المعلن", within7: "خلال 7 أيام", within14: "خلال 14 يومًا", within30: "خلال 30 يومًا", noExpiryWatch: "لا توجد عروض قريبة من الانتهاء ضمن النطاق الحالي.",
+      historicalTrend: "اتجاه السوق التاريخي", historicalTrendHint: "لقطة يومية مجانية من الحملات النشطة والفئات الرئيسية", totalCampaigns: "إجمالي الحملات", categoryIntensity: "شدة المنافسة حسب الفئة", intensityHigh: "مرتفعة", intensityMedium: "متوسطة", intensityLow: "منخفضة",
       priorityView: "أولوية المتابعة", currentOffers: "العروض الحالية", currentOffersHint: "أبرز الحملات والعروض النشطة لهذا المنافس", noCurrentOffers: "لا توجد عروض نشطة حاليًا.", offerEnds: "ينتهي", noEndDate: "بدون تاريخ انتهاء معلن", viewOffer: "عرض التفاصيل", inventoryReviewed: "آخر مراجعة للمخزون",
       marketingSignals: "إشارات تسويقية سريعة", mostActiveCompetitor: "الأكثر نشاطًا اجتماعيًا", bestPlatformCoverage: "الأفضل في التغطية متعددة القنوات", strongestCategory: "أبرز تصنيف في السوق", highestExpiryRisk: "أعلى مخاطر انتهاء", shareOfVoice: "حصة الصوت الاجتماعي",
       competitors: "المنافسون", viewCompetitor: "فتح تحليل المنافس", latestMedia: "أحدث الصور والفيديو", noMedia: "لا توجد وسائط متاحة من RSS حاليًا.",
@@ -47,6 +51,10 @@
       sourceHealth: "Source health", sourceHealthHint: "Open to inspect failed sources and error details", healthy: "Healthy", failed: "Failed", noItems: "Healthy with zero items", lastSuccess: "Last success", lastCheck: "Last check", extracted: "Extracted items", error: "Error", openSource: "Open source",
       marketAnalysis: "Market analysis", campaignsByCompetitor: "Current campaigns by competitor", categoryMix: "Campaign category mix", remittanceComparison: "Remittance comparison", merchantComparison: "Merchant offers by competitor", expiryRisk: "Campaign expiry risk", mechanicsMix: "Offer mechanics", channelActivity7d: "Channel activity over 7 days", platformCoverage: "Campaign platform coverage", competitiveMatrix: "Competitive coverage matrix",
       aiInsight: "AI insight", aiMarketSummary: "Competitive situation summary", aiCompetitorSummary: "Competitor quick read", aiGenerated: "Updated", aiFallback: "Summary calculated from current data",
+      strategicIntelligence: "AI strategic intelligence", whatChanged: "What changed?", whyItMatters: "Why it matters", managementTakeaway: "Management takeaway", opportunityGaps: "Opportunities & gaps", weeklyBrief: "7-day brief", categoryInsights: "Category read", positioning: "Current positioning", watchpoints: "Watchpoints", noMaterialChange: "No new material change detected",
+      activityScore: "Competitive Activity Score", activityScoreHint: "Calculated activity and coverage indicator; not market share or commercial performance", scoreBreakdown: "Score breakdown", campaignIntensity: "Campaign intensity", priorityBreadth: "Priority-category breadth", socialActivity: "Social activity", multiChannelCoverage: "Multi-channel coverage",
+      expiryWatch: "Offer expiry watch", expiryWatchHint: "Offers approaching their stated end date", within7: "Within 7 days", within14: "Within 14 days", within30: "Within 30 days", noExpiryWatch: "No offers are approaching expiry in the current window.",
+      historicalTrend: "Historical market trend", historicalTrendHint: "Zero-cost daily snapshots of active campaigns and priority categories", totalCampaigns: "Total campaigns", categoryIntensity: "Competition intensity by category", intensityHigh: "High", intensityMedium: "Medium", intensityLow: "Low",
       priorityView: "Priority view", currentOffers: "Current offers", currentOffersHint: "The most relevant active campaigns and offers for this competitor", noCurrentOffers: "No active offers are currently detected.", offerEnds: "Ends", noEndDate: "No stated end date", viewOffer: "View details", inventoryReviewed: "Inventory reviewed",
       marketingSignals: "Marketing signals", mostActiveCompetitor: "Most socially active", bestPlatformCoverage: "Best multi-channel coverage", strongestCategory: "Strongest market category", highestExpiryRisk: "Highest expiry risk", shareOfVoice: "Social share of voice",
       competitors: "Competitors", viewCompetitor: "Open competitor analysis", latestMedia: "Latest images and video", noMedia: "No media is currently available from RSS.",
@@ -122,6 +130,15 @@
       return null;
     }
   }
+  async function loadIntelligence() {
+    try {
+      const response = await fetch(`intelligence.json?v=${Date.now()}`, { cache: "no-store" });
+      if (!response.ok) return null;
+      return await response.json();
+    } catch (_error) {
+      return null;
+    }
+  }
 
   function saveItemOverride(itemId, patch) { const value = getOverrides(); value.updated_at = new Date().toISOString(); value.items ||= {}; value.items[itemId] = { ...(value.items[itemId] || {}), ...patch }; setOverrides(value); window.dispatchEvent(new CustomEvent("cm:overrides")); }
   function resetItemOverride(itemId) { const value = getOverrides(); delete value.items?.[itemId]; value.updated_at = new Date().toISOString(); setOverrides(value); window.dispatchEvent(new CustomEvent("cm:overrides")); }
@@ -139,6 +156,23 @@
   function renderBarChart(container, rows, options = {}) {
     clear(container); const values = options.keepZero ? rows : rows.filter(row => row.value > 0); if (!values.length) return container.appendChild(el("div", { class: "empty-state" }, t("noData")));
     const max = Math.max(1, ...values.map(row => row.value)); values.forEach((row, index) => container.appendChild(el("div", { class: "bar-row" }, el("div", { class: "bar-row__label" }, row.label), el("div", { class: "bar-row__track" }, el("span", { class: "bar-row__fill", style: `width:${row.value ? Math.max(3, row.value / max * 100) : 0}%;--bar-color:${row.color || COLORS[index % COLORS.length]}` })), el("strong", { class: "bar-row__value" }, String(row.value)))));
+  }
+  function renderLineChart(container, series, options = {}) {
+    clear(container);
+    const rows = (series || []).filter(row => Number.isFinite(Number(row.value)));
+    if (!rows.length) return container.appendChild(el("div", { class: "empty-state" }, t("noData")));
+    const width = 760, height = 220, left = 42, right = 18, top = 16, bottom = 34;
+    const maxValue = Math.max(1, ...rows.map(r => Number(r.value)));
+    const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    svg.setAttribute("viewBox", `0 0 ${width} ${height}`); svg.setAttribute("class", "trend-chart"); svg.setAttribute("role", "img");
+    const x = i => left + (rows.length === 1 ? (width-left-right)/2 : i * (width-left-right)/(rows.length-1));
+    const y = value => top + (maxValue - value) * (height-top-bottom) / maxValue;
+    const grid = document.createElementNS(svg.namespaceURI, "line"); grid.setAttribute("x1", left); grid.setAttribute("x2", width-right); grid.setAttribute("y1", height-bottom); grid.setAttribute("y2", height-bottom); grid.setAttribute("class", "trend-chart__axis"); svg.appendChild(grid);
+    const path = document.createElementNS(svg.namespaceURI, "polyline"); path.setAttribute("points", rows.map((r,i) => `${x(i)},${y(Number(r.value))}`).join(" ")); path.setAttribute("class", "trend-chart__line"); svg.appendChild(path);
+    rows.forEach((row,i) => { const dot=document.createElementNS(svg.namespaceURI,"circle"); dot.setAttribute("cx",x(i)); dot.setAttribute("cy",y(Number(row.value))); dot.setAttribute("r","4"); dot.setAttribute("class","trend-chart__dot"); const title=document.createElementNS(svg.namespaceURI,"title"); title.textContent=`${row.label}: ${row.value}`; dot.appendChild(title); svg.appendChild(dot); });
+    [0, Math.floor((rows.length-1)/2), rows.length-1].filter((v,i,a)=>v>=0&&a.indexOf(v)===i).forEach(i => { const text=document.createElementNS(svg.namespaceURI,"text"); text.setAttribute("x",x(i)); text.setAttribute("y",height-10); text.setAttribute("text-anchor","middle"); text.setAttribute("class","trend-chart__label"); text.textContent=rows[i].label; svg.appendChild(text); });
+    const maxText=document.createElementNS(svg.namespaceURI,"text"); maxText.setAttribute("x",6); maxText.setAttribute("y",top+5); maxText.setAttribute("class","trend-chart__label"); maxText.textContent=String(maxValue); svg.appendChild(maxText);
+    container.appendChild(svg);
   }
   function renderMatrix(container, rowDefs, colDefs, valueFn) {
     clear(container); const table = el("div", { class: "matrix" }); table.appendChild(el("div", { class: "matrix__row matrix__row--head" }, el("strong", {}, ""), ...colDefs.map(col => el("strong", {}, col.label))));
@@ -202,5 +236,5 @@
   function sourceRow(status, data) { const comp = byId(data.competitors)[status.competitor_id]; const state = status.success ? status.item_count ? t("healthy") : t("noItems") : t("failed"); return el("article", { class: `source-card ${status.success ? "source-card--ok" : "source-card--failed"}` }, el("div", {}, el("strong", {}, `${competitorName(comp)} · ${t(status.platform || "website")}`), el("span", { class: "source-state" }, state)), el("dl", {}, el("div", {}, el("dt", {}, t("lastCheck")), el("dd", {}, formatDate(status.checked_at, true))), el("div", {}, el("dt", {}, t("lastSuccess")), el("dd", {}, formatDate(status.last_success_at, true))), el("div", {}, el("dt", {}, t("extracted")), el("dd", {}, String(status.item_count || 0)))), status.error ? el("code", {}, status.error) : status.success && !status.item_count ? el("p", { class: "source-note" }, t("zeroItemsMeaning")) : null, el("a", { href: status.url, target: "_blank", rel: "noopener noreferrer" }, t("openSource"))); }
   function showError(container, error) { clear(container); container.appendChild(el("div", { class: "error-state" }, el("strong", {}, t("loadError")), el("code", {}, String(error)), el("button", { class: "button button--primary", onclick: () => location.reload() }, t("retry")))); }
 
-  window.CM = { t, language, setLanguage, initLanguage, loadData, loadAiSummary, el, clear, byId, competitorName, taxonomyName, formatDate, timeAgo, withinDays, countBy, getOverrides, exportOverrides, importOverrides, activeCampaigns, activeMerchants, socialPosts, alerts, acknowledgeAlerts, alertLabel, pill, renderBarChart, renderMatrix, renderMedia, renderItemCard, renderMediaCard, openEditor, sourceRow, showError, categoryLabel, contentLabel };
+  window.CM = { t, language, setLanguage, initLanguage, loadData, loadAiSummary, loadIntelligence, el, clear, byId, competitorName, taxonomyName, formatDate, timeAgo, withinDays, countBy, getOverrides, exportOverrides, importOverrides, activeCampaigns, activeMerchants, socialPosts, alerts, acknowledgeAlerts, alertLabel, pill, renderBarChart, renderLineChart, renderMatrix, renderMedia, renderItemCard, renderMediaCard, openEditor, sourceRow, showError, categoryLabel, contentLabel };
 })();
