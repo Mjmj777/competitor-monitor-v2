@@ -7,9 +7,17 @@ on:
       - data.json
       - state.json
       - ai_summary.json
+      - intelligence.json
+      - market_history.json
   schedule:
     - cron: "*/20 * * * *"
   workflow_dispatch:
+    inputs:
+      force_ai:
+        description: "Force one AI refresh even if no material change"
+        required: false
+        default: false
+        type: boolean
 
 permissions:
   contents: write
@@ -45,20 +53,24 @@ jobs:
       - name: Collect competitor intelligence
         run: python monitor.py
 
-      - name: Generate AI executive summary
+      - name: Build zero-cost intelligence metrics
+        run: python build_intelligence_metrics.py
+
+      - name: Generate AI intelligence package
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           OPENAI_MODEL: gpt-5.6-sol
           OPENAI_REASONING_EFFORT: xhigh
-          OPENAI_MAX_OUTPUT_TOKENS: "8000"
+          OPENAI_MAX_OUTPUT_TOKENS: "10000"
+          AI_SUMMARY_FORCE: ${{ inputs.force_ai || 'false' }}
         run: python generate_ai_summary.py
 
-      - name: Commit monitoring data
+      - name: Commit monitoring and intelligence data
         shell: bash
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data.json state.json ai_summary.json
+          git add data.json state.json ai_summary.json intelligence.json market_history.json
           if git diff --cached --quiet; then
             echo "No data changes to commit."
           else
@@ -71,8 +83,9 @@ jobs:
         run: |
           rm -rf _site
           mkdir -p _site/assets
-          cp index.html competitor.html item.html data.json ai_summary.json manual_overrides.json _site/
+          cp index.html competitor.html item.html data.json ai_summary.json intelligence.json market_history.json manual_overrides.json _site/
           cp -R assets/. _site/assets/
+          if [ -f CNAME ]; then cp CNAME _site/; fi
           touch _site/.nojekyll
 
       - name: Configure GitHub Pages
