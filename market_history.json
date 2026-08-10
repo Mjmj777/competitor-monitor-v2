@@ -62,7 +62,7 @@
   },
   {
     "date": "2026-08-10",
-    "captured_at": "2026-08-10T14:34:41.417072+00:00",
+    "captured_at": "2026-08-10T17:39:42.204594+00:00",
     "active_campaigns": 24,
     "categories": {
       "remittance": 8,
@@ -77,7 +77,7 @@
         "card": 5,
         "musaned": 0,
         "sadad": 0,
-        "activity_score": 63
+        "activity_score": 65
       },
       "barq": {
         "active_campaigns": 5,
@@ -101,7 +101,7 @@
         "card": 1,
         "musaned": 0,
         "sadad": 1,
-        "activity_score": 62
+        "activity_score": 64
       },
       "urpay": {
         "active_campaigns": 3,
