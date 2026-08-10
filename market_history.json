@@ -62,7 +62,7 @@
   },
   {
     "date": "2026-08-10",
-    "captured_at": "2026-08-10T17:39:42.204594+00:00",
+    "captured_at": "2026-08-10T20:06:11.964096+00:00",
     "active_campaigns": 24,
     "categories": {
       "remittance": 8,
@@ -77,7 +77,7 @@
         "card": 5,
         "musaned": 0,
         "sadad": 0,
-        "activity_score": 65
+        "activity_score": 63
       },
       "barq": {
         "active_campaigns": 5,
@@ -101,7 +101,7 @@
         "card": 1,
         "musaned": 0,
         "sadad": 1,
-        "activity_score": 64
+        "activity_score": 63
       },
       "urpay": {
         "active_campaigns": 3,
@@ -109,7 +109,7 @@
         "card": 1,
         "musaned": 1,
         "sadad": 0,
-        "activity_score": 53
+        "activity_score": 52
       },
       "alinma-pay": {
         "active_campaigns": 5,
