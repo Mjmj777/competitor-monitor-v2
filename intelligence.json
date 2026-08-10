@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-08-09T23:00:30.048533+00:00",
+  "generated_at": "2026-08-10T05:08:17.659569+00:00",
   "score_methodology": {
     "name": "Competitive Activity Score",
     "scale": "0-100",
@@ -15,7 +15,7 @@
   "market": {
     "active_campaigns": 24,
     "active_merchant_offers": 15,
-    "social_posts_7d": 190,
+    "social_posts_7d": 194,
     "category_intensity": [
       {
         "category_id": "remittance",
@@ -82,7 +82,7 @@
           "category": "card",
           "record_type": "campaign",
           "end_date": "2026-08-19T00:00:00+00:00",
-          "days_remaining": 10,
+          "days_remaining": 9,
           "link": "https://mobilypay.sa/offer-details.html?id=offer-53"
         },
         {
@@ -92,7 +92,7 @@
           "category": "card",
           "record_type": "campaign",
           "end_date": "2026-08-20T00:00:00+00:00",
-          "days_remaining": 11,
+          "days_remaining": 10,
           "link": "https://stcbank.com.sa/en/web/guest/w/visa_cards_rewards"
         }
       ],
@@ -104,7 +104,7 @@
           "category": "card",
           "record_type": "campaign",
           "end_date": "2026-08-19T00:00:00+00:00",
-          "days_remaining": 10,
+          "days_remaining": 9,
           "link": "https://mobilypay.sa/offer-details.html?id=offer-53"
         },
         {
@@ -114,7 +114,7 @@
           "category": "card",
           "record_type": "campaign",
           "end_date": "2026-08-20T00:00:00+00:00",
-          "days_remaining": 11,
+          "days_remaining": 10,
           "link": "https://stcbank.com.sa/en/web/guest/w/visa_cards_rewards"
         },
         {
@@ -124,7 +124,7 @@
           "category": "merchant",
           "record_type": "merchant_offer",
           "end_date": "2026-08-25T00:00:00+00:00",
-          "days_remaining": 16,
+          "days_remaining": 15,
           "link": "https://stcbank.com.sa/en/web/guest/w/loca"
         },
         {
@@ -134,7 +134,7 @@
           "category": "card",
           "record_type": "campaign",
           "end_date": "2026-08-31T00:00:00+00:00",
-          "days_remaining": 22,
+          "days_remaining": 21,
           "link": "https://stcbank.com.sa/en/web/guest/w/international-purchases-with-0-fees"
         },
         {
@@ -144,7 +144,7 @@
           "category": "card",
           "record_type": "campaign",
           "end_date": "2026-09-03T00:00:00+00:00",
-          "days_remaining": 25,
+          "days_remaining": 24,
           "link": "https://stcbank.com.sa/en/web/guest/w/international-purchases-with-0-fees"
         }
       ]
@@ -433,7 +433,7 @@
         "remittance"
       ],
       "priority_breadth": 0.5,
-      "social_posts_7d": 60,
+      "social_posts_7d": 64,
       "avg_platform_coverage": 2.0,
       "score": 78,
       "components": {
@@ -456,11 +456,11 @@
       "priority_breadth": 0.75,
       "social_posts_7d": 18,
       "avg_platform_coverage": 2.0,
-      "score": 70,
+      "score": 69,
       "components": {
         "campaign_intensity": 100,
         "priority_category_breadth": 75,
-        "social_activity_7d": 30,
+        "social_activity_7d": 28,
         "platform_coverage": 50
       }
     },
@@ -475,11 +475,11 @@
       "priority_breadth": 0.25,
       "social_posts_7d": 38,
       "avg_platform_coverage": 2.0,
-      "score": 64,
+      "score": 63,
       "components": {
         "campaign_intensity": 100,
         "priority_category_breadth": 25,
-        "social_activity_7d": 63,
+        "social_activity_7d": 59,
         "platform_coverage": 50
       }
     },
@@ -500,7 +500,7 @@
       "components": {
         "campaign_intensity": 60,
         "priority_category_breadth": 75,
-        "social_activity_7d": 33,
+        "social_activity_7d": 31,
         "platform_coverage": 83
       }
     },
@@ -516,11 +516,11 @@
       "priority_breadth": 0.5,
       "social_posts_7d": 38,
       "avg_platform_coverage": 2.0,
-      "score": 56,
+      "score": 55,
       "components": {
         "campaign_intensity": 60,
         "priority_category_breadth": 50,
-        "social_activity_7d": 63,
+        "social_activity_7d": 59,
         "platform_coverage": 50
       }
     },
@@ -537,11 +537,11 @@
       "priority_breadth": 0.75,
       "social_posts_7d": 16,
       "avg_platform_coverage": 1.33,
-      "score": 52,
+      "score": 51,
       "components": {
         "campaign_intensity": 60,
         "priority_category_breadth": 75,
-        "social_activity_7d": 27,
+        "social_activity_7d": 25,
         "platform_coverage": 33
       }
     }
@@ -605,6 +605,67 @@
           "musaned": 1,
           "sadad": 0,
           "activity_score": 70
+        }
+      }
+    },
+    {
+      "date": "2026-08-10",
+      "captured_at": "2026-08-10T05:08:17.659569+00:00",
+      "active_campaigns": 24,
+      "categories": {
+        "remittance": 8,
+        "card": 11,
+        "musaned": 2,
+        "sadad": 1
+      },
+      "competitors": {
+        "stc-bank": {
+          "active_campaigns": 5,
+          "remittance": 0,
+          "card": 5,
+          "musaned": 0,
+          "sadad": 0,
+          "activity_score": 63
+        },
+        "barq": {
+          "active_campaigns": 5,
+          "remittance": 2,
+          "card": 1,
+          "musaned": 0,
+          "sadad": 0,
+          "activity_score": 78
+        },
+        "mobily-pay": {
+          "active_campaigns": 3,
+          "remittance": 2,
+          "card": 1,
+          "musaned": 0,
+          "sadad": 0,
+          "activity_score": 55
+        },
+        "tiqmo": {
+          "active_campaigns": 3,
+          "remittance": 1,
+          "card": 1,
+          "musaned": 0,
+          "sadad": 1,
+          "activity_score": 63
+        },
+        "urpay": {
+          "active_campaigns": 3,
+          "remittance": 1,
+          "card": 1,
+          "musaned": 1,
+          "sadad": 0,
+          "activity_score": 51
+        },
+        "alinma-pay": {
+          "active_campaigns": 5,
+          "remittance": 2,
+          "card": 2,
+          "musaned": 1,
+          "sadad": 0,
+          "activity_score": 69
         }
       }
     }
