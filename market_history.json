@@ -62,7 +62,7 @@
   },
   {
     "date": "2026-08-10",
-    "captured_at": "2026-08-10T05:08:17.659569+00:00",
+    "captured_at": "2026-08-10T10:03:50.822093+00:00",
     "active_campaigns": 24,
     "categories": {
       "remittance": 8,
@@ -109,7 +109,7 @@
         "card": 1,
         "musaned": 1,
         "sadad": 0,
-        "activity_score": 51
+        "activity_score": 52
       },
       "alinma-pay": {
         "active_campaigns": 5,
