@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-08-11T00:02:30.211603+00:00",
+  "generated_at": "2026-08-11T08:32:21.255137+00:00",
   "score_methodology": {
     "name": "Competitive Activity Score",
     "scale": "0-100",
@@ -443,7 +443,7 @@
         "remittance"
       ],
       "priority_breadth": 0.5,
-      "social_posts_7d": 67,
+      "social_posts_7d": 66,
       "avg_platform_coverage": 2.0,
       "score": 78,
       "components": {
@@ -470,8 +470,29 @@
       "components": {
         "campaign_intensity": 100,
         "priority_category_breadth": 75,
-        "social_activity_7d": 25,
+        "social_activity_7d": 26,
         "platform_coverage": 50
+      }
+    },
+    {
+      "competitor_id": "tiqmo",
+      "name": "tiqmo",
+      "active_campaigns": 3,
+      "priority_category_count": 3,
+      "priority_categories": [
+        "card",
+        "remittance",
+        "sadad"
+      ],
+      "priority_breadth": 0.75,
+      "social_posts_7d": 24,
+      "avg_platform_coverage": 3.33,
+      "score": 64,
+      "components": {
+        "campaign_intensity": 60,
+        "priority_category_breadth": 75,
+        "social_activity_7d": 36,
+        "platform_coverage": 83
       }
     },
     {
@@ -489,29 +510,8 @@
       "components": {
         "campaign_intensity": 100,
         "priority_category_breadth": 25,
-        "social_activity_7d": 60,
+        "social_activity_7d": 61,
         "platform_coverage": 50
-      }
-    },
-    {
-      "competitor_id": "tiqmo",
-      "name": "tiqmo",
-      "active_campaigns": 3,
-      "priority_category_count": 3,
-      "priority_categories": [
-        "card",
-        "remittance",
-        "sadad"
-      ],
-      "priority_breadth": 0.75,
-      "social_posts_7d": 23,
-      "avg_platform_coverage": 3.33,
-      "score": 63,
-      "components": {
-        "campaign_intensity": 60,
-        "priority_category_breadth": 75,
-        "social_activity_7d": 34,
-        "platform_coverage": 83
       }
     },
     {
@@ -530,7 +530,7 @@
       "components": {
         "campaign_intensity": 60,
         "priority_category_breadth": 50,
-        "social_activity_7d": 57,
+        "social_activity_7d": 58,
         "platform_coverage": 50
       }
     },
@@ -681,7 +681,7 @@
     },
     {
       "date": "2026-08-11",
-      "captured_at": "2026-08-11T00:02:30.211603+00:00",
+      "captured_at": "2026-08-11T08:32:21.255137+00:00",
       "active_campaigns": 24,
       "categories": {
         "remittance": 8,
@@ -720,7 +720,7 @@
           "card": 1,
           "musaned": 0,
           "sadad": 1,
-          "activity_score": 63
+          "activity_score": 64
         },
         "urpay": {
           "active_campaigns": 3,
