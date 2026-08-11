@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-08-11T20:28:25.697084+00:00",
+  "generated_at": "2026-08-11T23:11:05.515532+00:00",
   "score_methodology": {
     "name": "Competitive Activity Score",
     "scale": "0-100",
@@ -15,7 +15,7 @@
   "market": {
     "active_campaigns": 24,
     "active_merchant_offers": 15,
-    "social_posts_7d": 220,
+    "social_posts_7d": 225,
     "category_intensity": [
       {
         "category_id": "remittance",
@@ -483,13 +483,13 @@
         "card"
       ],
       "priority_breadth": 0.25,
-      "social_posts_7d": 43,
+      "social_posts_7d": 48,
       "avg_platform_coverage": 2.0,
-      "score": 63,
+      "score": 64,
       "components": {
         "campaign_intensity": 100,
         "priority_category_breadth": 25,
-        "social_activity_7d": 57,
+        "social_activity_7d": 63,
         "platform_coverage": 50
       }
     },
@@ -681,7 +681,7 @@
     },
     {
       "date": "2026-08-11",
-      "captured_at": "2026-08-11T20:28:25.697084+00:00",
+      "captured_at": "2026-08-11T23:11:05.515532+00:00",
       "active_campaigns": 24,
       "categories": {
         "remittance": 8,
@@ -696,7 +696,7 @@
           "card": 5,
           "musaned": 0,
           "sadad": 0,
-          "activity_score": 63
+          "activity_score": 64
         },
         "barq": {
           "active_campaigns": 5,
