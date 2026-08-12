@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-08-11T23:11:05.515532+00:00",
+  "generated_at": "2026-08-12T04:39:51.923941+00:00",
   "score_methodology": {
     "name": "Competitive Activity Score",
     "scale": "0-100",
@@ -15,7 +15,7 @@
   "market": {
     "active_campaigns": 24,
     "active_merchant_offers": 15,
-    "social_posts_7d": 225,
+    "social_posts_7d": 224,
     "category_intensity": [
       {
         "category_id": "remittance",
@@ -73,7 +73,18 @@
       }
     ],
     "expiry_watch": {
-      "within_7_days": [],
+      "within_7_days": [
+        {
+          "id": "campaign:mobily-pay:5",
+          "competitor_id": "mobily-pay",
+          "title": "Summer Card Offers – Fees on Us & Up to 2% Cashback",
+          "category": "card",
+          "record_type": "campaign",
+          "end_date": "2026-08-19T00:00:00+00:00",
+          "days_remaining": 7,
+          "link": "https://mobilypay.sa/offer-details.html?id=offer-53"
+        }
+      ],
       "within_14_days": [
         {
           "id": "campaign:mobily-pay:5",
@@ -82,7 +93,7 @@
           "category": "card",
           "record_type": "campaign",
           "end_date": "2026-08-19T00:00:00+00:00",
-          "days_remaining": 8,
+          "days_remaining": 7,
           "link": "https://mobilypay.sa/offer-details.html?id=offer-53"
         },
         {
@@ -92,7 +103,7 @@
           "category": "card",
           "record_type": "campaign",
           "end_date": "2026-08-20T00:00:00+00:00",
-          "days_remaining": 9,
+          "days_remaining": 8,
           "link": "https://stcbank.com.sa/en/web/guest/w/visa_cards_rewards"
         },
         {
@@ -102,7 +113,7 @@
           "category": "merchant",
           "record_type": "merchant_offer",
           "end_date": "2026-08-25T00:00:00+00:00",
-          "days_remaining": 14,
+          "days_remaining": 13,
           "link": "https://stcbank.com.sa/en/web/guest/w/loca"
         }
       ],
@@ -114,7 +125,7 @@
           "category": "card",
           "record_type": "campaign",
           "end_date": "2026-08-19T00:00:00+00:00",
-          "days_remaining": 8,
+          "days_remaining": 7,
           "link": "https://mobilypay.sa/offer-details.html?id=offer-53"
         },
         {
@@ -124,7 +135,7 @@
           "category": "card",
           "record_type": "campaign",
           "end_date": "2026-08-20T00:00:00+00:00",
-          "days_remaining": 9,
+          "days_remaining": 8,
           "link": "https://stcbank.com.sa/en/web/guest/w/visa_cards_rewards"
         },
         {
@@ -134,7 +145,7 @@
           "category": "merchant",
           "record_type": "merchant_offer",
           "end_date": "2026-08-25T00:00:00+00:00",
-          "days_remaining": 14,
+          "days_remaining": 13,
           "link": "https://stcbank.com.sa/en/web/guest/w/loca"
         },
         {
@@ -144,7 +155,7 @@
           "category": "card",
           "record_type": "campaign",
           "end_date": "2026-08-31T00:00:00+00:00",
-          "days_remaining": 20,
+          "days_remaining": 19,
           "link": "https://stcbank.com.sa/en/web/guest/w/international-purchases-with-0-fees"
         },
         {
@@ -154,7 +165,7 @@
           "category": "card",
           "record_type": "campaign",
           "end_date": "2026-09-03T00:00:00+00:00",
-          "days_remaining": 23,
+          "days_remaining": 22,
           "link": "https://stcbank.com.sa/en/web/guest/w/international-purchases-with-0-fees"
         }
       ]
@@ -443,7 +454,7 @@
         "remittance"
       ],
       "priority_breadth": 0.5,
-      "social_posts_7d": 76,
+      "social_posts_7d": 75,
       "avg_platform_coverage": 2.0,
       "score": 78,
       "components": {
@@ -470,7 +481,7 @@
       "components": {
         "campaign_intensity": 100,
         "priority_category_breadth": 75,
-        "social_activity_7d": 22,
+        "social_activity_7d": 23,
         "platform_coverage": 50
       }
     },
@@ -489,7 +500,7 @@
       "components": {
         "campaign_intensity": 100,
         "priority_category_breadth": 25,
-        "social_activity_7d": 63,
+        "social_activity_7d": 64,
         "platform_coverage": 50
       }
     },
@@ -530,7 +541,7 @@
       "components": {
         "campaign_intensity": 60,
         "priority_category_breadth": 50,
-        "social_activity_7d": 47,
+        "social_activity_7d": 48,
         "platform_coverage": 50
       }
     },
@@ -547,11 +558,11 @@
       "priority_breadth": 0.75,
       "social_posts_7d": 23,
       "avg_platform_coverage": 1.33,
-      "score": 52,
+      "score": 53,
       "components": {
         "campaign_intensity": 60,
         "priority_category_breadth": 75,
-        "social_activity_7d": 30,
+        "social_activity_7d": 31,
         "platform_coverage": 33
       }
     }
@@ -729,6 +740,67 @@
           "musaned": 1,
           "sadad": 0,
           "activity_score": 52
+        },
+        "alinma-pay": {
+          "active_campaigns": 5,
+          "remittance": 2,
+          "card": 2,
+          "musaned": 1,
+          "sadad": 0,
+          "activity_score": 68
+        }
+      }
+    },
+    {
+      "date": "2026-08-12",
+      "captured_at": "2026-08-12T04:39:51.923941+00:00",
+      "active_campaigns": 24,
+      "categories": {
+        "remittance": 8,
+        "card": 11,
+        "musaned": 2,
+        "sadad": 1
+      },
+      "competitors": {
+        "stc-bank": {
+          "active_campaigns": 5,
+          "remittance": 0,
+          "card": 5,
+          "musaned": 0,
+          "sadad": 0,
+          "activity_score": 64
+        },
+        "barq": {
+          "active_campaigns": 5,
+          "remittance": 2,
+          "card": 1,
+          "musaned": 0,
+          "sadad": 0,
+          "activity_score": 78
+        },
+        "mobily-pay": {
+          "active_campaigns": 3,
+          "remittance": 2,
+          "card": 1,
+          "musaned": 0,
+          "sadad": 0,
+          "activity_score": 53
+        },
+        "tiqmo": {
+          "active_campaigns": 3,
+          "remittance": 1,
+          "card": 1,
+          "musaned": 0,
+          "sadad": 1,
+          "activity_score": 63
+        },
+        "urpay": {
+          "active_campaigns": 3,
+          "remittance": 1,
+          "card": 1,
+          "musaned": 1,
+          "sadad": 0,
+          "activity_score": 53
         },
         "alinma-pay": {
           "active_campaigns": 5,
