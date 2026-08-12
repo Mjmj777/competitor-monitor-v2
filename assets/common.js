@@ -1,6 +1,6 @@
 (() => {
   "use strict";
-  const LANG_KEY="cm_v5_language", ALERT_KEY="cm_v5_alert_ack", OVERRIDE_KEY="cm_v5_manual_overrides", DELTA_KEY="cm_v5_last_delta_export";
+  const LANG_KEY="cm_v54_language", ALERT_KEY="cm_v5_alert_ack", OVERRIDE_KEY="cm_v5_manual_overrides", DELTA_KEY="cm_v5_last_delta_export";
   const COLORS=["#0f766e","#2563eb","#7c3aed","#d97706","#dc2626","#475569"];
   const I18N={
     ar:{
@@ -34,7 +34,7 @@
       featuredCampaigns:"Current campaigns",viewAllCampaigns:"View all campaigns",noCurrentCampaigns:"No current campaigns",aiSummary:"Management summary",whatChanged:"What changed?",whyMatters:"Why it matters",managementTakeaway:"Management takeaway",categorySnapshot:"Category snapshot",noMedia:"No media available",language:"العربية"
     }
   };
-  const language=()=>localStorage.getItem(LANG_KEY)||"ar"; const t=k=>I18N[language()]?.[k]??I18N.en[k]??k;
+  const language=()=>localStorage.getItem(LANG_KEY)||"en"; const t=k=>I18N[language()]?.[k]??I18N.en[k]??k;
   function setLanguage(v){localStorage.setItem(LANG_KEY,v);applyLanguage();window.dispatchEvent(new CustomEvent("cm:language"));}
   function applyLanguage(){const l=language();document.documentElement.lang=l;document.documentElement.dir=l==="ar"?"rtl":"ltr";document.querySelectorAll("[data-i18n]").forEach(n=>n.textContent=t(n.dataset.i18n));document.querySelectorAll("[data-i18n-placeholder]").forEach(n=>n.placeholder=t(n.dataset.i18nPlaceholder));document.querySelectorAll("[data-language-toggle]").forEach(n=>{n.textContent=t("language");n.onclick=()=>setLanguage(l==="ar"?"en":"ar");});}
   const initLanguage=applyLanguage;
