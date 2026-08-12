@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-08-12T04:39:51.923941+00:00",
+  "generated_at": "2026-08-12T04:44:14.431045+00:00",
   "score_methodology": {
     "name": "Competitive Activity Score",
     "scale": "0-100",
@@ -15,7 +15,7 @@
   "market": {
     "active_campaigns": 24,
     "active_merchant_offers": 15,
-    "social_posts_7d": 224,
+    "social_posts_7d": 223,
     "category_intensity": [
       {
         "category_id": "remittance",
@@ -494,13 +494,13 @@
         "card"
       ],
       "priority_breadth": 0.25,
-      "social_posts_7d": 48,
+      "social_posts_7d": 47,
       "avg_platform_coverage": 2.0,
       "score": 64,
       "components": {
         "campaign_intensity": 100,
         "priority_category_breadth": 25,
-        "social_activity_7d": 64,
+        "social_activity_7d": 63,
         "platform_coverage": 50
       }
     },
