@@ -28,6 +28,73 @@ MECHANICS = {
     "prize_draw":["win","winner","draw","prize","اربح","فائز","سحب","جائزة"],"reward":["reward","points","miles","مكافأة","نقاط","أميال"],"preferred_rate":["preferred rate","special rate","exchange rate","fx rate","سعر صرف","سعر تفضيلي"]
 }
 
+WINNER_ANNOUNCEMENT_WORDS=["winner","winners","congratulations","congrats","winner announcement","فائز","فائزة","فائزين","فائزينا","الفائز","الفائزة","الفائزين","مبروك","نبارك","تهانينا"]
+SOCIAL_HOSTS=("instagram.com","facebook.com","m.facebook.com","x.com","twitter.com","tiktok.com")
+
+def is_winner_announcement(item):
+    text=f"{item.get('title','')} {item.get('snippet','')}".casefold()
+    return item.get("post_role")=="winner_announcement" or any(w.casefold() in text for w in WINNER_ANNOUNCEMENT_WORDS)
+
+def social_url(value):
+    if not value:return False
+    try:
+        host=urlsplit(str(value)).netloc.casefold().removeprefix("www.")
+        return any(host==h or host.endswith("."+h) for h in SOCIAL_HOSTS)
+    except Exception:return False
+
+def generic_offers_url(value, config, competitor_id):
+    if not value:return True
+    try:
+        ident=detail_url_identity(value) if "detail_url_identity" in globals() else str(value).strip().casefold().rstrip("/")
+        for c in config.get("competitors",[]):
+            if c.get("id")!=competitor_id:continue
+            vals=[c.get("website"),c.get("offers_url")]+[x.get("url") for x in c.get("website_sources",[]) if x.get("url")]
+            for v in vals:
+                if not v:continue
+                other=detail_url_identity(v) if "detail_url_identity" in globals() else str(v).strip().casefold().rstrip("/")
+                if ident==other:return True
+        return False
+    except Exception:return False
+
+def accepted_direct_source(item, config):
+    # Specific official social post is accepted even when no dedicated campaign page exists.
+    if any(social_url(v) for v in (item.get("social_links") or {}).values()):return True
+    for key in ("official_campaign_page_url","primary_official_source_url","link"):
+        value=item.get(key)
+        if not value:continue
+        if social_url(value):return True
+        if str(value).startswith(("http://","https://")) and not generic_offers_url(value,config,item.get("competitor_id")):
+            return True
+    return False
+
+def enforce_record_integrity(data, config):
+    """Social posts cannot create counted campaigns; unsourced campaigns are quarantined."""
+    changed=0
+    for item in data.get("items",[]):
+        if item.get("source_type")=="social" and item.get("content_type") in {"campaign","merchant_offer"}:
+            suggested=item.get("content_type")
+            if item.get("campaign_id"):
+                item["content_type"]="social_post"
+                item["review_required"]=False
+                item["review_reasons"]=[r for r in (item.get("review_reasons") or []) if r not in {"social_post_cannot_create_campaign","winner_announcement_unlinked"}]
+            else:
+                item["content_type"]="review"
+                item["suggested_record_type"]=suggested
+                item["review_required"]=True
+                item["review_reasons"]=list(dict.fromkeys((item.get("review_reasons") or [])+["social_post_cannot_create_campaign"]))
+                if is_winner_announcement(item):
+                    item["review_reasons"]=list(dict.fromkeys(item["review_reasons"]+["winner_announcement_unlinked"]))
+            changed+=1
+        if item.get("content_type")=="campaign" and not accepted_direct_source(item,config):
+            item["content_type"]="review"
+            item["suggested_record_type"]="campaign"
+            item["review_required"]=True
+            item["current_status"]="Needs Review"
+            item["review_reasons"]=list(dict.fromkeys((item.get("review_reasons") or [])+["missing_direct_official_source"]))
+            changed+=1
+    data["record_integrity"]={"quarantined_or_demoted":changed,"at":iso(now())}
+    return changed
+
 
 def load(path: Path, default):
     try: return json.loads(path.read_text(encoding="utf-8"))
@@ -256,11 +323,11 @@ def ai_classify(posts,campaigns,state,config):
     client=openai_client()
     if not client:return {}
     model=config.get("ai",{}).get("classification_model","gpt-5.6-terra")
-    allowed_campaigns=[{"id":c["id"],"title":c.get("title"),"category":c.get("campaign_category"),"mechanic":c.get("mechanic"),"corridors":c.get("corridors",[])} for c in campaigns if c.get("active") is not False]
+    allowed_campaigns=[{"id":c["id"],"competitor_id":c.get("competitor_id"),"title":c.get("title"),"category":c.get("campaign_category"),"mechanic":c.get("mechanic"),"corridors":c.get("corridors",[])} for c in campaigns if c.get("active") is not False]
     rows=[{"id":p["id"],"competitor_id":p.get("competitor_id"),"title":p.get("title"),"text":p.get("snippet"),"platform":p.get("platform"),"published_at":p.get("published_at")} for p in posts]
     categories=["remittance","musaned","sadad","card","engagement","merchant","other"]
     schema={"type":"object","additionalProperties":False,"properties":{"items":{"type":"array","items":{"type":"object","additionalProperties":False,"properties":{"id":{"type":"string"},"decision":{"type":"string","enum":["link","review","standalone"]},"record_type":{"type":"string","enum":["campaign","merchant_offer","social_post","awareness","review"]},"category":{"type":"string","enum":categories},"matched_campaign_id":{"type":["string","null"]}},"required":["id","decision","record_type","category","matched_campaign_id"]}}},"required":["items"]}
-    instructions="""Classify official competitor social posts for a Saudi fintech intelligence monitor. Link to an existing campaign only when the meaning, product/corridor and mechanic support the match. A product-awareness post without a concrete campaign mechanic is awareness/social content, not a campaign. Merchant partner discounts are merchant_offer. If uncertain use decision=review. Return only the schema. Do not invent dates, values or campaigns."""
+    instructions="""Classify official competitor social posts for a Saudi fintech intelligence monitor. A social post NEVER creates a counted campaign by itself. Winner announcements, congratulations, reminders, winner/result posts, and follow-up posts must be linked to an existing campaign when supported; otherwise use decision=review. NEVER link across competitors: matched_campaign_id must belong to the same competitor_id as the post/item. Link to an existing campaign only when the meaning, product/corridor and mechanic support the match. A product-awareness post without a concrete campaign mechanic is awareness/social content, not a campaign. Merchant partner discounts are merchant_offer. If uncertain use decision=review. Return only the schema. Do not invent dates, values or campaigns."""
     try:
         r=client.responses.create(model=model,reasoning={"effort":config.get("ai",{}).get("classification_reasoning","low")},text={"format":{"type":"json_schema","name":"post_classification","schema":schema,"strict":True}},input=[{"role":"system","content":instructions},{"role":"user","content":json.dumps({"campaigns":allowed_campaigns,"posts":rows},ensure_ascii=False)}])
         result=json.loads(r.output_text); inp,out=usage_numbers(r); add_usage(state,"classification",model,inp,out,config); return {x["id"]:x for x in result.get("items",[])}
@@ -282,22 +349,42 @@ def enrich_social(data,state,config,overrides):
     for p in [i for i in items if i.get("source_type")=="social" and not i.get("campaign_id")]:
         d=dt(p.get("published_at")) or dt(p.get("last_changed")) or datetime.min.replace(tzinfo=timezone.utc)
         if d<recent:continue
-        key=hash_text(p.get("title"),p.get("snippet"),p.get("link")); cached=cache.get(p["id"],{})
-        if cached.get("content_key")==key and cached.get("decision"):p.update(cached["decision"]);continue
+        key=hash_text("classifier-v2",p.get("title"),p.get("snippet"),p.get("link")); cached=cache.get(p["id"],{})
+        if cached.get("content_key")==key and cached.get("decision"):
+            dec=dict(cached["decision"])
+            cid=dec.get("campaign_id") or dec.get("matched_campaign_id")
+            if cid in byid and byid[cid].get("competitor_id")!=p.get("competitor_id"):
+                dec.pop("campaign_id",None);dec["matched_campaign_id"]=None;dec["content_type"]="review";dec["review_required"]=True
+                dec["review_reasons"]=list(dict.fromkeys((dec.get("review_reasons") or [])+["invalid_cross_competitor_match"]))
+            if dec.get("content_type") in {"campaign","merchant_offer"}:
+                dec["suggested_record_type"]=dec.get("content_type");dec["content_type"]="review";dec["review_required"]=True
+                dec["review_reasons"]=list(dict.fromkeys((dec.get("review_reasons") or [])+["social_post_cannot_create_campaign"]))
+            p.update(dec);continue
         ambiguous.append(p)
     decisions=ai_classify(ambiguous[:maxn],campaigns,state,config)
     for p in ambiguous[:maxn]:
         d=decisions.get(p["id"])
         if not d:continue
-        patch={"ai_classification":d,"content_type":d["record_type"],"campaign_category":d["category"],"primary_category":d["category"],"categories":[d["category"]]};match=d.get("matched_campaign_id")
-        if d["decision"]=="link" and match in byid:patch.update(campaign_id=match,match_method="ai",review_required=False,review_reasons=[])
-        elif d["decision"]=="review":patch.update(review_required=True,review_reasons=list(dict.fromkeys((p.get("review_reasons") or [])+["ai_needs_review"])),suggested_campaign_id=match if match in byid else p.get("suggested_campaign_id"))
-        else:patch.update(review_required=False if d["record_type"] in {"awareness","social_post"} else p.get("review_required",False))
-        p.update(patch);cache[p["id"]]={"content_key":hash_text(p.get("title"),p.get("snippet"),p.get("link")),"decision":patch,"at":iso(now())}
+        patch={"ai_classification":d,"campaign_category":d["category"],"primary_category":d["category"],"categories":[d["category"]]};match=d.get("matched_campaign_id")
+        if match in byid and byid[match].get("competitor_id")!=p.get("competitor_id"):
+            match=None; d={**d,"decision":"review","matched_campaign_id":None}; patch["ai_classification"]=d
+        if d["decision"]=="link" and match in byid:
+            # The campaign remains the authoritative record; the social item remains a post.
+            patch.update(content_type="social_post",campaign_id=match,match_method="ai",review_required=False,review_reasons=[])
+        elif d["record_type"] in {"campaign","merchant_offer"}:
+            # Never promote a social post into a counted campaign automatically.
+            patch.update(content_type="review",suggested_record_type=d["record_type"],review_required=True,review_reasons=list(dict.fromkeys((p.get("review_reasons") or [])+["social_post_cannot_create_campaign"])),suggested_campaign_id=match if match in byid else p.get("suggested_campaign_id"))
+        elif d["decision"]=="review":
+            patch.update(content_type="review",review_required=True,review_reasons=list(dict.fromkeys((p.get("review_reasons") or [])+["ai_needs_review"])),suggested_campaign_id=match if match in byid else p.get("suggested_campaign_id"))
+        else:
+            patch.update(content_type=d["record_type"] if d["record_type"] in {"awareness","social_post"} else "social_post",review_required=False)
+        if is_winner_announcement(p) and not patch.get("campaign_id"):
+            patch.update(content_type="review",review_required=True,review_reasons=list(dict.fromkeys((patch.get("review_reasons") or [])+["winner_announcement_unlinked"])))
+        p.update(patch);cache[p["id"]]={"content_key":hash_text("classifier-v2",p.get("title"),p.get("snippet"),p.get("link")),"decision":patch,"at":iso(now())}
     # Apply the same hybrid classifier to newly discovered ambiguous website records.
     extra=[]
     for row in [i for i in items if i.get("source_type") in {"website"} and (i.get("review_required") or i.get("content_type")=="review")]:
-        key=hash_text(row.get("title"),row.get("snippet"),row.get("link")); cached=cache.get(row["id"],{})
+        key=hash_text("classifier-v2",row.get("title"),row.get("snippet"),row.get("link")); cached=cache.get(row["id"],{})
         if cached.get("content_key")==key and cached.get("decision"):
             row.update(cached["decision"]); continue
         extra.append(row)
@@ -305,6 +392,9 @@ def enrich_social(data,state,config,overrides):
     for row in extra[:maxn]:
         d=extra_decisions.get(row["id"]);
         if not d: continue
+        match=d.get("matched_campaign_id")
+        if match in byid and byid[match].get("competitor_id")!=row.get("competitor_id"):
+            d={**d,"decision":"review","matched_campaign_id":None}
         patch={"ai_classification":d,"campaign_category":d["category"],"primary_category":d["category"],"categories":[d["category"]]}
         if d["decision"]=="review":
             patch.update(content_type="review",review_required=True,review_reasons=["ai_needs_review"])
@@ -317,7 +407,7 @@ def enrich_social(data,state,config,overrides):
             patch.update(content_type="review",suggested_record_type="campaign",review_required=True,review_reasons=["new_official_campaign_needs_review"])
         else:
             patch.update(content_type=d["record_type"],review_required=False,review_reasons=[])
-        row.update(patch); cache[row["id"]]={"content_key":hash_text(row.get("title"),row.get("snippet"),row.get("link")),"decision":patch,"at":iso(now())}
+        row.update(patch); cache[row["id"]]={"content_key":hash_text("classifier-v2",row.get("title"),row.get("snippet"),row.get("link")),"decision":patch,"at":iso(now())}
 
     linked=defaultdict(list)
     for p in [i for i in items if i.get("source_type")=="social" and i.get("campaign_id") in byid]:linked[p["campaign_id"]].append({k:p.get(k) for k in ["id","platform","title","link","published_at","media","match_method"]})
@@ -333,7 +423,7 @@ def enrich_social(data,state,config,overrides):
 
 ARABIC_DIACRITICS=re.compile(r"[\u0610-\u061a\u064b-\u065f\u0670\u06d6-\u06ed]")
 TITLE_STOP={"offer","offers","campaign","campaigns","promotion","promotions","promo","deal","deals","عرض","عروض","حملة","حملات","ترويج","ترويجي"}
-GENERIC_TITLE_KEYS={"read more","learn more","details","view details","more","اعرف المزيد","المزيد","التفاصيل","عرض التفاصيل"}
+GENERIC_TITLE_KEYS={"read more","learn more","details","view details","more","explore more","view offer","اعرف المزيد","استكشف المزيد","المزيد","التفاصيل","تفاصيل العرض","عرض التفاصيل"}
 
 def campaign_title_key(value):
     text=html_lib.unescape(clean(value,500))
@@ -499,7 +589,7 @@ def recompute_stats(data):
 def main():
     data=load(DATA_PATH,{});state=load(STATE_PATH,{"schema_version":5,"items":{}});config=load(CONFIG_PATH,{});overrides=load(OVERRIDES_PATH,{"items":{},"new_items":[]})
     if not data.get("items"):print("No data items");return 0
-    add_manual_new_items(data,overrides);verify_details(data,state,config,overrides);enrich_social(data,state,config,overrides);consolidate_duplicates(data);detect_duplicates_replacements(data)
+    add_manual_new_items(data,overrides);verify_details(data,state,config,overrides);enforce_record_integrity(data,config);enrich_social(data,state,config,overrides);enforce_record_integrity(data,config);consolidate_duplicates(data);detect_duplicates_replacements(data)
     for item in data.get("items",[]):
         item["review_priority"]=review_priority(item);item.pop("confidence",None) # confidence stays internal, never a displayed score
     snap=snapshot_campaigns(data["items"]);delta=material_delta(state.get("summary_snapshot",{}),snap);summary=ai_summary(data["items"],delta,state,config)

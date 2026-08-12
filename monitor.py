@@ -32,6 +32,17 @@ DATA_PATH = BASE_DIR / "data.json"
 USER_AGENT = "Mozilla/5.0 CompetitorMonitor/4.0"
 TRACKING_KEYS = {"fbclid", "gclid", "ref", "source", "mc_cid", "mc_eid"}
 
+WINNER_ANNOUNCEMENT_WORDS = [
+    "winner", "winners", "congratulations", "congrats", "winner announcement",
+    "فائز", "فائزة", "فائزين", "فائزينا", "الفائز", "الفائزة", "الفائزين", "مبروك", "نبارك", "تهانينا"
+]
+
+def social_post_role(text: str) -> str:
+    folded = clean(text, 5000).casefold()
+    if any(word.casefold() in folded for word in WINNER_ANNOUNCEMENT_WORDS):
+        return "winner_announcement"
+    return "promotion_or_content"
+
 
 def now_utc() -> datetime:
     return datetime.now(timezone.utc)
@@ -179,7 +190,8 @@ _TITLE_STOP = {
     "offer", "offers", "campaign", "campaigns", "promotion", "promotions", "promo", "deal", "deals",
     "عرض", "عروض", "حملة", "حملات", "ترويج", "ترويجي"
 }
-_GENERIC_TITLES = {"read more", "learn more", "details", "view details", "more", "اعرف المزيد", "المزيد", "التفاصيل", "عرض التفاصيل"}
+_GENERIC_TITLES = {"read more", "learn more", "details", "view details", "more", "explore more", "view offer",
+                   "اعرف المزيد", "استكشف المزيد", "المزيد", "التفاصيل", "تفاصيل العرض", "عرض التفاصيل"}
 
 
 def normalized_title(value: str | None) -> str:
@@ -253,7 +265,19 @@ def website_items(http: requests.Session, competitor: dict[str, Any], source: di
                 if candidate.name in {"article", "li", "div", "section"}:
                     parent = candidate
                     break
-            title = clean(anchor.get_text(" ", strip=True) or anchor.get("aria-label") or anchor.get("title"), 180)
+            # Prefer a real offer/card heading over generic CTA text such as "Explore more" / "استكشف المزيد".
+            raw_candidates = [anchor.get("aria-label"), anchor.get("title")]
+            heading = anchor.find(["h1","h2","h3","h4","h5","h6"]) or (parent.find(["h1","h2","h3","h4","h5","h6"]) if parent else None)
+            if heading is not None:
+                raw_candidates.append(heading.get_text(" ", strip=True))
+            raw_candidates.append(anchor.get_text(" ", strip=True))
+            title = ""
+            for candidate in raw_candidates:
+                candidate = clean(candidate, 180)
+                if candidate and not generic_title(candidate):
+                    title = candidate
+                    break
+            title = title or clean(anchor.get_text(" ", strip=True), 180) or "Discovered official offer"
             snippet = clean(parent.get_text(" ", strip=True), 500)
             combined = f"{link} {title} {snippet}".casefold()
             if excludes and any(word in combined for word in excludes):
@@ -363,6 +387,7 @@ def social_items(http: requests.Session, competitor: dict[str, Any], platform: s
                 "title": row["title"], "snippet": row["summary"], "link": link, "social_links": {platform: link},
                 "social_link_count": 1, "published_at": row["published_at"], "active": True, "direct_link": True,
                 "verified": True, "review_required": False, "review_reasons": [], "confidence": "medium",
+                "post_role": social_post_role(combined),
                 "mechanic_tags": mechanics, "theme_tags": themes, "media": row["media"],
             })
         status.update(success=True, item_count=len(items))
