@@ -1,5 +1,5 @@
 {
-  "schema_version": 4,
+  "schema_version": 5,
   "settings": {
     "new_badge_hours": 24,
     "inactive_after_missed_runs": 3,
@@ -7,7 +7,9 @@
     "request_timeout_seconds": 18,
     "max_items_per_source": 80,
     "inventory_path": "inventory.json",
-    "manual_overrides_path": "manual_overrides.json"
+    "manual_overrides_path": "manual_overrides.json",
+    "detail_verification_interval_hours": 6,
+    "max_detail_checks_per_run": 16
   },
   "content_types": [
     {
@@ -514,5 +516,25 @@
       "name_ar": "alinma pay"
     }
   ],
-  "classification_overrides": []
+  "classification_overrides": [],
+  "ai": {
+    "classification_enabled": true,
+    "classification_model": "gpt-5.6-terra",
+    "classification_reasoning": "low",
+    "classification_max_items_per_run": 20,
+    "classification_recent_days": 14,
+    "summary_enabled": true,
+    "summary_model": "gpt-5.6-sol",
+    "summary_reasoning": "xhigh",
+    "pricing": {
+      "gpt-5.6-terra": {
+        "input": 2.5,
+        "output": 15.0
+      },
+      "gpt-5.6-sol": {
+        "input": 5.0,
+        "output": 30.0
+      }
+    }
+  }
 }
