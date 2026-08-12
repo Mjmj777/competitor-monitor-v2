@@ -1,10 +1,10 @@
 from __future__ import annotations
-import hashlib, json, os, re
+import hashlib, html as html_lib, json, os, re, unicodedata
 from collections import Counter, defaultdict
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import Any
-from urllib.parse import urljoin
+from urllib.parse import parse_qsl, urlencode, urljoin, urlsplit
 
 import requests
 from bs4 import BeautifulSoup
@@ -306,9 +306,17 @@ def enrich_social(data,state,config,overrides):
         d=extra_decisions.get(row["id"]);
         if not d: continue
         patch={"ai_classification":d,"campaign_category":d["category"],"primary_category":d["category"],"categories":[d["category"]]}
-        if d["decision"]=="review": patch.update(content_type="review",review_required=True,review_reasons=["ai_needs_review"])
-        elif d["decision"]=="link" and d.get("matched_campaign_id") in byid: patch.update(duplicate_candidate_id=d["matched_campaign_id"],review_required=True,review_reasons=["possible_duplicate_campaign"])
-        else: patch.update(content_type=d["record_type"],review_required=False,review_reasons=[])
+        if d["decision"]=="review":
+            patch.update(content_type="review",review_required=True,review_reasons=["ai_needs_review"])
+        elif d["decision"]=="link" and d.get("matched_campaign_id") in byid:
+            # Existing campaign wins. This website row will be physically merged/removed below.
+            patch.update(duplicate_candidate_id=d["matched_campaign_id"],content_type="review",review_required=True,review_reasons=["possible_duplicate_campaign"])
+        elif d["record_type"]=="campaign":
+            # Critical anti-dup rule: a newly discovered official-page row never becomes a counted
+            # campaign automatically. Keep it in Needs Review until it is matched or manually approved.
+            patch.update(content_type="review",suggested_record_type="campaign",review_required=True,review_reasons=["new_official_campaign_needs_review"])
+        else:
+            patch.update(content_type=d["record_type"],review_required=False,review_reasons=[])
         row.update(patch); cache[row["id"]]={"content_key":hash_text(row.get("title"),row.get("snippet"),row.get("link")),"decision":patch,"at":iso(now())}
 
     linked=defaultdict(list)
@@ -323,11 +331,40 @@ def enrich_social(data,state,config,overrides):
             if p.get("platform") and p.get("link"):links[p["platform"]]=p["link"]
         c["social_links"]=links;c["social_link_count"]=len(links)
 
+ARABIC_DIACRITICS=re.compile(r"[\u0610-\u061a\u064b-\u065f\u0670\u06d6-\u06ed]")
+TITLE_STOP={"offer","offers","campaign","campaigns","promotion","promotions","promo","deal","deals","عرض","عروض","حملة","حملات","ترويج","ترويجي"}
+GENERIC_TITLE_KEYS={"read more","learn more","details","view details","more","اعرف المزيد","المزيد","التفاصيل","عرض التفاصيل"}
+
 def campaign_title_key(value):
-    text=clean(value,500).casefold()
+    text=html_lib.unescape(clean(value,500))
+    text=unicodedata.normalize("NFKC",text).casefold().replace("ـ","")
+    text=ARABIC_DIACRITICS.sub("",text)
+    text=text.translate(str.maketrans("٠١٢٣٤٥٦٧٨٩۰۱۲۳۴۵۶۷۸۹","01234567890123456789"))
+    text=re.sub(r"[®™©]"," ",text)
     text=re.sub(r"[^\w%]+"," ",text,flags=re.UNICODE)
-    stop={"offer","offers","campaign","promotion","عرض","عروض","حملة"}
-    return " ".join(x for x in text.split() if x not in stop).strip()
+    return " ".join(x for x in text.split() if x not in TITLE_STOP).strip()
+
+def generic_campaign_title(value):
+    key=campaign_title_key(value)
+    return key in {campaign_title_key(x) for x in GENERIC_TITLE_KEYS}
+
+def detail_url_identity(value):
+    if not value:return ""
+    try:
+        parts=urlsplit(str(value).strip())
+        host=parts.netloc.casefold()
+        if host.startswith("www."):host=host[4:]
+        path=re.sub(r"/{2,}","/",parts.path or "/").rstrip("/").casefold() or "/"
+        path=re.sub(r"^/(?:ar|en)(?=/)","",path)
+        query=urlencode(sorted((k.casefold(),v) for k,v in parse_qsl(parts.query,keep_blank_values=True) if not k.casefold().startswith("utm_")))
+        return f"{host}{path}"+(f"?{query}" if query else "")
+    except Exception:return str(value).strip().casefold().rstrip("/")
+
+def title_similarity(a,b):
+    aa=set(campaign_title_key(a).split());bb=set(campaign_title_key(b).split())
+    if not aa or not bb:return 0.0
+    if campaign_title_key(a)==campaign_title_key(b):return 1.0
+    return len(aa&bb)/(len(aa|bb) or 1)
 
 def merge_into_campaign(target, source):
     if source.get("official_campaign_page_url"):
@@ -340,34 +377,64 @@ def merge_into_campaign(target, source):
         if not target.get(f) and source.get(f): target[f]=source[f]
     if source.get("last_live_verified_at"): target["last_live_verified_at"]=source["last_live_verified_at"]
 
+def campaign_rank(row):
+    if row.get("source_type")=="inventory" and row.get("manual_override"):return 70
+    if row.get("source_type")=="inventory":return 60
+    if row.get("source_type")=="manual":return 50
+    if row.get("manual_override"):return 45
+    if row.get("verified") and row.get("official_campaign_page_url"):return 30
+    if row.get("source_type")=="website":return 20
+    return 10
+
 def consolidate_duplicates(data):
-    """Physically removes duplicate campaign rows instead of merely flagging them."""
-    items=data.get("items",[]); byid={i.get("id"):i for i in items}; remove=set()
-    # First: AI/heuristic website rows explicitly linked to an existing campaign.
+    """Physically remove duplicate campaigns and merge official evidence into one record.
+
+    Never merges across competitors. Official URL identity is strongest; exact normalized title is
+    next; near-title matching is intentionally strict and only within the same category.
+    """
+    items=data.get("items",[]);byid={i.get("id"):i for i in items};remove=set();redirect={}
+    # Explicit AI/heuristic link to an existing authoritative campaign.
     for row in items:
         target_id=row.get("duplicate_candidate_id")
-        if target_id in byid:
-            merge_into_campaign(byid[target_id],row); remove.add(row.get("id"))
-    # Second: same competitor + same normalized campaign title => one authoritative record.
-    seen={}
-    for row in items:
-        if row.get("id") in remove or row.get("content_type")!="campaign": continue
-        key=(row.get("competitor_id"),campaign_title_key(row.get("title")))
-        if not key[1]: continue
-        if key not in seen: seen[key]=row; continue
-        old=seen[key]
-        # Prefer inventory/manual as authoritative over a live-discovered duplicate.
-        rank=lambda x: 3 if x.get("source_type")=="inventory" else 2 if x.get("source_type")=="manual" else 1
-        target,dup=(old,row) if rank(old)>=rank(row) else (row,old)
-        seen[key]=target; merge_into_campaign(target,dup); remove.add(dup.get("id"))
+        if target_id in byid and row.get("id")!=target_id:
+            merge_into_campaign(byid[target_id],row);remove.add(row.get("id"));redirect[row.get("id")]=target_id
+
+    campaigns=[i for i in items if i.get("id") not in remove and i.get("content_type")=="campaign"]
+    campaigns.sort(key=campaign_rank,reverse=True)
+    kept=[];by_title={};by_url={}
+    for row in campaigns:
+        comp=row.get("competitor_id") or "";title_key=campaign_title_key(row.get("title"))
+        urls={detail_url_identity(u) for u in [row.get("official_campaign_page_url"),row.get("primary_official_source_url"),row.get("link")] if u};urls.discard("")
+        target=None
+        for u in urls:
+            if (comp,u) in by_url:target=by_url[(comp,u)];break
+        if target is None and title_key and not generic_campaign_title(row.get("title")):
+            target=by_title.get((comp,title_key))
+        if target is None and title_key and not generic_campaign_title(row.get("title")):
+            scored=[(title_similarity(row.get("title"),c.get("title")),c) for c in kept if c.get("competitor_id")==comp and c.get("campaign_category")==row.get("campaign_category")]
+            if scored:
+                score,cand=max(scored,key=lambda x:x[0])
+                if score>=.94:target=cand
+        if target is None:
+            kept.append(row)
+            if title_key and not generic_campaign_title(row.get("title")):by_title[(comp,title_key)]=row
+            for u in urls:by_url[(comp,u)]=row
+            continue
+        merge_into_campaign(target,row);remove.add(row.get("id"));redirect[row.get("id")]=target.get("id")
+        for f in ["summary","snippet","start_date","end_date","published_at","mechanic","eligibility","terms_note","operation_type"]:
+            if not target.get(f) and row.get(f):target[f]=row[f]
+        if title_key and not generic_campaign_title(row.get("title")):by_title[(comp,title_key)]=target
+        for u in urls:by_url[(comp,u)]=target
+
     if remove:
         data["items"]=[i for i in items if i.get("id") not in remove]
-        # Repoint linked social posts to retained campaigns when possible.
+        # Preserve post links after a duplicate campaign is removed.
         for p in data["items"]:
-            if p.get("campaign_id") in remove:
-                # Exact title-based fallback is intentionally conservative.
-                candidates=[c for c in data["items"] if c.get("content_type")=="campaign" and c.get("competitor_id")==p.get("competitor_id")]
-                if len(candidates)==1:p["campaign_id"]=candidates[0]["id"]
+            cid=p.get("campaign_id")
+            if cid in redirect:p["campaign_id"]=redirect[cid]
+            sid=p.get("suggested_campaign_id")
+            if sid in redirect:p["suggested_campaign_id"]=redirect[sid]
+    data["deduplication"]={"removed":len(remove),"at":iso(now())}
     return len(remove)
 
 def detect_duplicates_replacements(data):

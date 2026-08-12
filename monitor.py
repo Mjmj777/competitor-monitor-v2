@@ -11,6 +11,7 @@ import hashlib
 import html as html_lib
 import json
 import re
+import unicodedata
 import xml.etree.ElementTree as ET
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime, timedelta, timezone
@@ -173,11 +174,40 @@ def media_from_node(node: Any, base: str) -> dict[str, str] | None:
 
 
 
+_ARABIC_DIACRITICS = re.compile(r"[\u0610-\u061a\u064b-\u065f\u0670\u06d6-\u06ed]")
+_TITLE_STOP = {
+    "offer", "offers", "campaign", "campaigns", "promotion", "promotions", "promo", "deal", "deals",
+    "عرض", "عروض", "حملة", "حملات", "ترويج", "ترويجي"
+}
+_GENERIC_TITLES = {"read more", "learn more", "details", "view details", "more", "اعرف المزيد", "المزيد", "التفاصيل", "عرض التفاصيل"}
+
+
 def normalized_title(value: str | None) -> str:
-    text = clean(value).casefold()
+    """Unicode-safe identity key. Visually identical names must normalize identically."""
+    text = html_lib.unescape(clean(value))
+    text = unicodedata.normalize("NFKC", text).casefold().replace("ـ", "")
+    text = _ARABIC_DIACRITICS.sub("", text)
+    # Arabic-Indic / Eastern Arabic digits -> ASCII so date/value spelling does not fork an identity.
+    text = text.translate(str.maketrans("٠١٢٣٤٥٦٧٨٩۰۱۲۳۴۵۶۷۸۹", "01234567890123456789"))
+    text = re.sub(r"[®™©]", " ", text)
     text = re.sub(r"[^\w%]+", " ", text, flags=re.UNICODE)
-    stop = {"offer","offers","campaign","promotion","عرض","عروض","حملة"}
-    return " ".join(x for x in text.split() if x not in stop).strip()
+    return " ".join(x for x in text.split() if x not in _TITLE_STOP).strip()
+
+
+def url_identity(value: str | None) -> str:
+    """Canonical offer-detail identity; ignores tracking, www and ar/en locale path variants."""
+    if not value:
+        return ""
+    value = canonical(value, value) or clean(value)
+    try:
+        parts = urlsplit(value)
+        host = parts.netloc.casefold().removeprefix("www.")
+        path = re.sub(r"/{2,}", "/", parts.path or "/").rstrip("/").casefold() or "/"
+        path = re.sub(r"^/(?:ar|en)(?=/)", "", path)
+        query = urlencode(sorted((k.casefold(), v) for k, v in parse_qsl(parts.query, keep_blank_values=True)))
+        return f"{host}{path}" + (f"?{query}" if query else "")
+    except Exception:
+        return value.casefold().rstrip("/")
 
 
 def title_similarity(a: str | None, b: str | None) -> float:
@@ -185,6 +215,10 @@ def title_similarity(a: str | None, b: str | None) -> float:
     if not aa or not bb: return 0.0
     if normalized_title(a)==normalized_title(b): return 1.0
     return len(aa & bb) / max(1, len(aa | bb))
+
+
+def generic_title(value: str | None) -> bool:
+    return normalized_title(value) in {normalized_title(x) for x in _GENERIC_TITLES}
 
 
 def merge_campaign_fields(target: dict[str, Any], source: dict[str, Any]) -> None:
@@ -430,31 +464,61 @@ def match_inventory(inventory: list[dict[str, Any]], live: list[dict[str, Any]])
     return list(enriched.values()), remaining
 
 
+def campaign_rank(row: dict[str, Any]) -> int:
+    # Keep the Excel identity/record ID authoritative. Manual edits to that same row remain highest.
+    if row.get("source_type") == "inventory" and row.get("manual_override"): return 70
+    if row.get("source_type") == "inventory": return 60
+    if row.get("source_type") == "manual": return 50
+    if row.get("manual_override"): return 45
+    if row.get("verified") and row.get("official_campaign_page_url"): return 30
+    if row.get("source_type") == "website": return 20
+    return 10
+
+
 def deduplicate_campaign_records(items: list[dict[str, Any]]) -> list[dict[str, Any]]:
-    """Last safety net: one active campaign record per competitor/campaign identity."""
-    keep=[]; campaign_keys={}
-    for row in items:
-        if row.get("content_type") != "campaign":
-            keep.append(row); continue
-        urls=[]
-        for u in [row.get("official_campaign_page_url"),row.get("primary_official_source_url"),row.get("link")]:
-            if u: urls.append(canonical(u,u) or u)
+    """Hard dedup: one campaign per competitor and campaign identity.
+
+    Identity is resolved by official detail URL first, exact normalized title second, then a
+    conservative near-title match within the same category. Different competitors are never merged.
+    """
+    campaigns=[row for row in items if row.get("content_type") == "campaign"]
+    others=[row for row in items if row.get("content_type") != "campaign"]
+    # Process authoritative rows first so live discoveries enrich the Excel/manual record.
+    campaigns.sort(key=lambda r: campaign_rank(r), reverse=True)
+    kept: list[dict[str, Any]]=[]
+    by_url: dict[tuple[str,str], dict[str, Any]]={}
+    by_title: dict[tuple[str,str], dict[str, Any]]={}
+    for row in campaigns:
+        comp=row.get("competitor_id") or ""
         title_key=normalized_title(row.get("title"))
-        keys=[("url",row.get("competitor_id"),u) for u in urls]
-        if title_key: keys.append(("title",row.get("competitor_id"),title_key))
+        urls={url_identity(u) for u in [row.get("official_campaign_page_url"),row.get("primary_official_source_url"),row.get("link")] if u}
+        urls.discard("")
         target=None
-        for k in keys:
-            if k in campaign_keys: target=campaign_keys[k]; break
+        for u in urls:
+            if (comp,u) in by_url:
+                target=by_url[(comp,u)]; break
+        if target is None and title_key and not generic_title(row.get("title")):
+            target=by_title.get((comp,title_key))
+        if target is None and title_key and not generic_title(row.get("title")):
+            # Safety for tiny punctuation/site-title differences. 0.94 is intentionally strict.
+            candidates=[c for c in kept if c.get("competitor_id")==comp and c.get("campaign_category")==row.get("campaign_category")]
+            scored=[(title_similarity(row.get("title"),c.get("title")),c) for c in candidates]
+            if scored:
+                score,cand=max(scored,key=lambda x:x[0])
+                if score >= .94: target=cand
         if target is None:
-            keep.append(row)
-            for k in keys: campaign_keys[k]=row
-        else:
-            merge_campaign_fields(target,row)
-            # Prefer the richer/manual/inventory fields while preserving one record only.
-            for f in ["summary","snippet","start_date","end_date","published_at","mechanic","eligibility","terms_note"]:
-                if not target.get(f) and row.get(f): target[f]=row[f]
-            target["review_required"] = bool(target.get("review_required") and row.get("review_required"))
-    return keep
+            kept.append(row)
+            if title_key and not generic_title(row.get("title")): by_title[(comp,title_key)]=row
+            for u in urls: by_url[(comp,u)]=row
+            continue
+        merge_campaign_fields(target,row)
+        for f in ["summary","snippet","start_date","end_date","published_at","mechanic","eligibility","terms_note","operation_type"]:
+            if not target.get(f) and row.get(f): target[f]=row[f]
+        target["review_required"] = bool(target.get("review_required") and row.get("review_required"))
+        # Register every identity from the duplicate against the retained record.
+        if title_key and not generic_title(row.get("title")): by_title[(comp,title_key)]=target
+        for u in urls: by_url[(comp,u)]=target
+    return kept + others
 
 def source_history(statuses: list[dict[str, Any]], previous_data: dict[str, Any], checked: str) -> list[dict[str, Any]]:
     old = {row.get("source_key"): row for row in previous_data.get("source_status", [])}
