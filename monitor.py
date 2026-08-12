@@ -171,6 +171,35 @@ def media_from_node(node: Any, base: str) -> dict[str, str] | None:
     return None
 
 
+
+
+def normalized_title(value: str | None) -> str:
+    text = clean(value).casefold()
+    text = re.sub(r"[^\w%]+", " ", text, flags=re.UNICODE)
+    stop = {"offer","offers","campaign","promotion","عرض","عروض","حملة"}
+    return " ".join(x for x in text.split() if x not in stop).strip()
+
+
+def title_similarity(a: str | None, b: str | None) -> float:
+    aa=set(normalized_title(a).split()); bb=set(normalized_title(b).split())
+    if not aa or not bb: return 0.0
+    if normalized_title(a)==normalized_title(b): return 1.0
+    return len(aa & bb) / max(1, len(aa | bb))
+
+
+def merge_campaign_fields(target: dict[str, Any], source: dict[str, Any]) -> None:
+    # Enrich the authoritative campaign instead of creating another campaign record.
+    if source.get("official_campaign_page_url"):
+        target["official_campaign_page_url"] = source["official_campaign_page_url"]
+        target["primary_official_source_url"] = source["official_campaign_page_url"]
+        target["link"] = source["official_campaign_page_url"]
+    links=dict(target.get("social_links") or {})
+    links.update({k:v for k,v in (source.get("social_links") or {}).items() if v})
+    target["social_links"]=links; target["social_link_count"]=len(links)
+    if not target.get("media") and source.get("media"): target["media"]=source["media"]
+    if source.get("last_seen") or source.get("last_changed"):
+        target["last_live_verified_at"] = source.get("last_seen") or source.get("last_changed")
+
 def website_items(http: requests.Session, competitor: dict[str, Any], source: dict[str, Any], config: dict[str, Any], checked: str) -> tuple[list[dict[str, Any]], dict[str, Any]]:
     key = f"website:{competitor['id']}:{source['id']}"
     status = {"source_key": key, "competitor_id": competitor["id"], "source_type": "website", "platform": "website", "url": source["url"], "checked_at": checked, "success": False, "item_count": 0, "error": None, "skipped_general_links": 0}
@@ -360,33 +389,72 @@ def reconcile_live(state: dict[str, Any], collected: list[dict[str, Any]], statu
 def match_inventory(inventory: list[dict[str, Any]], live: list[dict[str, Any]]) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
     official_map: dict[str, dict[str, Any]] = {}
     social_map: dict[str, dict[str, Any]] = {}
+    by_competitor: dict[str, list[dict[str, Any]]] = {}
     for campaign in inventory:
+        by_competitor.setdefault(campaign.get("competitor_id"), []).append(campaign)
         for url in [campaign.get("link"), campaign.get("official_campaign_page_url"), campaign.get("primary_official_source_url")]:
-            if url:
-                official_map[canonical(url, url) or url] = campaign
+            if url: official_map[canonical(url, url) or url] = campaign
         for url in (campaign.get("social_links") or {}).values():
-            social_map[canonical(url, url) or url] = campaign
+            if url: social_map[canonical(url, url) or url] = campaign
     enriched = {row["id"]: dict(row) for row in inventory}
     remaining: list[dict[str, Any]] = []
     for row in live:
         key = canonical(row.get("link", ""), row.get("link", "")) or row.get("link")
         campaign = social_map.get(key) if row.get("source_type") == "social" else official_map.get(key)
+        # Website offer detail pages are also matched by title/category when the Excel row
+        # does not yet contain that detail URL. This is what prevents duplicate campaigns.
+        if not campaign and row.get("source_type") == "website":
+            candidates=by_competitor.get(row.get("competitor_id"), [])
+            scored=[]
+            for c in candidates:
+                sim=title_similarity(row.get("title"), c.get("title"))
+                if row.get("campaign_category") == c.get("campaign_category"): sim += .12
+                scored.append((sim,c))
+            if scored:
+                score,cand=max(scored,key=lambda x:x[0])
+                if score >= .72: campaign=cand
         if campaign:
             row["campaign_id"] = campaign["id"]
             target = enriched[campaign["id"]]
             if row.get("source_type") == "social":
-                links = dict(target.get("social_links") or {})
-                links[row["platform"]] = row["link"]
-                target["social_links"] = links
-                target["social_link_count"] = len(links)
-                if not target.get("media") and row.get("media"):
-                    target["media"] = row["media"]
-            target["last_live_verified_at"] = row.get("last_seen") or row.get("last_changed")
-            remaining.append(row)  # keep the post visible in recent activity/media
-        else:
-            remaining.append(row)
+                links = dict(target.get("social_links") or {}); links[row["platform"]] = row["link"]
+                target["social_links"] = links; target["social_link_count"] = len(links)
+                if not target.get("media") and row.get("media"): target["media"] = row["media"]
+                target["last_live_verified_at"] = row.get("last_seen") or row.get("last_changed")
+                remaining.append(row)  # social posts stay visible as activity
+            else:
+                merge_campaign_fields(target,row)
+                # Do NOT keep a matched website row as a separate item.
+            continue
+        remaining.append(row)
     return list(enriched.values()), remaining
 
+
+def deduplicate_campaign_records(items: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    """Last safety net: one active campaign record per competitor/campaign identity."""
+    keep=[]; campaign_keys={}
+    for row in items:
+        if row.get("content_type") != "campaign":
+            keep.append(row); continue
+        urls=[]
+        for u in [row.get("official_campaign_page_url"),row.get("primary_official_source_url"),row.get("link")]:
+            if u: urls.append(canonical(u,u) or u)
+        title_key=normalized_title(row.get("title"))
+        keys=[("url",row.get("competitor_id"),u) for u in urls]
+        if title_key: keys.append(("title",row.get("competitor_id"),title_key))
+        target=None
+        for k in keys:
+            if k in campaign_keys: target=campaign_keys[k]; break
+        if target is None:
+            keep.append(row)
+            for k in keys: campaign_keys[k]=row
+        else:
+            merge_campaign_fields(target,row)
+            # Prefer the richer/manual/inventory fields while preserving one record only.
+            for f in ["summary","snippet","start_date","end_date","published_at","mechanic","eligibility","terms_note"]:
+                if not target.get(f) and row.get(f): target[f]=row[f]
+            target["review_required"] = bool(target.get("review_required") and row.get("review_required"))
+    return keep
 
 def source_history(statuses: list[dict[str, Any]], previous_data: dict[str, Any], checked: str) -> list[dict[str, Any]]:
     old = {row.get("source_key"): row for row in previous_data.get("source_status", [])}
@@ -464,6 +532,7 @@ def run(config: dict[str, Any]) -> dict[str, Any]:
     inventory, live = match_inventory(inventory, live)
     items = inventory + live
     items = [apply_override(row, overrides.get(row["id"], {})) for row in items]
+    items = deduplicate_campaign_records(items)
     items.sort(key=lambda row: (row.get("active") is not False, parse_iso(row.get("published_at")) or parse_iso(row.get("last_changed")) or datetime.min.replace(tzinfo=timezone.utc)), reverse=True)
     previous = load_json(DATA_PATH, {})
     statuses = source_history(statuses, previous, checked)

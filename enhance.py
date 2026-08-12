@@ -323,21 +323,65 @@ def enrich_social(data,state,config,overrides):
             if p.get("platform") and p.get("link"):links[p["platform"]]=p["link"]
         c["social_links"]=links;c["social_link_count"]=len(links)
 
+def campaign_title_key(value):
+    text=clean(value,500).casefold()
+    text=re.sub(r"[^\w%]+"," ",text,flags=re.UNICODE)
+    stop={"offer","offers","campaign","promotion","عرض","عروض","حملة"}
+    return " ".join(x for x in text.split() if x not in stop).strip()
+
+def merge_into_campaign(target, source):
+    if source.get("official_campaign_page_url"):
+        target["official_campaign_page_url"]=source["official_campaign_page_url"]
+        target["primary_official_source_url"]=source["official_campaign_page_url"]
+        target["link"]=source["official_campaign_page_url"]
+    links=dict(target.get("social_links") or {}); links.update({k:v for k,v in (source.get("social_links") or {}).items() if v})
+    target["social_links"]=links; target["social_link_count"]=len(links)
+    for f in ["summary","snippet","start_date","end_date","published_at","mechanic","eligibility","terms_note","media","evidence_snapshot"]:
+        if not target.get(f) and source.get(f): target[f]=source[f]
+    if source.get("last_live_verified_at"): target["last_live_verified_at"]=source["last_live_verified_at"]
+
+def consolidate_duplicates(data):
+    """Physically removes duplicate campaign rows instead of merely flagging them."""
+    items=data.get("items",[]); byid={i.get("id"):i for i in items}; remove=set()
+    # First: AI/heuristic website rows explicitly linked to an existing campaign.
+    for row in items:
+        target_id=row.get("duplicate_candidate_id")
+        if target_id in byid:
+            merge_into_campaign(byid[target_id],row); remove.add(row.get("id"))
+    # Second: same competitor + same normalized campaign title => one authoritative record.
+    seen={}
+    for row in items:
+        if row.get("id") in remove or row.get("content_type")!="campaign": continue
+        key=(row.get("competitor_id"),campaign_title_key(row.get("title")))
+        if not key[1]: continue
+        if key not in seen: seen[key]=row; continue
+        old=seen[key]
+        # Prefer inventory/manual as authoritative over a live-discovered duplicate.
+        rank=lambda x: 3 if x.get("source_type")=="inventory" else 2 if x.get("source_type")=="manual" else 1
+        target,dup=(old,row) if rank(old)>=rank(row) else (row,old)
+        seen[key]=target; merge_into_campaign(target,dup); remove.add(dup.get("id"))
+    if remove:
+        data["items"]=[i for i in items if i.get("id") not in remove]
+        # Repoint linked social posts to retained campaigns when possible.
+        for p in data["items"]:
+            if p.get("campaign_id") in remove:
+                # Exact title-based fallback is intentionally conservative.
+                candidates=[c for c in data["items"] if c.get("content_type")=="campaign" and c.get("competitor_id")==p.get("competitor_id")]
+                if len(candidates)==1:p["campaign_id"]=candidates[0]["id"]
+    return len(remove)
+
 def detect_duplicates_replacements(data):
+    # Duplicate campaigns are consolidated before this point. Keep only replacement hints.
     items=[i for i in data.get("items",[]) if i.get("content_type")=="campaign"]
-    for i in items:
-        i.pop("duplicate_candidate_id",None);i.pop("replacement_candidate_id",None)
+    for i in items:i.pop("duplicate_candidate_id",None);i.pop("replacement_candidate_id",None)
     for idx,a in enumerate(items):
         at=tokenize(f"{a.get('title','')} {a.get('mechanic','')}")
         for b in items[idx+1:]:
             if a.get("competitor_id")!=b.get("competitor_id"):continue
             bt=tokenize(f"{b.get('title','')} {b.get('mechanic','')}");sim=len(at&bt)/(len(at|bt) or 1)
             if sim>=.60 and a.get("campaign_category")==b.get("campaign_category"):
-                # Only flag; never auto-merge.
                 newer,older=(a,b) if (dt(a.get("start_date")) or datetime.min.replace(tzinfo=timezone.utc))>(dt(b.get("start_date")) or datetime.min.replace(tzinfo=timezone.utc)) else (b,a)
                 if older.get("active") is False:newer["replacement_candidate_id"]=older["id"]
-                elif a.get("active") is not False and b.get("active") is not False:
-                    newer["duplicate_candidate_id"]=older["id"];newer["review_required"]=True;newer["review_reasons"]=list(dict.fromkeys((newer.get("review_reasons") or [])+["possible_duplicate_campaign"]))
 
 def review_priority(item):
     n=0
@@ -388,7 +432,7 @@ def recompute_stats(data):
 def main():
     data=load(DATA_PATH,{});state=load(STATE_PATH,{"schema_version":5,"items":{}});config=load(CONFIG_PATH,{});overrides=load(OVERRIDES_PATH,{"items":{},"new_items":[]})
     if not data.get("items"):print("No data items");return 0
-    add_manual_new_items(data,overrides);verify_details(data,state,config,overrides);enrich_social(data,state,config,overrides);detect_duplicates_replacements(data)
+    add_manual_new_items(data,overrides);verify_details(data,state,config,overrides);enrich_social(data,state,config,overrides);consolidate_duplicates(data);detect_duplicates_replacements(data)
     for item in data.get("items",[]):
         item["review_priority"]=review_priority(item);item.pop("confidence",None) # confidence stays internal, never a displayed score
     snap=snapshot_campaigns(data["items"]);delta=material_delta(state.get("summary_snapshot",{}),snap);summary=ai_summary(data["items"],delta,state,config)
