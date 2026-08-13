@@ -90,6 +90,52 @@ def accepted_direct_source(item, config):
             return True
     return False
 
+def normalize_winner_announcements(data):
+    """Deterministically quarantine every unlinked winner/result announcement.
+
+    This runs for the full social history, not only the recent AI-classification window.
+    If a valid campaign link was found, the item remains a social post. Otherwise it is
+    always Needs Review and can never inflate campaign counts.
+    """
+    changed = 0
+    byid = {i.get("id"): i for i in data.get("items", []) if i.get("id")}
+    for item in data.get("items", []):
+        if item.get("source_type") != "social" or not is_winner_announcement(item):
+            continue
+        cid = item.get("campaign_id")
+        target = byid.get(cid) if cid else None
+        valid_link = bool(
+            target
+            and target.get("competitor_id") == item.get("competitor_id")
+            and target.get("content_type") in {"campaign", "merchant_offer"}
+        )
+        reasons = list(item.get("review_reasons") or [])
+        if valid_link:
+            if item.get("content_type") != "social_post":
+                item["content_type"] = "social_post"
+                changed += 1
+            reasons = [r for r in reasons if r != "winner_announcement_unlinked"]
+            item["review_reasons"] = reasons
+            # A winner announcement that is now linked no longer needs review solely for being a winner post.
+            if not reasons:
+                item["review_required"] = False
+                if item.get("current_status") == "Needs Review":
+                    item.pop("current_status", None)
+        else:
+            if item.get("content_type") != "review" or not item.get("review_required"):
+                changed += 1
+            item["content_type"] = "review"
+            item["review_required"] = True
+            item["current_status"] = "Needs Review"
+            item["review_reasons"] = list(dict.fromkeys(reasons + ["winner_announcement_unlinked"]))
+            # Never retain a stale/invalid automatic campaign link on an unverified winner post.
+            if cid and not valid_link:
+                item.pop("campaign_id", None)
+                item.pop("match_method", None)
+    data["winner_announcement_integrity"] = {"normalized": changed, "at": iso(now())}
+    return changed
+
+
 def enforce_record_integrity(data, config):
     """Social posts cannot create counted campaigns; unsourced campaigns are quarantined."""
     changed=0
@@ -808,7 +854,7 @@ def recompute_stats(data):
 def main():
     data=load(DATA_PATH,{});state=load(STATE_PATH,{"schema_version":5,"items":{}});config=load(CONFIG_PATH,{});overrides=load(OVERRIDES_PATH,{"items":{},"new_items":[]})
     if not data.get("items"):print("No data items");return 0
-    add_manual_new_items(data,overrides);verify_details(data,state,config,overrides);enforce_record_integrity(data,config);enrich_social(data,state,config,overrides);enforce_record_integrity(data,config);consolidate_duplicates(data);sanitize_campaign_media(data);detect_duplicates_replacements(data)
+    add_manual_new_items(data,overrides);verify_details(data,state,config,overrides);enforce_record_integrity(data,config);enrich_social(data,state,config,overrides);normalize_winner_announcements(data);enforce_record_integrity(data,config);consolidate_duplicates(data);sanitize_campaign_media(data);detect_duplicates_replacements(data)
     for item in data.get("items",[]):
         item["review_priority"]=review_priority(item);item.pop("confidence",None) # confidence stays internal, never a displayed score
     snap=snapshot_campaigns(data["items"]);delta=material_delta(state.get("summary_snapshot",{}),snap);summary=ai_summary(data["items"],delta,state,config)

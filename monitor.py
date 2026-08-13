@@ -425,14 +425,22 @@ def social_items(http: requests.Session, competitor: dict[str, Any], platform: s
             category, categories = taxonomy_match(combined, config)
             mechanics, themes = infer_tags(combined)
             awareness = any(word.casefold() in combined.casefold() for word in config.get("classification", {}).get("awareness_keywords", []))
+            post_role = social_post_role(combined)
+            winner_unlinked = post_role == "winner_announcement"
             items.append({
                 "id": f"post:{competitor['id']}:{platform}:{digest(link)}", "competitor_id": competitor["id"], "source_key": key,
-                "source_type": "social", "platform": platform, "content_type": "awareness" if awareness else "social_post",
+                "source_type": "social", "platform": platform,
+                # Winner/result announcements are never campaigns. They start in Needs Review and
+                # enhance.py may safely link them to an existing campaign later.
+                "content_type": "review" if winner_unlinked else ("awareness" if awareness else "social_post"),
                 "campaign_category": category, "primary_category": category, "categories": categories,
                 "title": row["title"], "snippet": row["summary"], "link": link, "social_links": {platform: link},
                 "social_link_count": 1, "published_at": row["published_at"], "active": True, "direct_link": True,
-                "verified": True, "review_required": False, "review_reasons": [], "confidence": "medium",
-                "post_role": social_post_role(combined),
+                "verified": True,
+                "review_required": winner_unlinked,
+                "review_reasons": ["winner_announcement_unlinked"] if winner_unlinked else [],
+                "current_status": "Needs Review" if winner_unlinked else None,
+                "confidence": "medium", "post_role": post_role,
                 "mechanic_tags": mechanics, "theme_tags": themes, "media": row["media"],
             })
         status.update(success=True, item_count=len(items))
