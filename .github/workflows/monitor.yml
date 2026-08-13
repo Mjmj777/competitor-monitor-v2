@@ -53,6 +53,9 @@ jobs:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
         run: python enhance.py
 
+      - name: Validate generated intelligence
+        run: python postflight_check.py
+
       - name: Generate Excel master
         run: python export_excel.py
 
