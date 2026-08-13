@@ -278,11 +278,11 @@
       "id": "stc-bank",
       "name_en": "STC Bank",
       "website": "https://stcbank.com.sa/",
-      "offers_url": "https://stcbank.com.sa/en/web/guest/offers",
+      "offers_url": "https://www.stcbank.com.sa/en/offers",
       "website_sources": [
         {
           "id": "offers",
-          "url": "https://stcbank.com.sa/en/web/guest/offers",
+          "url": "https://www.stcbank.com.sa/en/offers",
           "link_keywords": [
             "/web/guest/w/",
             "offer",
@@ -292,7 +292,9 @@
           ],
           "detail_link_patterns": [
             "/en/web/guest/w/.+",
-            "/web/guest/w/.+"
+            "/web/guest/w/.+",
+            "/en/w/.+",
+            "/w/.+"
           ],
           "require_detail_link": true,
           "exclude_keywords": [

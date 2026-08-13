@@ -8,8 +8,8 @@ ERRORS=[]
 def fail(msg): ERRORS.append(msg)
 
 required=[
-    'index.html','competitor.html','item.html','monitor.py','enhance.py','export_excel.py','config.json','requirements.txt',
-    'competitor_campaigns_template.xlsx','inventory.json','manual_overrides.json','assets/common.js','assets/index.js','assets/competitor.js','assets/item.js','assets/styles.css'
+    'index.html','competitor.html','item.html','monitor.py','enhance.py','export_excel.py','preflight_check.py','postflight_check.py','config.json','requirements.txt',
+    'competitor_campaigns_template.xlsx','inventory.json','manual_overrides.json','.github/workflows/monitor.yml','assets/common.js','assets/index.js','assets/competitor.js','assets/item.js','assets/styles.css'
 ]
 for name in required:
     if not (BASE/name).exists(): fail(f'Missing required file: {name}')
@@ -64,9 +64,41 @@ for page,js in [('index.html','assets/index.js'),('competitor.html','assets/comp
     except Exception as exc: fail(f'{page}/{js} DOM check failed: {exc}')
 
 try:
+    import xml.etree.ElementTree as ET
     with zipfile.ZipFile(BASE/'competitor_campaigns_template.xlsx') as z:
-        if 'xl/workbook.xml' not in z.namelist(): fail('Excel template is not a valid XLSX workbook')
+        if 'xl/workbook.xml' not in z.namelist():
+            fail('Excel template is not a valid XLSX workbook')
+        else:
+            ns={'m':'http://schemas.openxmlformats.org/spreadsheetml/2006/main'}
+            wb=ET.fromstring(z.read('xl/workbook.xml'))
+            sheets=len(wb.findall('.//m:sheet',ns))
+            formulas=0
+            for name in z.namelist():
+                if name.startswith('xl/worksheets/sheet') and name.endswith('.xml'):
+                    formulas += len(ET.fromstring(z.read(name)).findall('.//m:f',ns))
+            tables=len([name for name in z.namelist() if name.startswith('xl/tables/table') and name.endswith('.xml')])
+            if sheets!=8: fail(f'Excel template structure changed: expected 8 sheets, found {sheets}')
+            if tables!=6: fail(f'Excel template structure changed: expected 6 tables, found {tables}')
+            if formulas!=1331: fail(f'Excel template formulas changed: expected 1331, found {formulas}')
 except Exception as exc: fail(f'Excel template invalid: {exc}')
+
+# The deployed workflow must run semantic validation after enrichment and before Excel/deploy.
+try:
+    wf=(BASE/'.github/workflows/monitor.yml').read_text(encoding='utf-8')
+    pos_enhance=wf.find('python enhance.py')
+    pos_post=wf.find('python postflight_check.py')
+    pos_export=wf.find('python export_excel.py')
+    if min(pos_enhance,pos_post,pos_export)<0 or not (pos_enhance < pos_post < pos_export):
+        fail('Workflow must run enhance.py -> postflight_check.py -> export_excel.py in this order')
+except Exception as exc: fail(f'Workflow consistency check failed: {exc}')
+
+# Client fallback is intentional: stale backend zeros must never hide known direct social links.
+try:
+    itemjs=(BASE/'assets/item.js').read_text(encoding='utf-8')
+    commonjs=(BASE/'assets/common.js').read_text(encoding='utf-8')
+    if 'function socialMetrics' not in itemjs: fail('assets/item.js: social analytics fallback is missing')
+    if 'knownSocialCount' not in commonjs: fail('assets/common.js: campaign-card social fallback is missing')
+except Exception as exc: fail(f'Social analytics UI guard failed: {exc}')
 
 ui='\n'.join((BASE/f).read_text(encoding='utf-8',errors='ignore') for f in ['index.html','competitor.html','item.html','assets/index.js','assets/competitor.js','assets/item.js'])
 for term in ['activity score','campaign strength score','promotion score','market score']:

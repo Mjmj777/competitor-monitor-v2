@@ -29,7 +29,7 @@ BASE_DIR = Path(__file__).resolve().parent
 CONFIG_PATH = BASE_DIR / "config.json"
 STATE_PATH = BASE_DIR / "state.json"
 DATA_PATH = BASE_DIR / "data.json"
-USER_AGENT = "Mozilla/5.0 CompetitorMonitor/4.0"
+USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0 Safari/537.36"
 TRACKING_KEYS = {"fbclid", "gclid", "ref", "source", "mc_cid", "mc_eid"}
 
 WINNER_ANNOUNCEMENT_WORDS = [
@@ -97,6 +97,52 @@ def canonical(base: str, href: str) -> str | None:
              if not k.casefold().startswith("utm_") and k.casefold() not in TRACKING_KEYS]
     return urlunsplit((parts.scheme.lower(), parts.netloc.lower(), re.sub(r"/{2,}", "/", parts.path or "/"), urlencode(sorted(query)), ""))
 
+
+SOCIAL_HOSTS = ("instagram.com", "facebook.com", "m.facebook.com", "x.com", "twitter.com", "tiktok.com")
+
+def social_url(value: str | None) -> bool:
+    if not value:
+        return False
+    try:
+        host = (urlsplit(str(value)).hostname or "").casefold().removeprefix("www.")
+        return any(host == h or host.endswith("." + h) for h in SOCIAL_HOSTS)
+    except Exception:
+        return False
+
+def social_identity(value: str | None) -> str:
+    """Stable identity for a social post URL; platform tracking/query params are ignored."""
+    if not value:
+        return ""
+    try:
+        parts = urlsplit(str(value).strip())
+        host = (parts.hostname or "").casefold().removeprefix("www.")
+        if host == "twitter.com":
+            host = "x.com"
+        if host == "m.facebook.com":
+            host = "facebook.com"
+        path = re.sub(r"/{2,}", "/", parts.path or "/").rstrip("/").casefold() or "/"
+        return f"{host}{path}"
+    except Exception:
+        return clean(value).casefold().rstrip("/")
+
+def specific_social_post_url(value: str | None) -> bool:
+    if not social_url(value):
+        return False
+    try:
+        parts = urlsplit(str(value))
+        host = (parts.hostname or "").casefold().removeprefix("www.")
+        path = (parts.path or "").casefold()
+        if "instagram.com" in host:
+            return bool(re.search(r"/(?:p|reel|reels|tv)/[^/]+", path))
+        if host in {"x.com", "twitter.com"} or host.endswith(".x.com") or host.endswith(".twitter.com"):
+            return "/status/" in path
+        if "tiktok.com" in host:
+            return "/video/" in path
+        if "facebook.com" in host:
+            return any(token in path for token in ("/posts/", "/videos/", "/reel/", "/share/", "/photo", "/permalink")) or "story.php" in str(value).casefold()
+    except Exception:
+        return False
+    return False
 
 def digest(*parts: Any, length: int = 20) -> str:
     raw = "\x1f".join(clean(part) for part in parts)
@@ -242,7 +288,6 @@ def merge_campaign_fields(target: dict[str, Any], source: dict[str, Any]) -> Non
     links=dict(target.get("social_links") or {})
     links.update({k:v for k,v in (source.get("social_links") or {}).items() if v})
     target["social_links"]=links; target["social_link_count"]=len(links)
-    if not target.get("media") and source.get("media"): target["media"]=source["media"]
     if source.get("last_seen") or source.get("last_changed"):
         target["last_live_verified_at"] = source.get("last_seen") or source.get("last_changed")
 
@@ -452,42 +497,55 @@ def match_inventory(inventory: list[dict[str, Any]], live: list[dict[str, Any]])
     for campaign in inventory:
         by_competitor.setdefault(campaign.get("competitor_id"), []).append(campaign)
         for url in [campaign.get("link"), campaign.get("official_campaign_page_url"), campaign.get("primary_official_source_url")]:
-            if url: official_map[canonical(url, url) or url] = campaign
+            if url and not social_url(url):
+                official_map[url_identity(url)] = campaign
         for url in (campaign.get("social_links") or {}).values():
-            if url: social_map[canonical(url, url) or url] = campaign
+            if specific_social_post_url(url):
+                social_map[social_identity(url)] = campaign
+
     enriched = {row["id"]: dict(row) for row in inventory}
     remaining: list[dict[str, Any]] = []
     for row in live:
-        key = canonical(row.get("link", ""), row.get("link", "")) or row.get("link")
-        campaign = social_map.get(key) if row.get("source_type") == "social" else official_map.get(key)
+        if row.get("source_type") == "social":
+            key = social_identity(row.get("link"))
+            campaign = social_map.get(key) if key else None
+        else:
+            key = url_identity(row.get("link"))
+            campaign = official_map.get(key) if key else None
+
         # Website offer detail pages are also matched by title/category when the Excel row
-        # does not yet contain that detail URL. This is what prevents duplicate campaigns.
+        # does not yet contain that detail URL. This prevents duplicate campaigns.
         if not campaign and row.get("source_type") == "website":
-            candidates=by_competitor.get(row.get("competitor_id"), [])
-            scored=[]
+            candidates = by_competitor.get(row.get("competitor_id"), [])
+            scored = []
             for c in candidates:
-                sim=title_similarity(row.get("title"), c.get("title"))
-                if row.get("campaign_category") == c.get("campaign_category"): sim += .12
-                scored.append((sim,c))
+                sim = title_similarity(row.get("title"), c.get("title"))
+                if row.get("campaign_category") == c.get("campaign_category"):
+                    sim += .12
+                scored.append((sim, c))
             if scored:
-                score,cand=max(scored,key=lambda x:x[0])
-                if score >= .72: campaign=cand
+                score, cand = max(scored, key=lambda x: x[0])
+                if score >= .72:
+                    campaign = cand
+
         if campaign:
             row["campaign_id"] = campaign["id"]
             target = enriched[campaign["id"]]
             if row.get("source_type") == "social":
-                links = dict(target.get("social_links") or {}); links[row["platform"]] = row["link"]
-                target["social_links"] = links; target["social_link_count"] = len(links)
-                if not target.get("media") and row.get("media"): target["media"] = row["media"]
+                # Preserve the approved/master social URL; RSS activity is stored as a linked post.
+                links = dict(target.get("social_links") or {})
+                platform = row.get("platform")
+                if platform and row.get("link") and not links.get(platform):
+                    links[platform] = row["link"]
+                target["social_links"] = links
+                target["social_link_count"] = len([u for u in links.values() if u])
                 target["last_live_verified_at"] = row.get("last_seen") or row.get("last_changed")
-                remaining.append(row)  # social posts stay visible as activity
+                remaining.append(row)
             else:
-                merge_campaign_fields(target,row)
-                # Do NOT keep a matched website row as a separate item.
+                merge_campaign_fields(target, row)
             continue
         remaining.append(row)
     return list(enriched.values()), remaining
-
 
 def campaign_rank(row: dict[str, Any]) -> int:
     # Keep the Excel identity/record ID authoritative. Manual edits to that same row remain highest.
@@ -506,43 +564,44 @@ def deduplicate_campaign_records(items: list[dict[str, Any]]) -> list[dict[str, 
     Identity is resolved by official detail URL first, exact normalized title second, then a
     conservative near-title match within the same category. Different competitors are never merged.
     """
-    campaigns=[row for row in items if row.get("content_type") == "campaign"]
-    others=[row for row in items if row.get("content_type") != "campaign"]
+    records=[row for row in items if row.get("content_type") in {"campaign", "merchant_offer"}]
+    others=[row for row in items if row.get("content_type") not in {"campaign", "merchant_offer"}]
     # Process authoritative rows first so live discoveries enrich the Excel/manual record.
-    campaigns.sort(key=lambda r: campaign_rank(r), reverse=True)
+    records.sort(key=lambda r: campaign_rank(r), reverse=True)
     kept: list[dict[str, Any]]=[]
     by_url: dict[tuple[str,str], dict[str, Any]]={}
     by_title: dict[tuple[str,str], dict[str, Any]]={}
-    for row in campaigns:
+    for row in records:
         comp=row.get("competitor_id") or ""
+        record_type=row.get("content_type") or "campaign"
         title_key=normalized_title(row.get("title"))
-        urls={url_identity(u) for u in [row.get("official_campaign_page_url"),row.get("primary_official_source_url"),row.get("link")] if u}
+        urls={(social_identity(u) if social_url(u) else url_identity(u)) for u in [row.get("official_campaign_page_url"),row.get("primary_official_source_url"),row.get("link")] if u}
         urls.discard("")
         target=None
         for u in urls:
-            if (comp,u) in by_url:
-                target=by_url[(comp,u)]; break
+            if (comp,record_type,u) in by_url:
+                target=by_url[(comp,record_type,u)]; break
         if target is None and title_key and not generic_title(row.get("title")):
-            target=by_title.get((comp,title_key))
+            target=by_title.get((comp,record_type,title_key))
         if target is None and title_key and not generic_title(row.get("title")):
             # Safety for tiny punctuation/site-title differences. 0.94 is intentionally strict.
-            candidates=[c for c in kept if c.get("competitor_id")==comp and c.get("campaign_category")==row.get("campaign_category")]
+            candidates=[c for c in kept if c.get("competitor_id")==comp and c.get("content_type")==record_type and c.get("campaign_category")==row.get("campaign_category")]
             scored=[(title_similarity(row.get("title"),c.get("title")),c) for c in candidates]
             if scored:
                 score,cand=max(scored,key=lambda x:x[0])
                 if score >= .94: target=cand
         if target is None:
             kept.append(row)
-            if title_key and not generic_title(row.get("title")): by_title[(comp,title_key)]=row
-            for u in urls: by_url[(comp,u)]=row
+            if title_key and not generic_title(row.get("title")): by_title[(comp,record_type,title_key)]=row
+            for u in urls: by_url[(comp,record_type,u)]=row
             continue
         merge_campaign_fields(target,row)
         for f in ["summary","snippet","start_date","end_date","published_at","mechanic","eligibility","terms_note","operation_type"]:
             if not target.get(f) and row.get(f): target[f]=row[f]
         target["review_required"] = bool(target.get("review_required") and row.get("review_required"))
         # Register every identity from the duplicate against the retained record.
-        if title_key and not generic_title(row.get("title")): by_title[(comp,title_key)]=target
-        for u in urls: by_url[(comp,u)]=target
+        if title_key and not generic_title(row.get("title")): by_title[(comp,record_type,title_key)]=target
+        for u in urls: by_url[(comp,record_type,u)]=target
     return kept + others
 
 def source_history(statuses: list[dict[str, Any]], previous_data: dict[str, Any], checked: str) -> list[dict[str, Any]]:

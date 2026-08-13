@@ -15,7 +15,7 @@ DATA_PATH = BASE / "data.json"
 STATE_PATH = BASE / "state.json"
 CONFIG_PATH = BASE / "config.json"
 OVERRIDES_PATH = BASE / "manual_overrides.json"
-USER_AGENT = "CompetitorMonitor/5.0 (+GitHub Actions)"
+USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0 Safari/537.36"
 
 CATEGORY_LABELS = {"remittance":"Remittance","musaned":"Musaned","sadad":"SADAD","card":"Card","engagement":"Engagement","other":"Other"}
 COUNTRIES = {
@@ -38,9 +38,30 @@ def is_winner_announcement(item):
 def social_url(value):
     if not value:return False
     try:
-        host=urlsplit(str(value)).netloc.casefold().removeprefix("www.")
+        host=(urlsplit(str(value)).hostname or "").casefold().removeprefix("www.")
         return any(host==h or host.endswith("."+h) for h in SOCIAL_HOSTS)
     except Exception:return False
+
+def social_identity(value):
+    if not value:return ""
+    try:
+        parts=urlsplit(str(value).strip()); host=(parts.hostname or "").casefold().removeprefix("www.")
+        if host=="twitter.com":host="x.com"
+        if host=="m.facebook.com":host="facebook.com"
+        path=re.sub(r"/{2,}","/",parts.path or "/").rstrip("/").casefold() or "/"
+        return f"{host}{path}"
+    except Exception:return clean(value,2000).casefold().rstrip("/")
+
+def specific_social_post_url(value):
+    if not social_url(value):return False
+    try:
+        parts=urlsplit(str(value));host=(parts.hostname or "").casefold().removeprefix("www.");path=(parts.path or "").casefold()
+        if "instagram.com" in host:return bool(re.search(r"/(?:p|reel|reels|tv)/[^/]+",path))
+        if host in {"x.com","twitter.com"} or host.endswith(".x.com") or host.endswith(".twitter.com"):return "/status/" in path
+        if "tiktok.com" in host:return "/video/" in path
+        if "facebook.com" in host:return any(x in path for x in ("/posts/","/videos/","/reel/","/share/","/photo","/permalink")) or "story.php" in str(value).casefold()
+    except Exception:return False
+    return False
 
 def generic_offers_url(value, config, competitor_id):
     if not value:return True
@@ -57,12 +78,14 @@ def generic_offers_url(value, config, competitor_id):
     except Exception:return False
 
 def accepted_direct_source(item, config):
-    # Specific official social post is accepted even when no dedicated campaign page exists.
-    if any(social_url(v) for v in (item.get("social_links") or {}).values()):return True
+    # Only a specific official social post is acceptable; a generic social profile is not evidence.
+    if any(specific_social_post_url(v) for v in (item.get("social_links") or {}).values()):return True
     for key in ("official_campaign_page_url","primary_official_source_url","link"):
         value=item.get(key)
         if not value:continue
-        if social_url(value):return True
+        if social_url(value):
+            if specific_social_post_url(value):return True
+            continue
         if str(value).startswith(("http://","https://")) and not generic_offers_url(value,config,item.get("competitor_id")):
             return True
     return False
@@ -204,7 +227,7 @@ def extract_page(html,url):
     return {
         "title":title,"summary":summary,"published_at":first_date(pub),"start_date":first_date(starts) or text_start,"end_date":first_date(ends) or text_end,
         "mechanic_tags":mechanics(text),"corridors":corridors(text),"offer_values":offer_values(text),"image":image,
-        "evidence_snapshot": evidence or clean(text[:1200],1200),"content_hash":hash_text(title,summary,text[:10000])
+        "evidence_snapshot": evidence or summary or title or None,"content_hash":hash_text(title,summary,text[:10000])
     }
 
 def manual_patch(overrides,item_id): return (overrides.get("items") or {}).get(item_id,{})
@@ -231,53 +254,162 @@ def add_manual_new_items(data, overrides):
 
 def verify_details(data,state,config,overrides):
     cache=state.setdefault("detail_cache",{})
-    interval=float(config.get("settings",{}).get("detail_verification_interval_hours",6)); timeout=int(config.get("settings",{}).get("request_timeout_seconds",18)); max_checks=int(config.get("settings",{}).get("max_detail_checks_per_run",16))
+    interval=float(config.get("settings",{}).get("detail_verification_interval_hours",6))
+    timeout=int(config.get("settings",{}).get("request_timeout_seconds",18))
+    max_checks=int(config.get("settings",{}).get("max_detail_checks_per_run",16))
     current=now(); checks=0; new_status=[]; skip=os.environ.get("CM_SKIP_NETWORK")=="1"
-    session=requests.Session(); session.headers.update({"User-Agent":USER_AGENT,"Accept-Language":"ar,en;q=0.9"})
+    session=requests.Session(); session.headers.update({"User-Agent":USER_AGENT,"Accept-Language":"en,ar;q=0.9"})
+
     for item in data.get("items",[]):
         if item.get("content_type") not in {"campaign","merchant_offer"}: continue
         if item.get("active") is False and item.get("source_type")!="manual": continue
+
         url=direct_url(item)
         if not url or not str(url).startswith("http"): continue
-        cached=cache.get(item["id"],{}); last=dt(cached.get("checked_at")); due=not last or current-last>=timedelta(hours=interval)
+        manual=manual_patch(overrides,item["id"])
+
+        # Social networks must never be scraped as campaign-detail webpages.
+        # Their public HTML often returns login/navigation shells instead of post content.
+        if social_url(url):
+            item["evidence_snapshot"]=None
+            is_specific=specific_social_post_url(url)
+            item["source_verification"]={
+                "status":"verified_social" if is_specific else "needs_review",
+                "verification_method":"official_social_rss_or_inventory" if is_specific else "generic_social_url",
+                "checked_at":iso(current),
+                "source_url":url,
+                "source_changed":False,
+                "conflicts":[],
+                "error":None if is_specific else "Generic social profile/page is not sufficient campaign evidence.",
+            }
+            item["verified"]=bool(is_specific)
+            if is_specific:item["last_reviewed"]=item.get("last_reviewed") or iso(current)
+            item.pop("media", None)
+            st,active=status_for(item,current)
+            if "current_status" not in manual:item["current_status"]=st if is_specific else "Needs Review"
+            if "active" not in manual:item["active"]=active
+            if not is_specific:
+                item["review_required"]=True
+                item["review_reasons"]=list(dict.fromkeys((item.get("review_reasons") or [])+["generic_social_source_not_evidence"]))
+            continue
+
+        cached=cache.get(item["id"],{})
+        last=dt(cached.get("checked_at"))
+        due=not last or current-last>=timedelta(hours=interval)
+
         if due and checks<max_checks and not skip:
-            checks+=1; st={"source_key":f"detail:{item['id']}","competitor_id":item.get("competitor_id"),"source_type":"campaign_detail","platform":"website","url":url,"checked_at":iso(current),"success":False,"item_count":0,"error":None}
+            checks+=1
+            detail_status={
+                "source_key":f"detail:{item['id']}",
+                "competitor_id":item.get("competitor_id"),
+                "source_type":"campaign_detail",
+                "platform":"website",
+                "url":url,
+                "checked_at":iso(current),
+                "success":False,
+                "item_count":0,
+                "error":None,
+            }
             try:
-                r=session.get(url,timeout=timeout); r.raise_for_status(); ex=extract_page(r.text,url)
+                r=session.get(url,timeout=timeout)
+                r.raise_for_status()
+                ex=extract_page(r.text,url)
                 old_hash=(cached.get("extracted") or {}).get("content_hash")
-                cached={"checked_at":iso(current),"last_success_at":iso(current),"success":True,"url":url,"extracted":ex,"error":None}; cache[item["id"]]=cached
-                st.update(success=True,item_count=1,last_success_at=iso(current))
-                if old_hash and old_hash!=ex.get("content_hash"): append_change(item,"source_content_changed")
+                cached={
+                    "checked_at":iso(current),
+                    "last_success_at":iso(current),
+                    "success":True,
+                    "url":url,
+                    "extracted":ex,
+                    "error":None,
+                }
+                cache[item["id"]]=cached
+                detail_status.update(success=True,item_count=1,last_success_at=iso(current))
+                if old_hash and old_hash!=ex.get("content_hash"):
+                    append_change(item,"source_content_changed")
             except Exception as exc:
-                cached={**cached,"checked_at":iso(current),"success":False,"url":url,"error":clean(f"{type(exc).__name__}: {exc}",500)}; cache[item["id"]]=cached
-                st["error"]=cached["error"]; st["last_success_at"]=cached.get("last_success_at")
-            new_status.append(st)
+                cached={
+                    **cached,
+                    "checked_at":iso(current),
+                    "success":False,
+                    "url":url,
+                    "error":clean(f"{type(exc).__name__}: {exc}",500),
+                }
+                cache[item["id"]]=cached
+                detail_status["error"]=cached["error"]
+                detail_status["last_success_at"]=cached.get("last_success_at")
+            new_status.append(detail_status)
+
         ex=cached.get("extracted") or {}
-        if not ex: continue
-        manual=manual_patch(overrides,item["id"]); conflicts=[]
+        if not ex:
+            item["source_verification"]={
+                "status":"failed" if cached.get("checked_at") else "needs_review",
+                "verification_method":"official_website_page",
+                "checked_at":cached.get("checked_at"),
+                "source_url":url,
+                "source_changed":False,
+                "conflicts":[],
+                "error":cached.get("error"),
+            }
+            continue
+
+        conflicts=[]
         for field in ["published_at","start_date","end_date"]:
             src=ex.get(field); old=item.get(field)
-            if src and old and dt(src) and dt(old) and abs((dt(src)-dt(old)).total_seconds())>36*3600: conflicts.append({"field":field,"current":old,"source":src})
+            if src and old and dt(src) and dt(old) and abs((dt(src)-dt(old)).total_seconds())>36*3600:
+                conflicts.append({"field":field,"current":old,"source":src})
             if src and field not in manual and src!=old:
-                item[field]=src; append_change(item,f"{field}_updated",{"from":old,"to":src})
-        if ex.get("title") and not item.get("title") and "title" not in manual: item["title"]=ex["title"]
-        if ex.get("summary") and not (item.get("summary") or item.get("snippet")) and "summary" not in manual: item["summary"]=item["snippet"]=ex["summary"]
+                item[field]=src
+                append_change(item,f"{field}_updated",{"from":old,"to":src})
+
+        if ex.get("title") and not item.get("title") and "title" not in manual:
+            item["title"]=ex["title"]
+        if ex.get("summary") and not (item.get("summary") or item.get("snippet")) and "summary" not in manual:
+            item["summary"]=item["snippet"]=ex["summary"]
+
         item["mechanic_tags"]=list(dict.fromkeys((item.get("mechanic_tags") or [])+(ex.get("mechanic_tags") or [])))
         item["corridors"]=ex.get("corridors") or item.get("corridors") or []
         item["offer_values"]=ex.get("offer_values") or item.get("offer_values") or []
         item["evidence_snapshot"]=ex.get("evidence_snapshot")
-        if ex.get("image") and not item.get("media"): item["media"]={"type":"image","url":ex["image"],"thumbnail_url":ex["image"]}
-        item["source_verification"]={"status":"verified" if cached.get("success") else "failed","checked_at":cached.get("checked_at"),"source_url":url,"source_changed":bool(conflicts),"conflicts":conflicts,"error":cached.get("error")}
+        # Campaign hero media is allowed only when it was extracted from this exact
+        # official campaign-detail webpage. This overwrites/removes stale social media
+        # accidentally attached by older monitor versions.
+        if ex.get("image"):
+            item["media"]={
+                "type":"image",
+                "url":ex["image"],
+                "thumbnail_url":ex["image"],
+                "source_type":"official_website",
+                "source_url":url,
+            }
+        else:
+            item.pop("media", None)
+
+        item["source_verification"]={
+            "status":"verified_website" if cached.get("success") else "failed",
+            "verification_method":"official_website_page",
+            "checked_at":cached.get("checked_at"),
+            "source_url":url,
+            "source_changed":bool(conflicts),
+            "conflicts":conflicts,
+            "error":cached.get("error"),
+        }
         if cached.get("success"):
-            item["last_live_verified_at"]=cached.get("checked_at"); item["last_reviewed"]=cached.get("checked_at")
+            item["verified"]=True
+            item["last_live_verified_at"]=cached.get("checked_at")
+            item["last_reviewed"]=cached.get("checked_at")
+
         st,active=status_for(item,current)
         if "current_status" not in manual: item["current_status"]=st
         if "active" not in manual: item["active"]=active
         if conflicts:
-            item["review_required"]=True; item["review_reasons"]=list(dict.fromkeys((item.get("review_reasons") or [])+["official_source_conflict"]))
+            item["review_required"]=True
+            item["review_reasons"]=list(dict.fromkeys((item.get("review_reasons") or [])+["official_source_conflict"]))
+
     if new_status:
         old={s.get("source_key"):s for s in data.get("source_status",[])}
-        for s in new_status: old[s["source_key"]]=s
+        for source_status in new_status:
+            old[source_status["source_key"]]=source_status
         data["source_status"]=sorted(old.values(),key=lambda x:x.get("source_key",""))
 
 def tokenize(text):
@@ -288,7 +420,9 @@ def heuristic_match(post,campaigns):
     best=(0,None)
     for c in campaigns:
         # Exact known social URL is strongest.
-        if post.get("link") and post.get("link") in (c.get("social_links") or {}).values(): return c["id"],"exact_url"
+        if post.get("link"):
+            pid=social_identity(post.get("link"))
+            if pid and any(pid==social_identity(u) for u in (c.get("social_links") or {}).values() if u):return c["id"],"exact_url"
         ct=tokenize(f"{c.get('title','')} {c.get('summary','')} {c.get('mechanic','')} {c.get('terms_note','')}")
         union=len(pt|ct) or 1; lexical=len(pt&ct)/union
         cat_bonus=.18 if post.get("campaign_category") and post.get("campaign_category")==c.get("campaign_category") else 0
@@ -335,7 +469,7 @@ def ai_classify(posts,campaigns,state,config):
         print(f"[AI classification] {type(exc).__name__}: {exc}");return {}
 
 def enrich_social(data,state,config,overrides):
-    items=data.get("items",[]); campaigns=[i for i in items if i.get("content_type") in {"campaign","merchant_offer"}]; byid={i["id"]:i for i in campaigns}
+    items=data.get("items",[]); campaigns=[i for i in items if i.get("content_type") in {"campaign","merchant_offer"} and i.get("source_type")!="social"]; byid={i["id"]:i for i in campaigns}
     for post in [i for i in items if i.get("source_type")=="social"]:
         post["corridors"]=corridors(f"{post.get('title','')} {post.get('snippet','')}")
         patch=manual_patch(overrides,post["id"]); manual_link=patch.get("linked_campaign_id")
@@ -409,17 +543,64 @@ def enrich_social(data,state,config,overrides):
             patch.update(content_type=d["record_type"],review_required=False,review_reasons=[])
         row.update(patch); cache[row["id"]]={"content_key":hash_text("classifier-v2",row.get("title"),row.get("snippet"),row.get("link")),"decision":patch,"at":iso(now())}
 
+    # Build campaign social analytics from BOTH approved/master direct links and RSS-linked posts.
+    # A URL is counted once even if it appears in Excel and again in RSS with tracking parameters.
     linked=defaultdict(list)
-    for p in [i for i in items if i.get("source_type")=="social" and i.get("campaign_id") in byid]:linked[p["campaign_id"]].append({k:p.get(k) for k in ["id","platform","title","link","published_at","media","match_method"]})
+    for p in [i for i in items if i.get("source_type")=="social" and i.get("campaign_id") in byid]:
+        linked[p["campaign_id"]].append({k:p.get(k) for k in ["id","platform","title","link","published_at","media","match_method"]})
+
     current=now()
+    platforms=["instagram","x","facebook","tiktok"]
     for c in campaigns:
-        posts=sorted(linked.get(c["id"],[]),key=lambda p:dt(p.get("published_at")) or datetime.min.replace(tzinfo=timezone.utc));counts=Counter(p.get("platform") for p in posts if p.get("platform"))
-        c["linked_posts"]=posts;c["social_post_counts"]={p:int(counts.get(p,0)) for p in ["instagram","x","facebook","tiktok"]};c["social_posts_total"]=len(posts);c["social_platform_count"]=sum(v>0 for v in c["social_post_counts"].values())
-        c["social_first_post"]=posts[0].get("published_at") if posts else None;c["social_latest_post"]=posts[-1].get("published_at") if posts else None;c["social_posts_7d"]=sum((dt(p.get("published_at")) or datetime.min.replace(tzinfo=timezone.utc))>=current-timedelta(days=7) for p in posts);c["social_posts_30d"]=sum((dt(p.get("published_at")) or datetime.min.replace(tzinfo=timezone.utc))>=current-timedelta(days=30) for p in posts)
+        unique={}
+        # Master/approved URLs are authoritative source links and count as known social posts.
+        for platform,value in (c.get("social_links") or {}).items():
+            values=value if isinstance(value,list) else [value]
+            for url in values:
+                if not specific_social_post_url(url):continue
+                ident=social_identity(url)
+                if not ident:continue
+                unique[ident]={
+                    "id":f"source:{c.get('id')}:{platform}:{hash_text(ident)}",
+                    "platform":platform,
+                    "title":f"Official {platform} post",
+                    "link":url,
+                    "published_at":None,
+                    "media":None,
+                    "match_method":"master_link",
+                    "source_origin":"master",
+                }
+
+        # RSS posts enrich the same URL (date/title/media) or add additional unique posts.
+        for p in linked.get(c["id"],[]):
+            url=p.get("link");ident=social_identity(url)
+            if not ident:continue
+            if ident in unique:
+                prior=unique[ident]
+                unique[ident]={**prior,**{k:v for k,v in p.items() if v not in (None,"")},"source_origin":"master+rss"}
+            else:
+                unique[ident]={**p,"source_origin":"rss"}
+
+        posts=list(unique.values())
+        posts.sort(key=lambda p:(dt(p.get("published_at")) is not None,dt(p.get("published_at")) or datetime.min.replace(tzinfo=timezone.utc),p.get("platform") or ""))
+        counts=Counter(p.get("platform") for p in posts if p.get("platform"))
+        dated=[p for p in posts if dt(p.get("published_at"))]
+        c["linked_posts"]=posts
+        c["social_post_counts"]={p:int(counts.get(p,0)) for p in platforms}
+        c["social_posts_total"]=len(posts)
+        c["social_platform_count"]=sum(v>0 for v in c["social_post_counts"].values())
+        c["social_first_post"]=min((p.get("published_at") for p in dated),key=lambda x:dt(x),default=None)
+        c["social_latest_post"]=max((p.get("published_at") for p in dated),key=lambda x:dt(x),default=None)
+        c["social_posts_7d"]=sum(dt(p.get("published_at"))>=current-timedelta(days=7) for p in dated)
+        c["social_posts_30d"]=sum(dt(p.get("published_at"))>=current-timedelta(days=30) for p in dated)
+
+        # Preserve the approved/master URL per platform; RSS only fills a missing platform.
         links=dict(c.get("social_links") or {})
         for p in posts:
-            if p.get("platform") and p.get("link"):links[p["platform"]]=p["link"]
-        c["social_links"]=links;c["social_link_count"]=len(links)
+            platform=p.get("platform");url=p.get("link")
+            if platform and url and not links.get(platform):links[platform]=url
+        c["social_links"]={k:v for k,v in links.items() if v}
+        c["social_link_count"]=len({social_identity(u) for v in c["social_links"].values() for u in (v if isinstance(v,list) else [v]) if specific_social_post_url(u)})
 
 ARABIC_DIACRITICS=re.compile(r"[\u0610-\u061a\u064b-\u065f\u0670\u06d6-\u06ed]")
 TITLE_STOP={"offer","offers","campaign","campaigns","promotion","promotions","promo","deal","deals","عرض","عروض","حملة","حملات","ترويج","ترويجي"}
@@ -463,9 +644,47 @@ def merge_into_campaign(target, source):
         target["link"]=source["official_campaign_page_url"]
     links=dict(target.get("social_links") or {}); links.update({k:v for k,v in (source.get("social_links") or {}).items() if v})
     target["social_links"]=links; target["social_link_count"]=len(links)
-    for f in ["summary","snippet","start_date","end_date","published_at","mechanic","eligibility","terms_note","media","evidence_snapshot"]:
+    for f in ["summary","snippet","start_date","end_date","published_at","mechanic","eligibility","terms_note","evidence_snapshot"]:
         if not target.get(f) and source.get(f): target[f]=source[f]
+    # Never copy an arbitrary/social image while consolidating duplicate campaigns.
+    # Only an image explicitly proven to come from an official campaign webpage may merge.
+    sm=source.get("media") or {}
+    if (
+        not target.get("media")
+        and sm.get("source_type")=="official_website"
+        and sm.get("source_url")
+        and not social_url(sm.get("source_url"))
+    ):
+        target["media"]=sm
     if source.get("last_live_verified_at"): target["last_live_verified_at"]=source["last_live_verified_at"]
+
+def sanitize_campaign_media(data):
+    """Remove stale/unproven campaign hero images left by older builds.
+
+    Social images remain on social-post records and linked_posts; a campaign/merchant
+    hero is shown only when media provenance points to its official website detail page.
+    """
+    removed=0
+    for item in data.get("items",[]):
+        if item.get("content_type") not in {"campaign","merchant_offer"}:
+            continue
+        media=item.get("media") or {}
+        if not media:
+            continue
+        source_url=media.get("source_url")
+        official=item.get("official_campaign_page_url") or item.get("primary_official_source_url")
+        valid=(
+            media.get("source_type")=="official_website"
+            and source_url
+            and official
+            and not social_url(source_url)
+            and detail_url_identity(source_url)==detail_url_identity(official)
+        )
+        if not valid:
+            item.pop("media",None)
+            removed+=1
+    data["media_sanitization"]={"removed":removed,"at":iso(now())}
+    return removed
 
 def campaign_rank(row):
     if row.get("source_type")=="inventory" and row.get("manual_override"):return 70
@@ -489,32 +708,32 @@ def consolidate_duplicates(data):
         if target_id in byid and row.get("id")!=target_id:
             merge_into_campaign(byid[target_id],row);remove.add(row.get("id"));redirect[row.get("id")]=target_id
 
-    campaigns=[i for i in items if i.get("id") not in remove and i.get("content_type")=="campaign"]
+    campaigns=[i for i in items if i.get("id") not in remove and i.get("content_type") in {"campaign","merchant_offer"}]
     campaigns.sort(key=campaign_rank,reverse=True)
     kept=[];by_title={};by_url={}
     for row in campaigns:
-        comp=row.get("competitor_id") or "";title_key=campaign_title_key(row.get("title"))
-        urls={detail_url_identity(u) for u in [row.get("official_campaign_page_url"),row.get("primary_official_source_url"),row.get("link")] if u};urls.discard("")
+        comp=row.get("competitor_id") or "";record_type=row.get("content_type") or "campaign";title_key=campaign_title_key(row.get("title"))
+        urls={(social_identity(u) if social_url(u) else detail_url_identity(u)) for u in [row.get("official_campaign_page_url"),row.get("primary_official_source_url"),row.get("link")] if u};urls.discard("")
         target=None
         for u in urls:
-            if (comp,u) in by_url:target=by_url[(comp,u)];break
+            if (comp,record_type,u) in by_url:target=by_url[(comp,record_type,u)];break
         if target is None and title_key and not generic_campaign_title(row.get("title")):
-            target=by_title.get((comp,title_key))
+            target=by_title.get((comp,record_type,title_key))
         if target is None and title_key and not generic_campaign_title(row.get("title")):
-            scored=[(title_similarity(row.get("title"),c.get("title")),c) for c in kept if c.get("competitor_id")==comp and c.get("campaign_category")==row.get("campaign_category")]
+            scored=[(title_similarity(row.get("title"),c.get("title")),c) for c in kept if c.get("competitor_id")==comp and c.get("content_type")==record_type and c.get("campaign_category")==row.get("campaign_category")]
             if scored:
                 score,cand=max(scored,key=lambda x:x[0])
                 if score>=.94:target=cand
         if target is None:
             kept.append(row)
-            if title_key and not generic_campaign_title(row.get("title")):by_title[(comp,title_key)]=row
-            for u in urls:by_url[(comp,u)]=row
+            if title_key and not generic_campaign_title(row.get("title")):by_title[(comp,record_type,title_key)]=row
+            for u in urls:by_url[(comp,record_type,u)]=row
             continue
         merge_into_campaign(target,row);remove.add(row.get("id"));redirect[row.get("id")]=target.get("id")
         for f in ["summary","snippet","start_date","end_date","published_at","mechanic","eligibility","terms_note","operation_type"]:
             if not target.get(f) and row.get(f):target[f]=row[f]
-        if title_key and not generic_campaign_title(row.get("title")):by_title[(comp,title_key)]=target
-        for u in urls:by_url[(comp,u)]=target
+        if title_key and not generic_campaign_title(row.get("title")):by_title[(comp,record_type,title_key)]=target
+        for u in urls:by_url[(comp,record_type,u)]=target
 
     if remove:
         data["items"]=[i for i in items if i.get("id") not in remove]
@@ -589,7 +808,7 @@ def recompute_stats(data):
 def main():
     data=load(DATA_PATH,{});state=load(STATE_PATH,{"schema_version":5,"items":{}});config=load(CONFIG_PATH,{});overrides=load(OVERRIDES_PATH,{"items":{},"new_items":[]})
     if not data.get("items"):print("No data items");return 0
-    add_manual_new_items(data,overrides);verify_details(data,state,config,overrides);enforce_record_integrity(data,config);enrich_social(data,state,config,overrides);enforce_record_integrity(data,config);consolidate_duplicates(data);detect_duplicates_replacements(data)
+    add_manual_new_items(data,overrides);verify_details(data,state,config,overrides);enforce_record_integrity(data,config);enrich_social(data,state,config,overrides);enforce_record_integrity(data,config);consolidate_duplicates(data);sanitize_campaign_media(data);detect_duplicates_replacements(data)
     for item in data.get("items",[]):
         item["review_priority"]=review_priority(item);item.pop("confidence",None) # confidence stays internal, never a displayed score
     snap=snapshot_campaigns(data["items"]);delta=material_delta(state.get("summary_snapshot",{}),snap);summary=ai_summary(data["items"],delta,state,config)
