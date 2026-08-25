@@ -18,7 +18,7 @@ from datetime import datetime, timedelta, timezone
 from email.utils import parsedate_to_datetime
 from pathlib import Path
 from typing import Any
-from urllib.parse import parse_qsl, urlencode, urljoin, urlsplit, urlunsplit
+from urllib.parse import parse_qsl, urlencode, urljoin, urlsplit, urlunsplit, unquote
 
 import requests
 from bs4 import BeautifulSoup
@@ -277,6 +277,75 @@ def title_similarity(a: str | None, b: str | None) -> float:
 
 def generic_title(value: str | None) -> bool:
     return normalized_title(value) in {normalized_title(x) for x in _GENERIC_TITLES}
+
+
+_BARQ_NON_TITLES = {
+    "الشروط والأحكام", "الشروط والاحكام", "الأهلية", "الاهلية", "تفاصيل العرض",
+    "مدة العرض", "رابط الموقع", "الجميع", "عروض", "offers", "terms and conditions",
+}
+
+
+def title_from_detail_url(link: str | None) -> str:
+    """Best-effort fallback for sites whose CTA text is generic but detail URLs are unique."""
+    if not link:
+        return ""
+    try:
+        path = unquote(urlsplit(link).path or "").rstrip("/")
+        slug = path.rsplit("/", 1)[-1]
+        slug = re.sub(r"[-_]+", " ", slug)
+        slug = clean(slug, 220)
+        if not slug or generic_title(slug) or re.fullmatch(r"[0-9a-f-]{8,}", slug, re.I):
+            return ""
+        return slug
+    except Exception:
+        return ""
+
+
+def meaningful_barq_title(anchor: Any, link: str) -> tuple[str, Any]:
+    """Find the actual barq offer-card title instead of the generic `اعرف المزيد` CTA.
+
+    barq's CTA can sit inside nested wrapper divs, so the first parent div is often too
+    shallow. Walk up the card, prefer headings / early text nodes, then fall back to the
+    detail URL slug.
+    """
+    ancestors = [a for a in list(anchor.parents)[:9] if getattr(a, "name", None) in {"article", "li", "div", "section"}]
+    best_parent = ancestors[0] if ancestors else anchor
+
+    # 1) A real heading anywhere in the nearest card ancestor is the strongest signal.
+    for anc in ancestors:
+        for h in anc.find_all(["h1", "h2", "h3", "h4", "h5", "h6"], limit=5):
+            text = clean(h.get_text(" ", strip=True), 220)
+            if text and not generic_title(text) and normalized_title(text) not in {normalized_title(x) for x in _BARQ_NON_TITLES}:
+                return strip_validity_prefix(text), anc
+
+    # 2) barq cards expose the title as an early text node even when no heading tag is used.
+    for anc in ancestors:
+        strings = []
+        for raw in anc.stripped_strings:
+            text = clean(raw, 220)
+            key = normalized_title(text)
+            if not text or generic_title(text) or key in {normalized_title(x) for x in _BARQ_NON_TITLES}:
+                continue
+            if text.casefold().startswith(("الشروط", "باستخدام هذا العرض", "بالاستفادة من هذا العرض")):
+                continue
+            strings.append(text)
+            if len(strings) >= 8:
+                break
+        if strings:
+            # Prefer an explicit offer/campaign label, otherwise the first meaningful card string.
+            preferred = next((x for x in strings if re.search(r"(?:^|\s)(?:عرض|حملة)(?:\s|$)|(?:offer|campaign)", x, re.I)), strings[0])
+            return strip_validity_prefix(preferred), anc
+
+    # 3) Last resort: use the unique detail URL slug, never the CTA text.
+    return strip_validity_prefix(title_from_detail_url(link)), best_parent
+
+
+def invalid_discovered_website_item(row: dict[str, Any]) -> bool:
+    """Rows created from a generic CTA are parser noise and must not survive in state."""
+    if row.get("source_type") != "website" or not str(row.get("id") or "").startswith("detected:"):
+        return False
+    title = clean(row.get("title"), 220)
+    return (not title) or generic_title(title) or normalized_title(title) == normalized_title("Discovered official offer")
 
 
 def merge_campaign_fields(target: dict[str, Any], source: dict[str, Any]) -> None:
@@ -648,25 +717,37 @@ def extract_website_candidates(markup: str, competitor: dict[str, Any], source: 
             # Historical cards are not discovery candidates; they remain history only.
             continue
 
-        parent = anchor
-        for candidate in list(anchor.parents)[:5]:
-            if candidate.name in {"article", "li", "div", "section"}:
-                parent = candidate
-                break
+        if parser_name == "barq":
+            title, parent = meaningful_barq_title(anchor, link)
+        else:
+            parent = anchor
+            for candidate in list(anchor.parents)[:5]:
+                if candidate.name in {"article", "li", "div", "section"}:
+                    parent = candidate
+                    break
 
-        raw_candidates = [anchor.get("aria-label"), anchor.get("title")]
-        heading = anchor.find(["h1","h2","h3","h4","h5","h6"]) or (parent.find(["h1","h2","h3","h4","h5","h6"]) if parent else None)
-        if heading is not None:
-            raw_candidates.append(heading.get_text(" ", strip=True))
-        # Mobily's CTA is generic, so parent heading must always beat anchor text.
-        raw_candidates.append(anchor.get_text(" ", strip=True))
-        title = ""
-        for candidate in raw_candidates:
-            candidate = clean(candidate, 220)
-            if candidate and not generic_title(candidate):
-                title = candidate
-                break
-        title = strip_validity_prefix(title or clean(anchor.get_text(" ", strip=True), 220) or "Discovered official offer")
+            raw_candidates = [anchor.get("aria-label"), anchor.get("title")]
+            heading = anchor.find(["h1","h2","h3","h4","h5","h6"]) or (parent.find(["h1","h2","h3","h4","h5","h6"]) if parent else None)
+            if heading is not None:
+                raw_candidates.append(heading.get_text(" ", strip=True))
+            # Generic CTA text is never a valid offer title.
+            raw_candidates.append(anchor.get_text(" ", strip=True))
+            title = ""
+            for candidate in raw_candidates:
+                candidate = clean(candidate, 220)
+                if candidate and not generic_title(candidate):
+                    title = candidate
+                    break
+            if not title:
+                title = title_from_detail_url(link)
+            title = strip_validity_prefix(title)
+
+        # If a detail link exists but we still cannot identify the card, skip it instead of
+        # registering `Read more / اعرف المزيد` as a campaign name.
+        if not title or generic_title(title):
+            skipped_general += 1
+            continue
+
         snippet = clean(parent.get_text(" ", strip=True), 1200)
         combined = f"{link} {title} {snippet}".casefold()
         if excludes and any(word in combined for word in excludes):
@@ -893,6 +974,12 @@ def repair_campaign_references(items: list[dict[str, Any]]) -> None:
 
 def reconcile_live(state: dict[str, Any], collected: list[dict[str, Any]], statuses: list[dict[str, Any]], now: datetime, config: dict[str, Any]) -> list[dict[str, Any]]:
     items = state.setdefault("items", {})
+
+    # Purge parser noise from older runs immediately. Waiting for the normal missed-run
+    # expiry would keep duplicate generic CTA records alive for several hours.
+    for stale_id in [key for key, row in items.items() if invalid_discovered_website_item(row)]:
+        items.pop(stale_id, None)
+
     successful = {row["source_key"] for row in statuses if row.get("success")}
     seen: set[str] = set()
     stamp = iso(now)
