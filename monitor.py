@@ -748,7 +748,10 @@ def extract_website_candidates(markup: str, competitor: dict[str, Any], source: 
             skipped_general += 1
             continue
 
-        snippet = clean(parent.get_text(" ", strip=True), 1200)
+        # Alinma Pay's offers index can place many unrelated offer cards inside the
+        # same DOM container. Never use index-page body/card text as the detail
+        # description for an Alinma campaign; the official detail page is authoritative.
+        snippet = "" if parser_name == "alinma-pay" else clean(parent.get_text(" ", strip=True), 1200)
         combined = f"{link} {title} {snippet}".casefold()
         if excludes and any(word in combined for word in excludes):
             continue
@@ -772,7 +775,8 @@ def extract_website_candidates(markup: str, competitor: dict[str, Any], source: 
             "current_status": "Needs Review", "active": True, "direct_link": is_direct, "verified": True,
             "official_discovery": True, "discovery_section": "current",
             "review_required": True, "review_reasons": ["new_official_item_not_in_excel_inventory"], "confidence": "medium",
-            "mechanic_tags": mechanics, "theme_tags": themes, "media": media_from_node(parent, source["url"]),
+            "mechanic_tags": mechanics, "theme_tags": themes,
+            "media": None if parser_name == "alinma-pay" else media_from_node(parent, source["url"]),
         }
     return list(found.values()), skipped_general
 

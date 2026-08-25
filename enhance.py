@@ -31,6 +31,7 @@ MECHANICS = {
 WINNER_ANNOUNCEMENT_WORDS=["winner","winners","congratulations","congrats","winner announcement","فائز","فائزة","فائزين","فائزينا","الفائز","الفائزة","الفائزين","مبروك","نبارك","تهانينا"]
 SOCIAL_HOSTS=("instagram.com","facebook.com","m.facebook.com","x.com","twitter.com","tiktok.com")
 AI_DATE_CALLS_THIS_RUN=0
+DETAIL_EXTRACTOR_VERSION="focused-detail-v2"
 
 def is_winner_announcement(item):
     text=f"{item.get('title','')} {item.get('snippet','')}".casefold()
@@ -350,12 +351,78 @@ def date_context(text):
     selected=[clean(x,700) for x in pieces if any(m in x.casefold() for m in markers)]
     return "\n".join(selected[:12])[:5000]
 
-def extract_page(html,url):
+def _prepare_detail_soup(html):
+    """Return a cleaned soup for campaign-detail extraction, excluding global chrome."""
     soup=BeautifulSoup(html,"html.parser")
+    for tag in soup.find_all(["script","style","noscript","svg","nav","header","footer","aside","form"]):
+        tag.decompose()
+    # Common cookie / generic site chrome containers. Only remove when selectors are explicit.
+    for selector in ["[id*='cookie']","[class*='cookie']","[id*='footer']","[class*='footer']","[id*='header']","[class*='header']"]:
+        try:
+            for tag in soup.select(selector):
+                tag.decompose()
+        except Exception:
+            pass
+    return soup
+
+
+def _detail_scope(soup):
+    """Find the smallest campaign-specific DOM region around the primary heading.
+
+    This prevents offer-index carousels / related offers from leaking into one campaign's
+    summary and, more importantly, from contributing another offer's validity dates.
+    """
+    h1=soup.find("h1")
+    date_markers=("valid","validity","until","through","يسري","ساري","حتى","مدة العرض","فترة العرض","ينتهي","يبدأ")
+    if h1:
+        candidates=[]
+        for depth,parent in enumerate(h1.parents):
+            if getattr(parent,"name",None) in {"html","body"}: break
+            if getattr(parent,"name",None) not in {"main","article","section","div"}: continue
+            text=clean(parent.get_text(" ",strip=True),12000)
+            if len(text)<80: continue
+            marker=any(m in text.casefold() for m in date_markers)
+            link_count=len(parent.find_all("a",href=True))
+            heading_count=len(parent.find_all("h1"))
+            # Prefer a compact container that contains validity evidence and only one primary heading.
+            score=(0 if marker else 1, 0 if heading_count<=1 else 1, 0 if link_count<=12 else 1, len(text), depth)
+            if len(text)<=8000:
+                candidates.append((score,parent))
+        if candidates:
+            candidates.sort(key=lambda x:x[0])
+            return candidates[0][1]
+    return soup.find("article") or soup.find("main") or soup.body or soup
+
+
+def _focused_summary(scope,title):
+    """Build a concise description from the campaign detail body, never from listing cards."""
+    seen=set(); parts=[]
+    title_key=clean(title,300).casefold()
+    for node in scope.find_all(["p","li"],recursive=True):
+        text=clean(node.get_text(" ",strip=True),600)
+        key=text.casefold()
+        if not text or len(text)<20 or key==title_key or key in seen: continue
+        if any(x in key for x in ("cookie","privacy policy","سياسة استخدام ملفات تعريف الارتباط")): continue
+        seen.add(key);parts.append(text)
+        # The first descriptive paragraph is normally enough for the dashboard card.
+        if len(" ".join(parts))>=450 or len(parts)>=2: break
+    return clean(" ".join(parts),700) if parts else clean(scope.get_text(" ",strip=True),700)
+
+
+def extract_page(html,url):
+    soup=_prepare_detail_soup(html)
     title=clean((soup.find("meta",property="og:title") or {}).get("content") if soup.find("meta",property="og:title") else "",300) or clean(soup.title.get_text(" ",strip=True) if soup.title else "",300)
+    h1=soup.find("h1")
+    if h1:
+        h1_title=clean(h1.get_text(" ",strip=True),300)
+        # Prefer a meaningful H1 when the metadata title is generic / site-branded.
+        if h1_title and (not title or len(h1_title)>=len(title)*0.35):
+            title=title or h1_title
+    scope=_detail_scope(soup)
+    focused_text=clean(scope.get_text(" ",strip=True),16000)
     desc_node=soup.find("meta",attrs={"name":"description"}) or soup.find("meta",property="og:description")
-    summary=clean(desc_node.get("content") if desc_node else "",1000)
-    text=clean(soup.get_text(" ",strip=True),25000)
+    meta_summary=clean(desc_node.get("content") if desc_node else "",700)
+    summary=_focused_summary(scope,title) or meta_summary
     pub=[];starts=[];ends=[]
     for obj in jsonld_objects(soup):
         for k in ["datePublished","dateCreated","uploadDate"]:
@@ -367,18 +434,19 @@ def extract_page(html,url):
     for attr,target in [("article:published_time",pub),("offer:valid_from",starts),("offer:valid_through",ends)]:
         n=soup.find("meta",property=attr)
         if n and n.get("content"):target.append(n["content"])
-    text_start,text_end,evidence=extract_dates_from_text(text)
+    # Dates/tags/values are extracted only from the campaign-specific detail scope.
+    text_start,text_end,evidence=extract_dates_from_text(focused_text)
     structured_start=first_date(starts);structured_end=first_date(ends)
     image=None;n=soup.find("meta",property="og:image")
     if n and n.get("content"):image=urljoin(url,n["content"])
     return {
         "title":title,"summary":summary,"published_at":first_date(pub),"start_date":structured_start or text_start,"end_date":structured_end or text_end,
-        "mechanic_tags":mechanics(text),"corridors":corridors(text),"offer_values":offer_values(text),"image":image,
+        "mechanic_tags":mechanics(focused_text),"corridors":corridors(focused_text),"offer_values":offer_values(focused_text),"image":image,
         "evidence_snapshot":evidence or summary or title or None,
         "date_evidence":{"start":evidence if (structured_start or text_start) else None,"end":evidence if (structured_end or text_end) else None},
-        "date_context":date_context(text),
+        "date_context":date_context(focused_text),
         "date_extraction_method":"structured_or_rules" if (structured_start or structured_end or text_start or text_end) else "not_found",
-        "content_hash":hash_text(title,summary,text[:12000])
+        "content_hash":hash_text(title,summary,focused_text[:12000])
     }
 
 def ai_fill_dates(ex,state,config):
@@ -532,7 +600,13 @@ def verify_details(data,state,config,overrides):
 
         cached=cache.get(item["id"],{})
         last=dt(cached.get("checked_at"))
-        due=not last or current-last>=timedelta(hours=interval)
+        # Force one immediate re-verification whenever the detail-extraction algorithm changes.
+        # This cleans legacy listing-page contamination without waiting for the normal interval.
+        due=(
+            not last
+            or current-last>=timedelta(hours=interval)
+            or cached.get("extractor_version")!=DETAIL_EXTRACTOR_VERSION
+        )
 
         if due and checks<max_checks and not skip:
             checks+=1
@@ -558,6 +632,7 @@ def verify_details(data,state,config,overrides):
                     "success":True,
                     "url":url,
                     "extracted":ex,
+                    "extractor_version":DETAIL_EXTRACTOR_VERSION,
                     "error":None,
                 }
                 cache[item["id"]]=cached
@@ -601,8 +676,17 @@ def verify_details(data,state,config,overrides):
 
         if ex.get("title") and not item.get("title") and "title" not in manual:
             item["title"]=ex["title"]
-        if ex.get("summary") and not (item.get("summary") or item.get("snippet")) and "summary" not in manual:
-            item["summary"]=item["snippet"]=ex["summary"]
+        if ex.get("summary") and "summary" not in manual:
+            current_summary=clean(item.get("summary") or item.get("snippet"),5000)
+            # Official detail content is authoritative for auto-discovered records. Also repair
+            # legacy listing-page contamination (very long card/list text merged into a campaign).
+            contaminated=(
+                len(current_summary)>700
+                or len(re.findall(r"(?:حتى|until|through)\s+[^,.؛]{0,35}20\d{2}",current_summary,re.I))>=3
+                or len(re.findall(r"\b\d{1,3}%",current_summary))>=4
+            )
+            if item.get("source_type")=="website" or item.get("official_discovery") or not current_summary or contaminated:
+                item["summary"]=item["snippet"]=ex["summary"]
 
         item["mechanic_tags"]=list(dict.fromkeys((item.get("mechanic_tags") or [])+(ex.get("mechanic_tags") or [])))
         item["corridors"]=ex.get("corridors") or item.get("corridors") or []
