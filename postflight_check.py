@@ -131,11 +131,17 @@ for i in items:
             vals=raw if isinstance(raw,list) else [raw]
             for u in vals:
                 if not u:continue
-                if not specific_social(u):warn(f'{iid}: {platform} link is not a specific social post: {u}')
+                if not specific_social(u):
+                    warn(f'{iid}: {platform} link is not a specific social post: {u}')
+                    continue
                 ident=social_id(u)
                 if ident:master_ids.add(ident);unique[ident]=platform
         for p in i.get('linked_posts') or []:
-            u=p.get('link');ident=social_id(u)
+            u=p.get('link')
+            if not specific_social(u):
+                if u:warn(f'{iid}: linked post is not a specific social post: {u}')
+                continue
+            ident=social_id(u)
             if ident:unique[ident]=p.get('platform') or unique.get(ident)
         total=len(unique);reported=int(i.get('social_posts_total') or 0)
         counts=i.get('social_post_counts') or {};countsum=sum(int(counts.get(p,0) or 0) for p in ('instagram','x','facebook','tiktok'))
