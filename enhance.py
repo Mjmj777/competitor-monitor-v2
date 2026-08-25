@@ -138,7 +138,12 @@ def normalize_winner_announcements(data):
 
 
 def enforce_record_integrity(data, config):
-    """Social posts cannot create counted campaigns; unsourced campaigns are quarantined."""
+    """Hard guardrails for counted records before deduplication.
+
+    Social posts never become counted records. Newly discovered official website rows are
+    allowed into Campaign/Merchant Offer only after the detail page itself was verified.
+    This rule is deterministic and overrides stale AI/classification cache decisions.
+    """
     changed=0
     for item in data.get("items",[]):
         if item.get("source_type")=="social" and item.get("content_type") in {"campaign","merchant_offer"}:
@@ -155,13 +160,29 @@ def enforce_record_integrity(data, config):
                 if is_winner_announcement(item):
                     item["review_reasons"]=list(dict.fromkeys(item["review_reasons"]+["winner_announcement_unlinked"]))
             changed+=1
-        if item.get("content_type")=="campaign" and not accepted_direct_source(item,config):
-            item["content_type"]="review"
-            item["suggested_record_type"]="campaign"
-            item["review_required"]=True
-            item["current_status"]="Needs Review"
-            item["review_reasons"]=list(dict.fromkeys((item.get("review_reasons") or [])+["missing_direct_official_source"]))
-            changed+=1
+
+        if item.get("content_type") in {"campaign","merchant_offer"}:
+            # An auto-discovered website card/link is only counted after its own detail page
+            # was successfully fetched and verified. A stale AI cache can never bypass this.
+            if item.get("source_type")=="website" and item.get("official_discovery"):
+                sv=(item.get("source_verification") or {}).get("status")
+                if sv!="verified_website":
+                    suggested=item.get("content_type")
+                    item["content_type"]="review"
+                    item["suggested_record_type"]=suggested
+                    item["review_required"]=True
+                    item["current_status"]="Needs Review"
+                    item["review_reasons"]=list(dict.fromkeys((item.get("review_reasons") or [])+["official_detail_not_verified"]))
+                    changed+=1
+                    continue
+
+            if item.get("content_type")=="campaign" and not accepted_direct_source(item,config):
+                item["content_type"]="review"
+                item["suggested_record_type"]="campaign"
+                item["review_required"]=True
+                item["current_status"]="Needs Review"
+                item["review_reasons"]=list(dict.fromkeys((item.get("review_reasons") or [])+["missing_direct_official_source"]))
+                changed+=1
     data["record_integrity"]={"quarantined_or_demoted":changed,"at":iso(now())}
     return changed
 
@@ -694,7 +715,14 @@ def enrich_social(data,state,config,overrides):
     for row in [i for i in items if i.get("source_type") in {"website"} and (i.get("review_required") or i.get("content_type")=="review")]:
         key=hash_text("classifier-v3",row.get("title"),row.get("snippet"),row.get("link")); cached=cache.get(row["id"],{})
         if cached.get("content_key")==key and cached.get("decision"):
-            row.update(cached["decision"]); continue
+            decision=dict(cached["decision"])
+            # Never let a stale cached classification promote an unverified official discovery.
+            if decision.get("content_type") in {"campaign","merchant_offer"} and (row.get("source_verification") or {}).get("status")!="verified_website":
+                decision["suggested_record_type"]=decision.get("content_type")
+                decision["content_type"]="review"
+                decision["review_required"]=True
+                decision["review_reasons"]=list(dict.fromkeys((decision.get("review_reasons") or [])+["official_detail_not_verified"]))
+            row.update(decision); continue
         extra.append(row)
     extra_decisions=ai_classify(extra[:maxn],campaigns,state,config)
     for row in extra[:maxn]:
@@ -720,7 +748,13 @@ def enrich_social(data,state,config,overrides):
                 reason="expired_official_candidate" if row.get("active") is False else "new_official_campaign_needs_review"
                 patch.update(content_type="review",suggested_record_type="campaign",review_required=True,review_reasons=[reason])
         else:
-            patch.update(content_type=d["record_type"],review_required=False,review_reasons=[])
+            # Merchant offers discovered from a website need the same detail-page verification
+            # as campaigns before they become counted records.
+            verified=(row.get("source_verification") or {}).get("status")=="verified_website"
+            if d["record_type"]=="merchant_offer" and row.get("official_discovery") and not verified:
+                patch.update(content_type="review",suggested_record_type="merchant_offer",review_required=True,review_reasons=["official_detail_not_verified"])
+            else:
+                patch.update(content_type=d["record_type"],review_required=False,review_reasons=[])
         row.update(patch); cache[row["id"]]={"content_key":hash_text("classifier-v3",row.get("title"),row.get("snippet"),row.get("link")),"decision":patch,"at":iso(now())}
 
     # Build campaign social analytics from BOTH approved/master direct links and RSS-linked posts.
@@ -939,6 +973,37 @@ def detect_duplicates_replacements(data):
                 newer,older=(a,b) if (dt(a.get("start_date")) or datetime.min.replace(tzinfo=timezone.utc))>(dt(b.get("start_date")) or datetime.min.replace(tzinfo=timezone.utc)) else (b,a)
                 if older.get("active") is False:newer["replacement_candidate_id"]=older["id"]
 
+def finalize_counted_statuses(data, overrides, config):
+    """Recalculate counted-record status after deduplication/merging.
+
+    Deduplication can copy a newly discovered end date into an older inventory record.
+    Therefore expiry must be recalculated *after* merges, otherwise an expired campaign can
+    incorrectly remain active until the next run. Expiry is a hard rule and is not inferred.
+    """
+    current=now(); changed=0
+    for item in data.get("items",[]):
+        if item.get("content_type") not in {"campaign","merchant_offer"}:
+            continue
+        if item.get("source_type")=="website" and item.get("official_discovery") and (item.get("source_verification") or {}).get("status")!="verified_website":
+            suggested=item.get("content_type")
+            item["content_type"]="review"
+            item["suggested_record_type"]=suggested
+            item["review_required"]=True
+            item["current_status"]="Needs Review"
+            item["review_reasons"]=list(dict.fromkeys((item.get("review_reasons") or [])+["official_detail_not_verified"]))
+            changed+=1
+            continue
+        status,active=status_for(item,current)
+        if item.get("current_status")!=status:
+            item["current_status"]=status; changed+=1
+        # A known past end date always wins over stale active flags, including inventory rows.
+        if item.get("active")!=active:
+            item["active"]=active; changed+=1
+        if status=="Expired":
+            item["review_required"]=False if not item.get("review_reasons") else item.get("review_required",False)
+    data["final_status_normalization"]={"changed":changed,"at":iso(current)}
+    return changed
+
 def review_priority(item):
     n=0
     if item.get("review_required"):n+=20
@@ -988,7 +1053,7 @@ def recompute_stats(data):
 def main():
     data=load(DATA_PATH,{});state=load(STATE_PATH,{"schema_version":5,"items":{}});config=load(CONFIG_PATH,{});overrides=load(OVERRIDES_PATH,{"items":{},"new_items":[]})
     if not data.get("items"):print("No data items");return 0
-    add_manual_new_items(data,overrides);verify_details(data,state,config,overrides);enforce_record_integrity(data,config);enrich_social(data,state,config,overrides);normalize_winner_announcements(data);enforce_record_integrity(data,config);consolidate_duplicates(data);sanitize_campaign_media(data);detect_duplicates_replacements(data)
+    add_manual_new_items(data,overrides);verify_details(data,state,config,overrides);enforce_record_integrity(data,config);enrich_social(data,state,config,overrides);normalize_winner_announcements(data);enforce_record_integrity(data,config);consolidate_duplicates(data);finalize_counted_statuses(data,overrides,config);sanitize_campaign_media(data);detect_duplicates_replacements(data)
     for item in data.get("items",[]):
         item["review_priority"]=review_priority(item);item.pop("confidence",None) # confidence stays internal, never a displayed score
     snap=snapshot_campaigns(data["items"]);delta=material_delta(state.get("summary_snapshot",{}),snap);summary=ai_summary(data["items"],delta,state,config)
