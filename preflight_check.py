@@ -73,6 +73,29 @@ try:
     rows,_=_monitor.extract_website_candidates(fixture,mob,src,config,'test')
     titles={r.get('title') for r in rows}
     if 'عرض حالي' not in titles or 'عرض قديم' in titles: fail('Mobily Pay parser mixed expired offers into current discovery')
+
+    # tiqmo regression: multiple different campaigns intentionally share the same generic /offers URL.
+    tiq_generic='https://tiqmo.com/en/offers'
+    sample=[
+        {'id':'campaign:tiqmo:5','competitor_id':'tiqmo','source_type':'inventory','content_type':'campaign','campaign_category':'card','title':'Zero International Card Transaction Fees','link':tiq_generic,'official_campaign_page_url':tiq_generic},
+        {'id':'campaign:tiqmo:6','competitor_id':'tiqmo','source_type':'inventory','content_type':'campaign','campaign_category':'card','title':'SAR 250,000 Spend & Win Campaign','link':tiq_generic,'official_campaign_page_url':tiq_generic},
+        {'id':'post:tiqmo:x:test','competitor_id':'tiqmo','source_type':'social','content_type':'social_post','campaign_id':'campaign:tiqmo:6'}
+    ]
+    deduped=_monitor.deduplicate_campaign_records(sample,config)
+    ids={r.get('id') for r in deduped}
+    if not {'campaign:tiqmo:5','campaign:tiqmo:6'}.issubset(ids): fail('tiqmo generic offers URL incorrectly merged distinct campaigns')
+    post=next((r for r in deduped if r.get('id')=='post:tiqmo:x:test'),{})
+    if post.get('campaign_id')!='campaign:tiqmo:6': fail('tiqmo campaign reference changed while distinct campaigns share the generic offers URL')
+
+    # True duplicates with a unique campaign URL must merge and redirect linked posts.
+    duplicate=[
+        {'id':'campaign:test','competitor_id':'stc-bank','source_type':'inventory','content_type':'campaign','campaign_category':'card','title':'Reference Test Offer','link':'https://stcbank.com.sa/en/w/reference-test','official_campaign_page_url':'https://stcbank.com.sa/en/w/reference-test'},
+        {'id':'detected:test','competitor_id':'stc-bank','source_type':'website','content_type':'campaign','campaign_category':'card','title':'Reference Test Offer','link':'https://www.stcbank.com.sa/en/w/reference-test','official_campaign_page_url':'https://www.stcbank.com.sa/en/w/reference-test'},
+        {'id':'post:test','competitor_id':'stc-bank','source_type':'social','content_type':'social_post','campaign_id':'detected:test'}
+    ]
+    fixed=_monitor.deduplicate_campaign_records(duplicate,config)
+    ids={r.get('id') for r in fixed}; post=next((r for r in fixed if r.get('id')=='post:test'),{})
+    if 'campaign:test' not in ids or 'detected:test' in ids or post.get('campaign_id')!='campaign:test': fail('Campaign dedup did not repair linked campaign_id references')
 except Exception as exc: fail(f'Parser/date regression check failed: {exc}')
 
 # English must be the initial language; the UI may persist the user's later choice.

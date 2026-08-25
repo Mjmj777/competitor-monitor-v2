@@ -56,6 +56,15 @@ def specific_social(v):
     if 'facebook.com' in h:return any(x in path for x in ('/posts/','/videos/','/reel/','/share/','/photo','/permalink')) or 'story.php' in str(v).casefold()
     return False
 
+def generic_competitor_source_url(v, competitor_id, config):
+    if not v or not competitor_id:return False
+    ident=url_id(v)
+    for comp in config.get('competitors',[]):
+        if comp.get('id')!=competitor_id:continue
+        vals=[comp.get('website'),comp.get('offers_url')]+[src.get('url') for src in comp.get('website_sources',[]) if src.get('url')]
+        return any(url_id(x)==ident for x in vals if x)
+    return False
+
 try:data=json.loads(DATA.read_text(encoding='utf-8'));config=json.loads(CONFIG.read_text(encoding='utf-8'))
 except Exception as exc:
     print('POST-FLIGHT FAILED\n - Cannot load data/config:',exc);raise SystemExit(1)
@@ -104,7 +113,7 @@ for i in items:
             seen_title[k]=iid
         modal_source=(i.get('source_verification') or {}).get('verification_method')=='official_website_modal' and bool(i.get('source_locator'))
         for u in (i.get('official_campaign_page_url'),i.get('primary_official_source_url'),i.get('link')):
-            if not u or is_social(u) or modal_source:continue
+            if not u or is_social(u) or modal_source or generic_competitor_source_url(u,comp,config):continue
             ident=url_id(u);k=(comp,ctype,ident)
             if ident and k in seen_url and seen_url[k]!=iid:fail(f'{iid}: duplicate official URL with {seen_url[k]}')
             if ident:seen_url[k]=iid

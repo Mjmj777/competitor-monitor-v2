@@ -888,14 +888,34 @@ def reconcile_live(state: dict[str, Any], collected: list[dict[str, Any]], statu
     return [{k: v for k, v in row.items() if k not in hidden} for row in items.values()]
 
 
-def match_inventory(inventory: list[dict[str, Any]], live: list[dict[str, Any]]) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
+def generic_competitor_source_url(value: str | None, competitor_id: str | None, config: dict[str, Any]) -> bool:
+    """Return True for a competitor-level landing/offers URL, not a campaign-specific detail URL.
+
+    These URLs must never be used as campaign identity keys. tiqmo is the clearest case:
+    every offer modal shares the same /offers URL, so URL-based dedup would collapse unrelated campaigns.
+    """
+    if not value or not competitor_id:
+        return False
+    ident = url_identity(value)
+    if not ident:
+        return False
+    for comp in config.get("competitors", []):
+        if comp.get("id") != competitor_id:
+            continue
+        candidates = [comp.get("website"), comp.get("offers_url")]
+        candidates += [src.get("url") for src in comp.get("website_sources", []) if src.get("url")]
+        return any(url_identity(v) == ident for v in candidates if v)
+    return False
+
+
+def match_inventory(inventory: list[dict[str, Any]], live: list[dict[str, Any]], config: dict[str, Any]) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
     official_map: dict[str, dict[str, Any]] = {}
     social_map: dict[str, dict[str, Any]] = {}
     by_competitor: dict[str, list[dict[str, Any]]] = {}
     for campaign in inventory:
         by_competitor.setdefault(campaign.get("competitor_id"), []).append(campaign)
         for url in [campaign.get("link"), campaign.get("official_campaign_page_url"), campaign.get("primary_official_source_url")]:
-            if url and not social_url(url):
+            if url and not social_url(url) and not generic_competitor_source_url(url, campaign.get("competitor_id"), config):
                 official_map[url_identity(url)] = campaign
         for url in (campaign.get("social_links") or {}).values():
             if specific_social_post_url(url):
@@ -908,7 +928,8 @@ def match_inventory(inventory: list[dict[str, Any]], live: list[dict[str, Any]])
             key = social_identity(row.get("link"))
             campaign = social_map.get(key) if key else None
         else:
-            key = url_identity(row.get("link"))
+            raw_link = row.get("link")
+            key = None if generic_competitor_source_url(raw_link, row.get("competitor_id"), config) else url_identity(raw_link)
             campaign = official_map.get(key) if key else None
 
         # Website offer detail pages are also matched by title/category when the Excel row
@@ -956,7 +977,7 @@ def campaign_rank(row: dict[str, Any]) -> int:
     return 10
 
 
-def deduplicate_campaign_records(items: list[dict[str, Any]]) -> list[dict[str, Any]]:
+def deduplicate_campaign_records(items: list[dict[str, Any]], config: dict[str, Any]) -> list[dict[str, Any]]:
     """Hard dedup: one campaign per competitor and campaign identity.
 
     Identity is resolved by official detail URL first, exact normalized title second, then a
@@ -969,12 +990,21 @@ def deduplicate_campaign_records(items: list[dict[str, Any]]) -> list[dict[str, 
     kept: list[dict[str, Any]]=[]
     by_url: dict[tuple[str,str], dict[str, Any]]={}
     by_title: dict[tuple[str,str], dict[str, Any]]={}
+    redirect: dict[str, str] = {}
     for row in records:
         comp=row.get("competitor_id") or ""
         record_type=row.get("content_type") or "campaign"
         title_key=normalized_title(row.get("title"))
-        urls={(social_identity(u) if social_url(u) else url_identity(u)) for u in [row.get("official_campaign_page_url"),row.get("primary_official_source_url"),row.get("link")] if u}
-        urls.discard("")
+        urls=set()
+        for u in [row.get("official_campaign_page_url"), row.get("primary_official_source_url"), row.get("link")]:
+            if not u:
+                continue
+            # A shared offers/index page is evidence, not campaign identity.
+            if not social_url(u) and generic_competitor_source_url(u, comp, config):
+                continue
+            ident = social_identity(u) if social_url(u) else url_identity(u)
+            if ident:
+                urls.add(ident)
         target=None
         for u in urls:
             if (comp,record_type,u) in by_url:
@@ -994,13 +1024,39 @@ def deduplicate_campaign_records(items: list[dict[str, Any]]) -> list[dict[str, 
             for u in urls: by_url[(comp,record_type,u)]=row
             continue
         merge_campaign_fields(target,row)
+        if row.get("id") and target.get("id") and row.get("id") != target.get("id"):
+            redirect[row["id"]] = target["id"]
         for f in ["summary","snippet","start_date","end_date","published_at","mechanic","eligibility","terms_note","operation_type"]:
             if not target.get(f) and row.get(f): target[f]=row[f]
         target["review_required"] = bool(target.get("review_required") and row.get("review_required"))
         # Register every identity from the duplicate against the retained record.
         if title_key and not generic_title(row.get("title")): by_title[(comp,record_type,title_key)]=target
         for u in urls: by_url[(comp,record_type,u)]=target
-    return kept + others
+    result = kept + others
+
+    # Resolve redirect chains and repair references on social/review rows after a real dedup merge.
+    def resolve(value: str | None) -> str | None:
+        seen=set()
+        while value in redirect and value not in seen:
+            seen.add(value)
+            value=redirect[value]
+        return value
+
+    valid_ids={row.get("id") for row in result if row.get("id")}
+    for row in result:
+        for field in ("campaign_id", "suggested_campaign_id"):
+            old_id=row.get(field)
+            if not old_id:
+                continue
+            new_id=resolve(old_id)
+            if new_id in valid_ids:
+                row[field]=new_id
+            else:
+                row.pop(field, None)
+                if field=="campaign_id":
+                    row["review_required"]=True
+                    row["review_reasons"]=list(dict.fromkeys((row.get("review_reasons") or [])+["stale_campaign_reference_repaired"]))
+    return result
 
 def source_history(statuses: list[dict[str, Any]], previous_data: dict[str, Any], checked: str) -> list[dict[str, Any]]:
     old = {row.get("source_key"): row for row in previous_data.get("source_status", [])}
@@ -1075,10 +1131,10 @@ def run(config: dict[str, Any]) -> dict[str, Any]:
     statuses.sort(key=lambda row: row["source_key"])
     state = load_json(STATE_PATH, {"schema_version": 4, "items": {}})
     live = reconcile_live(state, collected, statuses, now, config)
-    inventory, live = match_inventory(inventory, live)
+    inventory, live = match_inventory(inventory, live, config)
     items = inventory + live
     items = [apply_override(row, overrides.get(row["id"], {})) for row in items]
-    items = deduplicate_campaign_records(items)
+    items = deduplicate_campaign_records(items, config)
     items.sort(key=lambda row: (row.get("active") is not False, parse_iso(row.get("published_at")) or parse_iso(row.get("last_changed")) or datetime.min.replace(tzinfo=timezone.utc)), reverse=True)
     previous = load_json(DATA_PATH, {})
     statuses = source_history(statuses, previous, checked)
