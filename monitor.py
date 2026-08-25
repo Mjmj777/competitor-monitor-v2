@@ -925,6 +925,35 @@ def social_items(http: requests.Session, competitor: dict[str, Any], platform: s
         return [], status
 
 
+def lifecycle_status(item: dict[str, Any], at: datetime | None = None) -> tuple[str, bool]:
+    at = at or now_utc()
+    start = parse_iso(item.get("start_date"))
+    end = parse_iso(item.get("end_date"))
+    if start and start.date() > at.date():
+        return "Upcoming", True
+    if end:
+        days = (end.date() - at.date()).days
+        if days < 0:
+            return "Expired", False
+        if days <= 7:
+            return "Expiring ≤7 Days", True
+        if days <= 30:
+            return "Expiring 8–30 Days", True
+        return "Active", True
+    return "End Date Not Stated", True
+
+
+def stale_no_end_note(value: Any) -> bool:
+    text = clean(value, 1000).casefold()
+    if not text:
+        return False
+    markers = (
+        "end date is not stated", "end date not stated", "no end date",
+        "تاريخ الانتهاء غير", "تاريخ انتهاء غير", "لم يتم ذكر تاريخ الانتهاء", "لم يذكر تاريخ الانتهاء",
+    )
+    return any(marker in text for marker in markers)
+
+
 def apply_override(item: dict[str, Any], override: dict[str, Any]) -> dict[str, Any]:
     allowed = {"title", "snippet", "summary", "content_type", "campaign_category", "primary_category", "categories", "current_status", "active", "published_at", "start_date", "end_date", "official_campaign_page_url", "primary_official_source_url", "link", "social_links", "review_required", "review_reasons", "mechanic_tags", "theme_tags", "operation_type", "mechanic", "eligibility", "terms_note", "deleted", "deleted_at", "deleted_title", "deleted_competitor_id", "deleted_url"}
     result = dict(item)
@@ -936,6 +965,14 @@ def apply_override(item: dict[str, Any], override: dict[str, Any]) -> dict[str, 
         result["categories"] = [result["campaign_category"]]
     result["social_links"] = {k: v for k, v in (result.get("social_links") or {}).items() if v}
     result["social_link_count"] = len(result["social_links"])
+    # Lifecycle is always derived from dates. A stale manual status/active flag must never
+    # contradict a newly entered Start/End Date.
+    if result.get("content_type") in {"campaign", "merchant_offer"}:
+        status, active = lifecycle_status(result)
+        result["current_status"] = status
+        result["active"] = active
+        if result.get("end_date") and stale_no_end_note(result.get("terms_note")):
+            result["terms_note"] = ""
     result["manual_override"] = True
     return result
 

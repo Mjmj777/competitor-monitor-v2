@@ -1176,6 +1176,13 @@ def detect_duplicates_replacements(data):
                 newer,older=(a,b) if (dt(a.get("start_date")) or datetime.min.replace(tzinfo=timezone.utc))>(dt(b.get("start_date")) or datetime.min.replace(tzinfo=timezone.utc)) else (b,a)
                 if older.get("active") is False:newer["replacement_candidate_id"]=older["id"]
 
+def stale_no_end_note(value):
+    text=clean(value,1000).casefold()
+    if not text:return False
+    markers=("end date is not stated","end date not stated","no end date","تاريخ الانتهاء غير","تاريخ انتهاء غير","لم يتم ذكر تاريخ الانتهاء","لم يذكر تاريخ الانتهاء")
+    return any(marker in text for marker in markers)
+
+
 def finalize_counted_statuses(data, overrides, config):
     """Recalculate counted-record status after deduplication/merging.
 
@@ -1202,6 +1209,10 @@ def finalize_counted_statuses(data, overrides, config):
         # A known past end date always wins over stale active flags, including inventory rows.
         if item.get("active")!=active:
             item["active"]=active; changed+=1
+        # If a manual/source update adds an End Date, remove legacy wording that still says
+        # the campaign has no stated end date. The explicit End Date is authoritative.
+        if item.get("end_date") and stale_no_end_note(item.get("terms_note")):
+            item["terms_note"]=""; changed+=1
         if status=="Expired":
             item["review_required"]=False if not item.get("review_reasons") else item.get("review_required",False)
     data["final_status_normalization"]={"changed":changed,"at":iso(current)}
