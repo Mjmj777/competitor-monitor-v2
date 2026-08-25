@@ -346,7 +346,9 @@
 
     renderSocial();
     renderTimeline();
-    document.getElementById("edit-item").onclick = () => C.openEditor(i, d);
+    const editButton=document.getElementById("edit-item");
+    editButton.hidden=!C.isAdmin();
+    if(C.isAdmin()) editButton.onclick=()=>C.openEditor(i,d);
   }
 
   function renderSocial() {
@@ -431,6 +433,7 @@
   async function init() {
     C.initLanguage();
     try {
+      await C.loadAuth();
       state.data = await C.loadData();
       state.item = state.data.items.find(i => i.id === params.get("id"));
       if (!state.item) throw new Error("Item not found");
