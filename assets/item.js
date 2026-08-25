@@ -349,6 +349,9 @@
     const editButton=document.getElementById("edit-item");
     editButton.hidden=!C.isAdmin();
     if(C.isAdmin()) editButton.onclick=()=>C.openEditor(i,d);
+    const deleteButton=document.getElementById("delete-item");
+    deleteButton.hidden=!(C.isAdmin()&&i.content_type==="campaign");
+    if(C.isAdmin()&&i.content_type==="campaign") deleteButton.onclick=()=>C.deleteCampaign(i,{redirect:`competitor.html?id=${encodeURIComponent(i.competitor_id)}`});
   }
 
   function renderSocial() {
