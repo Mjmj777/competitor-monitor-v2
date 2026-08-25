@@ -1,0 +1,3437 @@
+{
+  "schema_version": 4,
+  "generated_at": "2026-08-06T13:30:00+00:00",
+  "inventory_source": {
+    "workbook": "competitor_campaigns_all_competitors_social_verified_2026-08-06_updated.xlsx",
+    "review_date": "2026-08-06",
+    "reporting_convention": {
+      "campaign_categories": [
+        "Remittance",
+        "Musaned",
+        "SADAD",
+        "Card",
+        "Engagement",
+        "Other"
+      ],
+      "merchant_category": "Merchant",
+      "merchant_excluded_from_campaign_kpis": true
+    }
+  },
+  "competitors": [
+    {
+      "id": "stc-bank",
+      "name_ar": "STC Bank",
+      "name_en": "STC Bank",
+      "website": "https://www.stcbank.com.sa/",
+      "offers_url": "https://www.stcbank.com.sa/en/offers"
+    },
+    {
+      "id": "barq",
+      "name_ar": "barq",
+      "name_en": "barq",
+      "website": "https://barq.com/",
+      "offers_url": "https://barq.com/ar/offers/"
+    },
+    {
+      "id": "mobily-pay",
+      "name_ar": "Mobily Pay",
+      "name_en": "Mobily Pay",
+      "website": "https://mobilypay.sa/",
+      "offers_url": "https://mobilypay.sa/"
+    },
+    {
+      "id": "tiqmo",
+      "name_ar": "tiqmo",
+      "name_en": "tiqmo",
+      "website": "https://www.tiqmo.com/",
+      "offers_url": "https://www.tiqmo.com/en/offers"
+    },
+    {
+      "id": "urpay",
+      "name_ar": "urpay",
+      "name_en": "urpay",
+      "website": "https://www.urpay.com.sa/",
+      "offers_url": "https://www.urpay.com.sa/ar/all-offers"
+    },
+    {
+      "id": "alinma-pay",
+      "name_ar": "alinma pay",
+      "name_en": "alinma pay",
+      "website": "https://www.alinmapay.com.sa/",
+      "offers_url": "https://www.alinmapay.com.sa/Offers"
+    }
+  ],
+  "categories": [
+    {
+      "id": "remittance",
+      "name_ar": "التحويل الدولي",
+      "name_en": "Remittance",
+      "priority": 10
+    },
+    {
+      "id": "musaned",
+      "name_ar": "مساند",
+      "name_en": "Musaned",
+      "priority": 20
+    },
+    {
+      "id": "sadad",
+      "name_ar": "سداد",
+      "name_en": "SADAD",
+      "priority": 30
+    },
+    {
+      "id": "card",
+      "name_ar": "البطاقات",
+      "name_en": "Card",
+      "priority": 40
+    },
+    {
+      "id": "engagement",
+      "name_ar": "التفاعل والمسابقات",
+      "name_en": "Engagement",
+      "priority": 50
+    },
+    {
+      "id": "other",
+      "name_ar": "أخرى",
+      "name_en": "Other",
+      "priority": 60
+    },
+    {
+      "id": "merchant",
+      "name_ar": "عروض الشركاء",
+      "name_en": "Merchant",
+      "priority": 90
+    }
+  ],
+  "mechanic_types": [
+    {
+      "id": "discount",
+      "name_ar": "خصم",
+      "name_en": "Discount",
+      "priority": 10
+    },
+    {
+      "id": "cashback",
+      "name_ar": "كاش باك",
+      "name_en": "Cashback",
+      "priority": 20
+    },
+    {
+      "id": "fee_waiver",
+      "name_ar": "إعفاء من الرسوم",
+      "name_en": "Fee Waiver",
+      "priority": 30
+    },
+    {
+      "id": "prize_draw",
+      "name_ar": "جائزة أو سحب",
+      "name_en": "Prize / Draw",
+      "priority": 40
+    },
+    {
+      "id": "reward",
+      "name_ar": "مكافأة أو نقاط",
+      "name_en": "Reward / Points",
+      "priority": 50
+    },
+    {
+      "id": "preferred_rate",
+      "name_ar": "سعر تفضيلي",
+      "name_en": "Preferred Rate",
+      "priority": 60
+    },
+    {
+      "id": "other",
+      "name_ar": "أخرى",
+      "name_en": "Other",
+      "priority": 99
+    }
+  ],
+  "themes": [
+    {
+      "id": "international_transfer",
+      "name_ar": "التحويل الدولي",
+      "name_en": "International Transfer"
+    },
+    {
+      "id": "travel",
+      "name_ar": "السفر",
+      "name_en": "Travel"
+    },
+    {
+      "id": "international_fees",
+      "name_ar": "الرسوم الدولية",
+      "name_en": "International Fees"
+    },
+    {
+      "id": "cards",
+      "name_ar": "البطاقات",
+      "name_en": "Cards"
+    },
+    {
+      "id": "musaned",
+      "name_ar": "مساند",
+      "name_en": "Musaned"
+    },
+    {
+      "id": "sadad",
+      "name_ar": "سداد",
+      "name_en": "SADAD"
+    },
+    {
+      "id": "engagement",
+      "name_ar": "التفاعل",
+      "name_en": "Engagement"
+    },
+    {
+      "id": "other",
+      "name_ar": "أخرى",
+      "name_en": "Other"
+    }
+  ],
+  "content_types": [
+    {
+      "id": "campaign",
+      "name_ar": "حملة أو عرض",
+      "name_en": "Campaign / Offer",
+      "priority": 10
+    },
+    {
+      "id": "merchant_offer",
+      "name_ar": "عرض شريك",
+      "name_en": "Merchant Offer",
+      "priority": 20
+    },
+    {
+      "id": "social_post",
+      "name_ar": "منشور اجتماعي",
+      "name_en": "Social Post",
+      "priority": 30
+    },
+    {
+      "id": "awareness",
+      "name_ar": "محتوى توعوي",
+      "name_en": "Awareness",
+      "priority": 40
+    },
+    {
+      "id": "review",
+      "name_ar": "بحاجة إلى مراجعة",
+      "name_en": "Needs Review",
+      "priority": 50
+    }
+  ],
+  "source_status": [],
+  "stats": {
+    "active_campaigns": 24,
+    "merchant_offers": 15,
+    "remittance_campaigns": 8,
+    "expiring_30d": 5,
+    "social_posts_7d": 0,
+    "review_required": 0,
+    "healthy_sources": 0,
+    "failed_sources": 0,
+    "total_sources": 0
+  },
+  "items": [
+    {
+      "id": "campaign:stc-bank:1",
+      "record_id": "1",
+      "competitor_id": "stc-bank",
+      "competitor_name": "STC Bank",
+      "source_key": "excel:stc-bank",
+      "source_type": "inventory",
+      "platform": "inventory",
+      "content_type": "campaign",
+      "campaign_category": "card",
+      "primary_category": "card",
+      "categories": [
+        "card"
+      ],
+      "title": "0% International Transaction Fees and Free Cash Withdrawals",
+      "snippet": "0% fees on eligible international POS transactions and free withdrawals from international ATMs.",
+      "summary": "0% fees on eligible international POS transactions and free withdrawals from international ATMs.",
+      "link": "https://stcbank.com.sa/en/web/guest/w/international-purchases-with-0-fees",
+      "official_campaign_page_url": "https://stcbank.com.sa/en/web/guest/w/international-purchases-with-0-fees",
+      "primary_official_source_url": "https://stcbank.com.sa/en/web/guest/w/international-purchases-with-0-fees",
+      "social_links": {
+        "instagram": "https://www.instagram.com/reel/DbJS1RtM2Ed/",
+        "x": "https://x.com/stcbank_ksa/status/2080356315206176795",
+        "facebook": "https://www.facebook.com/share/v/18sMRBBuse/",
+        "tiktok": "https://www.tiktok.com/@stcbank_ksa/video/7657549142540979477?is_from_webapp=1&sender_device=pc&web_id=7646835061455799828"
+      },
+      "social_link_count": 4,
+      "published_social_platforms": "Instagram, X, Facebook, TikTok",
+      "published_at": null,
+      "start_date": "2026-05-17T00:00:00+00:00",
+      "end_date": "2026-08-31T00:00:00+00:00",
+      "days_remaining": null,
+      "current_status": "Expiring 8–30 Days",
+      "active": true,
+      "operation_type": "International POS purchases and international ATM withdrawals",
+      "mechanic": "0% international transaction fees and free international ATM withdrawals",
+      "eligibility": "STC Bank Visa Classic, Platinum, and Signature debit cards; credit cards excluded",
+      "terms_note": "0% international POS fee campaign is valid from 17 May to 31 August 2026. International e-commerce purchases are excluded; free withdrawals apply to international ATMs. Digital-wallet purchases are eligible under the official terms.",
+      "last_reviewed": "2026-08-06T00:00:00+00:00",
+      "direct_link": true,
+      "verified": true,
+      "review_required": false,
+      "review_reasons": [],
+      "confidence": "high",
+      "mechanic_tags": [
+        "fee_waiver",
+        "prize_draw"
+      ],
+      "theme_tags": [
+        "international_fees",
+        "cards"
+      ],
+      "media": null,
+      "version": 1,
+      "baseline_import": true,
+      "first_seen": "2026-08-06T00:00:00+00:00",
+      "last_seen": "2026-08-06T00:00:00+00:00",
+      "last_changed": "2026-08-06T00:00:00+00:00",
+      "change_history": [
+        {
+          "at": "2026-08-06T00:00:00+00:00",
+          "type": "excel_import",
+          "version": 1
+        }
+      ],
+      "excel_source": {
+        "workbook": "competitor_campaigns_all_competitors_social_verified_2026-08-06_updated.xlsx",
+        "sheet": "STC Bank",
+        "record_id": "1"
+      }
+    },
+    {
+      "id": "campaign:stc-bank:2",
+      "record_id": "2",
+      "competitor_id": "stc-bank",
+      "competitor_name": "STC Bank",
+      "source_key": "excel:stc-bank",
+      "source_type": "inventory",
+      "platform": "inventory",
+      "content_type": "campaign",
+      "campaign_category": "card",
+      "primary_category": "card",
+      "categories": [
+        "card"
+      ],
+      "title": "International Spending Travel Voucher Campaign",
+      "snippet": "The ten highest international spenders each week receive an Almatar travel voucher.",
+      "summary": "The ten highest international spenders each week receive an Almatar travel voucher.",
+      "link": "https://stcbank.com.sa/en/web/guest/w/international-purchases-with-0-fees",
+      "official_campaign_page_url": "https://stcbank.com.sa/en/web/guest/w/international-purchases-with-0-fees",
+      "primary_official_source_url": "https://stcbank.com.sa/en/web/guest/w/international-purchases-with-0-fees",
+      "social_links": {
+        "instagram": "https://www.instagram.com/reel/DbJTohBs04q/",
+        "x": "https://x.com/stcbank_ksa/status/2071588243682832478",
+        "facebook": "https://www.facebook.com/share/v/1BoJpH5Xnd/"
+      },
+      "social_link_count": 3,
+      "published_social_platforms": "Instagram, X, Facebook",
+      "published_at": null,
+      "start_date": "2026-06-25T00:00:00+00:00",
+      "end_date": "2026-09-03T00:00:00+00:00",
+      "days_remaining": null,
+      "current_status": "Expiring 8–30 Days",
+      "active": true,
+      "operation_type": "International POS and e-commerce purchases",
+      "mechanic": "100 travel vouchers worth SAR 10,000 each for weekly top spenders",
+      "eligibility": "STC Bank Visa Classic, Platinum, and Signature debit cards; credit cards excluded",
+      "terms_note": "Travel voucher campaign is valid from 25 June to 3 September 2026. The top 10 weekly international spenders receive SAR 10,000 Almatar vouchers; cash withdrawals and wallet/account top-ups are excluded.",
+      "last_reviewed": "2026-08-06T00:00:00+00:00",
+      "direct_link": true,
+      "verified": true,
+      "review_required": false,
+      "review_reasons": [],
+      "confidence": "high",
+      "mechanic_tags": [
+        "prize_draw",
+        "reward"
+      ],
+      "theme_tags": [
+        "travel",
+        "cards"
+      ],
+      "media": null,
+      "version": 1,
+      "baseline_import": true,
+      "first_seen": "2026-08-06T00:00:00+00:00",
+      "last_seen": "2026-08-06T00:00:00+00:00",
+      "last_changed": "2026-08-06T00:00:00+00:00",
+      "change_history": [
+        {
+          "at": "2026-08-06T00:00:00+00:00",
+          "type": "excel_import",
+          "version": 1
+        }
+      ],
+      "excel_source": {
+        "workbook": "competitor_campaigns_all_competitors_social_verified_2026-08-06_updated.xlsx",
+        "sheet": "STC Bank",
+        "record_id": "2"
+      }
+    },
+    {
+      "id": "campaign:stc-bank:3",
+      "record_id": "3",
+      "competitor_id": "stc-bank",
+      "competitor_name": "STC Bank",
+      "source_key": "excel:stc-bank",
+      "source_type": "inventory",
+      "platform": "inventory",
+      "content_type": "campaign",
+      "campaign_category": "card",
+      "primary_category": "card",
+      "categories": [
+        "card"
+      ],
+      "title": "Visa Card Rewards: iPhone 17 Pro and Apple Watch",
+      "snippet": "Monthly iPhone rewards for top spenders and weekly Apple Watch rewards for qualifying purchases.",
+      "summary": "Monthly iPhone rewards for top spenders and weekly Apple Watch rewards for qualifying purchases.",
+      "link": "https://stcbank.com.sa/en/web/guest/w/visa_cards_rewards",
+      "official_campaign_page_url": "https://stcbank.com.sa/en/web/guest/w/visa_cards_rewards",
+      "primary_official_source_url": "https://stcbank.com.sa/en/web/guest/w/visa_cards_rewards",
+      "social_links": {},
+      "social_link_count": 0,
+      "published_social_platforms": "No direct social post verified",
+      "published_at": null,
+      "start_date": null,
+      "end_date": "2026-08-20T00:00:00+00:00",
+      "days_remaining": null,
+      "current_status": "Expiring 8–30 Days",
+      "active": true,
+      "operation_type": "Domestic and international POS and e-commerce purchases",
+      "mechanic": "12 iPhone 17 Pro devices and 144 Apple Watches",
+      "eligibility": "STC Bank Visa Classic, Platinum, and Signature debit cards; credit cards excluded",
+      "terms_note": "Campaign applies to Visa payment cards (Classic, Platinum, Signature), digital or physical; credit cards excluded. Monthly iPhone reward requires SAR 4,000 spend and weekly Apple Watch reward requires a SAR 300 qualifying purchase.",
+      "last_reviewed": "2026-08-06T00:00:00+00:00",
+      "direct_link": true,
+      "verified": true,
+      "review_required": false,
+      "review_reasons": [],
+      "confidence": "high",
+      "mechanic_tags": [
+        "reward"
+      ],
+      "theme_tags": [
+        "cards"
+      ],
+      "media": null,
+      "version": 1,
+      "baseline_import": true,
+      "first_seen": "2026-08-06T00:00:00+00:00",
+      "last_seen": "2026-08-06T00:00:00+00:00",
+      "last_changed": "2026-08-06T00:00:00+00:00",
+      "change_history": [
+        {
+          "at": "2026-08-06T00:00:00+00:00",
+          "type": "excel_import",
+          "version": 1
+        }
+      ],
+      "excel_source": {
+        "workbook": "competitor_campaigns_all_competitors_social_verified_2026-08-06_updated.xlsx",
+        "sheet": "STC Bank",
+        "record_id": "3"
+      }
+    },
+    {
+      "id": "campaign:stc-bank:5",
+      "record_id": "5",
+      "competitor_id": "stc-bank",
+      "competitor_name": "STC Bank",
+      "source_key": "excel:stc-bank",
+      "source_type": "inventory",
+      "platform": "inventory",
+      "content_type": "merchant_offer",
+      "campaign_category": "merchant",
+      "primary_category": "merchant",
+      "categories": [
+        "merchant"
+      ],
+      "title": "Almatar: Up to 10% Off",
+      "snippet": "Discounts on hotel and flight bookings through Almatar.",
+      "summary": "Discounts on hotel and flight bookings through Almatar.",
+      "link": "https://stcbank.com.sa/en/web/guest/w/almatar-offer",
+      "official_campaign_page_url": "https://stcbank.com.sa/en/web/guest/w/almatar-offer",
+      "primary_official_source_url": "https://stcbank.com.sa/en/web/guest/w/almatar-offer",
+      "social_links": {},
+      "social_link_count": 0,
+      "published_social_platforms": "No direct social post verified",
+      "published_at": null,
+      "start_date": null,
+      "end_date": "2027-12-31T00:00:00+00:00",
+      "days_remaining": null,
+      "current_status": "Active",
+      "active": true,
+      "operation_type": "Flight and hotel bookings",
+      "mechanic": "10% off hotels with STCB10 and 5% off flights with STCB5",
+      "eligibility": "All STC Bank cards",
+      "terms_note": "Official page now explicitly states validity through 31 December 2027. Digital-wallet payments are excluded.",
+      "last_reviewed": "2026-08-06T00:00:00+00:00",
+      "direct_link": true,
+      "verified": true,
+      "review_required": false,
+      "review_reasons": [],
+      "confidence": "high",
+      "mechanic_tags": [
+        "discount"
+      ],
+      "theme_tags": [
+        "travel",
+        "cards"
+      ],
+      "media": null,
+      "version": 1,
+      "baseline_import": true,
+      "first_seen": "2026-08-06T00:00:00+00:00",
+      "last_seen": "2026-08-06T00:00:00+00:00",
+      "last_changed": "2026-08-06T00:00:00+00:00",
+      "change_history": [
+        {
+          "at": "2026-08-06T00:00:00+00:00",
+          "type": "excel_import",
+          "version": 1
+        }
+      ],
+      "excel_source": {
+        "workbook": "competitor_campaigns_all_competitors_social_verified_2026-08-06_updated.xlsx",
+        "sheet": "STC Bank",
+        "record_id": "5"
+      }
+    },
+    {
+      "id": "campaign:stc-bank:8",
+      "record_id": "8",
+      "competitor_id": "stc-bank",
+      "competitor_name": "STC Bank",
+      "source_key": "excel:stc-bank",
+      "source_type": "inventory",
+      "platform": "inventory",
+      "content_type": "merchant_offer",
+      "campaign_category": "merchant",
+      "primary_category": "merchant",
+      "categories": [
+        "merchant"
+      ],
+      "title": "Loca Beauty: 15% Off",
+      "snippet": "15% off online purchases using promo code STCB15.",
+      "summary": "15% off online purchases using promo code STCB15.",
+      "link": "https://stcbank.com.sa/en/web/guest/w/loca",
+      "official_campaign_page_url": "https://stcbank.com.sa/en/web/guest/w/loca",
+      "primary_official_source_url": "https://stcbank.com.sa/en/web/guest/w/loca",
+      "social_links": {},
+      "social_link_count": 0,
+      "published_social_platforms": "No direct social post verified",
+      "published_at": null,
+      "start_date": "2025-12-10T00:00:00+00:00",
+      "end_date": "2026-08-25T00:00:00+00:00",
+      "days_remaining": null,
+      "current_status": "Expiring 8–30 Days",
+      "active": true,
+      "operation_type": "Online beauty purchases",
+      "mechanic": "15% discount using code STCB15",
+      "eligibility": "STC Bank Visa Classic, Platinum, and Signature cards",
+      "terms_note": "Offer is valid through 25 August 2026. Discounted products and digital-wallet payments are excluded.",
+      "last_reviewed": "2026-08-06T00:00:00+00:00",
+      "direct_link": true,
+      "verified": true,
+      "review_required": false,
+      "review_reasons": [],
+      "confidence": "high",
+      "mechanic_tags": [
+        "discount"
+      ],
+      "theme_tags": [
+        "cards"
+      ],
+      "media": null,
+      "version": 1,
+      "baseline_import": true,
+      "first_seen": "2026-08-06T00:00:00+00:00",
+      "last_seen": "2026-08-06T00:00:00+00:00",
+      "last_changed": "2026-08-06T00:00:00+00:00",
+      "change_history": [
+        {
+          "at": "2026-08-06T00:00:00+00:00",
+          "type": "excel_import",
+          "version": 1
+        }
+      ],
+      "excel_source": {
+        "workbook": "competitor_campaigns_all_competitors_social_verified_2026-08-06_updated.xlsx",
+        "sheet": "STC Bank",
+        "record_id": "8"
+      }
+    },
+    {
+      "id": "campaign:stc-bank:9",
+      "record_id": "9",
+      "competitor_id": "stc-bank",
+      "competitor_name": "STC Bank",
+      "source_key": "excel:stc-bank",
+      "source_type": "inventory",
+      "platform": "inventory",
+      "content_type": "merchant_offer",
+      "campaign_category": "merchant",
+      "primary_category": "merchant",
+      "categories": [
+        "merchant"
+      ],
+      "title": "Canton: 15% Off",
+      "snippet": "15% off eligible online purchases using promo code STCB15.",
+      "summary": "15% off eligible online purchases using promo code STCB15.",
+      "link": "https://stcbank.com.sa/en/web/guest/w/canton-offer",
+      "official_campaign_page_url": "https://stcbank.com.sa/en/web/guest/w/canton-offer",
+      "primary_official_source_url": "https://stcbank.com.sa/en/web/guest/w/canton-offer",
+      "social_links": {},
+      "social_link_count": 0,
+      "published_social_platforms": "No direct social post verified",
+      "published_at": null,
+      "start_date": null,
+      "end_date": "2026-09-28T00:00:00+00:00",
+      "days_remaining": null,
+      "current_status": "Active",
+      "active": true,
+      "operation_type": "E-commerce purchases",
+      "mechanic": "15% discount using code STCB15",
+      "eligibility": "STC Bank Visa Classic, Platinum, and Signature cards",
+      "terms_note": "Official page explicitly states validity through 28 September 2026.",
+      "last_reviewed": "2026-08-06T00:00:00+00:00",
+      "direct_link": true,
+      "verified": true,
+      "review_required": false,
+      "review_reasons": [],
+      "confidence": "high",
+      "mechanic_tags": [
+        "discount"
+      ],
+      "theme_tags": [
+        "cards"
+      ],
+      "media": null,
+      "version": 1,
+      "baseline_import": true,
+      "first_seen": "2026-08-06T00:00:00+00:00",
+      "last_seen": "2026-08-06T00:00:00+00:00",
+      "last_changed": "2026-08-06T00:00:00+00:00",
+      "change_history": [
+        {
+          "at": "2026-08-06T00:00:00+00:00",
+          "type": "excel_import",
+          "version": 1
+        }
+      ],
+      "excel_source": {
+        "workbook": "competitor_campaigns_all_competitors_social_verified_2026-08-06_updated.xlsx",
+        "sheet": "STC Bank",
+        "record_id": "9"
+      }
+    },
+    {
+      "id": "campaign:stc-bank:10",
+      "record_id": "10",
+      "competitor_id": "stc-bank",
+      "competitor_name": "STC Bank",
+      "source_key": "excel:stc-bank",
+      "source_type": "inventory",
+      "platform": "inventory",
+      "content_type": "merchant_offer",
+      "campaign_category": "merchant",
+      "primary_category": "merchant",
+      "categories": [
+        "merchant"
+      ],
+      "title": "Dr. Nutrition: Up to 10% Off",
+      "snippet": "5% to 10% discounts on selected health and nutrition categories.",
+      "summary": "5% to 10% discounts on selected health and nutrition categories.",
+      "link": "https://stcbank.com.sa/en/web/guest/w/boost-your-health",
+      "official_campaign_page_url": "https://stcbank.com.sa/en/web/guest/w/boost-your-health",
+      "primary_official_source_url": "https://stcbank.com.sa/en/web/guest/w/boost-your-health",
+      "social_links": {},
+      "social_link_count": 0,
+      "published_social_platforms": "No direct social post verified",
+      "published_at": null,
+      "start_date": null,
+      "end_date": "2026-09-30T00:00:00+00:00",
+      "days_remaining": null,
+      "current_status": "Active",
+      "active": true,
+      "operation_type": "Health and nutrition purchases",
+      "mechanic": "5% to 10% discount using code STCB",
+      "eligibility": "STC Bank Visa Classic, Platinum, and Signature cards",
+      "terms_note": "Official page explicitly states validity through 30 September 2026. Discount code STCB applies.",
+      "last_reviewed": "2026-08-06T00:00:00+00:00",
+      "direct_link": true,
+      "verified": true,
+      "review_required": false,
+      "review_reasons": [],
+      "confidence": "high",
+      "mechanic_tags": [
+        "discount"
+      ],
+      "theme_tags": [
+        "cards"
+      ],
+      "media": null,
+      "version": 1,
+      "baseline_import": true,
+      "first_seen": "2026-08-06T00:00:00+00:00",
+      "last_seen": "2026-08-06T00:00:00+00:00",
+      "last_changed": "2026-08-06T00:00:00+00:00",
+      "change_history": [
+        {
+          "at": "2026-08-06T00:00:00+00:00",
+          "type": "excel_import",
+          "version": 1
+        }
+      ],
+      "excel_source": {
+        "workbook": "competitor_campaigns_all_competitors_social_verified_2026-08-06_updated.xlsx",
+        "sheet": "STC Bank",
+        "record_id": "10"
+      }
+    },
+    {
+      "id": "campaign:stc-bank:11",
+      "record_id": "11",
+      "competitor_id": "stc-bank",
+      "competitor_name": "STC Bank",
+      "source_key": "excel:stc-bank",
+      "source_type": "inventory",
+      "platform": "inventory",
+      "content_type": "merchant_offer",
+      "campaign_category": "merchant",
+      "primary_category": "merchant",
+      "categories": [
+        "merchant"
+      ],
+      "title": "GO Sport: 10% Off",
+      "snippet": "10% off eligible online purchases using promo code STCB.",
+      "summary": "10% off eligible online purchases using promo code STCB.",
+      "link": "https://stcbank.com.sa/en/web/guest/w/shop-workout-and-save-with-10-off-on-gosport",
+      "official_campaign_page_url": "https://stcbank.com.sa/en/web/guest/w/shop-workout-and-save-with-10-off-on-gosport",
+      "primary_official_source_url": "https://stcbank.com.sa/en/web/guest/w/shop-workout-and-save-with-10-off-on-gosport",
+      "social_links": {},
+      "social_link_count": 0,
+      "published_social_platforms": "No direct social post verified",
+      "published_at": null,
+      "start_date": null,
+      "end_date": "2026-09-30T00:00:00+00:00",
+      "days_remaining": null,
+      "current_status": "Active",
+      "active": true,
+      "operation_type": "Sports retail purchases",
+      "mechanic": "10% discount using code STCB",
+      "eligibility": "STC Bank Visa Classic, Platinum, and Signature cards",
+      "terms_note": "Official page explicitly states validity through 30 September 2026. Discount code STCB applies.",
+      "last_reviewed": "2026-08-06T00:00:00+00:00",
+      "direct_link": true,
+      "verified": true,
+      "review_required": false,
+      "review_reasons": [],
+      "confidence": "high",
+      "mechanic_tags": [
+        "discount"
+      ],
+      "theme_tags": [
+        "cards"
+      ],
+      "media": null,
+      "version": 1,
+      "baseline_import": true,
+      "first_seen": "2026-08-06T00:00:00+00:00",
+      "last_seen": "2026-08-06T00:00:00+00:00",
+      "last_changed": "2026-08-06T00:00:00+00:00",
+      "change_history": [
+        {
+          "at": "2026-08-06T00:00:00+00:00",
+          "type": "excel_import",
+          "version": 1
+        }
+      ],
+      "excel_source": {
+        "workbook": "competitor_campaigns_all_competitors_social_verified_2026-08-06_updated.xlsx",
+        "sheet": "STC Bank",
+        "record_id": "11"
+      }
+    },
+    {
+      "id": "campaign:stc-bank:12",
+      "record_id": "12",
+      "competitor_id": "stc-bank",
+      "competitor_name": "STC Bank",
+      "source_key": "excel:stc-bank",
+      "source_type": "inventory",
+      "platform": "inventory",
+      "content_type": "merchant_offer",
+      "campaign_category": "merchant",
+      "primary_category": "merchant",
+      "categories": [
+        "merchant"
+      ],
+      "title": "iHerb: Up to 25% Off",
+      "snippet": "Visa discounts for new and existing iHerb customers.",
+      "summary": "Visa discounts for new and existing iHerb customers.",
+      "link": "https://stcbank.com.sa/en/web/guest/w/iherb-offer",
+      "official_campaign_page_url": "https://stcbank.com.sa/en/web/guest/w/iherb-offer",
+      "primary_official_source_url": "https://stcbank.com.sa/en/web/guest/w/iherb-offer",
+      "social_links": {},
+      "social_link_count": 0,
+      "published_social_platforms": "No direct social post verified",
+      "published_at": null,
+      "start_date": null,
+      "end_date": "2026-09-30T00:00:00+00:00",
+      "days_remaining": null,
+      "current_status": "Active",
+      "active": true,
+      "operation_type": "Health and wellness e-commerce purchases",
+      "mechanic": "Up to 25% off for new customers and 10% for existing customers",
+      "eligibility": "Eligible STC Bank Visa cards",
+      "terms_note": "Official page explicitly states validity through 30 September 2026.",
+      "last_reviewed": "2026-08-06T00:00:00+00:00",
+      "direct_link": true,
+      "verified": true,
+      "review_required": false,
+      "review_reasons": [],
+      "confidence": "high",
+      "mechanic_tags": [
+        "discount"
+      ],
+      "theme_tags": [
+        "cards"
+      ],
+      "media": null,
+      "version": 1,
+      "baseline_import": true,
+      "first_seen": "2026-08-06T00:00:00+00:00",
+      "last_seen": "2026-08-06T00:00:00+00:00",
+      "last_changed": "2026-08-06T00:00:00+00:00",
+      "change_history": [
+        {
+          "at": "2026-08-06T00:00:00+00:00",
+          "type": "excel_import",
+          "version": 1
+        }
+      ],
+      "excel_source": {
+        "workbook": "competitor_campaigns_all_competitors_social_verified_2026-08-06_updated.xlsx",
+        "sheet": "STC Bank",
+        "record_id": "12"
+      }
+    },
+    {
+      "id": "campaign:stc-bank:13",
+      "record_id": "13",
+      "competitor_id": "stc-bank",
+      "competitor_name": "STC Bank",
+      "source_key": "excel:stc-bank",
+      "source_type": "inventory",
+      "platform": "inventory",
+      "content_type": "merchant_offer",
+      "campaign_category": "merchant",
+      "primary_category": "merchant",
+      "categories": [
+        "merchant"
+      ],
+      "title": "Abdullah Al Othaim Entertainment",
+      "snippet": "Bonus credit and discounts across selected family-entertainment destinations.",
+      "summary": "Bonus credit and discounts across selected family-entertainment destinations.",
+      "link": "https://stcbank.com.sa/en/web/guest/w/alothaim-entertainment",
+      "official_campaign_page_url": "https://stcbank.com.sa/en/web/guest/w/alothaim-entertainment",
+      "primary_official_source_url": "https://stcbank.com.sa/en/web/guest/w/alothaim-entertainment",
+      "social_links": {},
+      "social_link_count": 0,
+      "published_social_platforms": "No direct social post verified",
+      "published_at": null,
+      "start_date": null,
+      "end_date": "2027-12-31T00:00:00+00:00",
+      "days_remaining": null,
+      "current_status": "Active",
+      "active": true,
+      "operation_type": "Family entertainment",
+      "mechanic": "Bonus credit and discounts ranging from 20% to 30%",
+      "eligibility": "All STC Bank cards",
+      "terms_note": "Official page now explicitly states validity through 31 December 2027. Offer mechanics vary by Al Othaim Entertainment destination.",
+      "last_reviewed": "2026-08-06T00:00:00+00:00",
+      "direct_link": true,
+      "verified": true,
+      "review_required": false,
+      "review_reasons": [],
+      "confidence": "high",
+      "mechanic_tags": [
+        "discount",
+        "reward"
+      ],
+      "theme_tags": [
+        "cards"
+      ],
+      "media": null,
+      "version": 1,
+      "baseline_import": true,
+      "first_seen": "2026-08-06T00:00:00+00:00",
+      "last_seen": "2026-08-06T00:00:00+00:00",
+      "last_changed": "2026-08-06T00:00:00+00:00",
+      "change_history": [
+        {
+          "at": "2026-08-06T00:00:00+00:00",
+          "type": "excel_import",
+          "version": 1
+        }
+      ],
+      "excel_source": {
+        "workbook": "competitor_campaigns_all_competitors_social_verified_2026-08-06_updated.xlsx",
+        "sheet": "STC Bank",
+        "record_id": "13"
+      }
+    },
+    {
+      "id": "campaign:stc-bank:14",
+      "record_id": "14",
+      "competitor_id": "stc-bank",
+      "competitor_name": "STC Bank",
+      "source_key": "excel:stc-bank",
+      "source_type": "inventory",
+      "platform": "inventory",
+      "content_type": "merchant_offer",
+      "campaign_category": "merchant",
+      "primary_category": "merchant",
+      "categories": [
+        "merchant"
+      ],
+      "title": "Yelo: 10% Off",
+      "snippet": "10% off eligible bookings through the Yelo website and app.",
+      "summary": "10% off eligible bookings through the Yelo website and app.",
+      "link": "https://stcbank.com.sa/en/web/guest/w/yelo",
+      "official_campaign_page_url": "https://stcbank.com.sa/en/web/guest/w/yelo",
+      "primary_official_source_url": "https://stcbank.com.sa/en/web/guest/w/yelo",
+      "social_links": {},
+      "social_link_count": 0,
+      "published_social_platforms": "No direct social post verified",
+      "published_at": null,
+      "start_date": null,
+      "end_date": "2027-12-31T00:00:00+00:00",
+      "days_remaining": null,
+      "current_status": "Active",
+      "active": true,
+      "operation_type": "Car rental",
+      "mechanic": "10% discount using code STCB1",
+      "eligibility": "STC Bank mada and credit cards",
+      "terms_note": "Official page now explicitly states validity through 31 December 2027. Digital-wallet payments are excluded.",
+      "last_reviewed": "2026-08-06T00:00:00+00:00",
+      "direct_link": true,
+      "verified": true,
+      "review_required": false,
+      "review_reasons": [],
+      "confidence": "high",
+      "mechanic_tags": [
+        "discount"
+      ],
+      "theme_tags": [
+        "cards"
+      ],
+      "media": null,
+      "version": 1,
+      "baseline_import": true,
+      "first_seen": "2026-08-06T00:00:00+00:00",
+      "last_seen": "2026-08-06T00:00:00+00:00",
+      "last_changed": "2026-08-06T00:00:00+00:00",
+      "change_history": [
+        {
+          "at": "2026-08-06T00:00:00+00:00",
+          "type": "excel_import",
+          "version": 1
+        }
+      ],
+      "excel_source": {
+        "workbook": "competitor_campaigns_all_competitors_social_verified_2026-08-06_updated.xlsx",
+        "sheet": "STC Bank",
+        "record_id": "14"
+      }
+    },
+    {
+      "id": "campaign:stc-bank:16",
+      "record_id": "16",
+      "competitor_id": "stc-bank",
+      "competitor_name": "STC Bank",
+      "source_key": "excel:stc-bank",
+      "source_type": "inventory",
+      "platform": "inventory",
+      "content_type": "campaign",
+      "campaign_category": "card",
+      "primary_category": "card",
+      "categories": [
+        "card"
+      ],
+      "title": "Targeted Cash Reward on International Purchases",
+      "snippet": "Selected customers can earn a cash amount after meeting the international-spend requirement stated in an STC Bank SMS.",
+      "summary": "Selected customers can earn a cash amount after meeting the international-spend requirement stated in an STC Bank SMS.",
+      "link": "https://stcbank.com.sa/en/web/guest/w/blt-cash",
+      "official_campaign_page_url": "https://stcbank.com.sa/en/web/guest/w/blt-cash",
+      "primary_official_source_url": "https://stcbank.com.sa/en/web/guest/w/blt-cash",
+      "social_links": {},
+      "social_link_count": 0,
+      "published_social_platforms": "No direct social post verified",
+      "published_at": null,
+      "start_date": null,
+      "end_date": "2026-10-02T00:00:00+00:00",
+      "days_remaining": null,
+      "current_status": "Active",
+      "active": true,
+      "operation_type": "International POS and e-commerce purchases",
+      "mechanic": "Cash amount specified in the customer SMS after meeting the stated minimum spend",
+      "eligibility": "Selected customers who received the offer SMS; STC Bank Visa payment cards (Classic, Platinum, Signature), digital or physical",
+      "terms_note": "Offer applies once per selected customer. Cash withdrawals and wallet/account top-ups are excluded; international purchases through supported e-wallets are eligible.",
+      "last_reviewed": "2026-08-06T00:00:00+00:00",
+      "direct_link": true,
+      "verified": true,
+      "review_required": false,
+      "review_reasons": [],
+      "confidence": "high",
+      "mechanic_tags": [
+        "prize_draw",
+        "reward"
+      ],
+      "theme_tags": [
+        "cards"
+      ],
+      "media": null,
+      "version": 1,
+      "baseline_import": true,
+      "first_seen": "2026-08-06T00:00:00+00:00",
+      "last_seen": "2026-08-06T00:00:00+00:00",
+      "last_changed": "2026-08-06T00:00:00+00:00",
+      "change_history": [
+        {
+          "at": "2026-08-06T00:00:00+00:00",
+          "type": "excel_import",
+          "version": 1
+        }
+      ],
+      "excel_source": {
+        "workbook": "competitor_campaigns_all_competitors_social_verified_2026-08-06_updated.xlsx",
+        "sheet": "STC Bank",
+        "record_id": "16"
+      }
+    },
+    {
+      "id": "campaign:barq:1",
+      "record_id": "1",
+      "competitor_id": "barq",
+      "competitor_name": "barq",
+      "source_key": "excel:barq",
+      "source_type": "inventory",
+      "platform": "inventory",
+      "content_type": "campaign",
+      "campaign_category": "engagement",
+      "primary_category": "engagement",
+      "categories": [
+        "engagement"
+      ],
+      "title": "barq Marathon",
+      "snippet": "Transaction-based points and competition with a large prize pool and winner base.",
+      "summary": "Transaction-based points and competition with a large prize pool and winner base.",
+      "link": "https://www.instagram.com/reel/DYxvJOWiZY5/",
+      "official_campaign_page_url": "",
+      "primary_official_source_url": "https://www.instagram.com/reel/DYxvJOWiZY5/",
+      "social_links": {
+        "instagram": "https://www.instagram.com/reel/DYxvJOWiZY5/",
+        "facebook": "https://www.facebook.com/share/p/1BbFALsFYP/"
+      },
+      "social_link_count": 2,
+      "published_social_platforms": "Instagram, Facebook",
+      "published_at": null,
+      "start_date": null,
+      "end_date": null,
+      "days_remaining": null,
+      "current_status": "End Date Not Stated",
+      "active": true,
+      "operation_type": "Card usage and in-app engagement",
+      "mechanic": "Prize pool increased to SAR 500,000 and 20,000 winners",
+      "eligibility": "barq Visa customers",
+      "terms_note": "Campaign end date is not stated in the official post.",
+      "last_reviewed": "2026-08-06T00:00:00+00:00",
+      "direct_link": true,
+      "verified": true,
+      "review_required": false,
+      "review_reasons": [],
+      "confidence": "high",
+      "mechanic_tags": [
+        "prize_draw",
+        "reward"
+      ],
+      "theme_tags": [
+        "cards"
+      ],
+      "media": null,
+      "version": 1,
+      "baseline_import": true,
+      "first_seen": "2026-08-06T00:00:00+00:00",
+      "last_seen": "2026-08-06T00:00:00+00:00",
+      "last_changed": "2026-08-06T00:00:00+00:00",
+      "change_history": [
+        {
+          "at": "2026-08-06T00:00:00+00:00",
+          "type": "excel_import",
+          "version": 1
+        }
+      ],
+      "excel_source": {
+        "workbook": "competitor_campaigns_all_competitors_social_verified_2026-08-06_updated.xlsx",
+        "sheet": "barq",
+        "record_id": "1"
+      }
+    },
+    {
+      "id": "campaign:barq:2",
+      "record_id": "2",
+      "competitor_id": "barq",
+      "competitor_name": "barq",
+      "source_key": "excel:barq",
+      "source_type": "inventory",
+      "platform": "inventory",
+      "content_type": "campaign",
+      "campaign_category": "engagement",
+      "primary_category": "engagement",
+      "categories": [
+        "engagement"
+      ],
+      "title": "Prediction Game",
+      "snippet": "In-app match prediction game with a prize pool of up to SAR 500,000.",
+      "summary": "In-app match prediction game with a prize pool of up to SAR 500,000.",
+      "link": "https://www.facebook.com/usebarq/posts/update-your-barq-app-and-join-the-prediction-game-win-your-share-of-prizes-worth/122197690844385166/",
+      "official_campaign_page_url": "",
+      "primary_official_source_url": "https://www.facebook.com/usebarq/posts/update-your-barq-app-and-join-the-prediction-game-win-your-share-of-prizes-worth/122197690844385166/",
+      "social_links": {
+        "facebook": "https://www.facebook.com/usebarq/posts/update-your-barq-app-and-join-the-prediction-game-win-your-share-of-prizes-worth/122197690844385166/"
+      },
+      "social_link_count": 1,
+      "published_social_platforms": "Facebook",
+      "published_at": null,
+      "start_date": null,
+      "end_date": null,
+      "days_remaining": null,
+      "current_status": "End Date Not Stated",
+      "active": true,
+      "operation_type": "In-app sports engagement",
+      "mechanic": "Prediction game with prizes worth up to SAR 500,000",
+      "eligibility": "barq app customers",
+      "terms_note": "Campaign end date is not stated in the official post.",
+      "last_reviewed": "2026-08-06T00:00:00+00:00",
+      "direct_link": true,
+      "verified": true,
+      "review_required": false,
+      "review_reasons": [],
+      "confidence": "high",
+      "mechanic_tags": [
+        "prize_draw"
+      ],
+      "theme_tags": [
+        "engagement"
+      ],
+      "media": null,
+      "version": 1,
+      "baseline_import": true,
+      "first_seen": "2026-08-06T00:00:00+00:00",
+      "last_seen": "2026-08-06T00:00:00+00:00",
+      "last_changed": "2026-08-06T00:00:00+00:00",
+      "change_history": [
+        {
+          "at": "2026-08-06T00:00:00+00:00",
+          "type": "excel_import",
+          "version": 1
+        }
+      ],
+      "excel_source": {
+        "workbook": "competitor_campaigns_all_competitors_social_verified_2026-08-06_updated.xlsx",
+        "sheet": "barq",
+        "record_id": "2"
+      }
+    },
+    {
+      "id": "campaign:barq:3",
+      "record_id": "3",
+      "competitor_id": "barq",
+      "competitor_name": "barq",
+      "source_key": "excel:barq",
+      "source_type": "inventory",
+      "platform": "inventory",
+      "content_type": "merchant_offer",
+      "campaign_category": "merchant",
+      "primary_category": "merchant",
+      "categories": [
+        "merchant"
+      ],
+      "title": "Almatar Travel Offer",
+      "snippet": "Discounts on international flights and hotels when paying with barq Visa.",
+      "summary": "Discounts on international flights and hotels when paying with barq Visa.",
+      "link": "https://www.facebook.com/usebarq/posts/planning-a-trip-%EF%B8%8Fbook-through-almatarapp-with-your-barq-visa-and-get-up-to-10-of/122178668528385166/",
+      "official_campaign_page_url": "",
+      "primary_official_source_url": "https://www.facebook.com/usebarq/posts/planning-a-trip-%EF%B8%8Fbook-through-almatarapp-with-your-barq-visa-and-get-up-to-10-of/122178668528385166/",
+      "social_links": {
+        "facebook": "https://www.facebook.com/usebarq/posts/planning-a-trip-%EF%B8%8Fbook-through-almatarapp-with-your-barq-visa-and-get-up-to-10-of/122178668528385166/"
+      },
+      "social_link_count": 1,
+      "published_social_platforms": "Facebook",
+      "published_at": null,
+      "start_date": null,
+      "end_date": null,
+      "days_remaining": null,
+      "current_status": "End Date Not Stated",
+      "active": true,
+      "operation_type": "Flight and hotel bookings",
+      "mechanic": "Up to 10% off international flights and 25% off hotels",
+      "eligibility": "barq Visa customers",
+      "terms_note": "Campaign end date is not stated in the official post.",
+      "last_reviewed": "2026-08-06T00:00:00+00:00",
+      "direct_link": true,
+      "verified": true,
+      "review_required": false,
+      "review_reasons": [],
+      "confidence": "high",
+      "mechanic_tags": [
+        "discount"
+      ],
+      "theme_tags": [
+        "travel",
+        "cards"
+      ],
+      "media": null,
+      "version": 1,
+      "baseline_import": true,
+      "first_seen": "2026-08-06T00:00:00+00:00",
+      "last_seen": "2026-08-06T00:00:00+00:00",
+      "last_changed": "2026-08-06T00:00:00+00:00",
+      "change_history": [
+        {
+          "at": "2026-08-06T00:00:00+00:00",
+          "type": "excel_import",
+          "version": 1
+        }
+      ],
+      "excel_source": {
+        "workbook": "competitor_campaigns_all_competitors_social_verified_2026-08-06_updated.xlsx",
+        "sheet": "barq",
+        "record_id": "3"
+      }
+    },
+    {
+      "id": "campaign:barq:4",
+      "record_id": "4",
+      "competitor_id": "barq",
+      "competitor_name": "barq",
+      "source_key": "excel:barq",
+      "source_type": "inventory",
+      "platform": "inventory",
+      "content_type": "campaign",
+      "campaign_category": "remittance",
+      "primary_category": "remittance",
+      "categories": [
+        "remittance"
+      ],
+      "title": "Zero-Fee International Transfers",
+      "snippet": "Fee-free international transfers to selected destinations and payout channels.",
+      "summary": "Fee-free international transfers to selected destinations and payout channels.",
+      "link": "https://www.instagram.com/p/Dazzjtdt1Jt/?utm_source=ig_web_button_share_sheet&igsh=MzRlODBiNWFlZA==",
+      "official_campaign_page_url": "",
+      "primary_official_source_url": "https://www.instagram.com/p/Dazzjtdt1Jt/?utm_source=ig_web_button_share_sheet&igsh=MzRlODBiNWFlZA==",
+      "social_links": {
+        "instagram": "https://www.instagram.com/p/Dazzjtdt1Jt/?utm_source=ig_web_button_share_sheet&igsh=MzRlODBiNWFlZA==",
+        "facebook": "https://www.facebook.com/usebarq/videos/barq-transfer-fast-and-free/1218272083516944/"
+      },
+      "social_link_count": 2,
+      "published_social_platforms": "Instagram, Facebook",
+      "published_at": null,
+      "start_date": null,
+      "end_date": null,
+      "days_remaining": null,
+      "current_status": "End Date Not Stated",
+      "active": true,
+      "operation_type": "International transfers",
+      "mechanic": "Zero transfer fees on eligible transfers",
+      "eligibility": "barq customers; destination and payout-channel terms apply",
+      "terms_note": "Current official posts in early August continue to promote fast, fee-free international transfers. No campaign end date is stated.",
+      "last_reviewed": "2026-08-06T00:00:00+00:00",
+      "direct_link": true,
+      "verified": true,
+      "review_required": false,
+      "review_reasons": [],
+      "confidence": "high",
+      "mechanic_tags": [
+        "fee_waiver"
+      ],
+      "theme_tags": [
+        "international_transfer"
+      ],
+      "media": null,
+      "version": 1,
+      "baseline_import": true,
+      "first_seen": "2026-08-06T00:00:00+00:00",
+      "last_seen": "2026-08-06T00:00:00+00:00",
+      "last_changed": "2026-08-06T00:00:00+00:00",
+      "change_history": [
+        {
+          "at": "2026-08-06T00:00:00+00:00",
+          "type": "excel_import",
+          "version": 1
+        }
+      ],
+      "excel_source": {
+        "workbook": "competitor_campaigns_all_competitors_social_verified_2026-08-06_updated.xlsx",
+        "sheet": "barq",
+        "record_id": "4"
+      }
+    },
+    {
+      "id": "campaign:barq:5",
+      "record_id": "5",
+      "competitor_id": "barq",
+      "competitor_name": "barq",
+      "source_key": "excel:barq",
+      "source_type": "inventory",
+      "platform": "inventory",
+      "content_type": "campaign",
+      "campaign_category": "card",
+      "primary_category": "card",
+      "categories": [
+        "card"
+      ],
+      "title": "Zero Travel Fees with barq Visa",
+      "snippet": "Use your barq card while travelling and barq covers the applicable travel fees.",
+      "summary": "Use your barq card while travelling and barq covers the applicable travel fees.",
+      "link": "https://www.instagram.com/p/DbAtiuQNGlf/",
+      "official_campaign_page_url": "",
+      "primary_official_source_url": "https://www.instagram.com/p/DbAtiuQNGlf/",
+      "social_links": {
+        "instagram": "https://www.instagram.com/p/DbAtiuQNGlf/",
+        "x": "https://x.com/barq/status/2078084305327206575",
+        "facebook": "https://www.facebook.com/usebarq/videos/%D8%AD%D9%84%D8%A7%D8%AA-%D8%A7%D9%84%D8%B3%D9%81%D8%B1-%D8%A8%D8%A7%D9%84%D8%AA%D8%AC%D8%A7%D8%B1%D8%A8-%D9%88%D8%A8%D8%A8%D8%B7%D8%A7%D9%82%D8%A9-%D8%A8%D8%AF%D9%88%D9%86-%D8%B1%D8%B3%D9%88%D9%85-%D8%AF%D9%88%D9%84%D9%8A%D8%A9%EF%B8%8F/1051539764436915/",
+        "tiktok": "https://www.tiktok.com/@barq/video/7666817781014252821?is_from_webapp=1&sender_device=pc&web_id=7646835061455799828"
+      },
+      "social_link_count": 4,
+      "published_social_platforms": "Instagram, X, Facebook, TikTok",
+      "published_at": null,
+      "start_date": null,
+      "end_date": null,
+      "days_remaining": null,
+      "current_status": "End Date Not Stated",
+      "active": true,
+      "operation_type": "International card spending / Travel card usage Mechanic / Offer: Travel-related card fees covered by barq Eligibility / Product: barq cardholders",
+      "mechanic": "",
+      "eligibility": "",
+      "terms_note": "Current official posts continue to position barq Visa as having no international transaction fees. No campaign end date is stated.",
+      "last_reviewed": "2026-08-06T00:00:00+00:00",
+      "direct_link": true,
+      "verified": true,
+      "review_required": false,
+      "review_reasons": [],
+      "confidence": "high",
+      "mechanic_tags": [
+        "other"
+      ],
+      "theme_tags": [
+        "travel",
+        "cards"
+      ],
+      "media": null,
+      "version": 1,
+      "baseline_import": true,
+      "first_seen": "2026-08-06T00:00:00+00:00",
+      "last_seen": "2026-08-06T00:00:00+00:00",
+      "last_changed": "2026-08-06T00:00:00+00:00",
+      "change_history": [
+        {
+          "at": "2026-08-06T00:00:00+00:00",
+          "type": "excel_import",
+          "version": 1
+        }
+      ],
+      "excel_source": {
+        "workbook": "competitor_campaigns_all_competitors_social_verified_2026-08-06_updated.xlsx",
+        "sheet": "barq",
+        "record_id": "5"
+      }
+    },
+    {
+      "id": "campaign:barq:6",
+      "record_id": "6",
+      "competitor_id": "barq",
+      "competitor_name": "barq",
+      "source_key": "excel:barq",
+      "source_type": "inventory",
+      "platform": "inventory",
+      "content_type": "campaign",
+      "campaign_category": "remittance",
+      "primary_category": "remittance",
+      "categories": [
+        "remittance"
+      ],
+      "title": "FX Rate Awareness Campaign",
+      "snippet": "",
+      "summary": "",
+      "link": "https://www.instagram.com/reel/DaaydiADUvg/?utm_source=ig_web_button_share_sheet&igsh=MzRlODBiNWFlZA==",
+      "official_campaign_page_url": "",
+      "primary_official_source_url": "https://www.instagram.com/reel/DaaydiADUvg/?utm_source=ig_web_button_share_sheet&igsh=MzRlODBiNWFlZA==",
+      "social_links": {
+        "instagram": "https://www.instagram.com/reel/DaaydiADUvg/?utm_source=ig_web_button_share_sheet&igsh=MzRlODBiNWFlZA=="
+      },
+      "social_link_count": 1,
+      "published_social_platforms": "Instagram",
+      "published_at": null,
+      "start_date": null,
+      "end_date": null,
+      "days_remaining": null,
+      "current_status": "End Date Not Stated",
+      "active": true,
+      "operation_type": "International transfers / FX rate awareness",
+      "mechanic": "All barq customers using international transfers",
+      "eligibility": "Educational campaign explaining exchange rates and how they affect the received amount in international transfers.",
+      "terms_note": "",
+      "last_reviewed": "2026-08-06T00:00:00+00:00",
+      "direct_link": true,
+      "verified": true,
+      "review_required": false,
+      "review_reasons": [],
+      "confidence": "high",
+      "mechanic_tags": [
+        "preferred_rate"
+      ],
+      "theme_tags": [
+        "international_transfer"
+      ],
+      "media": null,
+      "version": 1,
+      "baseline_import": true,
+      "first_seen": "2026-08-06T00:00:00+00:00",
+      "last_seen": "2026-08-06T00:00:00+00:00",
+      "last_changed": "2026-08-06T00:00:00+00:00",
+      "change_history": [
+        {
+          "at": "2026-08-06T00:00:00+00:00",
+          "type": "excel_import",
+          "version": 1
+        }
+      ],
+      "excel_source": {
+        "workbook": "competitor_campaigns_all_competitors_social_verified_2026-08-06_updated.xlsx",
+        "sheet": "barq",
+        "record_id": "6"
+      }
+    },
+    {
+      "id": "campaign:mobily-pay:2",
+      "record_id": "2",
+      "competitor_id": "mobily-pay",
+      "competitor_name": "Mobily Pay",
+      "source_key": "excel:mobily-pay",
+      "source_type": "inventory",
+      "platform": "inventory",
+      "content_type": "campaign",
+      "campaign_category": "remittance",
+      "primary_category": "remittance",
+      "categories": [
+        "remittance"
+      ],
+      "title": "Zero-Fee International Transfers – Aug–Oct 2026",
+      "snippet": "Qualifying international transfers are offered with zero transfer fees under corridor and amount thresholds stated on the official campaign page.",
+      "summary": "Qualifying international transfers are offered with zero transfer fees under corridor and amount thresholds stated on the official campaign page.",
+      "link": "https://mobilypay.sa/ar/offers/offer-56.html",
+      "official_campaign_page_url": "https://mobilypay.sa/ar/offers/offer-56.html",
+      "primary_official_source_url": "https://mobilypay.sa/ar/offers/offer-56.html",
+      "social_links": {
+        "instagram": "https://www.instagram.com/reel/DZuhOEDFRNn/",
+        "facebook": "https://www.facebook.com/mobilypay/videos/transfer-now/829680072943900/"
+      },
+      "social_link_count": 2,
+      "published_social_platforms": "Instagram, Facebook",
+      "published_at": null,
+      "start_date": "2026-08-01T00:00:00+00:00",
+      "end_date": "2026-10-31T00:00:00+00:00",
+      "days_remaining": null,
+      "current_status": "Active",
+      "active": true,
+      "operation_type": "International transfers through MoneyGram",
+      "mechanic": "Zero transfer fees on qualifying transfers; standard SAR 9 fees apply below certain corridor/amount thresholds",
+      "eligibility": "Mobily Pay customers; corridor, currency, amount threshold, VAT and MoneyGram terms apply",
+      "terms_note": "Campaign is valid from 1 August to 31 October 2026. The official page lists different fee thresholds by corridor/currency; all listed fees are subject to VAT.",
+      "last_reviewed": "2026-08-06T00:00:00+00:00",
+      "direct_link": true,
+      "verified": true,
+      "review_required": false,
+      "review_reasons": [],
+      "confidence": "high",
+      "mechanic_tags": [
+        "other"
+      ],
+      "theme_tags": [
+        "international_transfer"
+      ],
+      "media": null,
+      "version": 1,
+      "baseline_import": true,
+      "first_seen": "2026-08-06T00:00:00+00:00",
+      "last_seen": "2026-08-06T00:00:00+00:00",
+      "last_changed": "2026-08-06T00:00:00+00:00",
+      "change_history": [
+        {
+          "at": "2026-08-06T00:00:00+00:00",
+          "type": "excel_import",
+          "version": 1
+        }
+      ],
+      "excel_source": {
+        "workbook": "competitor_campaigns_all_competitors_social_verified_2026-08-06_updated.xlsx",
+        "sheet": "Mobily Pay",
+        "record_id": "2"
+      }
+    },
+    {
+      "id": "campaign:mobily-pay:3",
+      "record_id": "3",
+      "competitor_id": "mobily-pay",
+      "competitor_name": "Mobily Pay",
+      "source_key": "excel:mobily-pay",
+      "source_type": "inventory",
+      "platform": "inventory",
+      "content_type": "campaign",
+      "campaign_category": "remittance",
+      "primary_category": "remittance",
+      "categories": [
+        "remittance"
+      ],
+      "title": "Weekly International Transfer Prizes – Up to SAR 20,000",
+      "snippet": "International transfers generate entries for weekly prizes of up to SAR 20,000.",
+      "summary": "International transfers generate entries for weekly prizes of up to SAR 20,000.",
+      "link": "https://www.facebook.com/mobilypay/videos/sar-20000-is-waiting-for-you-make-an-international-transfer-with-mobilypay-and-i/4300117560266135/",
+      "official_campaign_page_url": "",
+      "primary_official_source_url": "https://www.facebook.com/mobilypay/videos/sar-20000-is-waiting-for-you-make-an-international-transfer-with-mobilypay-and-i/4300117560266135/",
+      "social_links": {
+        "facebook": "https://www.facebook.com/mobilypay/videos/sar-20000-is-waiting-for-you-make-an-international-transfer-with-mobilypay-and-i/4300117560266135/"
+      },
+      "social_link_count": 1,
+      "published_social_platforms": "Facebook",
+      "published_at": null,
+      "start_date": null,
+      "end_date": null,
+      "days_remaining": null,
+      "current_status": "End Date Not Stated",
+      "active": true,
+      "operation_type": "International transfers",
+      "mechanic": "Weekly prizes up to SAR 20,000; no minimum transfer stated in the post",
+      "eligibility": "Mobily Pay international-transfer customers",
+      "terms_note": "Campaign end date is not stated in the official video.",
+      "last_reviewed": "2026-08-06T00:00:00+00:00",
+      "direct_link": true,
+      "verified": true,
+      "review_required": false,
+      "review_reasons": [],
+      "confidence": "high",
+      "mechanic_tags": [
+        "prize_draw"
+      ],
+      "theme_tags": [
+        "international_transfer"
+      ],
+      "media": null,
+      "version": 1,
+      "baseline_import": true,
+      "first_seen": "2026-08-06T00:00:00+00:00",
+      "last_seen": "2026-08-06T00:00:00+00:00",
+      "last_changed": "2026-08-06T00:00:00+00:00",
+      "change_history": [
+        {
+          "at": "2026-08-06T00:00:00+00:00",
+          "type": "excel_import",
+          "version": 1
+        }
+      ],
+      "excel_source": {
+        "workbook": "competitor_campaigns_all_competitors_social_verified_2026-08-06_updated.xlsx",
+        "sheet": "Mobily Pay",
+        "record_id": "3"
+      }
+    },
+    {
+      "id": "campaign:mobily-pay:4",
+      "record_id": "4",
+      "competitor_id": "mobily-pay",
+      "competitor_name": "Mobily Pay",
+      "source_key": "excel:mobily-pay",
+      "source_type": "inventory",
+      "platform": "inventory",
+      "content_type": "merchant_offer",
+      "campaign_category": "merchant",
+      "primary_category": "merchant",
+      "categories": [
+        "merchant"
+      ],
+      "title": "Alpha Medical Laboratories: 50% Off",
+      "snippet": "50% off individual laboratory tests.",
+      "summary": "50% off individual laboratory tests.",
+      "link": "https://mobilypay.sa/offer-details.html?id=offer-6",
+      "official_campaign_page_url": "https://mobilypay.sa/offer-details.html?id=offer-6",
+      "primary_official_source_url": "https://mobilypay.sa/offer-details.html?id=offer-6",
+      "social_links": {},
+      "social_link_count": 0,
+      "published_social_platforms": "No direct social post verified",
+      "published_at": null,
+      "start_date": "2024-08-01T00:00:00+00:00",
+      "end_date": "2026-12-31T00:00:00+00:00",
+      "days_remaining": null,
+      "current_status": "Active",
+      "active": true,
+      "operation_type": "Healthcare and laboratory services",
+      "mechanic": "50% discount on individual laboratory tests",
+      "eligibility": "Mobily Pay Platinum and Signature cards",
+      "terms_note": "Offer applies to individual tests under the official terms.",
+      "last_reviewed": "2026-08-06T00:00:00+00:00",
+      "direct_link": true,
+      "verified": true,
+      "review_required": false,
+      "review_reasons": [],
+      "confidence": "high",
+      "mechanic_tags": [
+        "discount"
+      ],
+      "theme_tags": [
+        "cards"
+      ],
+      "media": null,
+      "version": 1,
+      "baseline_import": true,
+      "first_seen": "2026-08-06T00:00:00+00:00",
+      "last_seen": "2026-08-06T00:00:00+00:00",
+      "last_changed": "2026-08-06T00:00:00+00:00",
+      "change_history": [
+        {
+          "at": "2026-08-06T00:00:00+00:00",
+          "type": "excel_import",
+          "version": 1
+        }
+      ],
+      "excel_source": {
+        "workbook": "competitor_campaigns_all_competitors_social_verified_2026-08-06_updated.xlsx",
+        "sheet": "Mobily Pay",
+        "record_id": "4"
+      }
+    },
+    {
+      "id": "campaign:mobily-pay:5",
+      "record_id": "5",
+      "competitor_id": "mobily-pay",
+      "competitor_name": "Mobily Pay",
+      "source_key": "excel:mobily-pay",
+      "source_type": "inventory",
+      "platform": "inventory",
+      "content_type": "campaign",
+      "campaign_category": "card",
+      "primary_category": "card",
+      "categories": [
+        "card"
+      ],
+      "title": "Summer Card Offers – Fees on Us & Up to 2% Cashback",
+      "snippet": "Summer campaign offering 0% fees on eligible international card transactions, cashback of up to 2%, and free issuance of the physical Mobily Pay card.",
+      "summary": "Summer campaign offering 0% fees on eligible international card transactions, cashback of up to 2%, and free issuance of the physical Mobily Pay card.",
+      "link": "https://mobilypay.sa/offer-details.html?id=offer-53",
+      "official_campaign_page_url": "https://mobilypay.sa/offer-details.html?id=offer-53",
+      "primary_official_source_url": "https://mobilypay.sa/offer-details.html?id=offer-53",
+      "social_links": {
+        "x": "https://x.com/MobilyPay/status/2080699530656510080",
+        "facebook": "https://www.facebook.com/mobilypay/posts/1481106724035443/",
+        "tiktok": "https://www.tiktok.com/@mobilypay/video/7666785860884434183?is_from_webapp=1&sender_device=pc&web_id=7646835061455799828"
+      },
+      "social_link_count": 3,
+      "published_social_platforms": "X, Facebook, TikTok",
+      "published_at": null,
+      "start_date": "2026-07-19T00:00:00+00:00",
+      "end_date": "2026-08-19T00:00:00+00:00",
+      "days_remaining": null,
+      "current_status": "Expiring 8–30 Days",
+      "active": true,
+      "operation_type": "Mobily Pay cardholders; eligible card types and transactions are subject to the official terms and conditions.",
+      "mechanic": "0% fees on eligible international card transactions, cashback up to 2%, and free physical card issuance.",
+      "eligibility": "",
+      "terms_note": "Campaign is valid from 19 July to 19 August 2026. It includes 0% international transaction fees for eligible newly issued Platinum and Signature Visa cards, free plastic-card issuance, and eligible POS/e-commerce purchases.",
+      "last_reviewed": "2026-08-06T00:00:00+00:00",
+      "direct_link": true,
+      "verified": true,
+      "review_required": false,
+      "review_reasons": [],
+      "confidence": "high",
+      "mechanic_tags": [
+        "cashback",
+        "fee_waiver"
+      ],
+      "theme_tags": [
+        "international_fees",
+        "cards"
+      ],
+      "media": null,
+      "version": 1,
+      "baseline_import": true,
+      "first_seen": "2026-08-06T00:00:00+00:00",
+      "last_seen": "2026-08-06T00:00:00+00:00",
+      "last_changed": "2026-08-06T00:00:00+00:00",
+      "change_history": [
+        {
+          "at": "2026-08-06T00:00:00+00:00",
+          "type": "excel_import",
+          "version": 1
+        }
+      ],
+      "excel_source": {
+        "workbook": "competitor_campaigns_all_competitors_social_verified_2026-08-06_updated.xlsx",
+        "sheet": "Mobily Pay",
+        "record_id": "5"
+      }
+    },
+    {
+      "id": "campaign:tiqmo:4",
+      "record_id": "4",
+      "competitor_id": "tiqmo",
+      "competitor_name": "tiqmo",
+      "source_key": "excel:tiqmo",
+      "source_type": "inventory",
+      "platform": "inventory",
+      "content_type": "campaign",
+      "campaign_category": "remittance",
+      "primary_category": "remittance",
+      "categories": [
+        "remittance"
+      ],
+      "title": "Monthly International Transfer Streak Cashback",
+      "snippet": "Transfer SAR 1,500 or more internationally each month to receive increasing monthly cashback while maintaining the monthly streak.",
+      "summary": "Transfer SAR 1,500 or more internationally each month to receive increasing monthly cashback while maintaining the monthly streak.",
+      "link": "https://www.instagram.com/p/DbBUcjiIHS1/",
+      "official_campaign_page_url": "",
+      "primary_official_source_url": "https://www.instagram.com/p/DbBUcjiIHS1/",
+      "social_links": {
+        "instagram": "https://www.instagram.com/p/DbBUcjiIHS1/",
+        "x": "https://x.com/tiqmo/status/2079235327240368574",
+        "facebook": "https://www.facebook.com/Tiqmoksa/posts/your-monthly-cashback-is-heretransfer-internationally-sar-1500-or-more-every-mon/1027166950077303/"
+      },
+      "social_link_count": 3,
+      "published_social_platforms": "Instagram, X, Facebook",
+      "published_at": null,
+      "start_date": null,
+      "end_date": null,
+      "days_remaining": null,
+      "current_status": "End Date Not Stated",
+      "active": true,
+      "operation_type": "International transfers",
+      "mechanic": "SAR 1,500+ monthly transfer threshold, increasing monthly cashback, and zero transfer fees",
+      "eligibility": "tiqmo customers making qualifying monthly international transfers",
+      "terms_note": "Current official posts continue to promote Monthly Streak Rewards. The official post does not state a campaign end date.",
+      "last_reviewed": "2026-08-06T00:00:00+00:00",
+      "direct_link": true,
+      "verified": true,
+      "review_required": false,
+      "review_reasons": [],
+      "confidence": "high",
+      "mechanic_tags": [
+        "cashback",
+        "reward"
+      ],
+      "theme_tags": [
+        "international_transfer"
+      ],
+      "media": null,
+      "version": 1,
+      "baseline_import": true,
+      "first_seen": "2026-08-06T00:00:00+00:00",
+      "last_seen": "2026-08-06T00:00:00+00:00",
+      "last_changed": "2026-08-06T00:00:00+00:00",
+      "change_history": [
+        {
+          "at": "2026-08-06T00:00:00+00:00",
+          "type": "excel_import",
+          "version": 1
+        }
+      ],
+      "excel_source": {
+        "workbook": "competitor_campaigns_all_competitors_social_verified_2026-08-06_updated.xlsx",
+        "sheet": "tiqmo",
+        "record_id": "4"
+      }
+    },
+    {
+      "id": "campaign:tiqmo:5",
+      "record_id": "5",
+      "competitor_id": "tiqmo",
+      "competitor_name": "tiqmo",
+      "source_key": "excel:tiqmo",
+      "source_type": "inventory",
+      "platform": "inventory",
+      "content_type": "campaign",
+      "campaign_category": "card",
+      "primary_category": "card",
+      "categories": [
+        "card"
+      ],
+      "title": "Zero International Card Transaction Fees",
+      "snippet": "0% fees on eligible international POS purchases and international ATM withdrawals outside Saudi Arabia.",
+      "summary": "0% fees on eligible international POS purchases and international ATM withdrawals outside Saudi Arabia.",
+      "link": "https://www.tiqmo.com/ar/offers",
+      "official_campaign_page_url": "https://www.tiqmo.com/ar/offers",
+      "primary_official_source_url": "https://www.tiqmo.com/ar/offers",
+      "social_links": {
+        "instagram": "https://www.instagram.com/p/DbQxYrrjfrH/",
+        "x": "https://x.com/tiqmo/status/2081409451844870239",
+        "facebook": "https://www.facebook.com/Tiqmoksa/videos/1605667747644721/",
+        "tiktok": "https://www.tiktok.com/@tiqmoksa/video/7666867037418867985"
+      },
+      "social_link_count": 4,
+      "published_social_platforms": "Instagram, X, Facebook, TikTok",
+      "published_at": null,
+      "start_date": "2026-05-01T00:00:00+00:00",
+      "end_date": "2026-12-31T00:00:00+00:00",
+      "days_remaining": null,
+      "current_status": "Active",
+      "active": true,
+      "operation_type": "International POS purchases and international ATM withdrawals",
+      "mechanic": "0% international transaction fees and zero fees on overseas ATM withdrawals",
+      "eligibility": "tiqmo customers using eligible cards while travelling outside Saudi Arabia",
+      "terms_note": "Offer is valid from 1 May to 31 December 2026. It applies outside Saudi Arabia and excludes international online stores, websites and mobile applications. tiqmo standard terms apply.",
+      "last_reviewed": "2026-08-06T00:00:00+00:00",
+      "direct_link": true,
+      "verified": true,
+      "review_required": false,
+      "review_reasons": [],
+      "confidence": "high",
+      "mechanic_tags": [
+        "fee_waiver",
+        "prize_draw"
+      ],
+      "theme_tags": [
+        "travel",
+        "international_fees",
+        "cards"
+      ],
+      "media": null,
+      "version": 1,
+      "baseline_import": true,
+      "first_seen": "2026-08-06T00:00:00+00:00",
+      "last_seen": "2026-08-06T00:00:00+00:00",
+      "last_changed": "2026-08-06T00:00:00+00:00",
+      "change_history": [
+        {
+          "at": "2026-08-06T00:00:00+00:00",
+          "type": "excel_import",
+          "version": 1
+        }
+      ],
+      "excel_source": {
+        "workbook": "competitor_campaigns_all_competitors_social_verified_2026-08-06_updated.xlsx",
+        "sheet": "tiqmo",
+        "record_id": "5"
+      }
+    },
+    {
+      "id": "campaign:urpay:1",
+      "record_id": "1",
+      "competitor_id": "urpay",
+      "competitor_name": "urpay",
+      "source_key": "excel:urpay",
+      "source_type": "inventory",
+      "platform": "inventory",
+      "content_type": "campaign",
+      "campaign_category": "card",
+      "primary_category": "card",
+      "categories": [
+        "card"
+      ],
+      "title": "Visa Platinum Cashback Game",
+      "snippet": "Eligible Visa purchases generate in-app game chances, with cashback up to 100% of the transaction amount.",
+      "summary": "Eligible Visa purchases generate in-app game chances, with cashback up to 100% of the transaction amount.",
+      "link": "https://www.urpay.com.sa/en/cashback-system",
+      "official_campaign_page_url": "https://www.urpay.com.sa/en/cashback-system",
+      "primary_official_source_url": "https://www.urpay.com.sa/en/cashback-system",
+      "social_links": {
+        "x": "https://x.com/urpay_sa/status/2079219785200554454",
+        "facebook": "https://www.facebook.com/urpay.sa/videos/every-transaction-you-make-with-your-urpay-platinum-visa-card-comes-with-a-game-/2276237546140896/"
+      },
+      "social_link_count": 2,
+      "published_social_platforms": "X, Facebook",
+      "published_at": null,
+      "start_date": null,
+      "end_date": null,
+      "days_remaining": null,
+      "current_status": "End Date Not Stated",
+      "active": true,
+      "operation_type": "Visa card purchases",
+      "mechanic": "Up to 100% cashback; international POS transactions provide two game chances; rewards can reach SAR 100,000",
+      "eligibility": "urpay Visa Platinum customers",
+      "terms_note": "Game chances must be used within 24 hours. A monthly rewards game unlocks after SAR 1,500 cumulative spend.",
+      "last_reviewed": "2026-08-06T00:00:00+00:00",
+      "direct_link": true,
+      "verified": true,
+      "review_required": false,
+      "review_reasons": [],
+      "confidence": "high",
+      "mechanic_tags": [
+        "cashback",
+        "reward"
+      ],
+      "theme_tags": [
+        "cards",
+        "engagement"
+      ],
+      "media": null,
+      "version": 1,
+      "baseline_import": true,
+      "first_seen": "2026-08-06T00:00:00+00:00",
+      "last_seen": "2026-08-06T00:00:00+00:00",
+      "last_changed": "2026-08-06T00:00:00+00:00",
+      "change_history": [
+        {
+          "at": "2026-08-06T00:00:00+00:00",
+          "type": "excel_import",
+          "version": 1
+        }
+      ],
+      "excel_source": {
+        "workbook": "competitor_campaigns_all_competitors_social_verified_2026-08-06_updated.xlsx",
+        "sheet": "urpay",
+        "record_id": "1"
+      }
+    },
+    {
+      "id": "campaign:urpay:2",
+      "record_id": "2",
+      "competitor_id": "urpay",
+      "competitor_name": "urpay",
+      "source_key": "excel:urpay",
+      "source_type": "inventory",
+      "platform": "inventory",
+      "content_type": "merchant_offer",
+      "campaign_category": "merchant",
+      "primary_category": "merchant",
+      "categories": [
+        "merchant"
+      ],
+      "title": "ALHABIB Bedding: 5% Off",
+      "snippet": "5% off eligible products using promo code urpay.",
+      "summary": "5% off eligible products using promo code urpay.",
+      "link": "https://www.urpay.com.sa/en/urpay-offers/alhabibbedding",
+      "official_campaign_page_url": "https://www.urpay.com.sa/en/urpay-offers/alhabibbedding",
+      "primary_official_source_url": "https://www.urpay.com.sa/en/urpay-offers/alhabibbedding",
+      "social_links": {},
+      "social_link_count": 0,
+      "published_social_platforms": "No direct social post verified",
+      "published_at": null,
+      "start_date": null,
+      "end_date": "2026-12-31T00:00:00+00:00",
+      "days_remaining": null,
+      "current_status": "Active",
+      "active": true,
+      "operation_type": "Home retail purchases",
+      "mechanic": "5% discount using code urpay",
+      "eligibility": "All urpay cards",
+      "terms_note": "Can be used more than once and cannot be combined with other promotions.",
+      "last_reviewed": "2026-08-06T00:00:00+00:00",
+      "direct_link": true,
+      "verified": true,
+      "review_required": false,
+      "review_reasons": [],
+      "confidence": "high",
+      "mechanic_tags": [
+        "discount"
+      ],
+      "theme_tags": [
+        "cards"
+      ],
+      "media": null,
+      "version": 1,
+      "baseline_import": true,
+      "first_seen": "2026-08-06T00:00:00+00:00",
+      "last_seen": "2026-08-06T00:00:00+00:00",
+      "last_changed": "2026-08-06T00:00:00+00:00",
+      "change_history": [
+        {
+          "at": "2026-08-06T00:00:00+00:00",
+          "type": "excel_import",
+          "version": 1
+        }
+      ],
+      "excel_source": {
+        "workbook": "competitor_campaigns_all_competitors_social_verified_2026-08-06_updated.xlsx",
+        "sheet": "urpay",
+        "record_id": "2"
+      }
+    },
+    {
+      "id": "campaign:urpay:3",
+      "record_id": "3",
+      "competitor_id": "urpay",
+      "competitor_name": "urpay",
+      "source_key": "excel:urpay",
+      "source_type": "inventory",
+      "platform": "inventory",
+      "content_type": "merchant_offer",
+      "campaign_category": "merchant",
+      "primary_category": "merchant",
+      "categories": [
+        "merchant"
+      ],
+      "title": "SQUATWOLF: Up to 10% Off",
+      "snippet": "Up to 10% off selected products using promo code R29.",
+      "summary": "Up to 10% off selected products using promo code R29.",
+      "link": "https://www.urpay.com.sa/en/urpay-offers/squatwolf",
+      "official_campaign_page_url": "https://www.urpay.com.sa/en/urpay-offers/squatwolf",
+      "primary_official_source_url": "https://www.urpay.com.sa/en/urpay-offers/squatwolf",
+      "social_links": {},
+      "social_link_count": 0,
+      "published_social_platforms": "No direct social post verified",
+      "published_at": null,
+      "start_date": null,
+      "end_date": "2026-12-31T00:00:00+00:00",
+      "days_remaining": null,
+      "current_status": "Active",
+      "active": true,
+      "operation_type": "Sportswear e-commerce purchases",
+      "mechanic": "Up to 10% discount using code R29",
+      "eligibility": "urpay cards only",
+      "terms_note": "Digital-wallet payments are excluded; selected products only.",
+      "last_reviewed": "2026-08-06T00:00:00+00:00",
+      "direct_link": true,
+      "verified": true,
+      "review_required": false,
+      "review_reasons": [],
+      "confidence": "high",
+      "mechanic_tags": [
+        "discount"
+      ],
+      "theme_tags": [
+        "cards"
+      ],
+      "media": null,
+      "version": 1,
+      "baseline_import": true,
+      "first_seen": "2026-08-06T00:00:00+00:00",
+      "last_seen": "2026-08-06T00:00:00+00:00",
+      "last_changed": "2026-08-06T00:00:00+00:00",
+      "change_history": [
+        {
+          "at": "2026-08-06T00:00:00+00:00",
+          "type": "excel_import",
+          "version": 1
+        }
+      ],
+      "excel_source": {
+        "workbook": "competitor_campaigns_all_competitors_social_verified_2026-08-06_updated.xlsx",
+        "sheet": "urpay",
+        "record_id": "3"
+      }
+    },
+    {
+      "id": "campaign:urpay:4",
+      "record_id": "4",
+      "competitor_id": "urpay",
+      "competitor_name": "urpay",
+      "source_key": "excel:urpay",
+      "source_type": "inventory",
+      "platform": "inventory",
+      "content_type": "merchant_offer",
+      "campaign_category": "merchant",
+      "primary_category": "merchant",
+      "categories": [
+        "merchant"
+      ],
+      "title": "MAGRABi: Up to 10% Off",
+      "snippet": "Up to 10% off eligible purchases using promo code URPAY.",
+      "summary": "Up to 10% off eligible purchases using promo code URPAY.",
+      "link": "https://www.urpay.com.sa/en/urpay-offers/mag",
+      "official_campaign_page_url": "https://www.urpay.com.sa/en/urpay-offers/mag",
+      "primary_official_source_url": "https://www.urpay.com.sa/en/urpay-offers/mag",
+      "social_links": {},
+      "social_link_count": 0,
+      "published_social_platforms": "No direct social post verified",
+      "published_at": null,
+      "start_date": null,
+      "end_date": "2026-12-31T00:00:00+00:00",
+      "days_remaining": null,
+      "current_status": "Active",
+      "active": true,
+      "operation_type": "Optical retail purchases",
+      "mechanic": "Up to 10% discount using code URPAY",
+      "eligibility": "All urpay cards",
+      "terms_note": "Cartier products are excluded. The offer may be used more than once.",
+      "last_reviewed": "2026-08-06T00:00:00+00:00",
+      "direct_link": true,
+      "verified": true,
+      "review_required": false,
+      "review_reasons": [],
+      "confidence": "high",
+      "mechanic_tags": [
+        "discount"
+      ],
+      "theme_tags": [
+        "cards"
+      ],
+      "media": null,
+      "version": 1,
+      "baseline_import": true,
+      "first_seen": "2026-08-06T00:00:00+00:00",
+      "last_seen": "2026-08-06T00:00:00+00:00",
+      "last_changed": "2026-08-06T00:00:00+00:00",
+      "change_history": [
+        {
+          "at": "2026-08-06T00:00:00+00:00",
+          "type": "excel_import",
+          "version": 1
+        }
+      ],
+      "excel_source": {
+        "workbook": "competitor_campaigns_all_competitors_social_verified_2026-08-06_updated.xlsx",
+        "sheet": "urpay",
+        "record_id": "4"
+      }
+    },
+    {
+      "id": "campaign:urpay:5",
+      "record_id": "5",
+      "competitor_id": "urpay",
+      "competitor_name": "urpay",
+      "source_key": "excel:urpay",
+      "source_type": "inventory",
+      "platform": "inventory",
+      "content_type": "merchant_offer",
+      "campaign_category": "merchant",
+      "primary_category": "merchant",
+      "categories": [
+        "merchant"
+      ],
+      "title": "Bath & Body Works: Up to 5% Off",
+      "snippet": "Up to 5% off eligible purchases using promo code VN1N.",
+      "summary": "Up to 5% off eligible purchases using promo code VN1N.",
+      "link": "https://www.urpay.com.sa/en/urpay-offers/b-bw",
+      "official_campaign_page_url": "https://www.urpay.com.sa/en/urpay-offers/b-bw",
+      "primary_official_source_url": "https://www.urpay.com.sa/en/urpay-offers/b-bw",
+      "social_links": {},
+      "social_link_count": 0,
+      "published_social_platforms": "No direct social post verified",
+      "published_at": null,
+      "start_date": null,
+      "end_date": "2026-12-31T00:00:00+00:00",
+      "days_remaining": null,
+      "current_status": "Active",
+      "active": true,
+      "operation_type": "Beauty and personal-care purchases",
+      "mechanic": "Up to 5% discount using code VN1N",
+      "eligibility": "urpay cards only",
+      "terms_note": "May be used more than once and cannot be combined with other promotions.",
+      "last_reviewed": "2026-08-06T00:00:00+00:00",
+      "direct_link": true,
+      "verified": true,
+      "review_required": false,
+      "review_reasons": [],
+      "confidence": "high",
+      "mechanic_tags": [
+        "discount"
+      ],
+      "theme_tags": [
+        "cards"
+      ],
+      "media": null,
+      "version": 1,
+      "baseline_import": true,
+      "first_seen": "2026-08-06T00:00:00+00:00",
+      "last_seen": "2026-08-06T00:00:00+00:00",
+      "last_changed": "2026-08-06T00:00:00+00:00",
+      "change_history": [
+        {
+          "at": "2026-08-06T00:00:00+00:00",
+          "type": "excel_import",
+          "version": 1
+        }
+      ],
+      "excel_source": {
+        "workbook": "competitor_campaigns_all_competitors_social_verified_2026-08-06_updated.xlsx",
+        "sheet": "urpay",
+        "record_id": "5"
+      }
+    },
+    {
+      "id": "campaign:urpay:6",
+      "record_id": "6",
+      "competitor_id": "urpay",
+      "competitor_name": "urpay",
+      "source_key": "excel:urpay",
+      "source_type": "inventory",
+      "platform": "inventory",
+      "content_type": "merchant_offer",
+      "campaign_category": "merchant",
+      "primary_category": "merchant",
+      "categories": [
+        "merchant"
+      ],
+      "title": "Alnahdi Pharmacy: 5% Off",
+      "snippet": "5% off eligible full-price products, capped at SAR 25.",
+      "summary": "5% off eligible full-price products, capped at SAR 25.",
+      "link": "https://www.urpay.com.sa/en/urpay-offers/nadi-ph",
+      "official_campaign_page_url": "https://www.urpay.com.sa/en/urpay-offers/nadi-ph",
+      "primary_official_source_url": "https://www.urpay.com.sa/en/urpay-offers/nadi-ph",
+      "social_links": {},
+      "social_link_count": 0,
+      "published_social_platforms": "No direct social post verified",
+      "published_at": null,
+      "start_date": null,
+      "end_date": "2026-12-31T00:00:00+00:00",
+      "days_remaining": null,
+      "current_status": "Active",
+      "active": true,
+      "operation_type": "Pharmacy e-commerce purchases",
+      "mechanic": "5% discount capped at SAR 25 using code URPAY",
+      "eligibility": "All urpay cards",
+      "terms_note": "Valid on most full-price products on the Alnahdi app or website.",
+      "last_reviewed": "2026-08-06T00:00:00+00:00",
+      "direct_link": true,
+      "verified": true,
+      "review_required": false,
+      "review_reasons": [],
+      "confidence": "high",
+      "mechanic_tags": [
+        "discount"
+      ],
+      "theme_tags": [
+        "cards"
+      ],
+      "media": null,
+      "version": 1,
+      "baseline_import": true,
+      "first_seen": "2026-08-06T00:00:00+00:00",
+      "last_seen": "2026-08-06T00:00:00+00:00",
+      "last_changed": "2026-08-06T00:00:00+00:00",
+      "change_history": [
+        {
+          "at": "2026-08-06T00:00:00+00:00",
+          "type": "excel_import",
+          "version": 1
+        }
+      ],
+      "excel_source": {
+        "workbook": "competitor_campaigns_all_competitors_social_verified_2026-08-06_updated.xlsx",
+        "sheet": "urpay",
+        "record_id": "6"
+      }
+    },
+    {
+      "id": "campaign:urpay:8",
+      "record_id": "8",
+      "competitor_id": "urpay",
+      "competitor_name": "urpay",
+      "source_key": "excel:urpay",
+      "source_type": "inventory",
+      "platform": "inventory",
+      "content_type": "campaign",
+      "campaign_category": "musaned",
+      "primary_category": "musaned",
+      "categories": [
+        "musaned"
+      ],
+      "title": "Musaned Domestic Worker Salary Travel Ticket Draw",
+      "snippet": "Transfer a domestic worker's salary through Musaned in urpay and enter a draw to win a travel ticket for the worker to their home country.",
+      "summary": "Transfer a domestic worker's salary through Musaned in urpay and enter a draw to win a travel ticket for the worker to their home country.",
+      "link": "https://x.com/urpay_sa/status/2074433249682845889",
+      "official_campaign_page_url": "",
+      "primary_official_source_url": "https://x.com/urpay_sa/status/2074433249682845889",
+      "social_links": {
+        "x": "https://x.com/urpay_sa/status/2074433249682845889"
+      },
+      "social_link_count": 1,
+      "published_social_platforms": "X",
+      "published_at": null,
+      "start_date": null,
+      "end_date": null,
+      "days_remaining": null,
+      "current_status": "End Date Not Stated",
+      "active": true,
+      "operation_type": "Domestic worker salary transfer through Musaned",
+      "mechanic": "Salary transfer generates an entry into a travel-ticket prize draw",
+      "eligibility": "urpay customers using the Musaned domestic-worker salary service",
+      "terms_note": "The official post does not state a campaign end date.",
+      "last_reviewed": "2026-08-06T00:00:00+00:00",
+      "direct_link": true,
+      "verified": true,
+      "review_required": false,
+      "review_reasons": [],
+      "confidence": "high",
+      "mechanic_tags": [
+        "prize_draw"
+      ],
+      "theme_tags": [
+        "travel",
+        "musaned"
+      ],
+      "media": null,
+      "version": 1,
+      "baseline_import": true,
+      "first_seen": "2026-08-06T00:00:00+00:00",
+      "last_seen": "2026-08-06T00:00:00+00:00",
+      "last_changed": "2026-08-06T00:00:00+00:00",
+      "change_history": [
+        {
+          "at": "2026-08-06T00:00:00+00:00",
+          "type": "excel_import",
+          "version": 1
+        }
+      ],
+      "excel_source": {
+        "workbook": "competitor_campaigns_all_competitors_social_verified_2026-08-06_updated.xlsx",
+        "sheet": "urpay",
+        "record_id": "8"
+      }
+    },
+    {
+      "id": "campaign:urpay:9",
+      "record_id": "9",
+      "competitor_id": "urpay",
+      "competitor_name": "urpay",
+      "source_key": "excel:urpay",
+      "source_type": "inventory",
+      "platform": "inventory",
+      "content_type": "campaign",
+      "campaign_category": "remittance",
+      "primary_category": "remittance",
+      "categories": [
+        "remittance"
+      ],
+      "title": "International Transfer Scratch & Win – Up to SAR 10,000",
+      "snippet": "Every international transfer generates a scratch chance to win a cash prize of up to SAR 10,000.",
+      "summary": "Every international transfer generates a scratch chance to win a cash prize of up to SAR 10,000.",
+      "link": "https://www.facebook.com/urpay.sa/posts/scratch-win-with-every-international-transfer-via-urpay-and-you-could-win-up-to-/1079237764323076/",
+      "official_campaign_page_url": "",
+      "primary_official_source_url": "https://www.facebook.com/urpay.sa/posts/scratch-win-with-every-international-transfer-via-urpay-and-you-could-win-up-to-/1079237764323076/",
+      "social_links": {
+        "facebook": "https://www.facebook.com/urpay.sa/posts/scratch-win-with-every-international-transfer-via-urpay-and-you-could-win-up-to-/1079237764323076/"
+      },
+      "social_link_count": 1,
+      "published_social_platforms": "Facebook",
+      "published_at": null,
+      "start_date": null,
+      "end_date": null,
+      "days_remaining": null,
+      "current_status": "End Date Not Stated",
+      "active": true,
+      "operation_type": "International transfers",
+      "mechanic": "Scratch-and-win cash prizes up to SAR 10,000",
+      "eligibility": "urpay customers making eligible international transfers; provider terms apply",
+      "terms_note": "A direct official Facebook post promotes scratch-and-win rewards up to SAR 10,000. The post does not state a campaign end date.",
+      "last_reviewed": "2026-08-06T00:00:00+00:00",
+      "direct_link": true,
+      "verified": true,
+      "review_required": false,
+      "review_reasons": [],
+      "confidence": "high",
+      "mechanic_tags": [
+        "prize_draw",
+        "reward"
+      ],
+      "theme_tags": [
+        "international_transfer"
+      ],
+      "media": null,
+      "version": 1,
+      "baseline_import": true,
+      "first_seen": "2026-08-06T00:00:00+00:00",
+      "last_seen": "2026-08-06T00:00:00+00:00",
+      "last_changed": "2026-08-06T00:00:00+00:00",
+      "change_history": [
+        {
+          "at": "2026-08-06T00:00:00+00:00",
+          "type": "excel_import",
+          "version": 1
+        }
+      ],
+      "excel_source": {
+        "workbook": "competitor_campaigns_all_competitors_social_verified_2026-08-06_updated.xlsx",
+        "sheet": "urpay",
+        "record_id": "9"
+      }
+    },
+    {
+      "id": "campaign:alinma-pay:1",
+      "record_id": "1",
+      "competitor_id": "alinma-pay",
+      "competitor_name": "alinma pay",
+      "source_key": "excel:alinma-pay",
+      "source_type": "inventory",
+      "platform": "inventory",
+      "content_type": "campaign",
+      "campaign_category": "card",
+      "primary_category": "card",
+      "categories": [
+        "card"
+      ],
+      "title": "Visa Signature: 2% Cashback",
+      "snippet": "2% cashback on restaurants, supermarkets, grocery stores, and fuel, capped at SAR 300.",
+      "summary": "2% cashback on restaurants, supermarkets, grocery stores, and fuel, capped at SAR 300.",
+      "link": "https://www.instagram.com/alinmapay/p/CC4JUxohSuN/",
+      "official_campaign_page_url": "",
+      "primary_official_source_url": "https://www.instagram.com/alinmapay/p/CC4JUxohSuN/",
+      "social_links": {
+        "instagram": "https://www.instagram.com/alinmapay/p/CC4JUxohSuN/",
+        "x": "https://x.com/alinmapay/status/2074871700508832252",
+        "facebook": "https://www.facebook.com/AlinmaPaySA/posts/weve-extended-the-offer-and-increased-the-limit-enjoy-up-to-2-cashback-with-the-/1632962732164891/"
+      },
+      "social_link_count": 3,
+      "published_social_platforms": "Instagram, X, Facebook",
+      "published_at": null,
+      "start_date": "2026-07-07T00:00:00+00:00",
+      "end_date": "2026-08-07T00:00:00+00:00",
+      "days_remaining": null,
+      "current_status": "Expiring ≤7 Days",
+      "active": true,
+      "operation_type": "Everyday Visa Signature purchases",
+      "mechanic": "2% cashback capped at SAR 300",
+      "eligibility": "alinma pay Visa Signature card",
+      "terms_note": "Eligible merchant categories include restaurants, supermarkets, grocery stores, and fuel. Social verification: The official X post explicitly states the extended 2% cashback offer and the SAR 300 cap.",
+      "last_reviewed": "2026-08-06T00:00:00+00:00",
+      "direct_link": true,
+      "verified": true,
+      "review_required": false,
+      "review_reasons": [],
+      "confidence": "high",
+      "mechanic_tags": [
+        "cashback"
+      ],
+      "theme_tags": [
+        "cards"
+      ],
+      "media": null,
+      "version": 1,
+      "baseline_import": true,
+      "first_seen": "2026-08-06T00:00:00+00:00",
+      "last_seen": "2026-08-06T00:00:00+00:00",
+      "last_changed": "2026-08-06T00:00:00+00:00",
+      "change_history": [
+        {
+          "at": "2026-08-06T00:00:00+00:00",
+          "type": "excel_import",
+          "version": 1
+        }
+      ],
+      "excel_source": {
+        "workbook": "competitor_campaigns_all_competitors_social_verified_2026-08-06_updated.xlsx",
+        "sheet": "alinma pay",
+        "record_id": "1"
+      }
+    },
+    {
+      "id": "campaign:alinma-pay:2",
+      "record_id": "2",
+      "competitor_id": "alinma-pay",
+      "competitor_name": "alinma pay",
+      "source_key": "excel:alinma-pay",
+      "source_type": "inventory",
+      "platform": "inventory",
+      "content_type": "campaign",
+      "campaign_category": "card",
+      "primary_category": "card",
+      "categories": [
+        "card"
+      ],
+      "title": "Zero International Transaction Fees on Cashback Cards",
+      "snippet": "Use alinma pay Cashback Cards internationally with no foreign transaction fees, no fees on the first two international cash withdrawals, and cashback on eligible purchases.",
+      "summary": "Use alinma pay Cashback Cards internationally with no foreign transaction fees, no fees on the first two international cash withdrawals, and cashback on eligible purchases.",
+      "link": "https://www.facebook.com/AlinmaPaySA/posts/%EF%B8%8F-fees-gonetravel-anywhere-and-use-your-alinmapay-cashback-cards-without-worryin/1619335260194305/",
+      "official_campaign_page_url": "",
+      "primary_official_source_url": "https://www.facebook.com/AlinmaPaySA/posts/%EF%B8%8F-fees-gonetravel-anywhere-and-use-your-alinmapay-cashback-cards-without-worryin/1619335260194305/",
+      "social_links": {
+        "facebook": "https://www.facebook.com/AlinmaPaySA/posts/%EF%B8%8F-fees-gonetravel-anywhere-and-use-your-alinmapay-cashback-cards-without-worryin/1619335260194305/"
+      },
+      "social_link_count": 1,
+      "published_social_platforms": "Facebook",
+      "published_at": null,
+      "start_date": null,
+      "end_date": null,
+      "days_remaining": null,
+      "current_status": "End Date Not Stated",
+      "active": true,
+      "operation_type": "International card purchases and overseas ATM withdrawals",
+      "mechanic": "Zero international transaction fees, first two international cash withdrawals free, plus cashback on eligible purchases",
+      "eligibility": "alinma pay Cashback Cards",
+      "terms_note": "Current summer messaging confirms no international transaction fees, no fees on the first two international cash withdrawals, and cashback on eligible purchases. No campaign end date is stated.",
+      "last_reviewed": "2026-08-06T00:00:00+00:00",
+      "direct_link": true,
+      "verified": true,
+      "review_required": false,
+      "review_reasons": [],
+      "confidence": "high",
+      "mechanic_tags": [
+        "cashback",
+        "fee_waiver",
+        "prize_draw"
+      ],
+      "theme_tags": [
+        "international_fees",
+        "cards"
+      ],
+      "media": null,
+      "version": 1,
+      "baseline_import": true,
+      "first_seen": "2026-08-06T00:00:00+00:00",
+      "last_seen": "2026-08-06T00:00:00+00:00",
+      "last_changed": "2026-08-06T00:00:00+00:00",
+      "change_history": [
+        {
+          "at": "2026-08-06T00:00:00+00:00",
+          "type": "excel_import",
+          "version": 1
+        }
+      ],
+      "excel_source": {
+        "workbook": "competitor_campaigns_all_competitors_social_verified_2026-08-06_updated.xlsx",
+        "sheet": "alinma pay",
+        "record_id": "2"
+      }
+    },
+    {
+      "id": "campaign:alinma-pay:3",
+      "record_id": "3",
+      "competitor_id": "alinma-pay",
+      "competitor_name": "alinma pay",
+      "source_key": "excel:alinma-pay",
+      "source_type": "inventory",
+      "platform": "inventory",
+      "content_type": "campaign",
+      "campaign_category": "remittance",
+      "primary_category": "remittance",
+      "categories": [
+        "remittance"
+      ],
+      "title": "International Transfers for SAR 5",
+      "snippet": "Flat SAR 5 transfer fee to multiple international corridors.",
+      "summary": "Flat SAR 5 transfer fee to multiple international corridors.",
+      "link": "https://www.instagram.com/alinmapay/p/CC_U-JDB6yh/",
+      "official_campaign_page_url": "",
+      "primary_official_source_url": "https://www.instagram.com/alinmapay/p/CC_U-JDB6yh/",
+      "social_links": {
+        "instagram": "https://www.instagram.com/alinmapay/p/CC_U-JDB6yh/",
+        "x": "https://x.com/alinmapay/status/1978784486424035774",
+        "facebook": "https://www.facebook.com/AlinmaPaySA/posts/lower-fees-easier-transfers-send-money-to-india-and-bangladesh-through-alinmapay/1606878421439989/"
+      },
+      "social_link_count": 3,
+      "published_social_platforms": "Instagram, X, Facebook",
+      "published_at": null,
+      "start_date": null,
+      "end_date": null,
+      "days_remaining": null,
+      "current_status": "End Date Not Stated",
+      "active": true,
+      "operation_type": "International transfers through alinma pay Direct",
+      "mechanic": "Flat SAR 5 transfer fee",
+      "eligibility": "Transfers to listed destinations including the Philippines, Egypt, Bangladesh, Sri Lanka, Indonesia, Nepal, Jordan, and Morocco",
+      "terms_note": "Campaign end date is not stated in the official post. Social verification: Official Instagram and X posts explicitly promote international transfers for a SAR 5 fee. The Instagram creative is a corridor-specific execution within the same offer.",
+      "last_reviewed": "2026-08-06T00:00:00+00:00",
+      "direct_link": true,
+      "verified": true,
+      "review_required": false,
+      "review_reasons": [],
+      "confidence": "high",
+      "mechanic_tags": [
+        "other"
+      ],
+      "theme_tags": [
+        "international_transfer"
+      ],
+      "media": null,
+      "version": 1,
+      "baseline_import": true,
+      "first_seen": "2026-08-06T00:00:00+00:00",
+      "last_seen": "2026-08-06T00:00:00+00:00",
+      "last_changed": "2026-08-06T00:00:00+00:00",
+      "change_history": [
+        {
+          "at": "2026-08-06T00:00:00+00:00",
+          "type": "excel_import",
+          "version": 1
+        }
+      ],
+      "excel_source": {
+        "workbook": "competitor_campaigns_all_competitors_social_verified_2026-08-06_updated.xlsx",
+        "sheet": "alinma pay",
+        "record_id": "3"
+      }
+    },
+    {
+      "id": "campaign:alinma-pay:5",
+      "record_id": "5",
+      "competitor_id": "alinma-pay",
+      "competitor_name": "alinma pay",
+      "source_key": "excel:alinma-pay",
+      "source_type": "inventory",
+      "platform": "inventory",
+      "content_type": "campaign",
+      "campaign_category": "musaned",
+      "primary_category": "musaned",
+      "categories": [
+        "musaned"
+      ],
+      "title": "Musaned Salary Transfer – 100% Cashback Draw",
+      "snippet": "Transfer a domestic worker's salary through Musaned in alinma pay for a chance to win 100% cashback.",
+      "summary": "Transfer a domestic worker's salary through Musaned in alinma pay for a chance to win 100% cashback.",
+      "link": "https://www.instagram.com/alinmapay/p/DbqaY05mm9E/",
+      "official_campaign_page_url": "",
+      "primary_official_source_url": "https://www.instagram.com/alinmapay/p/DbqaY05mm9E/",
+      "social_links": {
+        "instagram": "https://www.instagram.com/alinmapay/p/DbqaY05mm9E/",
+        "x": "https://x.com/alinmapay/status/2085018248685232195"
+      },
+      "social_link_count": 2,
+      "published_social_platforms": "Instagram, X",
+      "published_at": "2026-08-05T00:00:00+00:00",
+      "start_date": null,
+      "end_date": null,
+      "days_remaining": null,
+      "current_status": "End Date Not Stated",
+      "active": true,
+      "operation_type": "Domestic worker salary transfer through Musaned",
+      "mechanic": "Three winners receive 100% cashback up to SAR 1,000",
+      "eligibility": "alinma pay customers transferring domestic-worker salaries through Musaned",
+      "terms_note": "Official Instagram and X posts announce three winners, each receiving 100% cashback up to SAR 1,000. The campaign end date is not stated.",
+      "last_reviewed": "2026-08-06T00:00:00+00:00",
+      "direct_link": true,
+      "verified": true,
+      "review_required": false,
+      "review_reasons": [],
+      "confidence": "high",
+      "mechanic_tags": [
+        "cashback",
+        "prize_draw"
+      ],
+      "theme_tags": [
+        "musaned"
+      ],
+      "media": null,
+      "version": 1,
+      "baseline_import": true,
+      "first_seen": "2026-08-06T00:00:00+00:00",
+      "last_seen": "2026-08-06T00:00:00+00:00",
+      "last_changed": "2026-08-06T00:00:00+00:00",
+      "change_history": [
+        {
+          "at": "2026-08-06T00:00:00+00:00",
+          "type": "excel_import",
+          "version": 1
+        }
+      ],
+      "excel_source": {
+        "workbook": "competitor_campaigns_all_competitors_social_verified_2026-08-06_updated.xlsx",
+        "sheet": "alinma pay",
+        "record_id": "5"
+      }
+    },
+    {
+      "id": "campaign:tiqmo:1",
+      "record_id": "1",
+      "competitor_id": "tiqmo",
+      "competitor_name": "tiqmo",
+      "source_key": "excel:tiqmo",
+      "source_type": "inventory",
+      "platform": "inventory",
+      "content_type": "campaign",
+      "campaign_category": "sadad",
+      "primary_category": "sadad",
+      "categories": [
+        "sadad"
+      ],
+      "title": "SADAD Daily Cashback",
+      "snippet": "Pay a SADAD bill for a daily chance to win SAR 1,000 cashback.",
+      "summary": "Pay a SADAD bill for a daily chance to win SAR 1,000 cashback.",
+      "link": "https://www.instagram.com/tiqmoksa/p/DbLZ9Yfj6dy/",
+      "official_campaign_page_url": "",
+      "primary_official_source_url": "https://www.instagram.com/tiqmoksa/p/DbLZ9Yfj6dy/",
+      "social_links": {
+        "instagram": "https://www.instagram.com/tiqmoksa/p/DbLZ9Yfj6dy/",
+        "x": "https://x.com/tiqmo/status/2080654590756978954",
+        "facebook": "https://www.facebook.com/Tiqmoksa/videos/sar-1000-cashback-every-daypay-your-bills-through-sadad-tiqmo-and-enter-the-dail/28285312344409396/"
+      },
+      "social_link_count": 3,
+      "published_social_platforms": "Instagram, X, Facebook",
+      "published_at": "2026-07-24T00:00:00+00:00",
+      "start_date": null,
+      "end_date": null,
+      "days_remaining": null,
+      "current_status": "End Date Not Stated",
+      "active": true,
+      "operation_type": "SADAD bill payments",
+      "mechanic": "Daily draw for SAR 1,000 cashback",
+      "eligibility": "tiqmo customers using SADAD",
+      "terms_note": "Campaign end date is not stated in the official post.",
+      "last_reviewed": "2026-08-06T00:00:00+00:00",
+      "direct_link": true,
+      "verified": true,
+      "review_required": false,
+      "review_reasons": [],
+      "confidence": "high",
+      "mechanic_tags": [
+        "cashback",
+        "prize_draw"
+      ],
+      "theme_tags": [
+        "sadad"
+      ],
+      "media": null,
+      "version": 1,
+      "baseline_import": true,
+      "first_seen": "2026-08-06T00:00:00+00:00",
+      "last_seen": "2026-08-06T00:00:00+00:00",
+      "last_changed": "2026-08-06T00:00:00+00:00",
+      "change_history": [
+        {
+          "at": "2026-08-06T00:00:00+00:00",
+          "type": "excel_import",
+          "version": 1
+        }
+      ],
+      "excel_source": {
+        "workbook": "competitor_campaigns_all_competitors_social_verified_2026-08-06_updated.xlsx",
+        "sheet": "tiqmo",
+        "record_id": "1"
+      }
+    },
+    {
+      "id": "campaign:stc-bank:4",
+      "record_id": "4",
+      "competitor_id": "stc-bank",
+      "competitor_name": "STC Bank",
+      "source_key": "excel:stc-bank",
+      "source_type": "inventory",
+      "platform": "inventory",
+      "content_type": "campaign",
+      "campaign_category": "card",
+      "primary_category": "card",
+      "categories": [
+        "card"
+      ],
+      "title": "STC Bank Credit Card Launch",
+      "snippet": "Credit cards promoted with flexible cashback of up to 10% on selected categories and 1% on other purchases.",
+      "summary": "Credit cards promoted with flexible cashback of up to 10% on selected categories and 1% on other purchases.",
+      "link": "https://www.instagram.com/reel/DWots29j8fx/?hl=en",
+      "official_campaign_page_url": "",
+      "primary_official_source_url": "https://www.instagram.com/reel/DWots29j8fx/?hl=en",
+      "social_links": {
+        "instagram": "https://www.instagram.com/reel/DWots29j8fx/?hl=en",
+        "x": "https://x.com/stcbank_ksa/status/2071639841348124772",
+        "facebook": "https://www.facebook.com/share/v/1CqU3VtD85/"
+      },
+      "social_link_count": 3,
+      "published_social_platforms": "Instagram, X, Facebook",
+      "published_at": "2026-07-14T00:00:00+00:00",
+      "start_date": null,
+      "end_date": null,
+      "days_remaining": null,
+      "current_status": "End Date Not Stated",
+      "active": true,
+      "operation_type": "Credit-card purchases",
+      "mechanic": "Flexible category cashback of up to 10%",
+      "eligibility": "STC Bank credit-card customers",
+      "terms_note": "Campaign end date is not stated in the official post. Social verification: Direct official launch/benefit posts verified on Instagram, X, and Facebook. The posts explicitly mention the Platinum credit card, first-year fee waiver, 0% international transaction fees, and cashback benefits. No specific direct TikTok post URL was verified.",
+      "last_reviewed": "2026-08-06T00:00:00+00:00",
+      "direct_link": true,
+      "verified": true,
+      "review_required": false,
+      "review_reasons": [],
+      "confidence": "high",
+      "mechanic_tags": [
+        "cashback"
+      ],
+      "theme_tags": [
+        "international_fees",
+        "cards"
+      ],
+      "media": null,
+      "version": 1,
+      "baseline_import": true,
+      "first_seen": "2026-08-06T00:00:00+00:00",
+      "last_seen": "2026-08-06T00:00:00+00:00",
+      "last_changed": "2026-08-06T00:00:00+00:00",
+      "change_history": [
+        {
+          "at": "2026-08-06T00:00:00+00:00",
+          "type": "excel_import",
+          "version": 1
+        }
+      ],
+      "excel_source": {
+        "workbook": "competitor_campaigns_all_competitors_social_verified_2026-08-06_updated.xlsx",
+        "sheet": "STC Bank",
+        "record_id": "4"
+      }
+    },
+    {
+      "id": "campaign:alinma-pay:4",
+      "record_id": "4",
+      "competitor_id": "alinma-pay",
+      "competitor_name": "alinma pay",
+      "source_key": "excel:alinma-pay",
+      "source_type": "inventory",
+      "platform": "inventory",
+      "content_type": "campaign",
+      "campaign_category": "remittance",
+      "primary_category": "remittance",
+      "categories": [
+        "remittance"
+      ],
+      "title": "Zero-Fee Transfers to India from SAR 700",
+      "snippet": "Transfers of SAR 700 or more to Indian bank accounts are promoted with zero transfer fees.",
+      "summary": "Transfers of SAR 700 or more to Indian bank accounts are promoted with zero transfer fees.",
+      "link": "https://www.facebook.com/AlinmaPaySA/videos/zero-fees-fast-transfers-to-india/873682655502395/",
+      "official_campaign_page_url": "",
+      "primary_official_source_url": "https://www.facebook.com/AlinmaPaySA/videos/zero-fees-fast-transfers-to-india/873682655502395/",
+      "social_links": {
+        "facebook": "https://www.facebook.com/AlinmaPaySA/videos/zero-fees-fast-transfers-to-india/873682655502395/"
+      },
+      "social_link_count": 1,
+      "published_social_platforms": "Facebook",
+      "published_at": "2026-02-15T00:00:00+00:00",
+      "start_date": null,
+      "end_date": null,
+      "days_remaining": null,
+      "current_status": "End Date Not Stated",
+      "active": true,
+      "operation_type": "International transfers to India",
+      "mechanic": "Zero transfer fee for transfers of SAR 700 or more",
+      "eligibility": "alinma pay Direct customers transferring to eligible Indian bank accounts",
+      "terms_note": "Campaign end date is not stated in the official video.",
+      "last_reviewed": "2026-08-06T00:00:00+00:00",
+      "direct_link": true,
+      "verified": true,
+      "review_required": false,
+      "review_reasons": [],
+      "confidence": "high",
+      "mechanic_tags": [
+        "other"
+      ],
+      "theme_tags": [
+        "international_transfer"
+      ],
+      "media": null,
+      "version": 1,
+      "baseline_import": true,
+      "first_seen": "2026-08-06T00:00:00+00:00",
+      "last_seen": "2026-08-06T00:00:00+00:00",
+      "last_changed": "2026-08-06T00:00:00+00:00",
+      "change_history": [
+        {
+          "at": "2026-08-06T00:00:00+00:00",
+          "type": "excel_import",
+          "version": 1
+        }
+      ],
+      "excel_source": {
+        "workbook": "competitor_campaigns_all_competitors_social_verified_2026-08-06_updated.xlsx",
+        "sheet": "alinma pay",
+        "record_id": "4"
+      }
+    },
+    {
+      "id": "campaign:stc-bank:6",
+      "record_id": "6",
+      "competitor_id": "stc-bank",
+      "competitor_name": "STC Bank",
+      "source_key": "excel:stc-bank",
+      "source_type": "inventory",
+      "platform": "inventory",
+      "content_type": "merchant_offer",
+      "campaign_category": "merchant",
+      "primary_category": "merchant",
+      "categories": [
+        "merchant"
+      ],
+      "title": "Whites: Up to 15% Off",
+      "snippet": "15% off online purchases and 10% off in stores.",
+      "summary": "15% off online purchases and 10% off in stores.",
+      "link": "https://stcbank.com.sa/en/web/guest/w/whites-offer",
+      "official_campaign_page_url": "https://stcbank.com.sa/en/web/guest/w/whites-offer",
+      "primary_official_source_url": "https://stcbank.com.sa/en/web/guest/w/whites-offer",
+      "social_links": {},
+      "social_link_count": 0,
+      "published_social_platforms": "No direct social post verified",
+      "published_at": null,
+      "start_date": null,
+      "end_date": "2026-07-31T00:00:00+00:00",
+      "days_remaining": null,
+      "current_status": "Expired",
+      "active": false,
+      "operation_type": "Beauty and healthcare retail",
+      "mechanic": "15% online and 10% in stores; minimum spend SAR 200; maximum discount SAR 100",
+      "eligibility": "STC Bank cards",
+      "terms_note": "Offer was valid through 31 July 2026 and is now expired.",
+      "last_reviewed": "2026-08-06T00:00:00+00:00",
+      "direct_link": true,
+      "verified": true,
+      "review_required": false,
+      "review_reasons": [],
+      "confidence": "high",
+      "mechanic_tags": [
+        "discount"
+      ],
+      "theme_tags": [
+        "cards"
+      ],
+      "media": null,
+      "version": 1,
+      "baseline_import": true,
+      "first_seen": "2026-08-06T00:00:00+00:00",
+      "last_seen": "2026-08-06T00:00:00+00:00",
+      "last_changed": "2026-08-06T00:00:00+00:00",
+      "change_history": [
+        {
+          "at": "2026-08-06T00:00:00+00:00",
+          "type": "excel_import",
+          "version": 1
+        }
+      ],
+      "excel_source": {
+        "workbook": "competitor_campaigns_all_competitors_social_verified_2026-08-06_updated.xlsx",
+        "sheet": "STC Bank",
+        "record_id": "6"
+      }
+    },
+    {
+      "id": "campaign:stc-bank:7",
+      "record_id": "7",
+      "competitor_id": "stc-bank",
+      "competitor_name": "STC Bank",
+      "source_key": "excel:stc-bank",
+      "source_type": "inventory",
+      "platform": "inventory",
+      "content_type": "merchant_offer",
+      "campaign_category": "merchant",
+      "primary_category": "merchant",
+      "categories": [
+        "merchant"
+      ],
+      "title": "Huawei Device and Accessory Offers",
+      "snippet": "Special prices and selected gifts on eligible Huawei devices and accessories.",
+      "summary": "Special prices and selected gifts on eligible Huawei devices and accessories.",
+      "link": "https://stcbank.com.sa/en/web/guest/w/huawei",
+      "official_campaign_page_url": "https://stcbank.com.sa/en/web/guest/w/huawei",
+      "primary_official_source_url": "https://stcbank.com.sa/en/web/guest/w/huawei",
+      "social_links": {},
+      "social_link_count": 0,
+      "published_social_platforms": "No direct social post verified",
+      "published_at": null,
+      "start_date": null,
+      "end_date": "2026-08-02T00:00:00+00:00",
+      "days_remaining": null,
+      "current_status": "Expired",
+      "active": false,
+      "operation_type": "Electronics purchases",
+      "mechanic": "Special prices and gifts on selected devices",
+      "eligibility": "STC Bank cards",
+      "terms_note": "Offer was valid through 2 August 2026 and is now expired.",
+      "last_reviewed": "2026-08-06T00:00:00+00:00",
+      "direct_link": true,
+      "verified": true,
+      "review_required": false,
+      "review_reasons": [],
+      "confidence": "high",
+      "mechanic_tags": [
+        "other"
+      ],
+      "theme_tags": [
+        "cards"
+      ],
+      "media": null,
+      "version": 1,
+      "baseline_import": true,
+      "first_seen": "2026-08-06T00:00:00+00:00",
+      "last_seen": "2026-08-06T00:00:00+00:00",
+      "last_changed": "2026-08-06T00:00:00+00:00",
+      "change_history": [
+        {
+          "at": "2026-08-06T00:00:00+00:00",
+          "type": "excel_import",
+          "version": 1
+        }
+      ],
+      "excel_source": {
+        "workbook": "competitor_campaigns_all_competitors_social_verified_2026-08-06_updated.xlsx",
+        "sheet": "STC Bank",
+        "record_id": "7"
+      }
+    },
+    {
+      "id": "campaign:stc-bank:15",
+      "record_id": "15",
+      "competitor_id": "stc-bank",
+      "competitor_name": "STC Bank",
+      "source_key": "excel:stc-bank",
+      "source_type": "inventory",
+      "platform": "inventory",
+      "content_type": "campaign",
+      "campaign_category": "engagement",
+      "primary_category": "engagement",
+      "categories": [
+        "engagement"
+      ],
+      "title": "STC Bank Championship",
+      "snippet": "Daily football quiz campaign with prizes for leading participants.",
+      "summary": "Daily football quiz campaign with prizes for leading participants.",
+      "link": "https://stcbank.com.sa/en/web/guest/w/stcbank-championship",
+      "official_campaign_page_url": "https://stcbank.com.sa/en/web/guest/w/stcbank-championship",
+      "primary_official_source_url": "https://stcbank.com.sa/en/web/guest/w/stcbank-championship",
+      "social_links": {
+        "instagram": "https://www.instagram.com/reel/DZdT9oVs4pw/?hl=en",
+        "x": "https://x.com/stcbank_ksa/status/2065159633942274387",
+        "facebook": "https://www.facebook.com/share/v/1EMLYL7XMs/",
+        "tiktok": "https://www.tiktok.com/@stcbank_ksa/video/7650240341047725333?is_from_webapp=1&sender_device=pc&web_id=7646835061455799828"
+      },
+      "social_link_count": 4,
+      "published_social_platforms": "Instagram, X, Facebook, TikTok",
+      "published_at": null,
+      "start_date": "2026-06-11T00:00:00+00:00",
+      "end_date": "2026-07-19T00:00:00+00:00",
+      "days_remaining": null,
+      "current_status": "Expired",
+      "active": false,
+      "operation_type": "In-app engagement",
+      "mechanic": "Daily leaderboard and prizes",
+      "eligibility": "STC Bank app customers",
+      "terms_note": "Included as a recent expired campaign for competitive context. Social verification: Direct official posts verified on Instagram, X, and Facebook. Indexed captions/OCR explicitly mention STC Bank Championship, football questions, 50 daily winners, and the tournament period. No specific direct TikTok post URL was verified.",
+      "last_reviewed": "2026-08-06T00:00:00+00:00",
+      "direct_link": true,
+      "verified": true,
+      "review_required": false,
+      "review_reasons": [],
+      "confidence": "high",
+      "mechanic_tags": [
+        "prize_draw"
+      ],
+      "theme_tags": [
+        "engagement"
+      ],
+      "media": null,
+      "version": 1,
+      "baseline_import": true,
+      "first_seen": "2026-08-06T00:00:00+00:00",
+      "last_seen": "2026-08-06T00:00:00+00:00",
+      "last_changed": "2026-08-06T00:00:00+00:00",
+      "change_history": [
+        {
+          "at": "2026-08-06T00:00:00+00:00",
+          "type": "excel_import",
+          "version": 1
+        }
+      ],
+      "excel_source": {
+        "workbook": "competitor_campaigns_all_competitors_social_verified_2026-08-06_updated.xlsx",
+        "sheet": "STC Bank",
+        "record_id": "15"
+      }
+    },
+    {
+      "id": "campaign:mobily-pay:1",
+      "record_id": "1",
+      "competitor_id": "mobily-pay",
+      "competitor_name": "Mobily Pay",
+      "source_key": "excel:mobily-pay",
+      "source_type": "inventory",
+      "platform": "inventory",
+      "content_type": "campaign",
+      "campaign_category": "remittance",
+      "primary_category": "remittance",
+      "categories": [
+        "remittance"
+      ],
+      "title": "International Transfer Prize Draw – SAR 110,000",
+      "snippet": "Each qualifying international transfer of SAR 1,000 or more entered a daily draw; 110 customers won SAR 1,000 each.",
+      "summary": "Each qualifying international transfer of SAR 1,000 or more entered a daily draw; 110 customers won SAR 1,000 each.",
+      "link": "https://mobilypay.sa/ar/offers/offer-51.html",
+      "official_campaign_page_url": "https://mobilypay.sa/ar/offers/offer-51.html",
+      "primary_official_source_url": "https://mobilypay.sa/ar/offers/offer-51.html",
+      "social_links": {
+        "instagram": "https://www.instagram.com/p/DaVcH86Euq7/",
+        "x": "https://x.com/MobilyPay/status/2066845533692707064",
+        "facebook": "https://www.facebook.com/share/p/14qaPGWCJRZ/"
+      },
+      "social_link_count": 3,
+      "published_social_platforms": "Instagram, X, Facebook",
+      "published_at": null,
+      "start_date": "2026-06-15T00:00:00+00:00",
+      "end_date": "2026-07-06T00:00:00+00:00",
+      "days_remaining": null,
+      "current_status": "Expired",
+      "active": false,
+      "operation_type": "International transfers",
+      "mechanic": "Five daily winners; SAR 1,000 per winner; 110 total winners and SAR 110,000 total prize pool",
+      "eligibility": "Mobily Pay customers making international transfers of SAR 1,000 or more",
+      "terms_note": "Campaign ran from 15 June to 6 July 2026 and is now expired. Cancelled or refunded transfers were excluded.",
+      "last_reviewed": "2026-08-06T00:00:00+00:00",
+      "direct_link": true,
+      "verified": true,
+      "review_required": false,
+      "review_reasons": [],
+      "confidence": "high",
+      "mechanic_tags": [
+        "prize_draw"
+      ],
+      "theme_tags": [
+        "international_transfer"
+      ],
+      "media": null,
+      "version": 1,
+      "baseline_import": true,
+      "first_seen": "2026-08-06T00:00:00+00:00",
+      "last_seen": "2026-08-06T00:00:00+00:00",
+      "last_changed": "2026-08-06T00:00:00+00:00",
+      "change_history": [
+        {
+          "at": "2026-08-06T00:00:00+00:00",
+          "type": "excel_import",
+          "version": 1
+        }
+      ],
+      "excel_source": {
+        "workbook": "competitor_campaigns_all_competitors_social_verified_2026-08-06_updated.xlsx",
+        "sheet": "Mobily Pay",
+        "record_id": "1"
+      }
+    },
+    {
+      "id": "campaign:mobily-pay:6",
+      "record_id": "6",
+      "competitor_id": "mobily-pay",
+      "competitor_name": "Mobily Pay",
+      "source_key": "excel:mobily-pay",
+      "source_type": "inventory",
+      "platform": "inventory",
+      "content_type": "campaign",
+      "campaign_category": "other",
+      "primary_category": "other",
+      "categories": [
+        "other"
+      ],
+      "title": "30% Bonus Alfursan Miles",
+      "snippet": "Convert eligible Mobily Pay Xp+ points into Alfursan Miles and receive 30% additional bonus miles.",
+      "summary": "Convert eligible Mobily Pay Xp+ points into Alfursan Miles and receive 30% additional bonus miles.",
+      "link": "https://mobilypay.sa/offer-details.html?id=offer-54",
+      "official_campaign_page_url": "https://mobilypay.sa/offer-details.html?id=offer-54",
+      "primary_official_source_url": "https://mobilypay.sa/offer-details.html?id=offer-54",
+      "social_links": {
+        "instagram": "https://www.instagram.com/p/DbDoZvgjlV9/",
+        "x": "https://x.com/MobilyPay/status/2080986707143413921",
+        "facebook": "https://www.facebook.com/mobilypay/posts/1478454067634042/"
+      },
+      "social_link_count": 3,
+      "published_social_platforms": "Instagram, X, Facebook",
+      "published_at": null,
+      "start_date": "2026-07-15T00:00:00+00:00",
+      "end_date": "2026-07-31T00:00:00+00:00",
+      "days_remaining": null,
+      "current_status": "Expired",
+      "active": false,
+      "operation_type": "Loyalty points conversion / Alfursan Miles",
+      "mechanic": "30% bonus Alfursan Miles when converting eligible Mobily Pay Xp+ points into Alfursan Miles.",
+      "eligibility": "Mobily Pay customers with eligible Xp+ points and an active Alfursan membership.",
+      "terms_note": "Offer ended on 31 July 2026 and is now expired.",
+      "last_reviewed": "2026-08-06T00:00:00+00:00",
+      "direct_link": true,
+      "verified": true,
+      "review_required": false,
+      "review_reasons": [],
+      "confidence": "high",
+      "mechanic_tags": [
+        "reward"
+      ],
+      "theme_tags": [
+        "other"
+      ],
+      "media": null,
+      "version": 1,
+      "baseline_import": true,
+      "first_seen": "2026-08-06T00:00:00+00:00",
+      "last_seen": "2026-08-06T00:00:00+00:00",
+      "last_changed": "2026-08-06T00:00:00+00:00",
+      "change_history": [
+        {
+          "at": "2026-08-06T00:00:00+00:00",
+          "type": "excel_import",
+          "version": 1
+        }
+      ],
+      "excel_source": {
+        "workbook": "competitor_campaigns_all_competitors_social_verified_2026-08-06_updated.xlsx",
+        "sheet": "Mobily Pay",
+        "record_id": "6"
+      }
+    },
+    {
+      "id": "campaign:tiqmo:3",
+      "record_id": "3",
+      "competitor_id": "tiqmo",
+      "competitor_name": "tiqmo",
+      "source_key": "excel:tiqmo",
+      "source_type": "inventory",
+      "platform": "inventory",
+      "content_type": "campaign",
+      "campaign_category": "remittance",
+      "primary_category": "remittance",
+      "categories": [
+        "remittance"
+      ],
+      "title": "100% Cashback on International Transfers – May Edition",
+      "snippet": "International transfers entered a daily draw for a chance to receive the full transfer amount back.",
+      "summary": "International transfers entered a daily draw for a chance to receive the full transfer amount back.",
+      "link": "https://www.instagram.com/p/DXR2gtKkiRW/",
+      "official_campaign_page_url": "",
+      "primary_official_source_url": "https://www.instagram.com/p/DXR2gtKkiRW/",
+      "social_links": {
+        "instagram": "https://www.instagram.com/p/DXR2gtKkiRW/",
+        "x": "https://x.com/tiqmo/status/2069088275881677303",
+        "facebook": "https://www.facebook.com/Tiqmoksa/posts/tiqmo-is-everywhereenjoy-100-cashback-on-international-transfers-with-10-daily-w/943640441763288/ https://www.facebook.com/Tiqmoksa/photos/congrats-may-11-100-cashback-winners-are-herehttpstiqmogolinkjxfro/966768766117122/"
+      },
+      "social_link_count": 3,
+      "published_social_platforms": "Instagram, X, Facebook",
+      "published_at": null,
+      "start_date": null,
+      "end_date": "2026-05-31T00:00:00+00:00",
+      "days_remaining": null,
+      "current_status": "Expired",
+      "active": false,
+      "operation_type": "International transfers",
+      "mechanic": "100% cashback on the transfer amount; 10 daily winners; no minimum stated",
+      "eligibility": "tiqmo international-transfer customers",
+      "terms_note": "The winner-announcement post states that the May edition remained available until 31 May 2026; the campaign is expired.",
+      "last_reviewed": "2026-08-06T00:00:00+00:00",
+      "direct_link": true,
+      "verified": true,
+      "review_required": false,
+      "review_reasons": [],
+      "confidence": "high",
+      "mechanic_tags": [
+        "cashback",
+        "prize_draw"
+      ],
+      "theme_tags": [
+        "international_transfer"
+      ],
+      "media": null,
+      "version": 1,
+      "baseline_import": true,
+      "first_seen": "2026-08-06T00:00:00+00:00",
+      "last_seen": "2026-08-06T00:00:00+00:00",
+      "last_changed": "2026-08-06T00:00:00+00:00",
+      "change_history": [
+        {
+          "at": "2026-08-06T00:00:00+00:00",
+          "type": "excel_import",
+          "version": 1
+        }
+      ],
+      "excel_source": {
+        "workbook": "competitor_campaigns_all_competitors_social_verified_2026-08-06_updated.xlsx",
+        "sheet": "tiqmo",
+        "record_id": "3"
+      }
+    },
+    {
+      "id": "campaign:tiqmo:6",
+      "record_id": "6",
+      "competitor_id": "tiqmo",
+      "competitor_name": "tiqmo",
+      "source_key": "excel:tiqmo",
+      "source_type": "inventory",
+      "platform": "inventory",
+      "content_type": "campaign",
+      "campaign_category": "card",
+      "primary_category": "card",
+      "categories": [
+        "card"
+      ],
+      "title": "SAR 250,000 Spend & Win Campaign",
+      "snippet": "Card spending generated chances to win SAR 250,000, with enhanced chances on international purchases.",
+      "summary": "Card spending generated chances to win SAR 250,000, with enhanced chances on international purchases.",
+      "link": "https://www.tiqmo.com/ar/offers",
+      "official_campaign_page_url": "https://www.tiqmo.com/ar/offers",
+      "primary_official_source_url": "https://www.tiqmo.com/ar/offers",
+      "social_links": {
+        "x": "https://x.com/tiqmo/status/2082496811798085847",
+        "facebook": "https://www.facebook.com/Tiqmoksa/posts/sar-250000-cashbacksimple-every-riyal-you-spend-a-chance-to-win-sar-250000-every/1001313055996026/"
+      },
+      "social_link_count": 2,
+      "published_social_platforms": "X, Facebook",
+      "published_at": null,
+      "start_date": null,
+      "end_date": "2026-07-31T00:00:00+00:00",
+      "days_remaining": null,
+      "current_status": "Expired",
+      "active": false,
+      "operation_type": "Card purchases",
+      "mechanic": "Each SAR spent generated multiple chances; international purchases generated up to eight chances per SAR",
+      "eligibility": "tiqmo card customers",
+      "terms_note": "An official X post dated 29 July stated that two days remained, so the campaign end date is recorded as 31 July 2026. The campaign is retained as recent expired context.",
+      "last_reviewed": "2026-08-06T00:00:00+00:00",
+      "direct_link": true,
+      "verified": true,
+      "review_required": false,
+      "review_reasons": [],
+      "confidence": "high",
+      "mechanic_tags": [
+        "prize_draw"
+      ],
+      "theme_tags": [
+        "cards"
+      ],
+      "media": null,
+      "version": 1,
+      "baseline_import": true,
+      "first_seen": "2026-08-06T00:00:00+00:00",
+      "last_seen": "2026-08-06T00:00:00+00:00",
+      "last_changed": "2026-08-06T00:00:00+00:00",
+      "change_history": [
+        {
+          "at": "2026-08-06T00:00:00+00:00",
+          "type": "excel_import",
+          "version": 1
+        }
+      ],
+      "excel_source": {
+        "workbook": "competitor_campaigns_all_competitors_social_verified_2026-08-06_updated.xlsx",
+        "sheet": "tiqmo",
+        "record_id": "6"
+      }
+    },
+    {
+      "id": "campaign:urpay:7",
+      "record_id": "7",
+      "competitor_id": "urpay",
+      "competitor_name": "urpay",
+      "source_key": "excel:urpay",
+      "source_type": "inventory",
+      "platform": "inventory",
+      "content_type": "merchant_offer",
+      "campaign_category": "merchant",
+      "primary_category": "merchant",
+      "categories": [
+        "merchant"
+      ],
+      "title": "iHerb Visa Offer",
+      "snippet": "Discounts for new and existing iHerb customers.",
+      "summary": "Discounts for new and existing iHerb customers.",
+      "link": "https://www.urpay.com.sa/en/urpay-offers/iherb",
+      "official_campaign_page_url": "https://www.urpay.com.sa/en/urpay-offers/iherb",
+      "primary_official_source_url": "https://www.urpay.com.sa/en/urpay-offers/iherb",
+      "social_links": {},
+      "social_link_count": 0,
+      "published_social_platforms": "No direct social post verified",
+      "published_at": null,
+      "start_date": null,
+      "end_date": "2026-06-30T00:00:00+00:00",
+      "days_remaining": null,
+      "current_status": "Expired",
+      "active": false,
+      "operation_type": "Health and wellness e-commerce purchases",
+      "mechanic": "25% off for new customers and 10% for existing customers",
+      "eligibility": "Visa cardholders",
+      "terms_note": "Expired on 30 June 2026; retained for recent competitive context.",
+      "last_reviewed": "2026-08-06T00:00:00+00:00",
+      "direct_link": true,
+      "verified": true,
+      "review_required": false,
+      "review_reasons": [],
+      "confidence": "high",
+      "mechanic_tags": [
+        "discount"
+      ],
+      "theme_tags": [
+        "cards"
+      ],
+      "media": null,
+      "version": 1,
+      "baseline_import": true,
+      "first_seen": "2026-08-06T00:00:00+00:00",
+      "last_seen": "2026-08-06T00:00:00+00:00",
+      "last_changed": "2026-08-06T00:00:00+00:00",
+      "change_history": [
+        {
+          "at": "2026-08-06T00:00:00+00:00",
+          "type": "excel_import",
+          "version": 1
+        }
+      ],
+      "excel_source": {
+        "workbook": "competitor_campaigns_all_competitors_social_verified_2026-08-06_updated.xlsx",
+        "sheet": "urpay",
+        "record_id": "7"
+      }
+    },
+    {
+      "id": "campaign:tiqmo:2",
+      "record_id": "2",
+      "competitor_id": "tiqmo",
+      "competitor_name": "tiqmo",
+      "source_key": "excel:tiqmo",
+      "source_type": "inventory",
+      "platform": "inventory",
+      "content_type": "merchant_offer",
+      "campaign_category": "merchant",
+      "primary_category": "merchant",
+      "categories": [
+        "merchant"
+      ],
+      "title": "Unlimited 5% Off Game Vouchers",
+      "snippet": "Unlimited 5% discount on eligible gaming vouchers.",
+      "summary": "Unlimited 5% discount on eligible gaming vouchers.",
+      "link": "https://www.instagram.com/tiqmoksa/p/DbJJsK0IEPD/",
+      "official_campaign_page_url": "",
+      "primary_official_source_url": "https://www.instagram.com/tiqmoksa/p/DbJJsK0IEPD/",
+      "social_links": {
+        "instagram": "https://www.instagram.com/tiqmoksa/p/DbJJsK0IEPD/"
+      },
+      "social_link_count": 1,
+      "published_social_platforms": "Instagram",
+      "published_at": "2026-07-23T00:00:00+00:00",
+      "start_date": "2026-07-01T00:00:00+00:00",
+      "end_date": "2026-07-31T00:00:00+00:00",
+      "days_remaining": null,
+      "current_status": "Expired",
+      "active": false,
+      "operation_type": "Gaming-voucher purchases",
+      "mechanic": "Unlimited 5% discount",
+      "eligibility": "Eligible tiqmo card purchases",
+      "terms_note": "Offer was valid from 1 July through 31 July 2026 and is now expired.",
+      "last_reviewed": "2026-08-06T00:00:00+00:00",
+      "direct_link": true,
+      "verified": true,
+      "review_required": false,
+      "review_reasons": [],
+      "confidence": "high",
+      "mechanic_tags": [
+        "discount",
+        "reward"
+      ],
+      "theme_tags": [
+        "cards",
+        "engagement"
+      ],
+      "media": null,
+      "version": 1,
+      "baseline_import": true,
+      "first_seen": "2026-08-06T00:00:00+00:00",
+      "last_seen": "2026-08-06T00:00:00+00:00",
+      "last_changed": "2026-08-06T00:00:00+00:00",
+      "change_history": [
+        {
+          "at": "2026-08-06T00:00:00+00:00",
+          "type": "excel_import",
+          "version": 1
+        }
+      ],
+      "excel_source": {
+        "workbook": "competitor_campaigns_all_competitors_social_verified_2026-08-06_updated.xlsx",
+        "sheet": "tiqmo",
+        "record_id": "2"
+      }
+    }
+  ]
+}
