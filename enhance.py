@@ -417,6 +417,35 @@ def ai_fill_dates(ex,state,config):
 
 def manual_patch(overrides,item_id): return (overrides.get("items") or {}).get(item_id,{})
 
+def deletion_tombstones(overrides):
+    return [patch for patch in (overrides.get("items") or {}).values() if isinstance(patch,dict) and patch.get("deleted")]
+
+def deleted_by_override(item, overrides):
+    patch=manual_patch(overrides,item.get("id"))
+    if patch.get("deleted"): return True
+    comp=item.get("competitor_id") or ""; key=campaign_title_key(item.get("title"))
+    if not key: return False
+    for tomb in deletion_tombstones(overrides):
+        if (tomb.get("deleted_competitor_id") or "")==comp and campaign_title_key(tomb.get("deleted_title"))==key:
+            return True
+    return False
+
+def apply_manual_deletions(data, overrides):
+    before=len(data.get("items",[]))
+    data["items"]=[i for i in data.get("items",[]) if not deleted_by_override(i,overrides)]
+    valid={i.get("id") for i in data.get("items",[]) if i.get("content_type") in {"campaign","merchant_offer"}}
+    for row in data.get("items",[]):
+        broken=False
+        for field in ("campaign_id","linked_campaign_id","suggested_campaign_id"):
+            if row.get(field) and row.get(field) not in valid:
+                row[field]=None;broken=True
+        if broken and row.get("source_type")=="social":
+            row["review_required"]=True;row["current_status"]="Needs Review"
+            reasons=list(row.get("review_reasons") or [])
+            if "linked_campaign_deleted" not in reasons: reasons.append("linked_campaign_deleted")
+            row["review_reasons"]=reasons
+    return before-len(data.get("items",[]))
+
 def append_change(item,typ,details=None):
     h=item.setdefault("change_history",[])
     h.append({"at":iso(now()),"type":typ,"details":details or {}})
@@ -426,6 +455,7 @@ def add_manual_new_items(data, overrides):
     existing={i.get("id") for i in data.get("items",[])}
     for row in overrides.get("new_items",[]) or []:
         if not row.get("id") or row["id"] in existing: continue
+        if manual_patch(overrides,row["id"]).get("deleted"): continue
         item={
             "id":row["id"],"record_id":None,"competitor_id":row.get("competitor_id"),"source_key":f"manual:{row.get('competitor_id')}","source_type":"manual","platform":"website",
             "content_type":row.get("content_type","campaign"),"campaign_category":row.get("campaign_category","other"),"primary_category":row.get("campaign_category","other"),"categories":[row.get("campaign_category","other")],
@@ -1120,18 +1150,74 @@ def deterministic_summary(items,delta):
     cats=[{"category":CATEGORY_LABELS[k],"summary":f"{counts[k]} active campaign(s) in the current verified inventory."} for k in CATEGORY_LABELS if counts.get(k)]
     return {"what_changed":what,"why_it_matters":["Current campaign totals and expiry status are calculated from the full active inventory."],"management_takeaway":"Continue monitoring current campaign mechanics and upcoming expiries; social activity is supporting context rather than market performance.","category_snapshot":cats,"generated_by":"rules","generated_at":iso(now())}
 
+def _summary_contains_internal_ids(summary):
+    if not summary:
+        return False
+    text=json.dumps(summary,ensure_ascii=False).lower()
+    return any(token in text for token in ["detected:","campaign:","post:","merchant:","manual:"])
+
+def management_delta(items,delta,state):
+    """Create an AI-facing delta with human labels only; internal record IDs never leave this layer."""
+    current={i.get("id"):i for i in items if i.get("content_type")=="campaign"}
+    previous=state.get("summary_snapshot",{}) or {}
+
+    def label_from_current(record_id):
+        row=current.get(record_id) or {}
+        title=(row.get("title") or "").strip()
+        competitor=(row.get("competitor_id") or "").replace("-"," ").strip()
+        return {"competitor":competitor,"title":title or None}
+
+    def label_from_previous(record_id):
+        row=previous.get(record_id) or {}
+        title=(row.get("title") or "").strip()
+        return {"title":title or None}
+
+    added=[label_from_current(k) for k in delta.get("added",[])]
+    removed=[label_from_previous(k) for k in delta.get("removed",[])]
+    changed=[]
+    for row in delta.get("changed",[]):
+        after=row.get("after") or {}
+        before=row.get("before") or {}
+        changed.append({
+            "title":(after.get("title") or before.get("title") or "").strip() or None,
+            "fields":row.get("fields",[]),
+            "before":{k:before.get(k) for k in row.get("fields",[]) if k != "title"},
+            "after":{k:after.get(k) for k in row.get("fields",[]) if k != "title"}
+        })
+    return {
+        "initial":bool(delta.get("initial")),
+        "material":bool(delta.get("material")),
+        "added":added,
+        "removed":removed,
+        "changed":changed
+    }
+
 def ai_summary(items,delta,state,config):
     prior=state.get("ai_summary")
-    if prior and not delta.get("material"):return prior
-    fallback=deterministic_summary(items,delta);client=openai_client()
+    prior_bad=_summary_contains_internal_ids(prior)
+    # Reuse a prior summary only when it is clean. Old summaries that leaked internal IDs are regenerated.
+    if prior and not delta.get("material") and not prior_bad:return prior
+    # If the last published summary leaked IDs, reuse the last material delta once so the corrected
+    # summary can describe the same change with campaign titles instead of losing that event.
+    effective_delta=delta
+    previous_delta=state.get("authoritative_delta") or {}
+    if prior_bad and not delta.get("material") and previous_delta.get("material"):
+        effective_delta=previous_delta
+    fallback=deterministic_summary(items,effective_delta);client=openai_client()
     if not client or not config.get("ai",{}).get("summary_enabled",True):return fallback
     model=config.get("ai",{}).get("summary_model","gpt-5.6-sol");campaigns=[i for i in items if i.get("content_type")=="campaign" and i.get("active") is not False]
-    compact=[{"competitor_id":i.get("competitor_id"),"title":i.get("title"),"category":i.get("campaign_category"),"mechanic":i.get("mechanic"),"start_date":i.get("start_date"),"end_date":i.get("end_date"),"status":i.get("current_status"),"corridors":i.get("corridors",[]),"offer_values":i.get("offer_values",[]),"social_posts_total":i.get("social_posts_total",0)} for i in campaigns]
+    compact=[{"competitor":(i.get("competitor_id") or "").replace("-"," "),"title":i.get("title"),"category":i.get("campaign_category"),"mechanic":i.get("mechanic"),"start_date":i.get("start_date"),"end_date":i.get("end_date"),"status":i.get("current_status"),"corridors":i.get("corridors",[]),"offer_values":i.get("offer_values",[]),"social_posts_total":i.get("social_posts_total",0)} for i in campaigns]
     schema={"type":"object","additionalProperties":False,"properties":{"what_changed":{"type":"array","items":{"type":"string"},"maxItems":4},"why_it_matters":{"type":"array","items":{"type":"string"},"minItems":1,"maxItems":4},"management_takeaway":{"type":"string"},"category_snapshot":{"type":"array","items":{"type":"object","additionalProperties":False,"properties":{"category":{"type":"string"},"summary":{"type":"string"}},"required":["category","summary"]}}},"required":["what_changed","why_it_matters","management_takeaway","category_snapshot"]}
-    prompt="""Produce a concise management summary for a Saudi fintech competitor monitor. Use the full current active campaign inventory. What Changed contains only confirmed campaign additions/removals/mechanic/date/status changes from delta; on initial baseline say no previous snapshot exists in one sentence. Why It Matters: 2-4 concise implications. Management Takeaway: one short paragraph. Category Snapshot: factual active categories only. Do not produce a 7-day brief, opportunities/gaps, competitive gap recommendations, watchlists, strength/activity scores, or performance claims. Merchant offers are excluded from campaign KPIs. Social post counts are context only."""
+    prompt="""Produce a concise management summary for a Saudi fintech competitor monitor. Use the full current active campaign inventory. What Changed contains only confirmed campaign additions/removals/mechanic/date/status changes from delta; on initial baseline say no previous snapshot exists in one sentence. Always refer to campaigns by their human-readable title and competitor name. Never expose internal record IDs, hashes, database keys, or strings such as detected:, campaign:, post:, merchant:, or manual:. If a new/removed record has no reliable human-readable title, summarize it generically by competitor and count, e.g. 'Two new Alinma Pay campaign candidates were detected and require review.' Why It Matters: 2-4 concise implications. Management Takeaway: one short paragraph. Category Snapshot: factual active categories only. Do not produce a 7-day brief, opportunities/gaps, competitive gap recommendations, watchlists, strength/activity scores, or performance claims. Merchant offers are excluded from campaign KPIs. Social post counts are context only."""
     try:
-        r=client.responses.create(model=model,reasoning={"effort":config.get("ai",{}).get("summary_reasoning","xhigh")},text={"format":{"type":"json_schema","name":"management_summary","schema":schema,"strict":True}},input=[{"role":"system","content":prompt},{"role":"user","content":json.dumps({"delta":delta,"active_campaigns":compact},ensure_ascii=False)}])
-        result=json.loads(r.output_text);result["generated_by"]=model;result["generated_at"]=iso(now());inp,out=usage_numbers(r);add_usage(state,"summary",model,inp,out,config);return result
+        friendly_delta=management_delta(items,effective_delta,state)
+        r=client.responses.create(model=model,reasoning={"effort":config.get("ai",{}).get("summary_reasoning","xhigh")},text={"format":{"type":"json_schema","name":"management_summary","schema":schema,"strict":True}},input=[{"role":"system","content":prompt},{"role":"user","content":json.dumps({"delta":friendly_delta,"active_campaigns":compact},ensure_ascii=False)}])
+        result=json.loads(r.output_text)
+        # Final guardrail: never publish a management summary containing internal IDs.
+        if _summary_contains_internal_ids(result):
+            print("[AI summary] blocked output containing internal IDs; using rules fallback")
+            return fallback
+        result["generated_by"]=model;result["generated_at"]=iso(now());inp,out=usage_numbers(r);add_usage(state,"summary",model,inp,out,config);return result
     except Exception as exc:
         print(f"[AI summary] {type(exc).__name__}: {exc}");return fallback
 
@@ -1142,7 +1228,7 @@ def recompute_stats(data):
 def main():
     data=load(DATA_PATH,{});state=load(STATE_PATH,{"schema_version":5,"items":{}});config=load(CONFIG_PATH,{});overrides=load(OVERRIDES_PATH,{"items":{},"new_items":[]})
     if not data.get("items"):print("No data items");return 0
-    add_manual_new_items(data,overrides);verify_details(data,state,config,overrides);enforce_record_integrity(data,config);enrich_social(data,state,config,overrides);normalize_winner_announcements(data);enforce_record_integrity(data,config);consolidate_duplicates(data);finalize_counted_statuses(data,overrides,config);recompute_social_analytics(data);sanitize_campaign_media(data);detect_duplicates_replacements(data)
+    apply_manual_deletions(data,overrides);add_manual_new_items(data,overrides);verify_details(data,state,config,overrides);enforce_record_integrity(data,config);enrich_social(data,state,config,overrides);normalize_winner_announcements(data);enforce_record_integrity(data,config);consolidate_duplicates(data);apply_manual_deletions(data,overrides);finalize_counted_statuses(data,overrides,config);recompute_social_analytics(data);sanitize_campaign_media(data);detect_duplicates_replacements(data)
     for item in data.get("items",[]):
         item["review_priority"]=review_priority(item);item.pop("confidence",None) # confidence stays internal, never a displayed score
     snap=snapshot_campaigns(data["items"]);delta=material_delta(state.get("summary_snapshot",{}),snap);summary=ai_summary(data["items"],delta,state,config)

@@ -841,7 +841,7 @@ def social_items(http: requests.Session, competitor: dict[str, Any], platform: s
 
 
 def apply_override(item: dict[str, Any], override: dict[str, Any]) -> dict[str, Any]:
-    allowed = {"title", "snippet", "summary", "content_type", "campaign_category", "primary_category", "categories", "current_status", "active", "published_at", "start_date", "end_date", "official_campaign_page_url", "primary_official_source_url", "link", "social_links", "review_required", "review_reasons", "mechanic_tags", "theme_tags", "operation_type", "mechanic", "eligibility", "terms_note"}
+    allowed = {"title", "snippet", "summary", "content_type", "campaign_category", "primary_category", "categories", "current_status", "active", "published_at", "start_date", "end_date", "official_campaign_page_url", "primary_official_source_url", "link", "social_links", "review_required", "review_reasons", "mechanic_tags", "theme_tags", "operation_type", "mechanic", "eligibility", "terms_note", "deleted", "deleted_at", "deleted_title", "deleted_competitor_id", "deleted_url"}
     result = dict(item)
     for key, value in override.items():
         if key in allowed:
@@ -853,6 +853,42 @@ def apply_override(item: dict[str, Any], override: dict[str, Any]) -> dict[str, 
     result["social_link_count"] = len(result["social_links"])
     result["manual_override"] = True
     return result
+
+
+def deleted_by_override(item: dict[str, Any], overrides: dict[str, Any]) -> bool:
+    patch = overrides.get(item.get("id"), {}) or {}
+    if patch.get("deleted"):
+        return True
+    comp = item.get("competitor_id") or ""
+    title_key = normalized_title(item.get("title"))
+    if not title_key:
+        return False
+    for tomb in overrides.values():
+        if not isinstance(tomb, dict) or not tomb.get("deleted"):
+            continue
+        tomb_comp = tomb.get("deleted_competitor_id") or ""
+        tomb_title = normalized_title(tomb.get("deleted_title"))
+        if tomb_comp == comp and tomb_title and tomb_title == title_key:
+            return True
+    return False
+
+
+def repair_campaign_references(items: list[dict[str, Any]]) -> None:
+    valid = {row.get("id") for row in items if row.get("content_type") in {"campaign", "merchant_offer"}}
+    for row in items:
+        broken = False
+        for field in ("campaign_id", "linked_campaign_id", "suggested_campaign_id"):
+            ref = row.get(field)
+            if ref and ref not in valid:
+                row[field] = None
+                broken = True
+        if broken and row.get("source_type") == "social":
+            row["review_required"] = True
+            row["current_status"] = "Needs Review"
+            reasons = list(row.get("review_reasons") or [])
+            if "linked_campaign_deleted" not in reasons:
+                reasons.append("linked_campaign_deleted")
+            row["review_reasons"] = reasons
 
 
 def reconcile_live(state: dict[str, Any], collected: list[dict[str, Any]], statuses: list[dict[str, Any]], now: datetime, config: dict[str, Any]) -> list[dict[str, Any]]:
@@ -1134,7 +1170,9 @@ def run(config: dict[str, Any]) -> dict[str, Any]:
     inventory, live = match_inventory(inventory, live, config)
     items = inventory + live
     items = [apply_override(row, overrides.get(row["id"], {})) for row in items]
+    items = [row for row in items if not deleted_by_override(row, overrides)]
     items = deduplicate_campaign_records(items, config)
+    repair_campaign_references(items)
     items.sort(key=lambda row: (row.get("active") is not False, parse_iso(row.get("published_at")) or parse_iso(row.get("last_changed")) or datetime.min.replace(tzinfo=timezone.utc)), reverse=True)
     previous = load_json(DATA_PATH, {})
     statuses = source_history(statuses, previous, checked)
