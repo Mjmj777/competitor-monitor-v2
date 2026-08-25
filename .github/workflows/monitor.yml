@@ -8,7 +8,7 @@ on:
       - state.json
       - competitor_campaigns_latest.xlsx
   schedule:
-    - cron: "*/20 * * * *"
+    - cron: "0 * * * *"
   workflow_dispatch:
 
 permissions:
