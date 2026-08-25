@@ -526,7 +526,7 @@ def add_manual_new_items(data, overrides):
         if manual_patch(overrides,row["id"]).get("deleted"): continue
         item={
             "id":row["id"],"record_id":None,"competitor_id":row.get("competitor_id"),"source_key":f"manual:{row.get('competitor_id')}","source_type":"manual","platform":"website",
-            "content_type":row.get("content_type","campaign"),"campaign_category":row.get("campaign_category","other"),"primary_category":row.get("campaign_category","other"),"categories":[row.get("campaign_category","other")],
+            "content_type":row.get("content_type","campaign"),"suggested_record_type":row.get("content_type","campaign"),"campaign_category":row.get("campaign_category","other"),"primary_category":row.get("campaign_category","other"),"categories":[row.get("campaign_category","other")],
             "title":row.get("title") or "New campaign pending source analysis","snippet":row.get("summary","") ,"summary":row.get("summary",""),"link":row.get("official_campaign_page_url") or row.get("primary_official_source_url"),
             "official_campaign_page_url":row.get("official_campaign_page_url"),"primary_official_source_url":row.get("primary_official_source_url") or row.get("official_campaign_page_url"),"social_links":row.get("social_links",{}),
             "published_at":row.get("published_at"),"start_date":row.get("start_date"),"end_date":row.get("end_date"),"current_status":"Needs Review","active":row.get("active",True),"operation_type":row.get("operation_type","") ,"mechanic":row.get("mechanic","") ,"eligibility":row.get("eligibility","") ,"terms_note":row.get("terms_note",""),
@@ -534,6 +534,36 @@ def add_manual_new_items(data, overrides):
         }
         append_change(item,"manual_created")
         data.setdefault("items",[]).append(item); existing.add(item["id"])
+
+def is_manual_source_candidate(item):
+    """Manual Add Campaign records must be verified immediately from their supplied source URL."""
+    if item.get("source_type") != "manual":
+        return False
+    url=direct_url(item)
+    return bool(url and str(url).startswith(("http://","https://")))
+
+def manual_pending_review(item):
+    reasons=set(item.get("review_reasons") or [])
+    return is_manual_source_candidate(item) and (
+        not item.get("verified")
+        or (item.get("source_verification") or {}).get("status") not in {"verified_website","verified_social"}
+        or bool(reasons & {"manual_new_campaign_pending_verification","manual_source_verification_failed","official_detail_not_verified"})
+    )
+
+def clear_manual_verification_review(item):
+    reasons=[r for r in (item.get("review_reasons") or []) if r not in {
+        "manual_new_campaign_pending_verification",
+        "manual_source_verification_failed",
+        "official_detail_not_verified",
+        "missing_direct_official_source",
+        "generic_social_source_not_evidence",
+    }]
+    item["review_reasons"]=reasons
+    if not reasons:
+        item["review_required"]=False
+    if item.get("content_type")=="review":
+        item["content_type"]=item.get("suggested_record_type") or "campaign"
+
 
 def verify_details(data,state,config,overrides):
     cache=state.setdefault("detail_cache",{})
@@ -547,11 +577,13 @@ def verify_details(data,state,config,overrides):
     for item in data.get("items",[]):
         is_counted=item.get("content_type") in {"campaign","merchant_offer"}
         is_official_candidate=(item.get("source_type")=="website" and item.get("official_discovery") and item.get("content_type")=="review")
-        if not (is_counted or is_official_candidate):continue
+        is_manual_candidate=is_manual_source_candidate(item)
+        if not (is_counted or is_official_candidate or is_manual_candidate):continue
         if item.get("active") is False and item.get("source_type")!="manual" and not is_official_candidate:continue
         candidates.append(item)
-    # Newly discovered official detail pages and records missing dates are verified first.
+    # Manual Add Campaign verification is highest priority, then newly discovered official pages.
     candidates.sort(key=lambda x:(
+        0 if manual_pending_review(x) else 1,
         0 if (x.get("source_type")=="website" and x.get("official_discovery")) else 1,
         0 if not x.get("end_date") else 1,
         0 if not x.get("start_date") else 1,
@@ -572,6 +604,7 @@ def verify_details(data,state,config,overrides):
         url=direct_url(item)
         if not url or not str(url).startswith("http"): continue
         manual=manual_patch(overrides,item["id"])
+        manual_candidate=is_manual_source_candidate(item)
 
         # Social networks must never be scraped as campaign-detail webpages.
         # Their public HTML often returns login/navigation shells instead of post content.
@@ -588,13 +621,20 @@ def verify_details(data,state,config,overrides):
                 "error":None if is_specific else "Generic social profile/page is not sufficient campaign evidence.",
             }
             item["verified"]=bool(is_specific)
-            if is_specific:item["last_reviewed"]=item.get("last_reviewed") or iso(current)
+            if is_specific:
+                item["last_reviewed"]=item.get("last_reviewed") or iso(current)
+                if manual_candidate:
+                    clear_manual_verification_review(item)
+                    append_change(item,"manual_source_verified",{"source":url,"method":"official_social"})
             item.pop("media", None)
             st,active=status_for(item,current)
             if "current_status" not in manual:item["current_status"]=st if is_specific else "Needs Review"
             if "active" not in manual:item["active"]=active
             if not is_specific:
                 item["review_required"]=True
+                if manual_candidate:
+                    item["content_type"]="review"
+                    item["suggested_record_type"]=item.get("suggested_record_type") or "campaign"
                 item["review_reasons"]=list(dict.fromkeys((item.get("review_reasons") or [])+["generic_social_source_not_evidence"]))
             continue
 
@@ -606,9 +646,12 @@ def verify_details(data,state,config,overrides):
             not last
             or current-last>=timedelta(hours=interval)
             or cached.get("extractor_version")!=DETAIL_EXTRACTOR_VERSION
+            or (manual_candidate and (cached.get("url")!=url or manual_pending_review(item)))
         )
 
-        if due and checks<max_checks and not skip:
+        # Admin-added campaigns get an immediate verification slot and cannot be starved by
+        # the normal detail-page quota. They are few and explicitly requested by the user.
+        if due and (manual_candidate or checks<max_checks) and not skip:
             checks+=1
             detail_status={
                 "source_key":f"detail:{item['id']}",
@@ -663,6 +706,13 @@ def verify_details(data,state,config,overrides):
                 "conflicts":[],
                 "error":cached.get("error"),
             }
+            if manual_candidate:
+                item["verified"]=False
+                item["content_type"]="review"
+                item["suggested_record_type"]=item.get("suggested_record_type") or "campaign"
+                item["current_status"]="Needs Review"
+                item["review_required"]=True
+                item["review_reasons"]=list(dict.fromkeys((item.get("review_reasons") or [])+["manual_source_verification_failed"]))
             continue
 
         conflicts=[]
@@ -674,7 +724,9 @@ def verify_details(data,state,config,overrides):
                 item[field]=src
                 append_change(item,f"{field}_updated",{"from":old,"to":src})
 
-        if ex.get("title") and not item.get("title") and "title" not in manual:
+        placeholder_titles={"new campaign pending source analysis","new campaign"}
+        current_title=clean(item.get("title"),300)
+        if ex.get("title") and (not current_title or current_title.casefold() in placeholder_titles) and "title" not in manual:
             item["title"]=ex["title"]
         if ex.get("summary") and "summary" not in manual:
             current_summary=clean(item.get("summary") or item.get("snippet"),5000)
@@ -685,7 +737,7 @@ def verify_details(data,state,config,overrides):
                 or len(re.findall(r"(?:حتى|until|through)\s+[^,.؛]{0,35}20\d{2}",current_summary,re.I))>=3
                 or len(re.findall(r"\b\d{1,3}%",current_summary))>=4
             )
-            if item.get("source_type")=="website" or item.get("official_discovery") or not current_summary or contaminated:
+            if item.get("source_type")=="website" or item.get("official_discovery") or manual_candidate or not current_summary or contaminated:
                 item["summary"]=item["snippet"]=ex["summary"]
 
         item["mechanic_tags"]=list(dict.fromkeys((item.get("mechanic_tags") or [])+(ex.get("mechanic_tags") or [])))
@@ -721,6 +773,16 @@ def verify_details(data,state,config,overrides):
             item["verified"]=True
             item["last_live_verified_at"]=cached.get("checked_at")
             item["last_reviewed"]=cached.get("checked_at")
+            if manual_candidate:
+                clear_manual_verification_review(item)
+                # Preserve an admin-entered mechanic; otherwise provide a factual compact value
+                # from deterministic page extraction rather than leaving the field blank.
+                if not item.get("mechanic") and "mechanic" not in manual:
+                    parts=[]
+                    if item.get("mechanic_tags"):parts.extend(str(x).replace("_"," ").title() for x in item.get("mechanic_tags",[])[:2])
+                    if item.get("offer_values"):parts.extend(str(x) for x in item.get("offer_values",[])[:2])
+                    if parts:item["mechanic"]=" · ".join(dict.fromkeys(parts))
+                append_change(item,"manual_source_verified",{"source":url,"method":"official_website"})
 
         st,active=status_for(item,current)
         if "current_status" not in manual: item["current_status"]=st
