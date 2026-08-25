@@ -9,7 +9,8 @@
     "inventory_path": "inventory.json",
     "manual_overrides_path": "manual_overrides.json",
     "detail_verification_interval_hours": 6,
-    "max_detail_checks_per_run": 16
+    "max_detail_checks_per_run": 24,
+    "browser_timeout_seconds": 25
   },
   "content_types": [
     {
@@ -304,7 +305,9 @@
             "faq",
             "سياسة الخصوصية",
             "الشروط والأحكام"
-          ]
+          ],
+          "parser": "stc-bank",
+          "browser_fallback": false
         }
       ],
       "social_feeds": {
@@ -344,7 +347,10 @@
             "faq",
             "سياسة الخصوصية",
             "الشروط والأحكام"
-          ]
+          ],
+          "parser": "barq",
+          "browser_fallback": true,
+          "browser_fallback_below_items": 1
         }
       ],
       "social_feeds": {
@@ -384,7 +390,15 @@
             "faq",
             "سياسة الخصوصية",
             "الشروط والأحكام"
-          ]
+          ],
+          "parser": "mobily-pay",
+          "expired_headings": [
+            "العروض المنتهية",
+            "عروض منتهية",
+            "Expired Offers",
+            "Previous Offers"
+          ],
+          "browser_fallback": false
         }
       ],
       "social_feeds": {
@@ -399,11 +413,11 @@
       "id": "tiqmo",
       "name_en": "tiqmo",
       "website": "https://www.tiqmo.com/",
-      "offers_url": "https://tiqmo.com/ar/offers",
+      "offers_url": "https://www.tiqmo.com/ar/offers",
       "website_sources": [
         {
           "id": "offers",
-          "url": "https://tiqmo.com/ar/offers",
+          "url": "https://www.tiqmo.com/ar/offers",
           "link_keywords": [
             "offer",
             "offers",
@@ -425,7 +439,10 @@
             "faq",
             "سياسة الخصوصية",
             "الشروط والأحكام"
-          ]
+          ],
+          "parser": "tiqmo",
+          "browser_fallback": true,
+          "browser_fallback_below_items": 1
         }
       ],
       "social_feeds": {
@@ -466,7 +483,10 @@
             "faq",
             "سياسة الخصوصية",
             "الشروط والأحكام"
-          ]
+          ],
+          "parser": "urpay",
+          "browser_fallback": true,
+          "browser_fallback_below_items": 1
         }
       ],
       "social_feeds": {
@@ -506,7 +526,9 @@
             "faq",
             "سياسة الخصوصية",
             "الشروط والأحكام"
-          ]
+          ],
+          "parser": "alinma-pay",
+          "browser_fallback": false
         }
       ],
       "social_feeds": {
@@ -537,6 +559,10 @@
         "input": 5.0,
         "output": 30.0
       }
-    }
+    },
+    "date_extraction_enabled": true,
+    "date_extraction_model": "gpt-5.6-terra",
+    "date_extraction_reasoning": "low",
+    "date_extraction_max_items_per_run": 6
   }
 }

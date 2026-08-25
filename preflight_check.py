@@ -32,6 +32,42 @@ try:
     if len(set(urls))!=len(urls): fail('Duplicate discovery source URLs found in config.json')
 except Exception as exc: fail(f'config.json invalid: {exc}')
 
+
+# Browser fallback guard: JS-heavy sources require Playwright + Chromium in the workflow.
+try:
+    req=(BASE/'requirements.txt').read_text(encoding='utf-8').casefold()
+    wf=(BASE/'.github/workflows/monitor.yml').read_text(encoding='utf-8').casefold()
+    fallback=[c.get('id') for c in config.get('competitors',[]) for src in c.get('website_sources',[]) if src.get('browser_fallback')]
+    if fallback and 'playwright' not in req: fail('requirements.txt: Playwright is required for browser-fallback sources')
+    if fallback and 'playwright install' not in wf: fail('Workflow must install a Playwright browser for browser-fallback sources')
+    mob=next((c for c in config.get('competitors',[]) if c.get('id')=='mobily-pay'),None)
+    if mob:
+        src=(mob.get('website_sources') or [{}])[0]
+        if '/ar/offers.html' not in str(src.get('url','')): fail('Mobily Pay official offers source must use the Arabic offers index')
+        if not src.get('expired_headings'): fail('Mobily Pay source must define expired-offer headings to exclude historical cards')
+except Exception as exc: fail(f'Browser/source parser guard failed: {exc}')
+
+# Deterministic parser/date regression checks.
+try:
+    import monitor as _monitor
+    import enhance as _enhance
+    samples=[
+        ('يسري العرض من 1 أغسطس حتى 31 أكتوبر2026.', '2026-08-01', '2026-10-31'),
+        ('The campaign runs from 19 August 2026 to 19 October 2026', '2026-08-19', '2026-10-19'),
+        ('Validity December 31, 2026', None, '2026-12-31'),
+    ]
+    for text,exp_start,exp_end in samples:
+        st,en,_=_enhance.extract_dates_from_text(text)
+        if exp_start and not str(st or '').startswith(exp_start): fail(f'Date parser missed start date: {text}')
+        if exp_end and not str(en or '').startswith(exp_end): fail(f'Date parser missed end date: {text}')
+    mob=next(c for c in config.get('competitors',[]) if c.get('id')=='mobily-pay')
+    src=(mob.get('website_sources') or [{}])[0]
+    fixture='<h2>تعرّف على أحدث العروض المتاحة</h2><div><h3>عرض حالي</h3><a href="/ar/offers/offer-56.html">استكشف المزيد</a></div><h3>العروض المنتهية</h3><div><h3>عرض قديم</h3><a href="/ar/offers/offer-1.html">استكشف المزيد</a></div>'
+    rows,_=_monitor.extract_website_candidates(fixture,mob,src,config,'test')
+    titles={r.get('title') for r in rows}
+    if 'عرض حالي' not in titles or 'عرض قديم' in titles: fail('Mobily Pay parser mixed expired offers into current discovery')
+except Exception as exc: fail(f'Parser/date regression check failed: {exc}')
+
 # English must be the initial language; the UI may persist the user's later choice.
 for name in ['index.html','competitor.html','item.html']:
     try:

@@ -30,6 +30,7 @@ MECHANICS = {
 
 WINNER_ANNOUNCEMENT_WORDS=["winner","winners","congratulations","congrats","winner announcement","فائز","فائزة","فائزين","فائزينا","الفائز","الفائزة","الفائزين","مبروك","نبارك","تهانينا"]
 SOCIAL_HOSTS=("instagram.com","facebook.com","m.facebook.com","x.com","twitter.com","tiktok.com")
+AI_DATE_CALLS_THIS_RUN=0
 
 def is_winner_announcement(item):
     text=f"{item.get('title','')} {item.get('snippet','')}".casefold()
@@ -227,54 +228,166 @@ def jsonld_objects(soup):
         except Exception: pass
     return out
 
+
+_AR_DIGIT_MAP=str.maketrans("٠١٢٣٤٥٦٧٨٩۰۱۲۳۴۵۶۷۸۹","01234567890123456789")
+_AR_MONTHS={"يناير":1,"فبراير":2,"مارس":3,"أبريل":4,"ابريل":4,"مايو":5,"يونيو":6,"يوليو":7,"أغسطس":8,"اغسطس":8,"سبتمبر":9,"أكتوبر":10,"اكتوبر":10,"نوفمبر":11,"ديسمبر":12}
+_EN_MONTHS={"january":1,"jan":1,"february":2,"feb":2,"march":3,"mar":3,"april":4,"apr":4,"may":5,"june":6,"jun":6,"july":7,"jul":7,"august":8,"aug":8,"september":9,"sep":9,"sept":9,"october":10,"oct":10,"november":11,"nov":11,"december":12,"dec":12}
+_MONTH_NAMES="January|February|March|April|May|June|July|August|September|October|November|December|Jan|Feb|Mar|Apr|Jun|Jul|Aug|Sep|Sept|Oct|Nov|Dec|يناير|فبراير|مارس|أبريل|ابريل|مايو|يونيو|يوليو|أغسطس|اغسطس|سبتمبر|أكتوبر|اكتوبر|نوفمبر|ديسمبر"
+_DATE_FULL=rf"(?:\d{{1,2}}\s+(?:{_MONTH_NAMES})\s*20\d{{2}}|(?:January|February|March|April|May|June|July|August|September|October|November|December|Jan|Feb|Mar|Apr|Jun|Jul|Aug|Sep|Sept|Oct|Nov|Dec)\s+\d{{1,2}},?\s*20\d{{2}}|20\d{{2}}[-/]\d{{1,2}}[-/]\d{{1,2}}|\d{{1,2}}[-/]\d{{1,2}}[-/]20\d{{2}})"
+_DATE_FLEX=rf"(?:\d{{1,2}}\s+(?:{_MONTH_NAMES})(?:\s*20\d{{2}})?|(?:January|February|March|April|May|June|July|August|September|October|November|December|Jan|Feb|Mar|Apr|Jun|Jul|Aug|Sep|Sept|Oct|Nov|Dec)\s+\d{{1,2}},?(?:\s*20\d{{2}})?|20\d{{2}}[-/]\d{{1,2}}[-/]\d{{1,2}}|\d{{1,2}}[-/]\d{{1,2}}[-/](?:20\d{{2}}|\d{{2}}))"
+
+def normalize_date_text(value):
+    text=clean(value,25000).translate(_AR_DIGIT_MAP).replace("،",",")
+    # Sites often concatenate Arabic month and year: أكتوبر2026.
+    text=re.sub(r"(?<=[A-Za-z\u0600-\u06FF])(?=20\d{2}\b)"," ",text)
+    return text
+
+def parse_human_date(value,default_year=None):
+    text=normalize_date_text(value).strip(" .،,;:")
+    if not text:return None
+    m=re.fullmatch(r"(20\d{2})[-/](\d{1,2})[-/](\d{1,2})",text)
+    if m:
+        try:return datetime(int(m.group(1)),int(m.group(2)),int(m.group(3)),tzinfo=timezone.utc)
+        except ValueError:return None
+    m=re.fullmatch(r"(\d{1,2})[-/](\d{1,2})[-/](20\d{2}|\d{2})",text)
+    if m:
+        year=int(m.group(3));year=year+2000 if year<100 else year
+        try:return datetime(year,int(m.group(2)),int(m.group(1)),tzinfo=timezone.utc)
+        except ValueError:return None
+    tokens=text.casefold().replace(","," ").split()
+    if len(tokens)>=2:
+        try:
+            day=int(tokens[0]); month_name=tokens[1]; year=int(tokens[2]) if len(tokens)>=3 and tokens[2].isdigit() else default_year
+            month=_AR_MONTHS.get(month_name) or _EN_MONTHS.get(month_name)
+            if month and year:return datetime(year,month,day,tzinfo=timezone.utc)
+        except Exception:pass
+        try:
+            month=_EN_MONTHS.get(tokens[0]);day=int(tokens[1]);year=int(tokens[2]) if len(tokens)>=3 and tokens[2].isdigit() else default_year
+            if month and year:return datetime(year,month,day,tzinfo=timezone.utc)
+        except Exception:pass
+    try:
+        parsed=dateparser.parse(text,dayfirst=True,default=datetime(default_year or now().year,1,1))
+        if parsed:
+            if parsed.tzinfo is None:parsed=parsed.replace(tzinfo=timezone.utc)
+            return parsed.astimezone(timezone.utc)
+    except Exception:pass
+    return None
+
 def first_date(values):
     for v in values:
-        d=dt(v)
-        if d: return iso(d.replace(hour=0,minute=0,second=0,microsecond=0))
+        d=dt(v) or parse_human_date(v)
+        if d:return iso(d.replace(hour=0,minute=0,second=0,microsecond=0))
     return None
 
 def extract_dates_from_text(text):
-    # Conservative patterns: ranges/explicit validity only. Never infer from first detection.
-    months="January|February|March|April|May|June|July|August|September|October|November|December|Jan|Feb|Mar|Apr|Jun|Jul|Aug|Sep|Sept|Oct|Nov|Dec"
-    date_pat=rf"(?:\d{{1,2}}\s+(?:{months})\s+20\d{{2}}|(?:{months})\s+\d{{1,2}},?\s+20\d{{2}}|20\d{{2}}[-/]\d{{1,2}}[-/]\d{{1,2}}|\d{{1,2}}[-/]\d{{1,2}}[-/]20\d{{2}})"
-    start=end=None; evidence=None
-    range_patterns=[rf"(?:valid|available|runs?|campaign)\s+(?:from\s+)?({date_pat})\s+(?:to|until|through|–|-)\s+({date_pat})",rf"(?:من)\s+({date_pat})\s+(?:إلى|الى|حتى)\s+({date_pat})"]
+    """Extract only explicit validity dates; never infer dates from detection/publication time."""
+    value=normalize_date_text(text)
+    start=end=None;evidence=None
+    range_patterns=[
+        rf"(?:valid|available|offer|campaign|runs?)\s+(?:period\s+)?(?:from\s+)?({_DATE_FLEX})\s+(?:to|until|through|–|—|-)\s+({_DATE_FLEX})",
+        rf"(?:يسري(?:\s+هذا)?\s+العرض|العرض\s+ساري|هذا\s+العرض\s+ساري|ساري|مدة\s+العرض|فترة\s+العرض)?\s*(?:من(?:\s+تاريخ)?|ابتداء(?:ً|ا)?\s+من)\s+({_DATE_FLEX})\s*(?:إلى|الى|و?حتى|ولغاية)\s+({_DATE_FLEX})",
+    ]
     for p in range_patterns:
-        m=re.search(p,text,re.I)
-        if m:
-            start,end=first_date([m.group(1)]),first_date([m.group(2)]); evidence=clean(m.group(0),500); break
+        m=re.search(p,value,re.I)
+        if not m:continue
+        right=parse_human_date(m.group(2))
+        left=parse_human_date(m.group(1),right.year if right else None)
+        if left:start=iso(left.replace(hour=0,minute=0,second=0,microsecond=0))
+        if right:end=iso(right.replace(hour=0,minute=0,second=0,microsecond=0))
+        if start or end:evidence=clean(m.group(0),500);break
     if not end:
-        for p in [rf"(?:valid until|valid through|ends? on|expires? on)\s+({date_pat})",rf"(?:ساري حتى|ينتهي في|ينتهي بتاريخ|حتى)\s+({date_pat})"]:
-            m=re.search(p,text,re.I)
-            if m: end=first_date([m.group(1)]); evidence=clean(m.group(0),500); break
+        end_patterns=[
+            rf"(?:validity(?:\s+(?:until|through))?|valid\s+(?:until|through)|ends?\s+(?:on)?|expires?\s+(?:on)?)\s*[:\-]?\s*({_DATE_FULL})",
+            rf"(?:الصلاحية(?:\s+حتى)?|ساري\s+حتى|يسري\s+حتى|ينتهي(?:\s+العرض)?(?:\s+في|\s+بتاريخ)?|تاريخ\s+انتهاء\s+العرض|حتى)\s*[:\-]?\s*({_DATE_FULL})",
+        ]
+        for p in end_patterns:
+            m=re.search(p,value,re.I)
+            if m:
+                d=parse_human_date(m.group(1))
+                if d:end=iso(d.replace(hour=0,minute=0,second=0,microsecond=0));evidence=evidence or clean(m.group(0),500);break
+    if not start:
+        start_patterns=[
+            rf"(?:valid\s+from|starts?\s+(?:on|from)|available\s+from)\s*[:\-]?\s*({_DATE_FULL})",
+            rf"(?:هذا\s+العرض\s+ساري\s+من|ساري\s+من|يسري\s+العرض\s+من|يبدأ(?:\s+العرض)?(?:\s+من|\s+في)?|ابتداء(?:ً|ا)?\s+من|اعتبار(?:ًا|ا)?\s+من)\s*[:\-]?\s*({_DATE_FULL})",
+        ]
+        for p in start_patterns:
+            m=re.search(p,value,re.I)
+            if m:
+                d=parse_human_date(m.group(1))
+                if d:start=iso(d.replace(hour=0,minute=0,second=0,microsecond=0));evidence=evidence or clean(m.group(0),500);break
     return start,end,evidence
+
+def date_context(text):
+    value=normalize_date_text(text)
+    markers=("valid","validity","start","starts","end","ends","expire","campaign period","offer period","يسري","ساري","مدة العرض","فترة العرض","الصلاحية","ينتهي","يبدأ","ابتداء")
+    pieces=re.split(r"(?<=[.!?؟])\s+|\n+",value)
+    selected=[clean(x,700) for x in pieces if any(m in x.casefold() for m in markers)]
+    return "\n".join(selected[:12])[:5000]
 
 def extract_page(html,url):
     soup=BeautifulSoup(html,"html.parser")
     title=clean((soup.find("meta",property="og:title") or {}).get("content") if soup.find("meta",property="og:title") else "",300) or clean(soup.title.get_text(" ",strip=True) if soup.title else "",300)
     desc_node=soup.find("meta",attrs={"name":"description"}) or soup.find("meta",property="og:description")
     summary=clean(desc_node.get("content") if desc_node else "",1000)
-    text=clean(soup.get_text(" ",strip=True),20000)
-    pub=[]; starts=[]; ends=[]
+    text=clean(soup.get_text(" ",strip=True),25000)
+    pub=[];starts=[];ends=[]
     for obj in jsonld_objects(soup):
         for k in ["datePublished","dateCreated","uploadDate"]:
-            if obj.get(k): pub.append(obj[k])
+            if obj.get(k):pub.append(obj[k])
         for k in ["startDate","validFrom"]:
-            if obj.get(k): starts.append(obj[k])
+            if obj.get(k):starts.append(obj[k])
         for k in ["endDate","validThrough","expiryDate"]:
-            if obj.get(k): ends.append(obj[k])
-    for attr, target in [("article:published_time",pub),("offer:valid_from",starts),("offer:valid_through",ends)]:
+            if obj.get(k):ends.append(obj[k])
+    for attr,target in [("article:published_time",pub),("offer:valid_from",starts),("offer:valid_through",ends)]:
         n=soup.find("meta",property=attr)
-        if n and n.get("content"): target.append(n["content"])
+        if n and n.get("content"):target.append(n["content"])
     text_start,text_end,evidence=extract_dates_from_text(text)
-    image=None
-    n=soup.find("meta",property="og:image")
-    if n and n.get("content"): image=urljoin(url,n["content"])
+    structured_start=first_date(starts);structured_end=first_date(ends)
+    image=None;n=soup.find("meta",property="og:image")
+    if n and n.get("content"):image=urljoin(url,n["content"])
     return {
-        "title":title,"summary":summary,"published_at":first_date(pub),"start_date":first_date(starts) or text_start,"end_date":first_date(ends) or text_end,
+        "title":title,"summary":summary,"published_at":first_date(pub),"start_date":structured_start or text_start,"end_date":structured_end or text_end,
         "mechanic_tags":mechanics(text),"corridors":corridors(text),"offer_values":offer_values(text),"image":image,
-        "evidence_snapshot": evidence or summary or title or None,"content_hash":hash_text(title,summary,text[:10000])
+        "evidence_snapshot":evidence or summary or title or None,
+        "date_evidence":{"start":evidence if (structured_start or text_start) else None,"end":evidence if (structured_end or text_end) else None},
+        "date_context":date_context(text),
+        "date_extraction_method":"structured_or_rules" if (structured_start or structured_end or text_start or text_end) else "not_found",
+        "content_hash":hash_text(title,summary,text[:12000])
     }
+
+def ai_fill_dates(ex,state,config):
+    global AI_DATE_CALLS_THIS_RUN
+    """Optional cached AI fallback for explicit dates that rule-based parsing missed."""
+    if not config.get("ai",{}).get("date_extraction_enabled",True):return ex
+    if ex.get("start_date") and ex.get("end_date"):return ex
+    context=clean(ex.get("date_context"),5000)
+    if not context or not os.environ.get("OPENAI_API_KEY"):return ex
+    cache=state.setdefault("ai_date_cache",{});key=ex.get("content_hash") or hash_text(context)
+    cached=cache.get(key)
+    if cached:
+        result=cached.get("result") or {}
+    else:
+        max_calls=int(config.get("ai",{}).get("date_extraction_max_items_per_run",6))
+        if AI_DATE_CALLS_THIS_RUN>=max_calls:return ex
+        client=openai_client()
+        if not client:return ex
+        model=config.get("ai",{}).get("date_extraction_model",config.get("ai",{}).get("classification_model","gpt-5.6-terra"))
+        schema={"type":"object","additionalProperties":False,"properties":{"start_date":{"type":["string","null"]},"end_date":{"type":["string","null"]},"evidence":{"type":["string","null"]}},"required":["start_date","end_date","evidence"]}
+        prompt="Extract campaign validity dates ONLY when explicitly stated in the supplied official-source text. Return ISO YYYY-MM-DD. If a date is not explicitly supported, return null. You may infer a missing year on the first date only when an explicit date range gives the year on the second date. Never use publication, detection, current date, or guesswork."
+        try:
+            r=client.responses.create(model=model,reasoning={"effort":config.get("ai",{}).get("date_extraction_reasoning","low")},text={"format":{"type":"json_schema","name":"date_extraction","schema":schema,"strict":True}},input=[{"role":"system","content":prompt},{"role":"user","content":context}])
+            result=json.loads(r.output_text);inp,out=usage_numbers(r);add_usage(state,"date_extraction",model,inp,out,config);AI_DATE_CALLS_THIS_RUN+=1;cache[key]={"result":result,"at":iso(now())}
+        except Exception as exc:
+            print(f"[AI date extraction] {type(exc).__name__}: {exc}");return ex
+    for field in ("start_date","end_date"):
+        if ex.get(field):continue
+        raw=result.get(field);d=dt(raw) or parse_human_date(raw)
+        if d:ex[field]=iso(d.replace(hour=0,minute=0,second=0,microsecond=0))
+    if result.get("evidence") and (ex.get("start_date") or ex.get("end_date")):
+        ex["date_evidence"]={"start":result.get("evidence") if ex.get("start_date") else None,"end":result.get("evidence") if ex.get("end_date") else None}
+        ex["evidence_snapshot"]=clean(result.get("evidence"),500)
+        ex["date_extraction_method"]="ai_explicit_text"
+    return ex
 
 def manual_patch(overrides,item_id): return (overrides.get("items") or {}).get(item_id,{})
 
@@ -306,9 +419,22 @@ def verify_details(data,state,config,overrides):
     current=now(); checks=0; new_status=[]; skip=os.environ.get("CM_SKIP_NETWORK")=="1"
     session=requests.Session(); session.headers.update({"User-Agent":USER_AGENT,"Accept-Language":"en,ar;q=0.9"})
 
+    candidates=[]
     for item in data.get("items",[]):
-        if item.get("content_type") not in {"campaign","merchant_offer"}: continue
-        if item.get("active") is False and item.get("source_type")!="manual": continue
+        is_counted=item.get("content_type") in {"campaign","merchant_offer"}
+        is_official_candidate=(item.get("source_type")=="website" and item.get("official_discovery") and item.get("content_type")=="review")
+        if not (is_counted or is_official_candidate):continue
+        if item.get("active") is False and item.get("source_type")!="manual" and not is_official_candidate:continue
+        candidates.append(item)
+    # Newly discovered official detail pages and records missing dates are verified first.
+    candidates.sort(key=lambda x:(
+        0 if (x.get("source_type")=="website" and x.get("official_discovery")) else 1,
+        0 if not x.get("end_date") else 1,
+        0 if not x.get("start_date") else 1,
+        dt((cache.get(x.get("id")) or {}).get("checked_at")) or datetime.min.replace(tzinfo=timezone.utc)
+    ))
+
+    for item in candidates:
 
         url=direct_url(item)
         if not url or not str(url).startswith("http"): continue
@@ -359,7 +485,7 @@ def verify_details(data,state,config,overrides):
             try:
                 r=session.get(url,timeout=timeout)
                 r.raise_for_status()
-                ex=extract_page(r.text,url)
+                ex=ai_fill_dates(extract_page(r.text,url),state,config)
                 old_hash=(cached.get("extracted") or {}).get("content_hash")
                 cached={
                     "checked_at":iso(current),
@@ -417,6 +543,8 @@ def verify_details(data,state,config,overrides):
         item["corridors"]=ex.get("corridors") or item.get("corridors") or []
         item["offer_values"]=ex.get("offer_values") or item.get("offer_values") or []
         item["evidence_snapshot"]=ex.get("evidence_snapshot")
+        if ex.get("date_evidence"):item["date_evidence"]=ex.get("date_evidence")
+        if ex.get("date_extraction_method"):item["date_extraction_method"]=ex.get("date_extraction_method")
         # Campaign hero media is allowed only when it was extracted from this exact
         # official campaign-detail webpage. This overwrites/removes stale social media
         # accidentally attached by older monitor versions.
@@ -504,10 +632,10 @@ def ai_classify(posts,campaigns,state,config):
     if not client:return {}
     model=config.get("ai",{}).get("classification_model","gpt-5.6-terra")
     allowed_campaigns=[{"id":c["id"],"competitor_id":c.get("competitor_id"),"title":c.get("title"),"category":c.get("campaign_category"),"mechanic":c.get("mechanic"),"corridors":c.get("corridors",[])} for c in campaigns if c.get("active") is not False]
-    rows=[{"id":p["id"],"competitor_id":p.get("competitor_id"),"title":p.get("title"),"text":p.get("snippet"),"platform":p.get("platform"),"published_at":p.get("published_at")} for p in posts]
+    rows=[{"id":p["id"],"competitor_id":p.get("competitor_id"),"source_type":p.get("source_type"),"title":p.get("title"),"text":p.get("snippet"),"platform":p.get("platform"),"published_at":p.get("published_at"),"start_date":p.get("start_date"),"end_date":p.get("end_date"),"official_url":p.get("official_campaign_page_url") or p.get("link")} for p in posts]
     categories=["remittance","musaned","sadad","card","engagement","merchant","other"]
     schema={"type":"object","additionalProperties":False,"properties":{"items":{"type":"array","items":{"type":"object","additionalProperties":False,"properties":{"id":{"type":"string"},"decision":{"type":"string","enum":["link","review","standalone"]},"record_type":{"type":"string","enum":["campaign","merchant_offer","social_post","awareness","review"]},"category":{"type":"string","enum":categories},"matched_campaign_id":{"type":["string","null"]}},"required":["id","decision","record_type","category","matched_campaign_id"]}}},"required":["items"]}
-    instructions="""Classify official competitor social posts for a Saudi fintech intelligence monitor. A social post NEVER creates a counted campaign by itself. Winner announcements, congratulations, reminders, winner/result posts, and follow-up posts must be linked to an existing campaign when supported; otherwise use decision=review. NEVER link across competitors: matched_campaign_id must belong to the same competitor_id as the post/item. Link to an existing campaign only when the meaning, product/corridor and mechanic support the match. A product-awareness post without a concrete campaign mechanic is awareness/social content, not a campaign. Merchant partner discounts are merchant_offer. If uncertain use decision=review. Return only the schema. Do not invent dates, values or campaigns."""
+    instructions="""Classify official competitor intelligence items for a Saudi fintech monitor. Respect source_type. For source_type=social, a post NEVER creates a counted campaign by itself: winner announcements, congratulations, reminders, result/follow-up posts should link to an existing same-competitor campaign when clearly supported, otherwise decision=review. For source_type=website, a specific detail page discovered from the competitor's configured official offers page may be classified as campaign or merchant_offer. A merchant/partner discount at a named retailer, restaurant, hotel, clinic, store or partner using a card/promo code is merchant_offer and must NOT be a campaign KPI. A campaign is the competitor's own promotional mechanic such as remittance pricing/cashback/prizes, card-spend campaign, SADAD/Musaned promotion, or engagement competition. NEVER link across competitors. Link only when meaning, product/corridor and mechanic support the match. Product awareness without a concrete mechanic is awareness/review. If uncertain use decision=review. Return only the schema. Do not invent dates, values or campaigns."""
     try:
         r=client.responses.create(model=model,reasoning={"effort":config.get("ai",{}).get("classification_reasoning","low")},text={"format":{"type":"json_schema","name":"post_classification","schema":schema,"strict":True}},input=[{"role":"system","content":instructions},{"role":"user","content":json.dumps({"campaigns":allowed_campaigns,"posts":rows},ensure_ascii=False)}])
         result=json.loads(r.output_text); inp,out=usage_numbers(r); add_usage(state,"classification",model,inp,out,config); return {x["id"]:x for x in result.get("items",[])}
@@ -529,7 +657,7 @@ def enrich_social(data,state,config,overrides):
     for p in [i for i in items if i.get("source_type")=="social" and not i.get("campaign_id")]:
         d=dt(p.get("published_at")) or dt(p.get("last_changed")) or datetime.min.replace(tzinfo=timezone.utc)
         if d<recent:continue
-        key=hash_text("classifier-v2",p.get("title"),p.get("snippet"),p.get("link")); cached=cache.get(p["id"],{})
+        key=hash_text("classifier-v3",p.get("title"),p.get("snippet"),p.get("link")); cached=cache.get(p["id"],{})
         if cached.get("content_key")==key and cached.get("decision"):
             dec=dict(cached["decision"])
             cid=dec.get("campaign_id") or dec.get("matched_campaign_id")
@@ -560,11 +688,11 @@ def enrich_social(data,state,config,overrides):
             patch.update(content_type=d["record_type"] if d["record_type"] in {"awareness","social_post"} else "social_post",review_required=False)
         if is_winner_announcement(p) and not patch.get("campaign_id"):
             patch.update(content_type="review",review_required=True,review_reasons=list(dict.fromkeys((patch.get("review_reasons") or [])+["winner_announcement_unlinked"])))
-        p.update(patch);cache[p["id"]]={"content_key":hash_text("classifier-v2",p.get("title"),p.get("snippet"),p.get("link")),"decision":patch,"at":iso(now())}
+        p.update(patch);cache[p["id"]]={"content_key":hash_text("classifier-v3",p.get("title"),p.get("snippet"),p.get("link")),"decision":patch,"at":iso(now())}
     # Apply the same hybrid classifier to newly discovered ambiguous website records.
     extra=[]
     for row in [i for i in items if i.get("source_type") in {"website"} and (i.get("review_required") or i.get("content_type")=="review")]:
-        key=hash_text("classifier-v2",row.get("title"),row.get("snippet"),row.get("link")); cached=cache.get(row["id"],{})
+        key=hash_text("classifier-v3",row.get("title"),row.get("snippet"),row.get("link")); cached=cache.get(row["id"],{})
         if cached.get("content_key")==key and cached.get("decision"):
             row.update(cached["decision"]); continue
         extra.append(row)
@@ -582,12 +710,18 @@ def enrich_social(data,state,config,overrides):
             # Existing campaign wins. This website row will be physically merged/removed below.
             patch.update(duplicate_candidate_id=d["matched_campaign_id"],content_type="review",review_required=True,review_reasons=["possible_duplicate_campaign"])
         elif d["record_type"]=="campaign":
-            # Critical anti-dup rule: a newly discovered official-page row never becomes a counted
-            # campaign automatically. Keep it in Needs Review until it is matched or manually approved.
-            patch.update(content_type="review",suggested_record_type="campaign",review_required=True,review_reasons=["new_official_campaign_needs_review"])
+            # A verified, current detail page discovered directly from the configured official
+            # offers index is strong enough to register automatically. Deduplication still runs
+            # afterwards, so an existing Excel/master campaign remains authoritative.
+            verified=(row.get("source_verification") or {}).get("status")=="verified_website"
+            if verified and row.get("official_discovery") and row.get("active") is not False and accepted_direct_source(row,config):
+                patch.update(content_type="campaign",review_required=False,review_reasons=[])
+            else:
+                reason="expired_official_candidate" if row.get("active") is False else "new_official_campaign_needs_review"
+                patch.update(content_type="review",suggested_record_type="campaign",review_required=True,review_reasons=[reason])
         else:
             patch.update(content_type=d["record_type"],review_required=False,review_reasons=[])
-        row.update(patch); cache[row["id"]]={"content_key":hash_text("classifier-v2",row.get("title"),row.get("snippet"),row.get("link")),"decision":patch,"at":iso(now())}
+        row.update(patch); cache[row["id"]]={"content_key":hash_text("classifier-v3",row.get("title"),row.get("snippet"),row.get("link")),"decision":patch,"at":iso(now())}
 
     # Build campaign social analytics from BOTH approved/master direct links and RSS-linked posts.
     # A URL is counted once even if it appears in Excel and again in RSS with tracking parameters.

@@ -291,67 +291,224 @@ def merge_campaign_fields(target: dict[str, Any], source: dict[str, Any]) -> Non
     if source.get("last_seen") or source.get("last_changed"):
         target["last_live_verified_at"] = source.get("last_seen") or source.get("last_changed")
 
+
+_AR_DIGIT_MAP = str.maketrans("٠١٢٣٤٥٦٧٨٩۰۱۲۳۴۵۶۷۸۹", "01234567890123456789")
+_AR_MONTHS = {
+    "يناير": 1, "فبراير": 2, "مارس": 3, "أبريل": 4, "ابريل": 4, "مايو": 5,
+    "يونيو": 6, "يوليو": 7, "أغسطس": 8, "اغسطس": 8, "سبتمبر": 9,
+    "أكتوبر": 10, "اكتوبر": 10, "نوفمبر": 11, "ديسمبر": 12,
+}
+_EN_MONTHS = {
+    "january":1,"jan":1,"february":2,"feb":2,"march":3,"mar":3,"april":4,"apr":4,
+    "may":5,"june":6,"jun":6,"july":7,"jul":7,"august":8,"aug":8,"september":9,
+    "sep":9,"sept":9,"october":10,"oct":10,"november":11,"nov":11,"december":12,"dec":12,
+}
+_DATE_TOKEN = r"(?:\d{1,2}\s+(?:January|February|March|April|May|June|July|August|September|October|November|December|Jan|Feb|Mar|Apr|Jun|Jul|Aug|Sep|Sept|Oct|Nov|Dec|يناير|فبراير|مارس|أبريل|ابريل|مايو|يونيو|يوليو|أغسطس|اغسطس|سبتمبر|أكتوبر|اكتوبر|نوفمبر|ديسمبر)\s+20\d{2}|(?:January|February|March|April|May|June|July|August|September|October|November|December|Jan|Feb|Mar|Apr|Jun|Jul|Aug|Sep|Sept|Oct|Nov|Dec)\s+\d{1,2},?\s+20\d{2}|20\d{2}[-/]\d{1,2}[-/]\d{1,2}|\d{1,2}[-/]\d{1,2}[-/]20\d{2})"
+_EXPIRED_HEADINGS = ("العروض المنتهية", "عروض منتهية", "expired offers", "previous offers", "past offers")
+
+
+def parse_human_date(value: str | None) -> str | None:
+    text = clean(value).translate(_AR_DIGIT_MAP).replace("،", " ")
+    if not text:
+        return None
+    m = re.fullmatch(r"(20\d{2})[-/](\d{1,2})[-/](\d{1,2})", text)
+    if m:
+        try: return iso(datetime(int(m.group(1)), int(m.group(2)), int(m.group(3)), tzinfo=timezone.utc))
+        except ValueError: return None
+    m = re.fullmatch(r"(\d{1,2})[-/](\d{1,2})[-/](20\d{2})", text)
+    if m:
+        try: return iso(datetime(int(m.group(3)), int(m.group(2)), int(m.group(1)), tzinfo=timezone.utc))
+        except ValueError: return None
+    parts = text.casefold().replace(",", "").split()
+    if len(parts) >= 3:
+        # day month year (Arabic or English)
+        try:
+            day = int(parts[0]); year = int(parts[-1]); month_name = " ".join(parts[1:-1]).strip()
+            month = _AR_MONTHS.get(month_name) or _EN_MONTHS.get(month_name)
+            if month: return iso(datetime(year, month, day, tzinfo=timezone.utc))
+        except Exception: pass
+        # English month day year
+        try:
+            month = _EN_MONTHS.get(parts[0]); day = int(parts[1]); year = int(parts[-1])
+            if month: return iso(datetime(year, month, day, tzinfo=timezone.utc))
+        except Exception: pass
+    return None
+
+
+def listing_date_hints(text: str) -> tuple[str | None, str | None, str | None]:
+    value = clean(text, 6000).translate(_AR_DIGIT_MAP)
+    start = end = evidence = None
+    ranges = [
+        rf"(?:valid|available|campaign|offer|runs?)\s+(?:period\s+)?(?:from\s+)?({_DATE_TOKEN})\s+(?:to|until|through|–|—|-)\s+({_DATE_TOKEN})",
+        rf"(?:يسري\s+العرض|العرض\s+ساري|ساري|مدة\s+العرض|فترة\s+العرض)?\s*(?:من)\s+({_DATE_TOKEN})\s*(?:إلى|الى|و?حتى|ولغاية)\s+({_DATE_TOKEN})",
+    ]
+    for pattern in ranges:
+        m = re.search(pattern, value, re.I)
+        if m:
+            start, end = parse_human_date(m.group(1)), parse_human_date(m.group(2)); evidence = clean(m.group(0), 500); break
+    if not end:
+        for pattern in [
+            rf"(?:valid\s+(?:until|through)|ends?\s+(?:on)?|expires?\s+(?:on)?)\s*({_DATE_TOKEN})",
+            rf"(?:ساري\s+حتى|يسري\s+حتى|ينتهي(?:\s+العرض)?(?:\s+في|\s+بتاريخ)?|تاريخ\s+انتهاء\s+العرض|حتى)\s*({_DATE_TOKEN})",
+        ]:
+            m = re.search(pattern, value, re.I)
+            if m:
+                end = parse_human_date(m.group(1)); evidence = evidence or clean(m.group(0), 500); break
+    if not start:
+        for pattern in [
+            rf"(?:valid\s+from|starts?\s+(?:on|from)|available\s+from)\s*({_DATE_TOKEN})",
+            rf"(?:ساري\s+من|يسري\s+العرض\s+من|يبدأ(?:\s+العرض)?(?:\s+من|\s+في)?|ابتداء(?:ً|ا)?\s+من|اعتبار(?:ًا|ا)?\s+من)\s*({_DATE_TOKEN})",
+        ]:
+            m = re.search(pattern, value, re.I)
+            if m:
+                start = parse_human_date(m.group(1)); evidence = evidence or clean(m.group(0), 500); break
+    return start, end, evidence
+
+
+def strip_validity_prefix(title: str) -> str:
+    value = clean(title, 300)
+    value = re.sub(r"^\s*valid\s+until\s+[^|–—:]+(?:20\d{2})?\s*", "", value, flags=re.I)
+    return clean(value, 220) or clean(title, 220)
+
+
+def expired_section(anchor: Any, source: dict[str, Any]) -> bool:
+    markers = tuple(x.casefold() for x in (source.get("expired_headings") or _EXPIRED_HEADINGS))
+    for heading in anchor.find_all_previous(["h1","h2","h3","h4","h5","h6"], limit=4):
+        label = clean(heading.get_text(" ", strip=True), 200).casefold()
+        if any(marker in label for marker in markers):
+            return True
+        # A current-offers heading before the expired heading means this anchor belongs to current offers.
+        if any(x in label for x in ("أحدث العروض", "العروض المتاحة", "current offers", "fresh offers", "latest offers")):
+            return False
+    return False
+
+
+def rendered_html(url: str, timeout_seconds: int) -> str:
+    """Browser fallback for JS-heavy or WAF-sensitive offer indexes.
+
+    Imported lazily so normal sources stay lightweight. GitHub Actions installs Chromium.
+    """
+    from playwright.sync_api import sync_playwright
+    with sync_playwright() as p:
+        browser = p.chromium.launch(headless=True, args=["--no-sandbox"])
+        page = browser.new_page(user_agent=USER_AGENT, locale="ar-SA")
+        page.goto(url, wait_until="domcontentloaded", timeout=timeout_seconds * 1000)
+        try: page.wait_for_load_state("networkidle", timeout=min(timeout_seconds, 12) * 1000)
+        except Exception: pass
+        html = page.content()
+        browser.close()
+        return html
+
+
+def extract_website_candidates(markup: str, competitor: dict[str, Any], source: dict[str, Any], config: dict[str, Any], key: str) -> tuple[list[dict[str, Any]], int]:
+    soup = BeautifulSoup(markup, "html.parser")
+    found: dict[str, dict[str, Any]] = {}
+    skipped_general = 0
+    link_words = [word.casefold() for word in source.get("link_keywords", [])]
+    excludes = [word.casefold() for word in source.get("exclude_keywords", [])]
+    parser_name = source.get("parser") or competitor.get("id") or "generic"
+
+    for anchor in soup.find_all("a", href=True):
+        link = canonical(source["url"], anchor.get("href", ""))
+        if not link:
+            continue
+        if parser_name == "mobily-pay" and expired_section(anchor, source):
+            # Mobily Pay deliberately keeps historical offers on the same page.
+            # Historical cards are not discovery candidates; they remain history only.
+            continue
+
+        parent = anchor
+        for candidate in list(anchor.parents)[:5]:
+            if candidate.name in {"article", "li", "div", "section"}:
+                parent = candidate
+                break
+
+        raw_candidates = [anchor.get("aria-label"), anchor.get("title")]
+        heading = anchor.find(["h1","h2","h3","h4","h5","h6"]) or (parent.find(["h1","h2","h3","h4","h5","h6"]) if parent else None)
+        if heading is not None:
+            raw_candidates.append(heading.get_text(" ", strip=True))
+        # Mobily's CTA is generic, so parent heading must always beat anchor text.
+        raw_candidates.append(anchor.get_text(" ", strip=True))
+        title = ""
+        for candidate in raw_candidates:
+            candidate = clean(candidate, 220)
+            if candidate and not generic_title(candidate):
+                title = candidate
+                break
+        title = strip_validity_prefix(title or clean(anchor.get_text(" ", strip=True), 220) or "Discovered official offer")
+        snippet = clean(parent.get_text(" ", strip=True), 1200)
+        combined = f"{link} {title} {snippet}".casefold()
+        if excludes and any(word in combined for word in excludes):
+            continue
+        if link_words and not any(word in combined for word in link_words):
+            continue
+        is_direct = direct_detail(link, source)
+        if source.get("require_detail_link", True) and not is_direct:
+            skipped_general += 1
+            continue
+
+        category, categories = taxonomy_match(combined, config)
+        mechanics, themes = infer_tags(combined)
+        start_date, end_date, date_evidence = listing_date_hints(f"{title} {snippet}")
+        found[link] = {
+            "id": f"detected:{competitor['id']}:{digest(link)}", "competitor_id": competitor["id"], "source_key": key,
+            "source_type": "website", "platform": "website", "content_type": "review", "campaign_category": category,
+            "primary_category": category, "categories": categories, "title": title or "Discovered official offer",
+            "snippet": snippet, "link": link, "official_campaign_page_url": link, "primary_official_source_url": link,
+            "social_links": {}, "social_link_count": 0, "published_at": None, "start_date": start_date, "end_date": end_date,
+            "date_evidence": {"listing": date_evidence} if date_evidence else {},
+            "current_status": "Needs Review", "active": True, "direct_link": is_direct, "verified": True,
+            "official_discovery": True, "discovery_section": "current",
+            "review_required": True, "review_reasons": ["new_official_item_not_in_excel_inventory"], "confidence": "medium",
+            "mechanic_tags": mechanics, "theme_tags": themes, "media": media_from_node(parent, source["url"]),
+        }
+    return list(found.values()), skipped_general
+
+
 def website_items(http: requests.Session, competitor: dict[str, Any], source: dict[str, Any], config: dict[str, Any], checked: str) -> tuple[list[dict[str, Any]], dict[str, Any]]:
     key = f"website:{competitor['id']}:{source['id']}"
-    status = {"source_key": key, "competitor_id": competitor["id"], "source_type": "website", "platform": "website", "url": source["url"], "checked_at": checked, "success": False, "item_count": 0, "error": None, "skipped_general_links": 0}
+    status = {"source_key": key, "competitor_id": competitor["id"], "source_type": "website", "platform": "website", "url": source["url"], "checked_at": checked, "success": False, "item_count": 0, "error": None, "skipped_general_links": 0, "fetch_mode": "requests"}
+    timeout = int(config["settings"].get("request_timeout_seconds", 18))
+    markup = ""
+    request_error = None
     try:
-        response = http.get(source["url"], timeout=int(config["settings"].get("request_timeout_seconds", 18)))
+        response = http.get(source["url"], timeout=timeout)
         response.raise_for_status()
-        soup = BeautifulSoup(response.text, "html.parser")
-        found: dict[str, dict[str, Any]] = {}
-        link_words = [word.casefold() for word in source.get("link_keywords", [])]
-        excludes = [word.casefold() for word in source.get("exclude_keywords", [])]
-        for anchor in soup.find_all("a", href=True):
-            link = canonical(source["url"], anchor.get("href", ""))
-            if not link:
-                continue
-            parent = anchor
-            for candidate in list(anchor.parents)[:4]:
-                if candidate.name in {"article", "li", "div", "section"}:
-                    parent = candidate
-                    break
-            # Prefer a real offer/card heading over generic CTA text such as "Explore more" / "استكشف المزيد".
-            raw_candidates = [anchor.get("aria-label"), anchor.get("title")]
-            heading = anchor.find(["h1","h2","h3","h4","h5","h6"]) or (parent.find(["h1","h2","h3","h4","h5","h6"]) if parent else None)
-            if heading is not None:
-                raw_candidates.append(heading.get_text(" ", strip=True))
-            raw_candidates.append(anchor.get_text(" ", strip=True))
-            title = ""
-            for candidate in raw_candidates:
-                candidate = clean(candidate, 180)
-                if candidate and not generic_title(candidate):
-                    title = candidate
-                    break
-            title = title or clean(anchor.get_text(" ", strip=True), 180) or "Discovered official offer"
-            snippet = clean(parent.get_text(" ", strip=True), 500)
-            combined = f"{link} {title} {snippet}".casefold()
-            if excludes and any(word in combined for word in excludes):
-                continue
-            if link_words and not any(word in combined for word in link_words):
-                continue
-            is_direct = direct_detail(link, source)
-            if source.get("require_detail_link", True) and not is_direct:
-                status["skipped_general_links"] += 1
-                continue
-            category, categories = taxonomy_match(combined, config)
-            mechanics, themes = infer_tags(combined)
-            found[link] = {
-                "id": f"detected:{competitor['id']}:{digest(link)}", "competitor_id": competitor["id"], "source_key": key,
-                "source_type": "website", "platform": "website", "content_type": "review", "campaign_category": category,
-                "primary_category": category, "categories": categories, "title": title or "Discovered official offer",
-                "snippet": snippet, "link": link, "official_campaign_page_url": link, "primary_official_source_url": link,
-                "social_links": {}, "social_link_count": 0, "published_at": None, "start_date": None, "end_date": None,
-                "current_status": "Needs Review", "active": True, "direct_link": is_direct, "verified": True,
-                "review_required": True, "review_reasons": ["new_official_item_not_in_excel_inventory"], "confidence": "medium",
-                "mechanic_tags": mechanics, "theme_tags": themes, "media": media_from_node(parent, source["url"]),
-            }
-        items = list(found.values())[: int(config["settings"].get("max_items_per_source", 80))]
-        status.update(success=True, item_count=len(items))
-        return items, status
-    except Exception as exc:  # one failing source must not stop the full run
-        status["error"] = clean(f"{type(exc).__name__}: {exc}", 500)
-        return [], status
+        markup = response.text
+    except Exception as exc:
+        request_error = clean(f"{type(exc).__name__}: {exc}", 500)
 
+    items: list[dict[str, Any]] = []
+    skipped = 0
+    if markup:
+        items, skipped = extract_website_candidates(markup, competitor, source, config, key)
+
+    needs_browser = bool(source.get("browser_fallback")) and (request_error is not None or len(items) < int(source.get("browser_fallback_below_items", 1)))
+    browser_success = False
+    if needs_browser:
+        try:
+            rendered = rendered_html(source["url"], int(config["settings"].get("browser_timeout_seconds", 25)))
+            browser_items, browser_skipped = extract_website_candidates(rendered, competitor, source, config, key)
+            if browser_items or not items:
+                items, skipped = browser_items, browser_skipped
+            status["fetch_mode"] = "browser"
+            browser_success = True
+            request_error = None
+        except Exception as exc:
+            browser_error = clean(f"{type(exc).__name__}: {exc}", 500)
+            request_error = f"requests={request_error}; browser={browser_error}" if request_error else browser_error
+
+    items = items[: int(config["settings"].get("max_items_per_source", 80))]
+    status["skipped_general_links"] = skipped
+    # For browser-fallback sources, a failed fallback after a zero/blocked normal fetch is a real
+    # source-health failure. For simple sources, reachable HTML with zero offers is still healthy.
+    if needs_browser:
+        status["success"] = browser_success
+    else:
+        status["success"] = bool(markup) and request_error is None
+    status["item_count"] = len(items)
+    status["error"] = None if status["success"] else request_error
+    return items, status
 
 def local(tag: str) -> str:
     return tag.rsplit("}", 1)[-1].casefold()

@@ -1,6 +1,7 @@
 """Semantic validation of generated competitor-monitor data after monitor.py + enhance.py."""
 from __future__ import annotations
 import json, re, sys, unicodedata
+from datetime import datetime, timezone
 from pathlib import Path
 from urllib.parse import urlsplit, parse_qsl, urlencode
 
@@ -82,6 +83,17 @@ for i in items:
     if any(x in ev for x in LOGIN_MARKERS):fail(f'{iid}: login/navigation shell stored as evidence')
 
     if ctype in {'campaign','merchant_offer'}:
+        if i.get('source_type')=='website' and i.get('official_discovery'):
+            sv=(i.get('source_verification') or {}).get('status')
+            if sv!='verified_website':fail(f'{iid}: auto-registered official website item is not verified')
+        end=i.get('end_date')
+        if end:
+            try:
+                d=datetime.fromisoformat(str(end).replace('Z','+00:00'))
+                if d.tzinfo is None:d=d.replace(tzinfo=timezone.utc)
+                if d.date()<datetime.now(timezone.utc).date() and i.get('active') is not False:
+                    fail(f'{iid}: expired offer is still active')
+            except Exception:pass
         # Hard duplicate check within same competitor + record type.
         tk=norm_title(i.get('title'))
         if tk:
