@@ -1,3 +1,4 @@
+/* Competitor Monitor v5.5.5 auth-consistency build */
 (() => {
   "use strict";
   const LANG_KEY="cm_v54_language", ALERT_KEY="cm_v5_alert_ack", OVERRIDE_KEY="cm_v5_manual_overrides", DELTA_KEY="cm_v5_last_delta_export";
