@@ -830,6 +830,75 @@ def enrich_social(data,state,config,overrides):
         c["social_links"]={k:v for k,v in links.items() if v}
         c["social_link_count"]=len({social_identity(u) for v in c["social_links"].values() for u in (v if isinstance(v,list) else [v]) if specific_social_post_url(u)})
 
+
+def recompute_social_analytics(data):
+    """Rebuild offer-level social analytics from the FINAL post-deduplication graph.
+
+    Deduplication can merge approved social URLs into an authoritative campaign and can
+    redirect social posts from a removed campaign id to the retained id. Any analytics
+    calculated before that merge are stale, so this function is intentionally run after
+    consolidate_duplicates(). Only direct post URLs count; generic social profile URLs do not.
+    """
+    items=data.get("items",[])
+    campaigns=[i for i in items if i.get("content_type") in {"campaign","merchant_offer"} and i.get("source_type")!="social"]
+    byid={i.get("id"):i for i in campaigns if i.get("id")}
+    linked=defaultdict(list)
+    for p in items:
+        if p.get("source_type")!="social":continue
+        cid=p.get("campaign_id")
+        if cid not in byid:continue
+        linked[cid].append({k:p.get(k) for k in ["id","platform","title","link","published_at","media","match_method"]})
+
+    current=now();platforms=["instagram","x","facebook","tiktok"]
+    for c in campaigns:
+        unique={}
+        # Approved/master links are authoritative only when they point to a specific post.
+        for platform,value in (c.get("social_links") or {}).items():
+            values=value if isinstance(value,list) else [value]
+            for url in values:
+                if not specific_social_post_url(url):continue
+                ident=social_identity(url)
+                if not ident:continue
+                unique[ident]={
+                    "id":f"source:{c.get('id')}:{platform}:{hash_text(ident)}",
+                    "platform":platform,
+                    "title":f"Official {platform} post",
+                    "link":url,
+                    "published_at":None,
+                    "media":None,
+                    "match_method":"master_link",
+                    "source_origin":"master",
+                }
+
+        # Final RSS links are read after campaign-id redirects caused by deduplication.
+        for post in linked.get(c.get("id"),[]):
+            url=post.get("link")
+            if not specific_social_post_url(url):continue
+            ident=social_identity(url)
+            if not ident:continue
+            if ident in unique:
+                prior=unique[ident]
+                unique[ident]={**prior,**{k:v for k,v in post.items() if v not in (None,"")},"source_origin":"master+rss"}
+            else:
+                unique[ident]={**post,"source_origin":"rss"}
+
+        posts=list(unique.values())
+        posts.sort(key=lambda row:(dt(row.get("published_at")) is not None,dt(row.get("published_at")) or datetime.min.replace(tzinfo=timezone.utc),row.get("platform") or ""))
+        counts=Counter(row.get("platform") for row in posts if row.get("platform"))
+        dated=[row for row in posts if dt(row.get("published_at"))]
+        c["linked_posts"]=posts
+        c["social_post_counts"]={platform:int(counts.get(platform,0)) for platform in platforms}
+        c["social_posts_total"]=len(posts)
+        c["social_platform_count"]=sum(v>0 for v in c["social_post_counts"].values())
+        c["social_first_post"]=min((row.get("published_at") for row in dated),key=lambda x:dt(x),default=None)
+        c["social_latest_post"]=max((row.get("published_at") for row in dated),key=lambda x:dt(x),default=None)
+        c["social_posts_7d"]=sum(dt(row.get("published_at"))>=current-timedelta(days=7) for row in dated)
+        c["social_posts_30d"]=sum(dt(row.get("published_at"))>=current-timedelta(days=30) for row in dated)
+        c["social_link_count"]=len({social_identity(url) for value in (c.get("social_links") or {}).values() for url in (value if isinstance(value,list) else [value]) if specific_social_post_url(url)})
+
+    data["social_analytics_rebuilt_at"]=iso(current)
+    return len(campaigns)
+
 ARABIC_DIACRITICS=re.compile(r"[\u0610-\u061a\u064b-\u065f\u0670\u06d6-\u06ed]")
 TITLE_STOP={"offer","offers","campaign","campaigns","promotion","promotions","promo","deal","deals","عرض","عروض","حملة","حملات","ترويج","ترويجي"}
 GENERIC_TITLE_KEYS={"read more","learn more","details","view details","more","explore more","view offer","اعرف المزيد","استكشف المزيد","المزيد","التفاصيل","تفاصيل العرض","عرض التفاصيل"}
@@ -1073,7 +1142,7 @@ def recompute_stats(data):
 def main():
     data=load(DATA_PATH,{});state=load(STATE_PATH,{"schema_version":5,"items":{}});config=load(CONFIG_PATH,{});overrides=load(OVERRIDES_PATH,{"items":{},"new_items":[]})
     if not data.get("items"):print("No data items");return 0
-    add_manual_new_items(data,overrides);verify_details(data,state,config,overrides);enforce_record_integrity(data,config);enrich_social(data,state,config,overrides);normalize_winner_announcements(data);enforce_record_integrity(data,config);consolidate_duplicates(data);finalize_counted_statuses(data,overrides,config);sanitize_campaign_media(data);detect_duplicates_replacements(data)
+    add_manual_new_items(data,overrides);verify_details(data,state,config,overrides);enforce_record_integrity(data,config);enrich_social(data,state,config,overrides);normalize_winner_announcements(data);enforce_record_integrity(data,config);consolidate_duplicates(data);finalize_counted_statuses(data,overrides,config);recompute_social_analytics(data);sanitize_campaign_media(data);detect_duplicates_replacements(data)
     for item in data.get("items",[]):
         item["review_priority"]=review_priority(item);item.pop("confidence",None) # confidence stays internal, never a displayed score
     snap=snapshot_campaigns(data["items"]);delta=material_delta(state.get("summary_snapshot",{}),snap);summary=ai_summary(data["items"],delta,state,config)
