@@ -86,6 +86,8 @@ for i in items:
         if i.get('source_type')=='website' and i.get('official_discovery'):
             sv=(i.get('source_verification') or {}).get('status')
             if sv!='verified_website':fail(f'{iid}: auto-registered official website item is not verified')
+            if (i.get('source_verification') or {}).get('verification_method')=='official_website_modal' and not i.get('source_locator'):
+                fail(f'{iid}: modal-verified item is missing its source locator')
         end=i.get('end_date')
         if end:
             try:
@@ -100,8 +102,9 @@ for i in items:
             k=(comp,ctype,tk)
             if k in seen_title:fail(f'{iid}: duplicate title with {seen_title[k]} ({i.get("title")})')
             seen_title[k]=iid
+        modal_source=(i.get('source_verification') or {}).get('verification_method')=='official_website_modal' and bool(i.get('source_locator'))
         for u in (i.get('official_campaign_page_url'),i.get('primary_official_source_url'),i.get('link')):
-            if not u or is_social(u):continue
+            if not u or is_social(u) or modal_source:continue
             ident=url_id(u);k=(comp,ctype,ident)
             if ident and k in seen_url and seen_url[k]!=iid:fail(f'{iid}: duplicate official URL with {seen_url[k]}')
             if ident:seen_url[k]=iid

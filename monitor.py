@@ -290,6 +290,14 @@ def merge_campaign_fields(target: dict[str, Any], source: dict[str, Any]) -> Non
     target["social_links"]=links; target["social_link_count"]=len(links)
     if source.get("last_seen") or source.get("last_changed"):
         target["last_live_verified_at"] = source.get("last_seen") or source.get("last_changed")
+    if (source.get("source_verification") or {}).get("verification_method") == "official_website_modal":
+        for field in ("summary","snippet","start_date","end_date","date_evidence","evidence_snapshot","source_locator","source_detail_type","mechanic_tags","theme_tags"):
+            if source.get(field) is not None:
+                target[field] = source.get(field)
+        target["source_verification"] = dict(source.get("source_verification") or {})
+        target["verified"] = True
+        if source.get("media"):
+            target["media"] = source.get("media")
 
 
 _AR_DIGIT_MAP = str.maketrans("٠١٢٣٤٥٦٧٨٩۰۱۲۳۴۵۶۷۸۹", "01234567890123456789")
@@ -338,8 +346,9 @@ def parse_human_date(value: str | None) -> str | None:
 def listing_date_hints(text: str) -> tuple[str | None, str | None, str | None]:
     value = clean(text, 6000).translate(_AR_DIGIT_MAP)
     start = end = evidence = None
+    time_suffix = r"(?:\s*,?\s*at\s+\d{1,2}:\d{2}\s*(?:AM|PM)?)?"
     ranges = [
-        rf"(?:valid|available|campaign|offer|runs?)\s+(?:period\s+)?(?:from\s+)?({_DATE_TOKEN})\s+(?:to|until|through|–|—|-)\s+({_DATE_TOKEN})",
+        rf"(?:the\s+offer\s+is\s+)?(?:valid|available|campaign|offer|runs?)\s+(?:period\s+)?(?:from\s+)?({_DATE_TOKEN}){time_suffix}\s+(?:to|until|through|–|—|-)\s+({_DATE_TOKEN})",
         rf"(?:يسري\s+العرض|العرض\s+ساري|ساري|مدة\s+العرض|فترة\s+العرض)?\s*(?:من)\s+({_DATE_TOKEN})\s*(?:إلى|الى|و?حتى|ولغاية)\s+({_DATE_TOKEN})",
     ]
     for pattern in ranges:
@@ -398,6 +407,228 @@ def rendered_html(url: str, timeout_seconds: int) -> str:
         html = page.content()
         browser.close()
         return html
+
+
+
+def tiqmo_modal_items(competitor: dict[str, Any], source: dict[str, Any], config: dict[str, Any], checked: str) -> tuple[list[dict[str, Any]], dict[str, Any]]:
+    """Read tiqmo offer details from the official modal dialogs.
+
+    tiqmo does not expose a stable detail URL for each offer. The official offers page
+    opens a modal after clicking LEARN MORE. Each modal is therefore treated as the
+    authoritative official detail source and is re-read on every scheduled source run.
+    """
+    from playwright.sync_api import sync_playwright
+
+    key = f"website:{competitor['id']}:{source['id']}"
+    status = {
+        "source_key": key,
+        "competitor_id": competitor["id"],
+        "source_type": "website",
+        "platform": "website",
+        "url": source["url"],
+        "checked_at": checked,
+        "success": False,
+        "item_count": 0,
+        "error": None,
+        "skipped_general_links": 0,
+        "fetch_mode": "browser_modal",
+        "verification_method": "official_website_modal",
+    }
+    timeout = int(config["settings"].get("browser_timeout_seconds", 25))
+    cta_pattern = re.compile(r"^\s*(?:learn\s+more|view\s+details|offer\s+details|اعرف\s+المزيد|استكشف\s+المزيد|التفاصيل)\s*$", re.I)
+    rows: list[dict[str, Any]] = []
+    seen: set[str] = set()
+
+    def card_title_for(locator) -> str:
+        try:
+            value = locator.evaluate("""el => {
+              let node = el;
+              for (let i = 0; i < 7 && node; i++, node = node.parentElement) {
+                const h = node.querySelector && node.querySelector('h1,h2,h3,h4,h5,h6');
+                if (h && h.innerText && h.innerText.trim()) return h.innerText.trim();
+              }
+              return '';
+            }""")
+            return clean(value, 260)
+        except Exception:
+            return ""
+
+    def visible_modal_payload(page) -> dict[str, Any] | None:
+        # Prefer semantic dialog/modal containers. Fallback to a large fixed overlay with text.
+        try:
+            return page.evaluate("""() => {
+              const visible = (el) => {
+                const s = getComputedStyle(el), r = el.getBoundingClientRect();
+                return s.display !== 'none' && s.visibility !== 'hidden' && Number(s.opacity || 1) > 0 && r.width > 260 && r.height > 180;
+              };
+              const picked = [];
+              const selectors = ['[role="dialog"]','[aria-modal="true"]','[class*="modal" i]','[class*="dialog" i]','[class*="popup" i]'];
+              for (const sel of selectors) {
+                for (const el of document.querySelectorAll(sel)) {
+                  if (!visible(el)) continue;
+                  const text = (el.innerText || '').trim();
+                  if (text.length < 60) continue;
+                  const r = el.getBoundingClientRect();
+                  const h = el.querySelector('h1,h2,h3,h4,h5,h6');
+                  const img = el.querySelector('img');
+                  picked.push({text, title: h ? (h.innerText || '').trim() : '', image: img ? (img.currentSrc || img.src || '') : '', area: r.width * r.height});
+                }
+              }
+              if (!picked.length) {
+                for (const el of document.querySelectorAll('body *')) {
+                  if (!visible(el)) continue;
+                  const s = getComputedStyle(el), r = el.getBoundingClientRect();
+                  if (s.position !== 'fixed' || r.width < 300 || r.height < 250) continue;
+                  const text = (el.innerText || '').trim();
+                  if (text.length < 80 || text.length > 12000) continue;
+                  const h = el.querySelector('h1,h2,h3,h4,h5,h6');
+                  const img = el.querySelector('img');
+                  picked.push({text, title: h ? (h.innerText || '').trim() : '', image: img ? (img.currentSrc || img.src || '') : '', area: r.width * r.height});
+                }
+              }
+              picked.sort((a,b) => (b.text.length - a.text.length) || (a.area - b.area));
+              return picked[0] || null;
+            }""")
+        except Exception:
+            return None
+
+    try:
+        with sync_playwright() as p:
+            browser = p.chromium.launch(headless=True, args=["--no-sandbox"])
+            page = browser.new_page(user_agent=USER_AGENT, locale="en-US", viewport={"width": 1440, "height": 1000})
+            page.goto(source["url"], wait_until="domcontentloaded", timeout=timeout * 1000)
+            try:
+                page.wait_for_load_state("networkidle", timeout=min(timeout, 12) * 1000)
+            except Exception:
+                pass
+
+            # If a cookie banner blocks clicks, dismiss common accept buttons when present.
+            for label in ["Accept all", "Accept All", "Accept", "I agree", "موافق", "قبول الكل"]:
+                try:
+                    btn = page.get_by_role("button", name=re.compile(rf"^\s*{re.escape(label)}\s*$", re.I))
+                    if btn.count() and btn.first.is_visible():
+                        btn.first.click(timeout=1200)
+                        break
+                except Exception:
+                    pass
+
+            ctas = page.locator("button, a").filter(has_text=cta_pattern)
+            count = min(ctas.count(), int(config["settings"].get("max_items_per_source", 80)))
+            if count == 0:
+                raise RuntimeError("No visible tiqmo LEARN MORE controls were found")
+
+            for index in range(count):
+                cta = ctas.nth(index)
+                try:
+                    if not cta.is_visible():
+                        continue
+                    card_title = card_title_for(cta)
+                    cta.scroll_into_view_if_needed(timeout=3000)
+                    cta.click(timeout=5000, force=True)
+
+                    payload = None
+                    for _ in range(12):
+                        page.wait_for_timeout(250)
+                        payload = visible_modal_payload(page)
+                        if payload and clean(payload.get("text"), 12000):
+                            break
+                    if not payload:
+                        raise RuntimeError(f"Offer modal did not appear for card {index + 1}")
+
+                    modal_text = clean(payload.get("text"), 12000)
+                    title = clean(payload.get("title"), 260) or card_title
+                    if not title:
+                        title = clean(modal_text.split("\n", 1)[0], 260) or f"tiqmo offer {index + 1}"
+                    title = strip_validity_prefix(title)
+                    identity = normalized_title(title) or digest(modal_text[:500])
+                    if identity in seen:
+                        page.keyboard.press("Escape")
+                        continue
+                    seen.add(identity)
+
+                    start_date, end_date, date_evidence = listing_date_hints(modal_text)
+                    category, categories = taxonomy_match(f"{title} {modal_text}", config)
+                    mechanics, themes = infer_tags(f"{title} {modal_text}")
+                    image = canonical(source["url"], clean(payload.get("image"))) if payload.get("image") else None
+                    source_locator = {"type": "modal", "label": title, "ordinal": index + 1}
+                    media = ({
+                        "url": image,
+                        "type": "image",
+                        "thumbnail_url": image,
+                        "source_type": "official_website",
+                        "source_url": source["url"],
+                        "verification_method": "official_website_modal",
+                    } if image else None)
+
+                    row = {
+                        "id": f"detected:{competitor['id']}:{digest('official-modal', identity)}",
+                        "competitor_id": competitor["id"],
+                        "source_key": key,
+                        "source_type": "website",
+                        "platform": "website",
+                        "content_type": "review",
+                        "campaign_category": category,
+                        "primary_category": category,
+                        "categories": categories,
+                        "title": title,
+                        "snippet": modal_text,
+                        "summary": modal_text[:1600],
+                        "link": source["url"],
+                        "official_campaign_page_url": source["url"],
+                        "primary_official_source_url": source["url"],
+                        "source_locator": source_locator,
+                        "source_detail_type": "modal",
+                        "social_links": {},
+                        "social_link_count": 0,
+                        "published_at": None,
+                        "start_date": start_date,
+                        "end_date": end_date,
+                        "date_evidence": {"modal": date_evidence} if date_evidence else {},
+                        "evidence_snapshot": date_evidence or modal_text[:1200],
+                        "current_status": "Needs Review",
+                        "active": True,
+                        "direct_link": False,
+                        "verified": True,
+                        "official_discovery": True,
+                        "discovery_section": "current",
+                        "review_required": True,
+                        "review_reasons": ["new_official_modal_not_in_excel_inventory"],
+                        "confidence": "high",
+                        "mechanic_tags": mechanics,
+                        "theme_tags": themes,
+                        "media": media,
+                        "source_verification": {
+                            "status": "verified_website",
+                            "verification_method": "official_website_modal",
+                            "checked_at": checked,
+                            "source_url": source["url"],
+                            "source_locator": source_locator,
+                            "source_changed": False,
+                            "conflicts": [],
+                            "error": None,
+                        },
+                    }
+                    rows.append(row)
+                except Exception as exc:
+                    print(f"[tiqmo modal {index + 1}] {type(exc).__name__}: {clean(exc, 300)}")
+                finally:
+                    # Close the current modal before opening the next card.
+                    try:
+                        page.keyboard.press("Escape")
+                        page.wait_for_timeout(180)
+                    except Exception:
+                        pass
+            browser.close()
+
+        status["success"] = True
+        status["item_count"] = len(rows)
+        status["modal_count"] = len(rows)
+        if not rows:
+            status["error"] = "tiqmo page loaded but no offer modals could be extracted"
+        return rows, status
+    except Exception as exc:
+        status["error"] = clean(f"{type(exc).__name__}: {exc}", 500)
+        return [], status
 
 
 def extract_website_candidates(markup: str, competitor: dict[str, Any], source: dict[str, Any], config: dict[str, Any], key: str) -> tuple[list[dict[str, Any]], int]:
@@ -469,6 +700,8 @@ def website_items(http: requests.Session, competitor: dict[str, Any], source: di
     key = f"website:{competitor['id']}:{source['id']}"
     status = {"source_key": key, "competitor_id": competitor["id"], "source_type": "website", "platform": "website", "url": source["url"], "checked_at": checked, "success": False, "item_count": 0, "error": None, "skipped_general_links": 0, "fetch_mode": "requests"}
     timeout = int(config["settings"].get("request_timeout_seconds", 18))
+    if source.get("discovery_mode") == "modal" and (source.get("parser") or competitor.get("id")) == "tiqmo":
+        return tiqmo_modal_items(competitor, source, config, checked)
     markup = ""
     request_error = None
     try:

@@ -8,8 +8,8 @@
     "max_items_per_source": 80,
     "inventory_path": "inventory.json",
     "manual_overrides_path": "manual_overrides.json",
-    "detail_verification_interval_hours": 6,
-    "max_detail_checks_per_run": 24,
+    "detail_verification_interval_hours": 1,
+    "max_detail_checks_per_run": 80,
     "browser_timeout_seconds": 25
   },
   "content_types": [
@@ -413,11 +413,11 @@
       "id": "tiqmo",
       "name_en": "tiqmo",
       "website": "https://www.tiqmo.com/",
-      "offers_url": "https://www.tiqmo.com/ar/offers",
+      "offers_url": "https://tiqmo.com/en/offers",
       "website_sources": [
         {
           "id": "offers",
-          "url": "https://www.tiqmo.com/ar/offers",
+          "url": "https://tiqmo.com/en/offers",
           "link_keywords": [
             "offer",
             "offers",
@@ -431,7 +431,7 @@
             "/offers(?:/|\\?).+",
             "/campaigns?(?:/|\\?).+"
           ],
-          "require_detail_link": true,
+          "require_detail_link": false,
           "exclude_keywords": [
             "privacy",
             "terms",
@@ -442,7 +442,14 @@
           ],
           "parser": "tiqmo",
           "browser_fallback": true,
-          "browser_fallback_below_items": 1
+          "browser_fallback_below_items": 1,
+          "discovery_mode": "modal",
+          "modal_cta_text": [
+            "LEARN MORE",
+            "View details",
+            "اعرف المزيد",
+            "استكشف المزيد"
+          ]
         }
       ],
       "social_feeds": {

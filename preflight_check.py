@@ -25,7 +25,7 @@ try:
         sites=c.get('website_sources',[])
         if not sites: fail(f"{c.get('id')}: missing official website source")
         for s in sites:
-            if not s.get('require_detail_link',False): fail(f"{c.get('id')}: website source must require a detail link")
+            if s.get('discovery_mode')!='modal' and not s.get('require_detail_link',False): fail(f"{c.get('id')}: website source must require a detail link unless it uses verified modal discovery")
             urls.append(s.get('url'))
         urls.extend(feeds.values())
     if len(urls)!=30: fail(f'Expected 30 discovery sources, found {len(urls)}')
@@ -40,6 +40,12 @@ try:
     fallback=[c.get('id') for c in config.get('competitors',[]) for src in c.get('website_sources',[]) if src.get('browser_fallback')]
     if fallback and 'playwright' not in req: fail('requirements.txt: Playwright is required for browser-fallback sources')
     if fallback and 'playwright install' not in wf: fail('Workflow must install a Playwright browser for browser-fallback sources')
+    tiq=next((c for c in config.get('competitors',[]) if c.get('id')=='tiqmo'),None)
+    if tiq:
+        tsrc=(tiq.get('website_sources') or [{}])[0]
+        if tsrc.get('discovery_mode')!='modal': fail('tiqmo source must use modal discovery')
+        if tsrc.get('require_detail_link'): fail('tiqmo modal source must not require a separate detail URL')
+        if '/en/offers' not in str(tsrc.get('url','')): fail('tiqmo modal parser must use the English official offers page')
     mob=next((c for c in config.get('competitors',[]) if c.get('id')=='mobily-pay'),None)
     if mob:
         src=(mob.get('website_sources') or [{}])[0]
@@ -55,6 +61,7 @@ try:
         ('يسري العرض من 1 أغسطس حتى 31 أكتوبر2026.', '2026-08-01', '2026-10-31'),
         ('The campaign runs from 19 August 2026 to 19 October 2026', '2026-08-19', '2026-10-19'),
         ('Validity December 31, 2026', None, '2026-12-31'),
+        ('The offer is valid from May 1, 2026, at 12:00 AM until December 31, 2026, at 11:59 PM, KSA time.', '2026-05-01', '2026-12-31'),
     ]
     for text,exp_start,exp_end in samples:
         st,en,_=_enhance.extract_dates_from_text(text)
@@ -126,6 +133,10 @@ try:
     pos_export=wf.find('python export_excel.py')
     if min(pos_enhance,pos_post,pos_export)<0 or not (pos_enhance < pos_post < pos_export):
         fail('Workflow must run enhance.py -> postflight_check.py -> export_excel.py in this order')
+    if 'cron: "0 * * * *"' not in wf and "cron: '0 * * * *'" not in wf:
+        fail('Workflow schedule must run once per hour')
+    if int(config.get('settings',{}).get('detail_verification_interval_hours',99)) != 1:
+        fail('Offer detail verification interval must be one hour')
 except Exception as exc: fail(f'Workflow consistency check failed: {exc}')
 
 # Client fallback is intentional: stale backend zeros must never hide known direct social links.

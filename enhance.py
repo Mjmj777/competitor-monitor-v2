@@ -79,6 +79,10 @@ def generic_offers_url(value, config, competitor_id):
     except Exception:return False
 
 def accepted_direct_source(item, config):
+    # A verified official modal is valid campaign evidence even though all tiqmo offers share the same index URL.
+    sv=item.get("source_verification") or {}
+    if sv.get("status")=="verified_website" and sv.get("verification_method")=="official_website_modal" and item.get("source_locator"):
+        return True
     # Only a specific official social post is acceptable; a generic social profile is not evidence.
     if any(specific_social_post_url(v) for v in (item.get("social_links") or {}).values()):return True
     for key in ("official_campaign_page_url","primary_official_source_url","link"):
@@ -304,8 +308,9 @@ def extract_dates_from_text(text):
     """Extract only explicit validity dates; never infer dates from detection/publication time."""
     value=normalize_date_text(text)
     start=end=None;evidence=None
+    time_suffix=r"(?:\s*,?\s*at\s+\d{1,2}:\d{2}\s*(?:AM|PM)?)?"
     range_patterns=[
-        rf"(?:valid|available|offer|campaign|runs?)\s+(?:period\s+)?(?:from\s+)?({_DATE_FLEX})\s+(?:to|until|through|–|—|-)\s+({_DATE_FLEX})",
+        rf"(?:the\s+offer\s+is\s+)?(?:valid|available|offer|campaign|runs?)\s+(?:period\s+)?(?:from\s+)?({_DATE_FLEX}){time_suffix}\s+(?:to|until|through|–|—|-)\s+({_DATE_FLEX})",
         rf"(?:يسري(?:\s+هذا)?\s+العرض|العرض\s+ساري|هذا\s+العرض\s+ساري|ساري|مدة\s+العرض|فترة\s+العرض)?\s*(?:من(?:\s+تاريخ)?|ابتداء(?:ً|ا)?\s+من)\s+({_DATE_FLEX})\s*(?:إلى|الى|و?حتى|ولغاية)\s+({_DATE_FLEX})",
     ]
     for p in range_patterns:
@@ -456,6 +461,15 @@ def verify_details(data,state,config,overrides):
     ))
 
     for item in candidates:
+
+        existing_sv=item.get("source_verification") or {}
+        if existing_sv.get("status")=="verified_website" and existing_sv.get("verification_method")=="official_website_modal" and item.get("source_locator"):
+            item["verified"]=True
+            st,active=status_for(item,current)
+            manual=manual_patch(overrides,item["id"])
+            if "current_status" not in manual:item["current_status"]=st
+            if "active" not in manual:item["active"]=active
+            continue
 
         url=direct_url(item)
         if not url or not str(url).startswith("http"): continue
@@ -871,6 +885,11 @@ def merge_into_campaign(target, source):
     ):
         target["media"]=sm
     if source.get("last_live_verified_at"): target["last_live_verified_at"]=source["last_live_verified_at"]
+    if (source.get("source_verification") or {}).get("verification_method")=="official_website_modal":
+        target["source_verification"]=dict(source.get("source_verification") or {})
+        target["source_locator"]=source.get("source_locator")
+        target["source_detail_type"]="modal"
+        target["verified"]=True
 
 def sanitize_campaign_media(data):
     """Remove stale/unproven campaign hero images left by older builds.
@@ -927,7 +946,8 @@ def consolidate_duplicates(data):
     kept=[];by_title={};by_url={}
     for row in campaigns:
         comp=row.get("competitor_id") or "";record_type=row.get("content_type") or "campaign";title_key=campaign_title_key(row.get("title"))
-        urls={(social_identity(u) if social_url(u) else detail_url_identity(u)) for u in [row.get("official_campaign_page_url"),row.get("primary_official_source_url"),row.get("link")] if u};urls.discard("")
+        is_modal=(row.get("source_verification") or {}).get("verification_method")=="official_website_modal" or row.get("source_detail_type")=="modal"
+        urls=set() if is_modal else {(social_identity(u) if social_url(u) else detail_url_identity(u)) for u in [row.get("official_campaign_page_url"),row.get("primary_official_source_url"),row.get("link")] if u};urls.discard("")
         target=None
         for u in urls:
             if (comp,record_type,u) in by_url:target=by_url[(comp,record_type,u)];break
