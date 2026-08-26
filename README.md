@@ -1,42 +1,37 @@
-# Competitor Intelligence Monitor v5.8.0
+# Competitor Intelligence Monitor v5.9.0
 
-This release combines the v5.7.3 safe Admin refresh and source-reliability work with a redesigned analytics experience.
+This release adds source-aware official campaign classification and a persistent Admin review center while preserving the v5.8 analytics and safe refresh controls.
 
-## Analytics
+## What changed
 
-- Active campaigns by competitor, sorted from highest to lowest.
-- Campaign changes over the last 30 days: new, updated and recently expired.
-- Normalized campaign mix by competitor.
-- Interactive category coverage heatmap.
-- Remittance campaigns, merchant offers, offer mechanics and expiry risk.
-- Social-media comparison for rolling 7-day or 30-day periods.
-- Current social period compared with the equivalent previous period.
-- Social platform filter for Instagram, Facebook, X and TikTok.
-- Fixed competitor colors across charts.
-- Chart drill-down to filtered inventory.
-- Scroll-triggered chart animation with reduced-motion support.
+- Verified official campaigns no longer remain stuck behind a stale AI/classification cache.
+- The rule covers STC Bank, barq, Mobily Pay, tiqmo, urpay and alinma Pay.
+- barq, urpay and alinma Pay use source-specific timeouts and browser fallback where needed.
+- urpay's official Cashback and Prize Games terms page is monitored as a first-party campaign source.
+- Official competitor URLs embedded in social RSS posts are retained as campaign evidence.
+- `review.html` is a dedicated Admin-only review center.
+- One or many review items can be confirmed, rejected, marked Awareness, linked to an existing campaign, or grouped into one canonical campaign.
+- Grouped posts remain evidence; they never inflate Campaign KPIs as separate campaigns.
+- Review decisions are stored in `manual_overrides.json` with reviewer, timestamp, request ID and evidence IDs.
+- Cloudflare dispatches the dedicated `review.yml` workflow using the existing `GITHUB_ACTIONS_TOKEN`.
 
-## Safe Admin refresh
+## Security
 
-- Admin-only refresh for one competitor or all competitors.
-- Unique `request_id` for every refresh.
-- `/__refresh-status` completion tracking.
-- Active-run detection prevents duplicate refresh requests.
-- New/updated/unchanged/source-failure summary after completion.
-- Last 20 refresh summaries for Admin only.
-- Failed and zero-item sources preserve last-known-good data.
-- Viewer refresh attempts return HTTP 403.
+The Worker remains the security boundary. Viewer requests to `/__refresh`, `/__review` and their status endpoints receive HTTP 403. `review.html` hides its content from non-Admin sessions, while the server-side Worker role check is authoritative.
 
-## Runtime checks
+## Cloudflare secrets
 
-GitHub Actions validates JavaScript syntax, chart renderer behavior, Worker refresh behavior, project consistency and semantic output before deployment.
+- `ADMIN_USERNAME`
+- `ADMIN_PASSWORD`
+- `VIEWER_USERNAME`
+- `VIEWER_PASSWORD`
+- `SESSION_SECRET`
+- `GITHUB_ACTIONS_TOKEN` — required for Admin refresh/review dispatch only; not required for password protection.
 
-## Data files
+The fine-grained GitHub token needs repository access to `Mjmj777/competitor-monitor-v2`, `Actions: Read and write`, and automatic `Metadata: Read-only`. It does not need Contents write access.
 
-Do not overwrite the repository's current `data.json`, `state.json`, `inventory.json`, `manual_overrides.json`, or generated Excel files when applying this code-only package.
+## Safe upload
 
-## Secrets
+Use the final package's `UPLOAD_TO_GITHUB` directory only. It intentionally excludes existing generated/business data (`data.json`, `state.json`, `inventory.json`, `manual_overrides.json` and Excel files), so uploading the update cannot overwrite current monitoring history or manual decisions.
 
-- Cloudflare Worker: `ADMIN_USERNAME`, `ADMIN_PASSWORD`, `VIEWER_USERNAME`, `VIEWER_PASSWORD`, `SESSION_SECRET`, `GITHUB_ACTIONS_TOKEN`.
-- GitHub Actions: `OPENAI_API_KEY` if AI enrichment is enabled.
-- `GITHUB_ACTIONS_TOKEN` is required only for Admin manual refresh, not password protection.
+After GitHub Actions succeeds, copy the complete `cloudflare-worker.js` from the repository update into the Cloudflare Worker editor and Deploy. `/__session` should then report `worker_build: "5.9.0"`.

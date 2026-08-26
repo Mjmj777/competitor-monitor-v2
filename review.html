@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>Campaign Review Center</title>
+  <link rel="stylesheet" href="assets/styles.css?v=5.9.0">
+</head>
+<body>
+  <header class="site-header">
+    <div class="site-header__inner">
+      <a class="brand" href="index.html"><span class="brand__mark">CI</span><span><strong data-i18n="appTitle"></strong><small data-i18n="appSubtitle"></small></span></a>
+      <div class="header-actions"><a class="button button--ghost" href="index.html" data-i18n="overview"></a><button class="language-button" data-language-toggle></button></div>
+    </div>
+  </header>
+  <main class="page-shell review-page">
+    <div id="loading" class="loading-state"><span class="spinner"></span><span data-i18n="loading"></span></div>
+    <div id="error"></div>
+    <div id="content" hidden>
+      <nav class="breadcrumb"><a href="index.html">← <span data-i18n="back"></span></a></nav>
+      <section class="review-hero">
+        <div><span class="eyebrow" data-i18n="adminTools"></span><h1 data-i18n="reviewCenter"></h1><p data-i18n="reviewCenterHint"></p></div>
+        <strong id="review-total" class="review-total"></strong>
+      </section>
+      <section class="section review-controls">
+        <div class="filter-grid">
+          <label><span data-i18n="search"></span><input id="review-search" type="search" data-i18n-placeholder="searchPlaceholder"></label>
+          <label><span data-i18n="competitors"></span><select id="review-competitor"></select></label>
+          <label><span data-i18n="reviewReason"></span><select id="review-reason"></select></label>
+          <label><span data-i18n="source"></span><select id="review-source"></select></label>
+          <button id="review-clear-filters" class="button button--ghost" data-i18n="clear"></button>
+        </div>
+      </section>
+      <section id="review-bulk" class="review-bulk" hidden>
+        <strong id="review-selected"></strong>
+        <div class="review-bulk__actions">
+          <button id="review-group" class="button button--primary" data-i18n="groupAsCampaign"></button>
+          <button id="review-link" class="button button--secondary" data-i18n="linkExisting"></button>
+          <button id="review-not-campaign" class="button button--ghost" data-i18n="markNotCampaign"></button>
+          <button id="review-awareness" class="button button--ghost" data-i18n="markAwareness"></button>
+          <button id="review-clear-selection" class="button button--ghost" data-i18n="clearSelection"></button>
+        </div>
+      </section>
+      <section class="section">
+        <div class="review-list-heading"><label class="review-select-all"><input id="review-select-all" type="checkbox"><span data-i18n="selectAllVisible"></span></label><span id="review-result-count"></span></div>
+        <div id="review-list" class="review-list"></div>
+      </section>
+    </div>
+  </main>
+  <footer class="footer"><span>Competitor Intelligence Dashboard</span><a class="footer-signout" href="/__logout" data-i18n="signOut"></a></footer>
+  <script src="assets/common.js?v=5.9.0" defer></script>
+  <script src="assets/review.js?v=5.9.0" defer></script>
+</body>
+</html>

@@ -9,6 +9,8 @@ from urllib.parse import parse_qsl, urlencode, urljoin, urlsplit
 import requests
 from bs4 import BeautifulSoup
 from dateutil import parser as dateparser
+from requests.adapters import HTTPAdapter
+from urllib3.util.retry import Retry
 
 BASE = Path(__file__).resolve().parent
 DATA_PATH = BASE / "data.json"
@@ -32,6 +34,7 @@ WINNER_ANNOUNCEMENT_WORDS=["winner","winners","congratulations","congrats","winn
 SOCIAL_HOSTS=("instagram.com","facebook.com","m.facebook.com","x.com","twitter.com","tiktok.com")
 AI_DATE_CALLS_THIS_RUN=0
 DETAIL_EXTRACTOR_VERSION="focused-detail-v3-mobily-en"
+CLASSIFIER_VERSION="classifier-v4-source-aware"
 
 def is_winner_announcement(item):
     text=f"{item.get('title','')} {item.get('snippet','')}".casefold()
@@ -169,7 +172,7 @@ def enforce_record_integrity(data, config):
         if item.get("content_type") in {"campaign","merchant_offer"}:
             # An auto-discovered website card/link is only counted after its own detail page
             # was successfully fetched and verified. A stale AI cache can never bypass this.
-            if item.get("source_type")=="website" and item.get("official_discovery"):
+            if item.get("source_type")=="website" and item.get("official_discovery") and not item.get("review_approved"):
                 sv=(item.get("source_verification") or {}).get("status")
                 if sv!="verified_website":
                     suggested=item.get("content_type")
@@ -293,6 +296,127 @@ def apply_mobily_deterministic_classification(data):
         item["classification_method"]="mobily_official_rules"
     data["mobily_deterministic_classification"]={"changed":changed,"at":iso(current)}
     return changed
+
+
+_GENERIC_CAMPAIGN_STRONG = (
+    "campaign runs", "campaign period", "enter the draw", "weekly draw", "prize draw",
+    "win a car", "win prizes", "cash prizes", "cashback game", "cash back game",
+    "international transfer", "international transfers", "remittance", "fee-free", "zero fee",
+    "salary cashback", "payroll", "musaned", "sadad",
+    "فترة الحملة", "تبدأ الحملة", "تنتهي الحملة", "ادخل السحب", "دخول السحب",
+    "سحب أسبوعي", "سحب شهري", "اربح سيارة", "جوائز نقدية", "لعبة الكاش باك",
+    "حوالة دولية", "تحويل دولي", "الحوالات الدولية", "رواتب العمالة", "مساند", "سداد",
+)
+_GENERIC_MERCHANT_STRONG = (
+    "partner offer", "merchant offer", "exclusive partner", "discount at", "discount with",
+    "promo code", "promocode", "use code", "at checkout", "at the restaurant", "at the store",
+    "عرض شريك", "عروض الشركاء", "خصم لدى", "خصم في", "خصم مع", "رمز الخصم",
+    "كود الخصم", "عند الدفع", "في المطعم", "في المتجر",
+)
+
+
+def verified_official_hint(item):
+    """Conservatively classify a verified first-party offer detail page.
+
+    This is deliberately competitor-agnostic.  It fixes the STC stale-review case and
+    applies the same rule to barq, urpay and alinma Pay: first-party campaigns are counted,
+    partner discounts become Merchant Offers, and ambiguous pages remain in review.
+    """
+    if item.get("source_type") != "website" or not item.get("official_discovery"):
+        return None
+    mobily_hint = mobily_offer_hint(item)
+    if mobily_hint in {"campaign", "merchant_offer", "expired"}:
+        return mobily_hint
+    suggested = item.get("suggested_record_type")
+    if suggested in {"campaign", "merchant_offer"}:
+        return suggested
+    if item.get("campaign_category") == "merchant" or item.get("primary_category") == "merchant":
+        return "merchant_offer"
+    text = clean(" ".join(str(item.get(k) or "") for k in (
+        "title", "summary", "snippet", "mechanic", "eligibility", "terms_note",
+        "evidence_snapshot", "date_evidence",
+    )), 12000).casefold()
+    # Explicit campaign wording and proprietary mechanics outrank generic partner wording.
+    if re.search(r"(?:\bcampaign\b|\bdraw\b|\bprize(?:s)?\b|\bwin\b|حملة|سحب|جائزة|جوائز|اربح)", text, re.I):
+        return "campaign"
+    if any(marker in text for marker in _GENERIC_CAMPAIGN_STRONG):
+        return "campaign"
+    merchant_signal = any(marker in text for marker in _GENERIC_MERCHANT_STRONG)
+    merchant_discount = bool(re.search(r"(?:discount|خصم)\s*(?:up\s+to|حتى)?\s*\d{1,3}\s*%", text, re.I))
+    partner_name = bool(re.search(r"(?:\s[x×]\s|\bwith\b|\bat\b|\s(?:لدى|مع|في)\s)", text, re.I))
+    if merchant_signal or (merchant_discount and partner_name):
+        return "merchant_offer"
+    # Cashback/fee mechanics tied to the competitor's own card, transfer or wallet are campaigns.
+    proprietary = bool(re.search(r"(?:cash\s*back|كاش\s*باك|استرداد نقدي|بدون رسوم|إعفاء من الرسوم)", text, re.I))
+    own_product = bool(re.search(r"(?:card|wallet|transfer|remittance|salary|بطاقة|محفظة|تحويل|حوالة|راتب)", text, re.I))
+    return "campaign" if proprietary and own_product else None
+
+
+_CLASSIFICATION_REVIEW_REASONS = {
+    "new_official_item_not_in_excel_inventory", "new_official_merchant_offer_not_in_excel_inventory",
+    "new_official_campaign_not_in_excel_inventory", "new_official_campaign_needs_review",
+    "ai_needs_review", "official_detail_not_verified", "expired_official_candidate",
+}
+
+
+def apply_verified_official_classification(data, config):
+    """Promote only verified, specific, current first-party pages with a strong rule hint."""
+    changed = 0
+    current = now()
+    for item in data.get("items", []):
+        if item.get("review_approved") and item.get("review_decision") in {"confirm_campaign","confirm_merchant_offer"}:
+            continue
+        hint = verified_official_hint(item)
+        if not hint:
+            continue
+        if hint == "expired":
+            item["active"] = False
+            item["current_status"] = "Expired"
+            continue
+        verified = (item.get("source_verification") or {}).get("status") == "verified_website"
+        if not verified or not accepted_direct_source(item, config):
+            item["content_type"] = "review"
+            item["suggested_record_type"] = hint
+            item["review_required"] = True
+            item["current_status"] = "Needs Review"
+            item["review_reasons"] = list(dict.fromkeys((item.get("review_reasons") or []) + ["official_detail_not_verified"]))
+            continue
+        status, active = status_for(item, current)
+        if not active:
+            item["active"] = False
+            item["current_status"] = status
+            item["suggested_record_type"] = hint
+            continue
+        previous = item.get("content_type")
+        item["content_type"] = hint
+        item["suggested_record_type"] = hint
+        if hint == "merchant_offer":
+            item["campaign_category"] = item["primary_category"] = "merchant"
+            item["categories"] = ["merchant"]
+        elif item.get("campaign_category") == "merchant":
+            item["campaign_category"] = item["primary_category"] = "other"
+            item["categories"] = ["other"]
+        item["current_status"] = status
+        item["active"] = active
+        item["review_required"] = False
+        item["review_reasons"] = [r for r in (item.get("review_reasons") or []) if r not in _CLASSIFICATION_REVIEW_REASONS]
+        item["classification_method"] = "verified_official_rules_v4"
+        if previous != hint:
+            changed += 1
+    data["verified_official_classification"] = {"changed": changed, "at": iso(current), "version": CLASSIFIER_VERSION}
+    return changed
+
+
+def classification_content_key(item):
+    """Include verification state/evidence so a stale Needs Review cache cannot survive verification."""
+    verification = item.get("source_verification") or {}
+    return hash_text(
+        CLASSIFIER_VERSION,
+        item.get("title"), item.get("snippet"), item.get("link"),
+        verification.get("status"), verification.get("verification_method"),
+        verification.get("source_url"), item.get("evidence_snapshot"),
+        item.get("start_date"), item.get("end_date"),
+    )
 
 def load(path: Path, default):
     try: return json.loads(path.read_text(encoding="utf-8"))
@@ -682,13 +806,15 @@ def add_manual_new_items(data, overrides):
     for row in overrides.get("new_items",[]) or []:
         if not row.get("id") or row["id"] in existing: continue
         if manual_patch(overrides,row["id"]).get("deleted"): continue
+        approved=bool(row.get("review_approved"))
         item={
             "id":row["id"],"record_id":None,"competitor_id":row.get("competitor_id"),"source_key":f"manual:{row.get('competitor_id')}","source_type":"manual","platform":"website",
             "content_type":row.get("content_type","campaign"),"suggested_record_type":row.get("content_type","campaign"),"campaign_category":row.get("campaign_category","other"),"primary_category":row.get("campaign_category","other"),"categories":[row.get("campaign_category","other")],
             "title":row.get("title") or "New campaign pending source analysis","snippet":row.get("summary","") ,"summary":row.get("summary",""),"link":row.get("official_campaign_page_url") or row.get("primary_official_source_url"),
             "official_campaign_page_url":row.get("official_campaign_page_url"),"primary_official_source_url":row.get("primary_official_source_url") or row.get("official_campaign_page_url"),"social_links":row.get("social_links",{}),
             "published_at":row.get("published_at"),"start_date":row.get("start_date"),"end_date":row.get("end_date"),"current_status":"Needs Review","active":row.get("active",True),"operation_type":row.get("operation_type","") ,"mechanic":row.get("mechanic","") ,"eligibility":row.get("eligibility","") ,"terms_note":row.get("terms_note",""),
-            "verified":False,"review_required":True,"review_reasons":["manual_new_campaign_pending_verification"],"manual_override":True,"first_seen":row.get("created_at") or iso(now()),"last_changed":row.get("created_at") or iso(now()),"change_history":[]
+            "verified":False,"review_required":not approved,"review_reasons":[] if approved else ["manual_new_campaign_pending_verification"],"manual_override":True,"first_seen":row.get("created_at") or iso(now()),"last_changed":row.get("created_at") or iso(now()),"change_history":[],
+            "review_approved":approved,"review_decision":row.get("review_decision"),"reviewed_by":row.get("reviewed_by"),"reviewed_at":row.get("reviewed_at"),"review_request_id":row.get("review_request_id"),"evidence_ids":row.get("evidence_ids") or []
         }
         append_change(item,"manual_created")
         data.setdefault("items",[]).append(item); existing.add(item["id"])
@@ -737,6 +863,8 @@ def verify_details(data,state,config,overrides,competitor_filter=None):
     current=now(); checks=0; new_status=[]; skip=os.environ.get("CM_SKIP_NETWORK")=="1"
     perf_started=time.perf_counter()
     session=requests.Session(); session.headers.update({"User-Agent":USER_AGENT,"Accept-Language":"en,ar;q=0.9"})
+    retry=Retry(total=2,connect=2,read=1,backoff_factor=.7,status_forcelist=[429,500,502,503,504],allowed_methods=["GET"])
+    session.mount("https://",HTTPAdapter(max_retries=retry));session.mount("http://",HTTPAdapter(max_retries=retry))
 
     candidates=[]
     for item in data.get("items",[]):
@@ -751,6 +879,7 @@ def verify_details(data,state,config,overrides,competitor_filter=None):
     candidates.sort(key=lambda x:(
         0 if manual_pending_review(x) else 1,
         0 if (x.get("source_type")=="website" and x.get("official_discovery")) else 1,
+        0 if verified_official_hint(x) in {"campaign","merchant_offer"} else 1,
         0 if not x.get("end_date") else 1,
         0 if not x.get("start_date") else 1,
         dt((cache.get(x.get("id")) or {}).get("checked_at")) or datetime.min.replace(tzinfo=timezone.utc)
@@ -851,7 +980,8 @@ def verify_details(data,state,config,overrides,competitor_filter=None):
                 "error":None,
             }
             try:
-                r=session.get(url,timeout=timeout)
+                item_timeout=int(item.get("detail_timeout_seconds") or timeout)
+                r=session.get(url,timeout=item_timeout)
                 r.raise_for_status()
                 ex=ai_fill_dates(extract_page(response_text(r),url),state,config)
                 old_hash=(cached.get("extracted") or {}).get("content_hash")
@@ -892,7 +1022,16 @@ def verify_details(data,state,config,overrides,competitor_filter=None):
                 "conflicts":[],
                 "error":cached.get("error"),
             }
-            if manual_candidate:
+            if manual_candidate and item.get("review_approved"):
+                # The Admin decision is authoritative. review.yml intentionally rebuilds
+                # without network access, so a newly grouped campaign must become visible
+                # immediately. The next scheduled monitor run still retries source
+                # verification and exposes any failure through Source Health.
+                item["verified"]=False
+                item["review_required"]=False
+                item["review_reasons"]=[]
+                item["current_status"],item["active"]=status_for(item,current)
+            elif manual_candidate:
                 item["verified"]=False
                 item["content_type"]="review"
                 item["suggested_record_type"]=item.get("suggested_record_type") or "campaign"
@@ -1003,6 +1142,12 @@ def heuristic_match(post,campaigns):
         if post.get("link"):
             pid=social_identity(post.get("link"))
             if pid and any(pid==social_identity(u) for u in (c.get("social_links") or {}).values() if u):return c["id"],"exact_url"
+        evidence=post.get("official_evidence_url") or post.get("official_campaign_page_url")
+        if evidence:
+            eid=detail_url_identity(evidence)
+            campaign_urls=[c.get("official_campaign_page_url"),c.get("primary_official_source_url"),c.get("link")]
+            if eid and any(eid==detail_url_identity(value) for value in campaign_urls if value):
+                return c["id"],"exact_official_evidence"
         ct=tokenize(f"{c.get('title','')} {c.get('summary','')} {c.get('mechanic','')} {c.get('terms_note','')}")
         union=len(pt|ct) or 1; lexical=len(pt&ct)/union
         cat_bonus=.18 if post.get("campaign_category") and post.get("campaign_category")==c.get("campaign_category") else 0
@@ -1057,13 +1202,13 @@ def enrich_social(data,state,config,overrides):
         if post.get("campaign_id") in byid:continue
         cand=[c for c in campaigns if c.get("competitor_id")==post.get("competitor_id") and c.get("active") is not False]
         match,method=heuristic_match(post,cand)
-        if method in {"exact_url","heuristic"}:post["campaign_id"]=match;post["match_method"]=method;post["review_required"]=False
+        if method in {"exact_url","exact_official_evidence","heuristic"}:post["campaign_id"]=match;post["match_method"]=method;post["review_required"]=False
         elif method=="suggested":post["suggested_campaign_id"]=match;post["review_required"]=True;post["review_reasons"]=list(dict.fromkeys((post.get("review_reasons") or [])+["social_campaign_match_uncertain"]))
     cache=state.setdefault("ai_classification_cache",{}); maxn=int(config.get("ai",{}).get("classification_max_items_per_run",20)); recent=now()-timedelta(days=int(config.get("ai",{}).get("classification_recent_days",14))); ambiguous=[]
     for p in [i for i in items if i.get("source_type")=="social" and not i.get("campaign_id")]:
         d=dt(p.get("published_at")) or dt(p.get("last_changed")) or datetime.min.replace(tzinfo=timezone.utc)
         if d<recent:continue
-        key=hash_text("classifier-v3",p.get("title"),p.get("snippet"),p.get("link")); cached=cache.get(p["id"],{})
+        key=classification_content_key(p); cached=cache.get(p["id"],{})
         if cached.get("content_key")==key and cached.get("decision"):
             dec=dict(cached["decision"])
             cid=dec.get("campaign_id") or dec.get("matched_campaign_id")
@@ -1094,11 +1239,11 @@ def enrich_social(data,state,config,overrides):
             patch.update(content_type=d["record_type"] if d["record_type"] in {"awareness","social_post"} else "social_post",review_required=False)
         if is_winner_announcement(p) and not patch.get("campaign_id"):
             patch.update(content_type="review",review_required=True,review_reasons=list(dict.fromkeys((patch.get("review_reasons") or [])+["winner_announcement_unlinked"])))
-        p.update(patch);cache[p["id"]]={"content_key":hash_text("classifier-v3",p.get("title"),p.get("snippet"),p.get("link")),"decision":patch,"at":iso(now())}
+        p.update(patch);cache[p["id"]]={"content_key":classification_content_key(p),"decision":patch,"at":iso(now())}
     # Apply the same hybrid classifier to newly discovered ambiguous website records.
     extra=[]
     for row in [i for i in items if i.get("source_type") in {"website"} and (i.get("review_required") or i.get("content_type")=="review")]:
-        key=hash_text("classifier-v3",row.get("title"),row.get("snippet"),row.get("link")); cached=cache.get(row["id"],{})
+        key=classification_content_key(row); cached=cache.get(row["id"],{})
         if cached.get("content_key")==key and cached.get("decision"):
             decision=dict(cached["decision"])
             # Never let a stale cached classification promote an unverified official discovery.
@@ -1140,7 +1285,7 @@ def enrich_social(data,state,config,overrides):
                 patch.update(content_type="review",suggested_record_type="merchant_offer",review_required=True,review_reasons=["official_detail_not_verified"])
             else:
                 patch.update(content_type=d["record_type"],review_required=False,review_reasons=[])
-        row.update(patch); cache[row["id"]]={"content_key":hash_text("classifier-v3",row.get("title"),row.get("snippet"),row.get("link")),"decision":patch,"at":iso(now())}
+        row.update(patch); cache[row["id"]]={"content_key":classification_content_key(row),"decision":patch,"at":iso(now())}
 
     # Build campaign social analytics from BOTH approved/master direct links and RSS-linked posts.
     # A URL is counted once even if it appears in Excel and again in RSS with tracking parameters.
@@ -1621,7 +1766,7 @@ def main():
     data=load(DATA_PATH,{});state=load(STATE_PATH,{"schema_version":5,"items":{}});config=load(CONFIG_PATH,{});overrides=load(OVERRIDES_PATH,{"items":{},"new_items":[]})
     if not data.get("items"):print("No data items");return 0
     if target.casefold() not in {"", "all", "*"}:print(f"[TARGET] detail verification for {target}")
-    repair_legacy_mobily_text(data);apply_manual_deletions(data,overrides);add_manual_new_items(data,overrides);verify_details(data,state,config,overrides,target);apply_mobily_deterministic_classification(data);enforce_record_integrity(data,config);enrich_social(data,state,config,overrides);apply_mobily_deterministic_classification(data);normalize_winner_announcements(data);enforce_record_integrity(data,config);consolidate_duplicates(data);apply_manual_deletions(data,overrides);apply_mobily_deterministic_classification(data);finalize_counted_statuses(data,overrides,config);recompute_social_analytics(data);sanitize_campaign_media(data);detect_duplicates_replacements(data)
+    repair_legacy_mobily_text(data);apply_manual_deletions(data,overrides);add_manual_new_items(data,overrides);verify_details(data,state,config,overrides,target);apply_mobily_deterministic_classification(data);apply_verified_official_classification(data,config);enforce_record_integrity(data,config);enrich_social(data,state,config,overrides);apply_mobily_deterministic_classification(data);apply_verified_official_classification(data,config);normalize_winner_announcements(data);enforce_record_integrity(data,config);consolidate_duplicates(data);apply_manual_deletions(data,overrides);apply_mobily_deterministic_classification(data);apply_verified_official_classification(data,config);finalize_counted_statuses(data,overrides,config);recompute_social_analytics(data);sanitize_campaign_media(data);detect_duplicates_replacements(data)
     for item in data.get("items",[]):
         item["review_priority"]=review_priority(item);item.pop("confidence",None) # confidence stays internal, never a displayed score
     snap=snapshot_campaigns(data["items"]);delta=material_delta(state.get("summary_snapshot",{}),snap);summary=ai_summary(data["items"],delta,state,config)

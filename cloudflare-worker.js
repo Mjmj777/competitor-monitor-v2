@@ -1,7 +1,8 @@
 const ORIGIN = "https://mjmj777.github.io/competitor-monitor-v2";
 const GITHUB_REPOSITORY = "Mjmj777/competitor-monitor-v2";
 const GITHUB_WORKFLOW = "monitor.yml";
-const WORKER_BUILD = "5.8.0";
+const GITHUB_REVIEW_WORKFLOW = "review.yml";
+const WORKER_BUILD = "5.9.0";
 const REFRESH_TARGETS = new Set([
   "all",
   "stc-bank",
@@ -82,6 +83,17 @@ export default {
     if (path === "/__refresh-status") {
       const session = await getSession(request, env);
       return handleRefreshStatus(request, env, session);
+    }
+
+    // Admin review decisions are persisted by a dedicated GitHub workflow.
+    if (path === "/__review") {
+      const session = await getSession(request, env);
+      return handleReview(request, env, session);
+    }
+
+    if (path === "/__review-status") {
+      const session = await getSession(request, env);
+      return handleReviewStatus(request, env, session);
     }
 
     // ---------------------------------------------------------
@@ -358,6 +370,18 @@ async function workflowRuns(token) {
   return Array.isArray(payload?.workflow_runs) ? payload.workflow_runs : [];
 }
 
+async function reviewWorkflowRuns(token) {
+  const response = await fetch(
+    `https://api.github.com/repos/${GITHUB_REPOSITORY}/actions/workflows/${GITHUB_REVIEW_WORKFLOW}/runs?branch=main&per_page=30`,
+    { headers: githubHeaders(token) }
+  );
+  if (!response.ok) {
+    throw new Error(`GitHub review status request failed (${response.status})`);
+  }
+  const payload = await response.json();
+  return Array.isArray(payload?.workflow_runs) ? payload.workflow_runs : [];
+}
+
 async function handleRefreshStatus(request, env, session) {
   if (request.method !== "GET") {
     return jsonResponse({ error: "method_not_allowed", message: "GET required" }, 405, { Allow: "GET" });
@@ -508,6 +532,111 @@ async function handleRefresh(request, env, session) {
     },
     202
   );
+}
+
+
+// =============================================================
+// ADMIN REVIEW
+// =============================================================
+
+const REVIEW_ACTIONS = new Set([
+  "confirm_campaign",
+  "confirm_merchant_offer",
+  "group_campaign",
+  "link_existing",
+  "mark_not_campaign",
+  "mark_awareness",
+]);
+
+function validateAdminJsonRequest(request, session) {
+  if (!session) return jsonResponse({ error: "unauthorized", message: "Authentication required" }, 401);
+  if (session.role !== "admin") return jsonResponse({ error: "forbidden", message: "Admin access required" }, 403);
+  const requestUrl = new URL(request.url);
+  const origin = request.headers.get("Origin");
+  if (origin && origin !== requestUrl.origin) return jsonResponse({ error: "forbidden_origin", message: "Invalid request origin" }, 403);
+  if (!(request.headers.get("Content-Type") || "").toLowerCase().startsWith("application/json")) {
+    return jsonResponse({ error: "unsupported_media_type", message: "JSON body required" }, 415);
+  }
+  return null;
+}
+
+function validReviewPayload(payload) {
+  if (!payload || !REVIEW_ACTIONS.has(String(payload.action || ""))) return "Unknown review action";
+  if (!Array.isArray(payload.item_ids) || payload.item_ids.length < 1 || payload.item_ids.length > 50) return "Select between 1 and 50 items";
+  if (payload.item_ids.some((value) => typeof value !== "string" || !/^[A-Za-z0-9:._-]{4,240}$/.test(value))) return "Invalid item ID";
+  if (payload.action === "link_existing" && !/^[A-Za-z0-9:._-]{4,240}$/.test(String(payload.target_campaign_id || ""))) return "A target campaign is required";
+  for (const field of ["title", "summary", "campaign_category", "record_type", "start_date", "end_date", "official_source_url"]) {
+    if (payload[field] != null && typeof payload[field] !== "string") return `Invalid ${field}`;
+  }
+  if (String(payload.title || "").length > 280 || String(payload.summary || "").length > 3000) return "Review text is too long";
+  if (payload.official_source_url) {
+    try {
+      const source = new URL(payload.official_source_url);
+      if (!new Set(["http:", "https:"]).has(source.protocol)) return "Invalid official source URL";
+    } catch { return "Invalid official source URL"; }
+  }
+  return null;
+}
+
+async function handleReviewStatus(request, env, session) {
+  if (request.method !== "GET") return jsonResponse({ error: "method_not_allowed", message: "GET required" }, 405, { Allow: "GET" });
+  if (!session) return jsonResponse({ error: "unauthorized", message: "Authentication required" }, 401);
+  if (session.role !== "admin") return jsonResponse({ error: "forbidden", message: "Admin access required" }, 403);
+  const token = String(env.GITHUB_ACTIONS_TOKEN || "").trim();
+  if (!token) return jsonResponse({ error: "missing_github_token", message: "GITHUB_ACTIONS_TOKEN is not configured" }, 503);
+  const requestId = String(new URL(request.url).searchParams.get("request_id") || "").trim();
+  if (!/^[A-Za-z0-9_-]{8,120}$/.test(requestId)) return jsonResponse({ error: "invalid_request_id", message: "Invalid review request ID" }, 400);
+  try {
+    const runs = await reviewWorkflowRuns(token);
+    const run = runs.find((item) => String(item?.display_title || "").includes(requestId));
+    if (!run) return jsonResponse({ found: false, request_id: requestId, status: "queued" }, 202);
+    return jsonResponse({ found: true, request_id: requestId, status: run.status, conclusion: run.conclusion || null, updated_at: run.updated_at || null });
+  } catch (error) {
+    return jsonResponse({ error: "github_status_failed", message: String(error?.message || error) }, 502);
+  }
+}
+
+async function handleReview(request, env, session) {
+  if (request.method !== "POST") return jsonResponse({ error: "method_not_allowed", message: "POST required" }, 405, { Allow: "POST" });
+  const rejected = validateAdminJsonRequest(request, session);
+  if (rejected) return rejected;
+  const length = Number(request.headers.get("Content-Length") || 0);
+  if (length > 60_000) return jsonResponse({ error: "payload_too_large", message: "Review payload is too large" }, 413);
+  let payload;
+  try {
+    const raw = await request.text();
+    if (raw.length > 60_000) return jsonResponse({ error: "payload_too_large", message: "Review payload is too large" }, 413);
+    payload = JSON.parse(raw);
+  } catch {
+    return jsonResponse({ error: "invalid_json", message: "Invalid JSON body" }, 400);
+  }
+  const invalid = validReviewPayload(payload);
+  if (invalid) return jsonResponse({ error: "invalid_review", message: invalid }, 400);
+  const token = String(env.GITHUB_ACTIONS_TOKEN || "").trim();
+  if (!token) return jsonResponse({ error: "missing_github_token", message: "GITHUB_ACTIONS_TOKEN is not configured" }, 503);
+  try {
+    const active = (await reviewWorkflowRuns(token)).find((item) => item && item.status !== "completed");
+    if (active) return jsonResponse({ error: "review_in_progress", message: "Another review decision is being saved" }, 409);
+  } catch (error) {
+    return jsonResponse({ error: "github_status_failed", message: String(error?.message || error) }, 502);
+  }
+  const requestId = crypto.randomUUID();
+  const encodedPayload = textToBase64Url(JSON.stringify(payload));
+  const githubResponse = await fetch(
+    `https://api.github.com/repos/${GITHUB_REPOSITORY}/actions/workflows/${GITHUB_REVIEW_WORKFLOW}/dispatches`,
+    {
+      method: "POST",
+      headers: { ...githubHeaders(token), "Content-Type": "application/json" },
+      body: JSON.stringify({
+        ref: "main",
+        inputs: { request_id: requestId, reviewer: String(session.username || "admin").slice(0, 100), payload: encodedPayload },
+      }),
+    }
+  );
+  if (githubResponse.status !== 204) {
+    return jsonResponse({ error: "github_dispatch_failed", message: `GitHub rejected the review request (${githubResponse.status})` }, 502);
+  }
+  return jsonResponse({ accepted: true, request_id: requestId, message: "Review queued" }, 202);
 }
 
 

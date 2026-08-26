@@ -71,7 +71,20 @@ except Exception as exc:
 
 items=data.get('items',[]);byid={i.get('id'):i for i in items};valid_comp={c.get('id') for c in config.get('competitors',[])}
 # Every configured discovery source should have a status row after monitor execution.
-expected={f"website:{c['id']}:{s['id']}" for c in config.get('competitors',[]) for s in c.get('website_sources',[])} | {f"social:{c['id']}:{p}" for c in config.get('competitors',[]) for p in c.get('social_feeds',{})}
+generated_at=datetime.fromisoformat(str(data.get('generated_at') or '1970-01-01T00:00:00+00:00').replace('Z','+00:00'))
+if generated_at.tzinfo is None:generated_at=generated_at.replace(tzinfo=timezone.utc)
+expected=set()
+for c in config.get('competitors',[]):
+    for s in c.get('website_sources',[]):
+        introduced=s.get('introduced_at')
+        if introduced:
+            introduced_at=datetime.fromisoformat(str(introduced).replace('Z','+00:00'))
+            if introduced_at.tzinfo is None:introduced_at=introduced_at.replace(tzinfo=timezone.utc)
+            # A package may introduce a new source after its bundled last-known-good data.
+            # The very first monitor run must create the status; subsequent runs are strict.
+            if generated_at < introduced_at:continue
+        expected.add(f"website:{c['id']}:{s['id']}")
+expected |= {f"social:{c['id']}:{p}" for c in config.get('competitors',[]) for p in c.get('social_feeds',{})}
 actual={s.get('source_key') for s in data.get('source_status',[])}
 missing=sorted(expected-actual)
 if missing:fail('Missing discovery source status rows: '+', '.join(missing))
@@ -96,11 +109,13 @@ for i in items:
     if any(x in ev for x in LOGIN_MARKERS):fail(f'{iid}: login/navigation shell stored as evidence')
 
     if ctype in {'campaign','merchant_offer'}:
-        if i.get('source_type')=='website' and i.get('official_discovery'):
+        if i.get('source_type')=='website' and i.get('official_discovery') and not i.get('review_approved'):
             sv=(i.get('source_verification') or {}).get('status')
             if sv!='verified_website':fail(f'{iid}: auto-registered official website item is not verified')
             if (i.get('source_verification') or {}).get('verification_method')=='official_website_modal' and not i.get('source_locator'):
                 fail(f'{iid}: modal-verified item is missing its source locator')
+        if i.get('review_approved') and not all(i.get(field) for field in ('reviewed_by','reviewed_at','review_request_id')):
+            fail(f'{iid}: Admin-approved record is missing audit metadata')
         end=i.get('end_date')
         if end:
             try:

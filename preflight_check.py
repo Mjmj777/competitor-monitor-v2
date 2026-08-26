@@ -8,8 +8,8 @@ ERRORS=[]
 def fail(msg): ERRORS.append(msg)
 
 required=[
-    'index.html','competitor.html','item.html','monitor.py','enhance.py','export_excel.py','preflight_check.py','postflight_check.py','config.json','requirements.txt','cloudflare-worker.js',
-    'competitor_campaigns_template.xlsx','inventory.json','manual_overrides.json','.github/workflows/monitor.yml','assets/common.js','assets/index.js','assets/competitor.js','assets/item.js','assets/styles.css','tests/chart_renderer_test.mjs','tests/worker_refresh_test.mjs'
+    'index.html','competitor.html','item.html','review.html','monitor.py','enhance.py','apply_review.py','export_excel.py','preflight_check.py','postflight_check.py','config.json','requirements.txt','cloudflare-worker.js',
+    'competitor_campaigns_template.xlsx','inventory.json','manual_overrides.json','.github/workflows/monitor.yml','.github/workflows/review.yml','assets/common.js','assets/index.js','assets/competitor.js','assets/item.js','assets/review.js','assets/styles.css','tests/chart_renderer_test.mjs','tests/worker_refresh_test.mjs','tests/worker_review_test.mjs','tests/classification_regression_test.py','tests/review_apply_test.py'
 ]
 for name in required:
     if not (BASE/name).exists(): fail(f'Missing required file: {name}')
@@ -27,10 +27,10 @@ try:
         sites=c.get('website_sources',[])
         if not sites: fail(f"{c.get('id')}: missing official website source")
         for s in sites:
-            if s.get('discovery_mode')!='modal' and not s.get('require_detail_link',False): fail(f"{c.get('id')}: website source must require a detail link unless it uses verified modal discovery")
+            if s.get('discovery_mode') not in {'modal','single_page'} and not s.get('require_detail_link',False): fail(f"{c.get('id')}: website source must require a detail link unless it uses verified modal/single-page discovery")
             urls.append(s.get('url'))
         urls.extend(feeds.values())
-    if len(urls)!=30: fail(f'Expected 30 discovery sources, found {len(urls)}')
+    if len(urls)!=31: fail(f'Expected 31 discovery sources, found {len(urls)}')
     if len(set(urls))!=len(urls): fail('Duplicate discovery source URLs found in config.json')
 except Exception as exc: fail(f'config.json invalid: {exc}')
 
@@ -125,7 +125,7 @@ try:
 except Exception as exc: fail(f'Parser/date regression check failed: {exc}')
 
 # English must be the initial language; the UI may persist the user's later choice.
-for name in ['index.html','competitor.html','item.html']:
+for name in ['index.html','competitor.html','item.html','review.html']:
     try:
         txt=(BASE/name).read_text(encoding='utf-8')
         if 'lang="en"' not in txt or 'dir="ltr"' not in txt: fail(f'{name}: initial HTML language must be English/LTR')
@@ -146,7 +146,7 @@ try:
     if missing: fail('Missing i18n keys: '+', '.join(missing))
 except Exception as exc: fail(f'i18n check failed: {exc}')
 
-for page,js in [('index.html','assets/index.js'),('competitor.html','assets/competitor.js'),('item.html','assets/item.js')]:
+for page,js in [('index.html','assets/index.js'),('competitor.html','assets/competitor.js'),('item.html','assets/item.js'),('review.html','assets/review.js')]:
     try:
         html=(BASE/page).read_text(encoding='utf-8'); code=(BASE/js).read_text(encoding='utf-8')
         ids=set(re.findall(r'id=["\']([^"\']+)',html))
@@ -218,15 +218,15 @@ try:
         fail('Competitor page scoped refresh is not connected')
 except Exception as exc: fail(f'Admin manual-refresh guard failed: {exc}')
 
-# v5.8.0 refresh completion, locking, summaries and data-safety regression guards.
+# v5.9.0 refresh completion, locking, summaries and data-safety regression guards.
 try:
     worker=(BASE/'cloudflare-worker.js').read_text(encoding='utf-8')
     wf=(BASE/'.github/workflows/monitor.yml').read_text(encoding='utf-8')
     idx=(BASE/'index.html').read_text(encoding='utf-8')
     competitor=(BASE/'competitor.html').read_text(encoding='utf-8')
     common=(BASE/'assets/common.js').read_text(encoding='utf-8')
-    if 'const WORKER_BUILD = "5.8.0"' not in worker:
-        fail('cloudflare-worker.js is outdated; upload the v5.8.0 Worker reference file')
+    if 'const WORKER_BUILD = "5.9.0"' not in worker:
+        fail('cloudflare-worker.js is outdated; upload the v5.9.0 Worker reference file')
     if '/__refresh-status' not in worker or 'workflowRuns(token)' not in worker:
         fail('Worker refresh-status tracking or active-run lock is missing')
     if 'request_id: requestId' not in worker or 'crypto.randomUUID()' not in worker:
@@ -256,7 +256,33 @@ try:
         reconcile_source=inspect.getsource(_monitor.reconcile_live)
         if 'item_count' not in reconcile_source or 'last known-good' not in reconcile_source:
             fail('Zero-item source protection is missing from reconcile_live')
-except Exception as exc: fail(f'v5.8.0 refresh/data-safety guard failed: {exc}')
+except Exception as exc: fail(f'v5.9.0 refresh/data-safety guard failed: {exc}')
+
+# Admin review page, persistence workflow and grouping contract.
+try:
+    worker=(BASE/'cloudflare-worker.js').read_text(encoding='utf-8')
+    review_html=(BASE/'review.html').read_text(encoding='utf-8')
+    review_js=(BASE/'assets/review.js').read_text(encoding='utf-8')
+    review_wf=(BASE/'.github/workflows/review.yml').read_text(encoding='utf-8')
+    apply_review=(BASE/'apply_review.py').read_text(encoding='utf-8')
+    monitor_wf=(BASE/'.github/workflows/monitor.yml').read_text(encoding='utf-8')
+    if '/__review' not in worker or '/__review-status' not in worker or 'session.role !== "admin"' not in worker:
+        fail('Worker Admin review endpoints or role guard are missing')
+    if 'id="review-group"' not in review_html or 'data-i18n="reviewCenter"' not in review_html:
+        fail('Dedicated Admin review page is incomplete')
+    if 'group_campaign' not in review_js or 'sameCompetitorRequired' not in review_js:
+        fail('Review UI does not group selected evidence into one same-competitor campaign')
+    if 'review_history' not in apply_review or 'evidence_ids' not in apply_review:
+        fail('Persistent review audit/evidence model is missing')
+    if 'python apply_review.py' not in review_wf or 'cancel-in-progress: false' not in review_wf:
+        fail('Review persistence workflow is incomplete')
+    if '- manual_overrides.json' not in monitor_wf.split('jobs:',1)[0]:
+        fail('Review persistence commits must not trigger a second monitor workflow')
+    if re.search(r'cp[^\n]*manual_overrides\.json[^\n]*_site', review_wf) or re.search(r'cp[^\n]*manual_overrides\.json[^\n]*_site', monitor_wf):
+        fail('manual_overrides.json must not be copied into the public Pages artifact')
+    if 'review.html' not in review_wf or 'review.html' not in monitor_wf:
+        fail('Review page is not included in both deployment paths')
+except Exception as exc: fail(f'v5.9.0 Admin review guard failed: {exc}')
 
 # v5.8.0 chart controls, interactivity and motion must stay wired to the UI.
 try:

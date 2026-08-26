@@ -664,7 +664,7 @@ def tiqmo_modal_items(competitor: dict[str, Any], source: dict[str, Any], config
         "fetch_mode": "browser_modal",
         "verification_method": "official_website_modal",
     }
-    timeout = int(config["settings"].get("browser_timeout_seconds", 25))
+    timeout = int(source.get("browser_timeout_seconds", config["settings"].get("browser_timeout_seconds", 25)))
     cta_pattern = re.compile(r"^\s*(?:learn\s+more|view\s+details|offer\s+details|اعرف\s+المزيد|استكشف\s+المزيد|التفاصيل)\s*$", re.I)
     rows: list[dict[str, Any]] = []
     seen: set[str] = set()
@@ -1041,15 +1041,55 @@ def extract_website_candidates(markup: str, competitor: dict[str, Any], source: 
             "official_discovery": True, "discovery_section": "current",
             "review_required": True, "review_reasons": [review_reason], "confidence": "medium",
             "mechanic_tags": mechanics, "theme_tags": themes,
+            "detail_timeout_seconds": int(source.get("detail_timeout_seconds", source.get("request_timeout_seconds", config["settings"].get("request_timeout_seconds", 18)))),
             "media": None if parser_name == "alinma-pay" else media_from_node(parent, source["url"]),
         }
     return list(found.values()), skipped_general
 
 
+def single_page_candidate(markup: str, competitor: dict[str, Any], source: dict[str, Any], key: str) -> list[dict[str, Any]]:
+    """Register a configured first-party campaign/T&C page as one discovery candidate."""
+    soup = BeautifulSoup(markup or "", "html.parser")
+    title_node = soup.find("h1") or soup.find("h2") or soup.find("title")
+    title = clean(title_node.get_text(" ", strip=True) if title_node else source.get("title"), 240)
+    for tag in soup.find_all(["script", "style", "noscript", "svg", "nav", "header", "footer"]):
+        tag.decompose()
+    text = clean(soup.get_text(" ", strip=True), 7000)
+    if len(text) < 60:
+        return []
+    start_date, end_date, date_evidence = listing_date_hints(text)
+    record_type = source.get("record_type") if source.get("record_type") in {"campaign", "merchant_offer"} else "campaign"
+    category = source.get("campaign_category") or "other"
+    if record_type == "merchant_offer":
+        category = "merchant"
+    mechanics, themes = infer_tags(f"{title} {text}")
+    url = source["url"]
+    return [{
+        "id": f"detected:{competitor['id']}:{digest(url)}",
+        "competitor_id": competitor["id"], "source_key": key,
+        "source_type": "website", "platform": "website", "content_type": "review",
+        "suggested_record_type": record_type, "campaign_category": category,
+        "primary_category": category, "categories": [category], "title": title or source.get("title") or "Official campaign",
+        "snippet": text[:1000], "link": url, "official_campaign_page_url": url,
+        "primary_official_source_url": url, "social_links": {}, "social_link_count": 0,
+        "published_at": None, "start_date": start_date, "end_date": end_date,
+        "date_evidence": {"listing": date_evidence} if date_evidence else {},
+        "current_status": "Needs Review", "active": True, "direct_link": True, "verified": True,
+        "official_discovery": True, "discovery_section": "current", "review_required": True,
+        "review_reasons": ["new_official_campaign_not_in_excel_inventory" if record_type == "campaign" else "new_official_merchant_offer_not_in_excel_inventory"],
+        "confidence": "high", "mechanic_tags": mechanics, "theme_tags": themes,
+        "detail_timeout_seconds": int(source.get("detail_timeout_seconds", source.get("request_timeout_seconds", 18))),
+        "media": None,
+    }]
+
+
 def website_items(http: requests.Session, competitor: dict[str, Any], source: dict[str, Any], config: dict[str, Any], checked: str) -> tuple[list[dict[str, Any]], dict[str, Any]]:
     key = f"website:{competitor['id']}:{source['id']}"
     status = {"source_key": key, "competitor_id": competitor["id"], "source_type": "website", "platform": "website", "url": source["url"], "checked_at": checked, "success": False, "item_count": 0, "error": None, "skipped_general_links": 0, "fetch_mode": "requests"}
-    timeout = int(config["settings"].get("request_timeout_seconds", 18))
+    # Some official offer catalogues (notably barq/urpay) are materially slower than
+    # the other sources.  A per-source timeout prevents one global value from either
+    # starving those catalogues or making every source unnecessarily slow.
+    timeout = int(source.get("request_timeout_seconds", config["settings"].get("request_timeout_seconds", 18)))
     if source.get("discovery_mode") == "modal" and (source.get("parser") or competitor.get("id")) == "tiqmo":
         return tiqmo_modal_items(competitor, source, config, checked)
     markup = ""
@@ -1064,14 +1104,23 @@ def website_items(http: requests.Session, competitor: dict[str, Any], source: di
     items: list[dict[str, Any]] = []
     skipped = 0
     if markup:
-        items, skipped = extract_website_candidates(markup, competitor, source, config, key)
+        if source.get("discovery_mode") == "single_page":
+            items = single_page_candidate(markup, competitor, source, key)
+        else:
+            items, skipped = extract_website_candidates(markup, competitor, source, config, key)
 
     needs_browser = bool(source.get("browser_fallback")) and (request_error is not None or len(items) < int(source.get("browser_fallback_below_items", 1)))
     browser_success = False
     if needs_browser:
         try:
-            rendered = rendered_html(source["url"], int(config["settings"].get("browser_timeout_seconds", 25)))
-            browser_items, browser_skipped = extract_website_candidates(rendered, competitor, source, config, key)
+            rendered = rendered_html(
+                source["url"],
+                int(source.get("browser_timeout_seconds", config["settings"].get("browser_timeout_seconds", 25))),
+            )
+            if source.get("discovery_mode") == "single_page":
+                browser_items, browser_skipped = single_page_candidate(rendered, competitor, source, key), 0
+            else:
+                browser_items, browser_skipped = extract_website_candidates(rendered, competitor, source, config, key)
             if browser_items or not items:
                 items, skipped = browser_items, browser_skipped
             status["fetch_mode"] = "browser"
@@ -1144,9 +1193,64 @@ def parse_feed(content: bytes, url: str) -> list[dict[str, Any]]:
                 markup = child.text or "".join(ET.tostring(grand, encoding="unicode") for grand in list(child))
                 if markup:
                     break
-        summary = clean(BeautifulSoup(markup, "html.parser").get_text(" ", strip=True), 500)
-        rows.append({"link": link, "title": clean(title, 180), "summary": summary, "published_at": parse_date(child_text(node, {"pubdate", "published", "updated", "date"})), "media": feed_media(node, markup, url)})
+        soup = BeautifulSoup(markup, "html.parser")
+        summary = clean(soup.get_text(" ", strip=True), 500)
+        outbound_links: list[str] = []
+        for anchor in soup.find_all("a", href=True):
+            candidate = canonical(url, clean(anchor.get("href"), 1600))
+            if candidate and candidate not in outbound_links:
+                outbound_links.append(candidate)
+        # RSS providers sometimes flatten links into plain text instead of anchors.
+        for raw in re.findall(r"https?://[^\s<>\"']+", markup or "", flags=re.I):
+            candidate = canonical(url, html_lib.unescape(raw).rstrip(".,);،"))
+            if candidate and candidate not in outbound_links:
+                outbound_links.append(candidate)
+        rows.append({
+            "link": link,
+            "title": clean(title, 180),
+            "summary": summary,
+            "published_at": parse_date(child_text(node, {"pubdate", "published", "updated", "date"})),
+            "media": feed_media(node, markup, url),
+            "outbound_links": outbound_links[:12],
+        })
     return rows
+
+
+def official_outbound_link(competitor: dict[str, Any], row: dict[str, Any]) -> str | None:
+    """Return a specific competitor-owned URL embedded in an official social post.
+
+    Social posts frequently announce a campaign and link to its separate official terms
+    page.  Capturing that URL gives the classifier direct first-party evidence while still
+    keeping the social post itself out of campaign KPIs.
+    """
+    roots = [competitor.get("website"), competitor.get("offers_url")]
+    roots.extend(source.get("url") for source in competitor.get("website_sources", []) if source.get("url"))
+    hosts = set()
+    generic = set()
+    for value in roots:
+        if not value:
+            continue
+        try:
+            hosts.add((urlsplit(value).hostname or "").casefold().removeprefix("www."))
+            generic.add(detail_url_identity(value))
+        except Exception:
+            continue
+    social_hosts = {"instagram.com", "facebook.com", "x.com", "twitter.com", "tiktok.com", "rss.app"}
+    for value in row.get("outbound_links") or []:
+        try:
+            parts = urlsplit(value)
+            host = (parts.hostname or "").casefold().removeprefix("www.")
+            if not host or host in social_hosts or any(host.endswith("." + x) for x in social_hosts):
+                continue
+            if not any(host == root or host.endswith("." + root) for root in hosts if root):
+                continue
+            identity = detail_url_identity(value)
+            if identity in generic or (parts.path or "/").rstrip("/") in {"", "/", "/ar", "/en"}:
+                continue
+            return value
+        except Exception:
+            continue
+    return None
 
 
 def social_items(http: requests.Session, competitor: dict[str, Any], platform: str, rss_url: str, config: dict[str, Any], checked: str) -> tuple[list[dict[str, Any]], dict[str, Any]]:
@@ -1167,6 +1271,7 @@ def social_items(http: requests.Session, competitor: dict[str, Any], platform: s
             awareness = any(word.casefold() in combined.casefold() for word in config.get("classification", {}).get("awareness_keywords", []))
             post_role = social_post_role(combined)
             winner_unlinked = post_role == "winner_announcement"
+            official_evidence = official_outbound_link(competitor, row)
             items.append({
                 "id": f"post:{competitor['id']}:{platform}:{digest(link)}", "competitor_id": competitor["id"], "source_key": key,
                 "source_type": "social", "platform": platform,
@@ -1175,6 +1280,10 @@ def social_items(http: requests.Session, competitor: dict[str, Any], platform: s
                 "content_type": "review" if winner_unlinked else ("awareness" if awareness else "social_post"),
                 "campaign_category": category, "primary_category": category, "categories": categories,
                 "title": row["title"], "snippet": row["summary"], "link": link, "social_links": {platform: link},
+                "outbound_links": row.get("outbound_links") or [],
+                "official_evidence_url": official_evidence,
+                "official_campaign_page_url": official_evidence,
+                "primary_official_source_url": official_evidence or link,
                 "social_link_count": 1, "published_at": row["published_at"], "active": True, "direct_link": True,
                 "verified": True,
                 "review_required": winner_unlinked,
@@ -1220,7 +1329,7 @@ def stale_no_end_note(value: Any) -> bool:
 
 
 def apply_override(item: dict[str, Any], override: dict[str, Any]) -> dict[str, Any]:
-    allowed = {"title", "snippet", "summary", "content_type", "campaign_category", "primary_category", "categories", "current_status", "active", "published_at", "start_date", "end_date", "official_campaign_page_url", "primary_official_source_url", "link", "social_links", "review_required", "review_reasons", "mechanic_tags", "theme_tags", "operation_type", "mechanic", "eligibility", "terms_note", "deleted", "deleted_at", "deleted_title", "deleted_competitor_id", "deleted_url"}
+    allowed = {"title", "snippet", "summary", "content_type", "suggested_record_type", "campaign_category", "primary_category", "categories", "current_status", "active", "published_at", "start_date", "end_date", "official_campaign_page_url", "primary_official_source_url", "official_evidence_url", "link", "social_links", "review_required", "review_reasons", "mechanic_tags", "theme_tags", "operation_type", "mechanic", "eligibility", "terms_note", "campaign_id", "linked_campaign_id", "suggested_campaign_id", "record_role", "review_decision", "review_approved", "reviewed_by", "reviewed_at", "review_request_id", "deleted", "deleted_at", "deleted_title", "deleted_competitor_id", "deleted_url"}
     result = dict(item)
     for key, value in override.items():
         if key in allowed:

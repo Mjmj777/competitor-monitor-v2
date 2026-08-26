@@ -355,7 +355,10 @@
           ],
           "parser": "barq",
           "browser_fallback": true,
-          "browser_fallback_below_items": 1
+          "browser_fallback_below_items": 1,
+          "request_timeout_seconds": 35,
+          "browser_timeout_seconds": 50,
+          "detail_timeout_seconds": 35
         }
       ],
       "social_feeds": {
@@ -514,7 +517,22 @@
           ],
           "parser": "urpay",
           "browser_fallback": true,
-          "browser_fallback_below_items": 1
+          "browser_fallback_below_items": 1,
+          "request_timeout_seconds": 30,
+          "browser_timeout_seconds": 45,
+          "detail_timeout_seconds": 30
+        },
+        {
+          "id": "cashback-terms",
+          "url": "https://www.urpay.com.sa/en/cashback-system",
+          "introduced_at": "2026-08-26T00:00:00+00:00",
+          "title": "urpay Cashback and Prize Games",
+          "discovery_mode": "single_page",
+          "record_type": "campaign",
+          "campaign_category": "card",
+          "request_timeout_seconds": 30,
+          "detail_timeout_seconds": 30,
+          "browser_fallback": false
         }
       ],
       "social_feeds": {
@@ -556,7 +574,11 @@
             "الشروط والأحكام"
           ],
           "parser": "alinma-pay",
-          "browser_fallback": false
+          "browser_fallback": true,
+          "browser_fallback_below_items": 1,
+          "request_timeout_seconds": 30,
+          "browser_timeout_seconds": 45,
+          "detail_timeout_seconds": 30
         }
       ],
       "social_feeds": {
