@@ -13,7 +13,8 @@
     "browser_timeout_seconds": 25,
     "detail_verification_missing_date_hours": 2,
     "detail_verification_expiring_hours": 2,
-    "social_history_retention_days": 180
+    "social_history_retention_days": 180,
+    "manual_refresh_max_detail_checks": 60
   },
   "content_types": [
     {
@@ -310,7 +311,8 @@
             "الشروط والأحكام"
           ],
           "parser": "stc-bank",
-          "browser_fallback": false
+          "browser_fallback": true,
+          "browser_fallback_below_items": 20
         }
       ],
       "social_feeds": {
@@ -329,7 +331,7 @@
       "website_sources": [
         {
           "id": "offers",
-          "url": "https://barq.com/en/offers/",
+          "url": "https://barq.com/ar/offers/",
           "link_keywords": [
             "offer",
             "offers",

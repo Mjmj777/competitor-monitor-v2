@@ -80,6 +80,10 @@ seen_title={};seen_url={}
 for i in items:
     iid=i.get('id') or '<no-id>';comp=i.get('competitor_id');ctype=i.get('content_type')
     if comp not in valid_comp:fail(f'{iid}: unknown competitor_id {comp}')
+    if comp=='mobily-pay':
+        rendered=' '.join(str(i.get(field) or '') for field in ('title','summary','snippet','evidence_snapshot'))
+        if 'Ø' in rendered or 'Ù' in rendered or '\ufffd' in rendered:
+            fail(f'{iid}: Mobily Pay Arabic contains mojibake')
     if i.get('source_type')=='social' and ctype in {'campaign','merchant_offer'}:fail(f'{iid}: social item promoted to counted {ctype}')
     if i.get('post_role')=='winner_announcement' and not i.get('campaign_id') and ctype!='review':fail(f'{iid}: unlinked winner announcement must be Needs Review')
     cid=i.get('campaign_id')

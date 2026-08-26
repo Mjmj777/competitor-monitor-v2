@@ -1,4 +1,4 @@
-# Competitor Intelligence Monitor v5.7.0 — Full Clean
+# Competitor Intelligence Monitor v5.7.1 — UTF-8 + Admin Refresh
 
 Unified clean release for the six Saudi fintech competitors.
 
@@ -20,10 +20,17 @@ GitHub Actions runs hourly:
 - `state.json` and `data.json` can be regenerated.
 - Authentication secrets are stored in Cloudflare and are **not** stored in this repository.
 - `OPENAI_API_KEY` remains a GitHub Actions secret.
+- Password protection does not need a GitHub token. The optional Admin-only manual refresh feature needs a Cloudflare Worker secret named `GITHUB_ACTIONS_TOKEN`; use a fine-grained token limited to this repository with `Actions: Read and write`.
 
 ## Roles
-- Admin: full dashboard, alerts, source health, verification timing, Add/Edit/Delete Campaign, Needs Review, Admin Tools.
+- Admin: full dashboard, alerts, source health, verification timing, Add/Edit/Delete Campaign, Needs Review, Admin Tools, per-competitor refresh and refresh-all.
 - Viewer: dashboard, campaigns, analytics, official/social links and Full Report. No alerts, source health, verification timing, review queue or editing tools.
+
+## Manual refresh
+- `Check now` on a competitor card or competitor page runs only that competitor's discovery and detail verification.
+- `Check all competitors` on the home page runs the complete monitor.
+- The Worker validates the signed session again and returns `403` for Viewer requests, including direct API attempts.
+- Scheduled hourly runs continue to refresh all competitors.
 
 ## Verification cadence
 - Official offer indexes and social sources: hourly.

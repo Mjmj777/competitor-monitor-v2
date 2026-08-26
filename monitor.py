@@ -10,6 +10,7 @@ import argparse
 import hashlib
 import html as html_lib
 import json
+import os
 import re
 import unicodedata
 import xml.etree.ElementTree as ET
@@ -159,6 +160,31 @@ def session() -> requests.Session:
     return value
 
 
+def response_text(response: requests.Response) -> str:
+    """Decode HTML bytes without Requests' Latin-1 fallback corrupting Arabic.
+
+    Several official sites, including Mobily Pay, return UTF-8 HTML without a
+    charset in the HTTP Content-Type header. ``Response.text`` then historically
+    falls back to ISO-8859-1, producing mojibake such as ``Ø¹Ø±ÙØ¶``. Prefer an
+    explicitly declared charset, otherwise try UTF-8 before detector fallbacks.
+    """
+    raw = response.content
+    content_type = response.headers.get("Content-Type", "")
+    declared = re.search(r"charset\s*=\s*[\"']?([^\s;\"']+)", content_type, re.I)
+    candidates = [declared.group(1) if declared else None, "utf-8-sig", response.apparent_encoding, response.encoding]
+    tried: set[str] = set()
+    for candidate in candidates:
+        encoding = clean(candidate).casefold()
+        if not encoding or encoding in tried:
+            continue
+        tried.add(encoding)
+        try:
+            return raw.decode(encoding)
+        except (LookupError, UnicodeDecodeError):
+            continue
+    return raw.decode("utf-8", errors="replace")
+
+
 def parse_date(value: str | None) -> str | None:
     value = clean(value)
     if not value:
@@ -272,6 +298,51 @@ def mobily_expired_candidate(anchor: Any, link: str, source: dict[str, Any]) -> 
         if any(marker in label for marker in current_markers):
             return False
     return False
+
+def mobily_current_detail_link(link: str | None) -> bool:
+    """Return True only for Mobily Pay's current official offer detail path."""
+    if not link:
+        return False
+    try:
+        path = (urlsplit(str(link)).path or "").casefold()
+    except Exception:
+        path = str(link).casefold()
+    return bool(re.search(r"/(?:ar/)?offers/offer-[^/?#]+\.html$", path, re.I)) and not bool(_MOBILY_EXPIRED_PATH.search(path))
+
+def mobily_card_title(anchor: Any, link: str) -> tuple[str, Any]:
+    """Extract a current Mobily card title even when its heading is outside the CTA."""
+    section_labels = {
+        "تعرّف على أحدث العروض المتاحة", "تعرف على أحدث العروض المتاحة",
+        "العروض المنتهية", "عروض منتهية", "expired offers", "previous offers",
+        "offers", "العروض",
+    }
+    folded_labels = {value.casefold() for value in section_labels}
+    for candidate in list(anchor.parents)[:9]:
+        if getattr(candidate, "name", None) not in {"article", "li", "div", "section"}:
+            continue
+        live_links = []
+        for child in candidate.find_all("a", href=True):
+            candidate_url = canonical(link, child.get("href", ""))
+            if mobily_current_detail_link(candidate_url):
+                live_links.append(candidate_url)
+        if len(set(live_links)) > 1:
+            continue
+        for node in candidate.find_all(["h1", "h2", "h3", "h4", "h5", "h6"], limit=4):
+            title = strip_validity_prefix(clean(node.get_text(" ", strip=True), 220))
+            if title and not generic_title(title) and title.casefold() not in folded_labels:
+                return title, candidate
+        image = candidate.find("img")
+        if image is not None:
+            title = strip_validity_prefix(clean(image.get("alt") or image.get("title"), 220))
+            if title and not generic_title(title) and title.casefold() not in folded_labels:
+                return title, candidate
+    for node in anchor.find_all_previous(["h2", "h3", "h4", "h5", "h6"], limit=6):
+        title = strip_validity_prefix(clean(node.get_text(" ", strip=True), 220))
+        if title and not generic_title(title) and title.casefold() not in folded_labels:
+            return title, anchor.parent or anchor
+    match = re.search(r"offer-([^/?#]+)\.html$", urlsplit(link).path, re.I)
+    suffix = clean(match.group(1) if match else digest(link, length=8), 40)
+    return f"Mobily Pay offer {suffix}", anchor.parent or anchor
 
 def direct_detail(link: str, source: dict[str, Any]) -> bool:
     return any(re.search(pattern, link, re.I) for pattern in source.get("detail_link_patterns", []))
@@ -777,12 +848,11 @@ def extract_website_candidates(markup: str, competitor: dict[str, Any], source: 
         link = canonical(source["url"], anchor.get("href", ""))
         if not link:
             continue
-        if parser_name == "mobily-pay" and mobily_expired_candidate(anchor, link, source):
-            # Mobily Pay deliberately keeps historical offers on the same page.
-            # Historical cards are not discovery candidates; they remain history only.
-            continue
-
-        if parser_name == "barq":
+        if parser_name == "mobily-pay":
+            if not mobily_current_detail_link(link) or mobily_expired_candidate(anchor, link, source):
+                continue
+            title, parent = mobily_card_title(anchor, link)
+        elif parser_name == "barq":
             title, parent = meaningful_barq_title(anchor, link)
         else:
             parent = anchor
@@ -816,7 +886,7 @@ def extract_website_candidates(markup: str, competitor: dict[str, Any], source: 
         # Alinma Pay's offers index can place many unrelated offer cards inside the
         # same DOM container. Never use index-page body/card text as the detail
         # description for an Alinma campaign; the official detail page is authoritative.
-        snippet = "" if parser_name == "alinma-pay" else clean(parent.get_text(" ", strip=True), 1200)
+        snippet = "" if parser_name == "alinma-pay" else (title if parser_name == "mobily-pay" else clean(parent.get_text(" ", strip=True), 1200))
         combined = f"{link} {title} {snippet}".casefold()
         if excludes and any(word in combined for word in excludes):
             continue
@@ -870,7 +940,7 @@ def website_items(http: requests.Session, competitor: dict[str, Any], source: di
     try:
         response = http.get(source["url"], timeout=timeout)
         response.raise_for_status()
-        markup = response.text
+        markup = response_text(response)
     except Exception as exc:
         request_error = clean(f"{type(exc).__name__}: {exc}", 500)
 
@@ -1326,7 +1396,12 @@ def deduplicate_campaign_records(items: list[dict[str, Any]], config: dict[str, 
                     row["review_reasons"]=list(dict.fromkeys((row.get("review_reasons") or [])+["stale_campaign_reference_repaired"]))
     return result
 
-def source_history(statuses: list[dict[str, Any]], previous_data: dict[str, Any], checked: str) -> list[dict[str, Any]]:
+def source_history(
+    statuses: list[dict[str, Any]],
+    previous_data: dict[str, Any],
+    checked: str,
+    selected_competitors: set[str] | None = None,
+) -> list[dict[str, Any]]:
     old = {row.get("source_key"): row for row in previous_data.get("source_status", [])}
     for row in statuses:
         prior = old.get(row["source_key"], {})
@@ -1336,7 +1411,19 @@ def source_history(statuses: list[dict[str, Any]], previous_data: dict[str, Any]
         else:
             row["last_success_at"] = prior.get("last_success_at")
             row["consecutive_failures"] = int(prior.get("consecutive_failures", 0)) + 1
-    return statuses
+    current_keys = {row.get("source_key") for row in statuses}
+    preserved = [
+        row for row in previous_data.get("source_status", [])
+        if row.get("source_key") not in current_keys
+        and (
+            row.get("source_type") == "campaign_detail"
+            or (
+                selected_competitors is not None
+                and row.get("competitor_id") not in selected_competitors
+            )
+        )
+    ]
+    return sorted(statuses + preserved, key=lambda row: row.get("source_key", ""))
 
 
 def public_taxonomy(config: dict[str, Any], key: str) -> list[dict[str, Any]]:
@@ -1367,15 +1454,23 @@ def validate(config: dict[str, Any]) -> None:
         raise ValueError(f"Missing Excel categories: {sorted(required - category_ids)}")
 
 
-def run(config: dict[str, Any]) -> dict[str, Any]:
+def run(config: dict[str, Any], competitor_id: str = "all") -> dict[str, Any]:
     validate(config)
     now = now_utc(); checked = iso(now)
+    configured_ids = {row["id"] for row in config["competitors"]}
+    if competitor_id != "all" and competitor_id not in configured_ids:
+        raise ValueError(f"Unknown competitor: {competitor_id}")
+    selected_competitors = configured_ids if competitor_id == "all" else {competitor_id}
+    partial_run = competitor_id != "all"
+    print(f"[RUN] target={competitor_id}")
     inventory_payload = load_json(BASE_DIR / config["settings"].get("inventory_path", "inventory.json"), {"items": []})
     inventory = inventory_payload.get("items", [])
     overrides = load_json(BASE_DIR / config["settings"].get("manual_overrides_path", "manual_overrides.json"), {"items": {}}).get("items", {})
     collected: list[dict[str, Any]] = []; statuses: list[dict[str, Any]] = []
     jobs: list[tuple[str, dict[str, Any], Any, Any]] = []
     for competitor in config["competitors"]:
+        if competitor["id"] not in selected_competitors:
+            continue
         for source in competitor.get("website_sources", []):
             jobs.append(("website", competitor, source, None))
         for platform, rss_url in competitor.get("social_feeds", {}).items():
@@ -1407,10 +1502,11 @@ def run(config: dict[str, Any]) -> dict[str, Any]:
     repair_campaign_references(items)
     items.sort(key=lambda row: (row.get("active") is not False, parse_iso(row.get("published_at")) or parse_iso(row.get("last_changed")) or datetime.min.replace(tzinfo=timezone.utc)), reverse=True)
     previous = load_json(DATA_PATH, {})
-    statuses = source_history(statuses, previous, checked)
+    statuses = source_history(statuses, previous, checked, selected_competitors if partial_run else None)
     competitors = [{"id": row["id"], "name_ar": row["name_en"], "name_en": row["name_en"], "website": row.get("website"), "offers_url": row.get("offers_url")} for row in config["competitors"]]
     data = {
         "schema_version": 4, "generated_at": checked,
+        "refresh_scope": competitor_id,
         "inventory_source": {"workbook": inventory_payload.get("source_workbook"), "review_date": inventory_payload.get("source_review_date"), "reporting_convention": inventory_payload.get("reporting_convention")},
         "competitors": competitors, "categories": public_taxonomy(config, "categories"),
         "mechanic_types": public_taxonomy(config, "mechanic_types"), "themes": public_taxonomy(config, "themes"),
@@ -1422,16 +1518,20 @@ def run(config: dict[str, Any]) -> dict[str, Any]:
 
 
 def args() -> argparse.Namespace:
-    parser = argparse.ArgumentParser(); parser.add_argument("--validate-only", action="store_true"); return parser.parse_args()
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--validate-only", action="store_true")
+    parser.add_argument("--competitor", default=os.environ.get("CM_COMPETITOR", "all"), help="Competitor id to refresh, or 'all'")
+    return parser.parse_args()
 
 
 def main() -> int:
     try:
         config = load_json(CONFIG_PATH, {})
         validate(config)
-        if args().validate_only:
+        options = args()
+        if options.validate_only:
             print("Configuration is valid."); return 0
-        data = run(config); print(json.dumps(data["stats"], ensure_ascii=False)); return 0
+        data = run(config, clean(options.competitor) or "all"); print(json.dumps(data["stats"], ensure_ascii=False)); return 0
     except Exception as exc:
         print(f"ERROR: {type(exc).__name__}: {exc}", flush=True); return 1
 

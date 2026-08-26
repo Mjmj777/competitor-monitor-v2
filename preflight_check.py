@@ -74,6 +74,16 @@ try:
     titles={r.get('title') for r in rows}
     if 'عرض حالي' not in titles or 'عرض قديم' in titles: fail('Mobily Pay parser mixed expired offers into current discovery')
 
+    # Requests may assume Latin-1 when a UTF-8 page omits charset= from its
+    # Content-Type. The collector must preserve Arabic in that exact scenario.
+    class _Utf8Response:
+        content='عرض حالي من موبايلي باي'.encode('utf-8')
+        headers={'Content-Type':'text/html'}
+        apparent_encoding='utf-8'
+        encoding='ISO-8859-1'
+    if _monitor.response_text(_Utf8Response())!='عرض حالي من موبايلي باي':
+        fail('UTF-8 HTML without an HTTP charset was decoded as Latin-1')
+
     # tiqmo regression: multiple different campaigns intentionally share the same generic /offers URL.
     tiq_generic='https://tiqmo.com/en/offers'
     sample=[
@@ -158,6 +168,12 @@ try:
         fail('Workflow must run enhance.py -> postflight_check.py -> export_excel.py in this order')
     if 'cron: "0 * * * *"' not in wf and "cron: '0 * * * *'" not in wf:
         fail('Workflow schedule must run once per hour')
+    if 'workflow_dispatch:' not in wf or 'python monitor.py --competitor "$TARGET_COMPETITOR"' not in wf:
+        fail('Workflow manual competitor input is not connected to monitor.py')
+    if 'python enhance.py --competitor "$TARGET_COMPETITOR"' not in wf:
+        fail('Workflow manual competitor input is not connected to enhance.py')
+    if 'cancel-in-progress: true' in wf:
+        fail('Manual refreshes must queue instead of cancelling a running monitor job')
     detail_interval=float(config.get('settings',{}).get('detail_verification_interval_hours',99))
     if not (1 <= detail_interval <= 6):
         fail('Stable offer detail verification interval must be between 1 and 6 hours')
@@ -166,6 +182,25 @@ try:
     if int(config.get('settings',{}).get('max_detail_checks_per_run',999)) > 30:
         fail('max_detail_checks_per_run is too high for the hourly workflow')
 except Exception as exc: fail(f'Workflow consistency check failed: {exc}')
+
+# Manual refresh controls must be Admin-only in the UI and include both scoped/all runs.
+try:
+    idx=(BASE/'index.html').read_text(encoding='utf-8')
+    competitor=(BASE/'competitor.html').read_text(encoding='utf-8')
+    common=(BASE/'assets/common.js').read_text(encoding='utf-8')
+    indexjs=(BASE/'assets/index.js').read_text(encoding='utf-8')
+    competitorjs=(BASE/'assets/competitor.js').read_text(encoding='utf-8')
+    if 'id="refresh-all"' not in idx or 'data-admin-only hidden' not in idx:
+        fail('Admin refresh-all control is missing from index.html')
+    if 'id="refresh-competitor"' not in competitor or 'data-admin-only hidden' not in competitor:
+        fail('Admin competitor refresh control is missing from competitor.html')
+    if '/__refresh' not in common or 'if(!isAdmin())return false' not in common:
+        fail('Client refresh helper is missing its Admin guard')
+    if 'triggerRefresh("all"' not in indexjs or 'triggerRefresh(comp.id' not in indexjs:
+        fail('Home page must support refresh-all and per-competitor refresh')
+    if 'triggerRefresh(state.competitor.id' not in competitorjs:
+        fail('Competitor page scoped refresh is not connected')
+except Exception as exc: fail(f'Admin manual-refresh guard failed: {exc}')
 
 # Verification timestamps/timing are operational metadata and must be admin-only.
 try:

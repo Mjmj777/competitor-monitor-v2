@@ -1,5 +1,5 @@
 from __future__ import annotations
-import hashlib, html as html_lib, json, os, re, time, unicodedata
+import argparse, hashlib, html as html_lib, json, os, re, time, unicodedata
 from collections import Counter, defaultdict
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
@@ -310,6 +310,25 @@ def dt(v):
 def clean(v, limit=1000):
     s=re.sub(r"\s+"," ",str(v or "")).strip()
     return s[:limit]
+
+def response_text(response):
+    """Prefer UTF-8 for official HTML that omits an HTTP charset."""
+    raw=response.content;content_type=response.headers.get("Content-Type","")
+    declared=re.search(r"charset\s*=\s*[\"']?([^\s;\"']+)",content_type,re.I)
+    tried=set()
+    for candidate in [declared.group(1) if declared else None,"utf-8-sig",response.apparent_encoding,response.encoding]:
+        encoding=clean(candidate,100).casefold()
+        if not encoding or encoding in tried:continue
+        tried.add(encoding)
+        try:return raw.decode(encoding)
+        except (LookupError,UnicodeDecodeError):continue
+    return raw.decode("utf-8",errors="replace")
+
+def contains_mojibake(value):
+    if isinstance(value,dict):return any(contains_mojibake(v) for v in value.values())
+    if isinstance(value,(list,tuple)):return any(contains_mojibake(v) for v in value)
+    text=str(value or "")
+    return "Ø" in text or "Ù" in text or "\ufffd" in text
 
 def hash_text(*parts): return hashlib.sha256("|".join(clean(p,5000) for p in parts).encode()).hexdigest()[:24]
 
@@ -664,19 +683,24 @@ def clear_manual_verification_review(item):
         item["content_type"]=item.get("suggested_record_type") or "campaign"
 
 
-def verify_details(data,state,config,overrides):
+def verify_details(data,state,config,overrides,competitor_filter=None):
     cache=state.setdefault("detail_cache",{})
     interval=float(config.get("settings",{}).get("detail_verification_interval_hours",6))
     missing_interval=float(config.get("settings",{}).get("detail_verification_missing_date_hours",2))
     expiring_interval=float(config.get("settings",{}).get("detail_verification_expiring_hours",2))
     timeout=int(config.get("settings",{}).get("request_timeout_seconds",18))
+    competitor_filter=clean(competitor_filter or "").strip()
+    if competitor_filter.casefold() in {"", "all", "*"}:competitor_filter=""
     max_checks=int(config.get("settings",{}).get("max_detail_checks_per_run",24))
+    if competitor_filter:
+        max_checks=max(max_checks,int(config.get("settings",{}).get("manual_refresh_max_detail_checks",60)))
     current=now(); checks=0; new_status=[]; skip=os.environ.get("CM_SKIP_NETWORK")=="1"
     perf_started=time.perf_counter()
     session=requests.Session(); session.headers.update({"User-Agent":USER_AGENT,"Accept-Language":"en,ar;q=0.9"})
 
     candidates=[]
     for item in data.get("items",[]):
+        if competitor_filter and item.get("competitor_id")!=competitor_filter:continue
         is_counted=item.get("content_type") in {"campaign","merchant_offer"}
         is_official_candidate=(item.get("source_type")=="website" and item.get("official_discovery") and item.get("content_type")=="review")
         is_manual_candidate=is_manual_source_candidate(item)
@@ -741,6 +765,12 @@ def verify_details(data,state,config,overrides):
             continue
 
         cached=cache.get(item["id"],{})
+        # Do not let a legacy Latin-1-decoded Mobily detail cache overwrite the
+        # clean UTF-8 listing text produced by monitor.py. Invalid entries are
+        # removed and will be fetched again within the normal verification quota.
+        if item.get("competitor_id")=="mobily-pay" and contains_mojibake(cached.get("extracted")):
+            cache.pop(item["id"],None)
+            cached={}
         last=dt(cached.get("checked_at"))
         # Force one immediate re-verification whenever the detail-extraction algorithm changes.
         # This cleans legacy listing-page contamination without waiting for the normal interval.
@@ -779,7 +809,7 @@ def verify_details(data,state,config,overrides):
             try:
                 r=session.get(url,timeout=timeout)
                 r.raise_for_status()
-                ex=ai_fill_dates(extract_page(r.text,url),state,config)
+                ex=ai_fill_dates(extract_page(response_text(r),url),state,config)
                 old_hash=(cached.get("extracted") or {}).get("content_hash")
                 cached={
                     "checked_at":iso(current),
@@ -838,7 +868,8 @@ def verify_details(data,state,config,overrides):
 
         placeholder_titles={"new campaign pending source analysis","new campaign"}
         current_title=clean(item.get("title"),300)
-        if ex.get("title") and (not current_title or current_title.casefold() in placeholder_titles) and "title" not in manual:
+        technical_placeholder=bool(re.fullmatch(r"mobily pay offer [^ ]+",current_title.casefold()))
+        if ex.get("title") and (not current_title or current_title.casefold() in placeholder_titles or technical_placeholder) and "title" not in manual:
             item["title"]=ex["title"]
         if ex.get("summary") and "summary" not in manual:
             current_summary=clean(item.get("summary") or item.get("snippet"),5000)
@@ -1501,10 +1532,17 @@ def recompute_stats(data):
     items=data.get("items",[]);current=now();campaigns=[i for i in items if i.get("content_type")=="campaign" and i.get("active") is not False];merchants=[i for i in items if i.get("content_type")=="merchant_offer" and i.get("active") is not False];social7=[i for i in items if i.get("source_type")=="social" and i.get("active") is not False and (dt(i.get("published_at")) or datetime.min.replace(tzinfo=timezone.utc))>=current-timedelta(days=7)];statuses=[s for s in data.get("source_status",[]) if s.get("source_type") in {"website","social"}]
     data["stats"]={"active_campaigns":len(campaigns),"merchant_offers":len(merchants),"remittance_campaigns":sum(i.get("campaign_category")=="remittance" for i in campaigns),"expiring_30d":sum("Expiring" in (i.get("current_status") or "") for i in campaigns),"social_posts_7d":len(social7),"review_required":sum(i.get("active") is not False and i.get("review_required") for i in items),"healthy_sources":sum(bool(s.get("success")) for s in statuses),"failed_sources":sum(not s.get("success") for s in statuses),"total_sources":len(statuses)}
 
+def cli_args():
+    parser=argparse.ArgumentParser()
+    parser.add_argument("--competitor",default=os.environ.get("CM_COMPETITOR","all"),help="Competitor id for a scoped on-demand refresh, or 'all'.")
+    return parser.parse_args()
+
 def main():
+    cli=cli_args();target=clean(cli.competitor or "all")
     data=load(DATA_PATH,{});state=load(STATE_PATH,{"schema_version":5,"items":{}});config=load(CONFIG_PATH,{});overrides=load(OVERRIDES_PATH,{"items":{},"new_items":[]})
     if not data.get("items"):print("No data items");return 0
-    apply_manual_deletions(data,overrides);add_manual_new_items(data,overrides);verify_details(data,state,config,overrides);apply_mobily_deterministic_classification(data);enforce_record_integrity(data,config);enrich_social(data,state,config,overrides);apply_mobily_deterministic_classification(data);normalize_winner_announcements(data);enforce_record_integrity(data,config);consolidate_duplicates(data);apply_manual_deletions(data,overrides);apply_mobily_deterministic_classification(data);finalize_counted_statuses(data,overrides,config);recompute_social_analytics(data);sanitize_campaign_media(data);detect_duplicates_replacements(data)
+    if target.casefold() not in {"", "all", "*"}:print(f"[TARGET] detail verification for {target}")
+    apply_manual_deletions(data,overrides);add_manual_new_items(data,overrides);verify_details(data,state,config,overrides,target);apply_mobily_deterministic_classification(data);enforce_record_integrity(data,config);enrich_social(data,state,config,overrides);apply_mobily_deterministic_classification(data);normalize_winner_announcements(data);enforce_record_integrity(data,config);consolidate_duplicates(data);apply_manual_deletions(data,overrides);apply_mobily_deterministic_classification(data);finalize_counted_statuses(data,overrides,config);recompute_social_analytics(data);sanitize_campaign_media(data);detect_duplicates_replacements(data)
     for item in data.get("items",[]):
         item["review_priority"]=review_priority(item);item.pop("confidence",None) # confidence stays internal, never a displayed score
     snap=snapshot_campaigns(data["items"]);delta=material_delta(state.get("summary_snapshot",{}),snap);summary=ai_summary(data["items"],delta,state,config)
