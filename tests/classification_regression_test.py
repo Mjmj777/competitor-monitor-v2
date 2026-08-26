@@ -42,7 +42,7 @@ data = {"items": [stc]}
 assert enhance.apply_verified_official_classification(data, config) == 1
 assert stc["content_type"] == "campaign"
 assert stc["review_required"] is False
-assert stc["classification_method"] == "verified_official_rules_v4"
+assert stc["classification_method"] == "verified_official_rules_v5"
 
 # The cache key must change when a page moves from unverified to verified.
 unverified = official_item(source_verification={"status": "needs_review"})
