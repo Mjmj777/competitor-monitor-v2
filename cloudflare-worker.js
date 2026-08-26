@@ -1,6 +1,7 @@
 const ORIGIN = "https://mjmj777.github.io/competitor-monitor-v2";
 const GITHUB_REPOSITORY = "Mjmj777/competitor-monitor-v2";
 const GITHUB_WORKFLOW = "monitor.yml";
+const WORKER_BUILD = "5.8.0";
 const REFRESH_TARGETS = new Set([
   "all",
   "stc-bank",
@@ -66,6 +67,7 @@ export default {
         username: session.username,
         role: session.role,
         expires_at: session.exp,
+        worker_build: WORKER_BUILD,
       });
     }
 
@@ -75,6 +77,11 @@ export default {
     if (path === "/__refresh") {
       const session = await getSession(request, env);
       return handleRefresh(request, env, session);
+    }
+
+    if (path === "/__refresh-status") {
+      const session = await getSession(request, env);
+      return handleRefreshStatus(request, env, session);
     }
 
     // ---------------------------------------------------------
@@ -330,6 +337,63 @@ async function proxyToOrigin(request) {
 // ADMIN REFRESH
 // =============================================================
 
+function githubHeaders(token) {
+  return {
+    Accept: "application/vnd.github+json",
+    Authorization: `Bearer ${token}`,
+    "User-Agent": "competitor-monitor-auth-worker",
+    "X-GitHub-Api-Version": "2022-11-28",
+  };
+}
+
+async function workflowRuns(token) {
+  const response = await fetch(
+    `https://api.github.com/repos/${GITHUB_REPOSITORY}/actions/workflows/${GITHUB_WORKFLOW}/runs?branch=main&per_page=30`,
+    { headers: githubHeaders(token) }
+  );
+  if (!response.ok) {
+    throw new Error(`GitHub Actions status request failed (${response.status})`);
+  }
+  const payload = await response.json();
+  return Array.isArray(payload?.workflow_runs) ? payload.workflow_runs : [];
+}
+
+async function handleRefreshStatus(request, env, session) {
+  if (request.method !== "GET") {
+    return jsonResponse({ error: "method_not_allowed", message: "GET required" }, 405, { Allow: "GET" });
+  }
+  if (!session) {
+    return jsonResponse({ error: "unauthorized", message: "Authentication required" }, 401);
+  }
+  if (session.role !== "admin") {
+    return jsonResponse({ error: "forbidden", message: "Admin access required" }, 403);
+  }
+  const token = String(env.GITHUB_ACTIONS_TOKEN || "").trim();
+  if (!token) {
+    return jsonResponse({ error: "missing_github_token", message: "GITHUB_ACTIONS_TOKEN is not configured" }, 503);
+  }
+  const requestId = String(new URL(request.url).searchParams.get("request_id") || "").trim();
+  if (!/^[A-Za-z0-9_-]{8,120}$/.test(requestId)) {
+    return jsonResponse({ error: "invalid_request_id", message: "Invalid refresh request ID" }, 400);
+  }
+  try {
+    const runs = await workflowRuns(token);
+    const run = runs.find((item) => String(item?.display_title || "").includes(requestId));
+    if (!run) {
+      return jsonResponse({ found: false, request_id: requestId, status: "queued" }, 202);
+    }
+    return jsonResponse({
+      found: true,
+      request_id: requestId,
+      status: run.status,
+      conclusion: run.conclusion || null,
+      updated_at: run.updated_at || null,
+    });
+  } catch (error) {
+    return jsonResponse({ error: "github_status_failed", message: String(error?.message || error) }, 502);
+  }
+}
+
 async function handleRefresh(request, env, session) {
   if (request.method !== "POST") {
     return jsonResponse(
@@ -395,20 +459,32 @@ async function handleRefresh(request, env, session) {
     );
   }
 
+  try {
+    const runs = await workflowRuns(token);
+    const activeRun = runs.find((item) => item && item.status !== "completed");
+    if (activeRun) {
+      return jsonResponse(
+        { error: "refresh_in_progress", message: "A monitoring refresh is already running" },
+        409
+      );
+    }
+  } catch (error) {
+    return jsonResponse(
+      { error: "github_status_failed", message: String(error?.message || error) },
+      502
+    );
+  }
+
+  const requestId = crypto.randomUUID();
+
   const githubResponse = await fetch(
     `https://api.github.com/repos/${GITHUB_REPOSITORY}/actions/workflows/${GITHUB_WORKFLOW}/dispatches`,
     {
       method: "POST",
-      headers: {
-        Accept: "application/vnd.github+json",
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-        "User-Agent": "competitor-monitor-auth-worker",
-        "X-GitHub-Api-Version": "2026-03-10",
-      },
+      headers: { ...githubHeaders(token), "Content-Type": "application/json" },
       body: JSON.stringify({
         ref: "main",
-        inputs: { competitor },
+        inputs: { competitor, request_id: requestId },
       }),
     }
   );
@@ -427,6 +503,7 @@ async function handleRefresh(request, env, session) {
     {
       accepted: true,
       competitor,
+      request_id: requestId,
       message: "Refresh queued",
     },
     202
