@@ -129,4 +129,15 @@ C.renderMatrix(matrix, [{ id: "a", label: "A" }], [{ id: "x", label: "X" }], () 
 assert.equal(matrix.children.length, 1, "Heatmap table was not rendered");
 assert.ok(matrix.classList.contains("is-chart-visible"), "Heatmap was not revealed");
 
+const indexSource = fs.readFileSync(new URL("../assets/index.js", import.meta.url), "utf8");
+const matrixCallStart = indexSource.indexOf('C.renderMatrix(\n      document.getElementById("coverage-matrix")');
+const matrixCallEnd = indexSource.indexOf("\n    );", matrixCallStart);
+assert.ok(matrixCallStart >= 0 && matrixCallEnd > matrixCallStart, "Coverage matrix call was not found");
+const coverageMatrixCall = indexSource.slice(matrixCallStart, matrixCallEnd);
+assert.match(
+  coverageMatrixCall,
+  /\n\s+categorySeries,\n/,
+  "Coverage matrix must receive labeled category definitions",
+);
+
 console.log("Chart renderer tests passed");
