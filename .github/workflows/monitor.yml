@@ -38,7 +38,8 @@ permissions:
 
 concurrency:
   group: competitor-monitor-pages
-  cancel-in-progress: false
+  # A code upload supersedes an older run; scheduled/Admin runs still queue safely.
+  cancel-in-progress: ${{ github.event_name == 'push' }}
 
 jobs:
   build:
@@ -48,6 +49,9 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v6
         with:
+          # Re-runs otherwise check out the original (possibly stale) event SHA,
+          # which can make generated data conflict with a newer main branch.
+          ref: main
           fetch-depth: 0
 
       - name: Set up Python
