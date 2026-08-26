@@ -368,11 +368,11 @@
       "id": "mobily-pay",
       "name_en": "Mobily Pay",
       "website": "https://mobilypay.sa/",
-      "offers_url": "https://mobilypay.sa/en/offers.html",
+      "offers_url": "https://mobilypay.sa/ar/offers.html",
       "website_sources": [
         {
           "id": "offers",
-          "url": "https://mobilypay.sa/en/offers.html",
+          "url": "https://mobilypay.sa/ar/offers.html",
           "link_keywords": [
             "offer-details",
             "offer",
