@@ -3627,11 +3627,11 @@
   ],
   "stats": {
     "active_campaigns": 32,
-    "merchant_offers": 50,
+    "merchant_offers": 51,
     "remittance_campaigns": 11,
     "expiring_30d": 6,
     "social_posts_7d": 212,
-    "review_required": 668,
+    "review_required": 667,
     "healthy_sources": 30,
     "failed_sources": 1,
     "total_sources": 31
@@ -3639,12 +3639,12 @@
   "refresh_summary": {
     "request_id": "32966293207",
     "competitor": "all",
-    "completed_at": "2026-08-26T12:26:54.433502+00:00",
+    "completed_at": "2026-08-26T12:33:18.965963+00:00",
     "new_offers": 2,
     "updated_offers": 116,
     "unchanged_offers": 253,
     "new_posts": 0,
-    "needs_review": 668,
+    "needs_review": 667,
     "failed_sources": 1,
     "zero_item_sources": 0,
     "preserved_last_known_good": 1
@@ -3757,12 +3757,12 @@
     {
       "request_id": "32966293207",
       "competitor": "all",
-      "completed_at": "2026-08-26T12:26:54.433502+00:00",
+      "completed_at": "2026-08-26T12:33:18.965963+00:00",
       "new_offers": 2,
       "updated_offers": 116,
       "unchanged_offers": 253,
       "new_posts": 0,
-      "needs_review": 668,
+      "needs_review": 667,
       "failed_sources": 1,
       "zero_item_sources": 0,
       "preserved_last_known_good": 1
@@ -3773,90 +3773,6 @@
     "policy": "last_known_good"
   },
   "items": [
-    {
-      "id": "detected:stc-bank:f7eead73e108aea96188",
-      "competitor_id": "stc-bank",
-      "source_key": "website:stc-bank:offers",
-      "source_type": "website",
-      "platform": "website",
-      "content_type": "review",
-      "suggested_record_type": null,
-      "campaign_category": "remittance",
-      "primary_category": "remittance",
-      "categories": [
-        "remittance"
-      ],
-      "title": "A Unique Shopping Experience at La Vallée Village!",
-      "snippet": "Enjoy 12% off purchases from tax-free (via Global Blue), €5 refreshment vouchers and hands-free shopping, in addition to 10% off at the Village prices with a VIP Pass, all in payment through Visa payment cards and Credit cards from STC Bank.",
-      "link": "https://stcbank.com.sa/en/web/guest/w/la-vallee",
-      "official_campaign_page_url": "https://stcbank.com.sa/en/web/guest/w/la-vallee",
-      "primary_official_source_url": "https://stcbank.com.sa/en/web/guest/w/la-vallee",
-      "social_links": {},
-      "social_link_count": 0,
-      "published_at": null,
-      "start_date": null,
-      "end_date": "2026-08-26T00:00:00+00:00",
-      "date_evidence": {
-        "start": null,
-        "end": null
-      },
-      "current_status": "Expiring ≤7 Days",
-      "active": true,
-      "direct_link": true,
-      "verified": true,
-      "official_discovery": true,
-      "discovery_section": "current",
-      "review_required": true,
-      "review_reasons": [
-        "new_official_item_not_in_excel_inventory"
-      ],
-      "mechanic_tags": [
-        "discount",
-        "prize_draw"
-      ],
-      "theme_tags": [
-        "international_transfer",
-        "cards"
-      ],
-      "first_seen": "2026-08-25T15:44:42.097858+00:00",
-      "last_seen": "2026-08-26T12:01:59.476231+00:00",
-      "last_changed": "2026-08-26T12:01:59.476231+00:00",
-      "version": 2,
-      "change_history": [
-        {
-          "at": "2026-08-25T15:44:42.097858+00:00",
-          "type": "detected",
-          "version": 1
-        },
-        {
-          "at": "2026-08-26T12:01:59.476231+00:00",
-          "type": "updated",
-          "version": 2
-        }
-      ],
-      "detail_timeout_seconds": 18,
-      "manual_override": true,
-      "summary": "Enjoy 12% off purchases from tax-free (via Global Blue), €5 refreshment vouchers and hands-free shopping, in addition to 10% off at the Village prices with a VIP Pass, all in payment through Visa payment cards and Credit cards from STC Bank.",
-      "corridors": [],
-      "offer_values": [
-        "12%",
-        "10%"
-      ],
-      "evidence_snapshot": "Enjoy 12% off purchases from tax-free (via Global Blue), €5 refreshment vouchers and hands-free shopping, in addition to 10% off at the Village prices with a VIP Pass, all in payment through Visa payment cards and Credit cards from STC Bank.",
-      "date_extraction_method": "not_found",
-      "source_verification": {
-        "status": "verified_website",
-        "verification_method": "official_website_page",
-        "checked_at": "2026-08-26T12:04:37.584346+00:00",
-        "source_url": "https://stcbank.com.sa/en/web/guest/w/la-vallee",
-        "source_changed": false,
-        "conflicts": [],
-        "error": null
-      },
-      "last_live_verified_at": "2026-08-26T12:04:37.584346+00:00",
-      "last_reviewed": "2026-08-26T12:04:37.584346+00:00",
-      "review_priority": 33
-    },
     {
       "id": "detected:stc-bank:a918850def9108da15d9",
       "competitor_id": "stc-bank",
@@ -58941,7 +58857,7 @@
       "source_verification": {
         "status": "verified_social",
         "verification_method": "official_social_rss_or_inventory",
-        "checked_at": "2026-08-26T12:26:53.285907+00:00",
+        "checked_at": "2026-08-26T12:33:17.926295+00:00",
         "source_url": "https://www.instagram.com/p/Dazzjtdt1Jt/?utm_source=ig_web_button_share_sheet&igsh=MzRlODBiNWFlZA==",
         "source_changed": false,
         "conflicts": [],
@@ -59051,7 +58967,7 @@
       "source_verification": {
         "status": "verified_social",
         "verification_method": "official_social_rss_or_inventory",
-        "checked_at": "2026-08-26T12:26:53.285907+00:00",
+        "checked_at": "2026-08-26T12:33:17.926295+00:00",
         "source_url": "https://www.instagram.com/reel/DaaydiADUvg/?utm_source=ig_web_button_share_sheet&igsh=MzRlODBiNWFlZA==",
         "source_changed": false,
         "conflicts": [],
@@ -59276,7 +59192,7 @@
       "source_verification": {
         "status": "verified_social",
         "verification_method": "official_social_rss_or_inventory",
-        "checked_at": "2026-08-26T12:26:53.285907+00:00",
+        "checked_at": "2026-08-26T12:33:17.926295+00:00",
         "source_url": "https://www.facebook.com/mobilypay/videos/sar-20000-is-waiting-for-you-make-an-international-transfer-with-mobilypay-and-i/4300117560266135/",
         "source_changed": false,
         "conflicts": [],
@@ -59380,7 +59296,7 @@
       "source_verification": {
         "status": "verified_social",
         "verification_method": "official_social_rss_or_inventory",
-        "checked_at": "2026-08-26T12:26:53.285907+00:00",
+        "checked_at": "2026-08-26T12:33:17.926295+00:00",
         "source_url": "https://www.instagram.com/p/DbBUcjiIHS1/",
         "source_changed": false,
         "conflicts": [],
@@ -59533,7 +59449,7 @@
       "source_verification": {
         "status": "verified_social",
         "verification_method": "official_social_rss_or_inventory",
-        "checked_at": "2026-08-26T12:26:53.285907+00:00",
+        "checked_at": "2026-08-26T12:33:17.926295+00:00",
         "source_url": "https://www.facebook.com/urpay.sa/posts/scratch-win-with-every-international-transfer-via-urpay-and-you-could-win-up-to-/1079237764323076/",
         "source_changed": false,
         "conflicts": [],
@@ -59635,7 +59551,7 @@
       "source_verification": {
         "status": "verified_social",
         "verification_method": "official_social_rss_or_inventory",
-        "checked_at": "2026-08-26T12:26:53.285907+00:00",
+        "checked_at": "2026-08-26T12:33:17.926295+00:00",
         "source_url": "https://www.instagram.com/alinmapay/p/CC_U-JDB6yh/",
         "source_changed": false,
         "conflicts": [],
@@ -59817,7 +59733,7 @@
       "source_verification": {
         "status": "verified_social",
         "verification_method": "official_social_rss_or_inventory",
-        "checked_at": "2026-08-26T12:26:53.285907+00:00",
+        "checked_at": "2026-08-26T12:33:17.926295+00:00",
         "source_url": "https://www.facebook.com/AlinmaPaySA/videos/zero-fees-fast-transfers-to-india/873682655502395/",
         "source_changed": false,
         "conflicts": [],
@@ -59967,6 +59883,106 @@
       "manual_override": true,
       "corridors": [],
       "review_priority": 8
+    },
+    {
+      "id": "detected:stc-bank:f7eead73e108aea96188",
+      "competitor_id": "stc-bank",
+      "source_key": "website:stc-bank:offers",
+      "source_type": "website",
+      "platform": "website",
+      "content_type": "merchant_offer",
+      "suggested_record_type": "merchant_offer",
+      "campaign_category": "merchant",
+      "primary_category": "remittance",
+      "categories": [
+        "remittance"
+      ],
+      "title": "A Unique Shopping Experience at La Vallée Village!",
+      "snippet": "Enjoy 12% off purchases from tax-free (via Global Blue), €5 refreshment vouchers and hands-free shopping, in addition to 10% off at the Village prices with a VIP Pass, all in payment through Visa payment cards and Credit cards from STC Bank.",
+      "link": "https://stcbank.com.sa/en/web/guest/w/la-vallee",
+      "official_campaign_page_url": "https://stcbank.com.sa/en/web/guest/w/la-vallee",
+      "primary_official_source_url": "https://stcbank.com.sa/en/web/guest/w/la-vallee",
+      "social_links": {},
+      "social_link_count": 0,
+      "published_at": null,
+      "start_date": null,
+      "end_date": "2026-08-26T00:00:00+00:00",
+      "date_evidence": {
+        "start": null,
+        "end": null
+      },
+      "current_status": "Expiring ≤7 Days",
+      "active": true,
+      "direct_link": true,
+      "verified": true,
+      "official_discovery": true,
+      "discovery_section": "current",
+      "review_required": false,
+      "review_reasons": [],
+      "mechanic_tags": [
+        "discount",
+        "prize_draw"
+      ],
+      "theme_tags": [
+        "international_transfer",
+        "cards"
+      ],
+      "first_seen": "2026-08-25T15:44:42.097858+00:00",
+      "last_seen": "2026-08-26T12:01:59.476231+00:00",
+      "last_changed": "2026-08-26T12:01:59.476231+00:00",
+      "version": 2,
+      "change_history": [
+        {
+          "at": "2026-08-25T15:44:42.097858+00:00",
+          "type": "detected",
+          "version": 1
+        },
+        {
+          "at": "2026-08-26T12:01:59.476231+00:00",
+          "type": "updated",
+          "version": 2
+        }
+      ],
+      "detail_timeout_seconds": 18,
+      "manual_override": true,
+      "summary": "Enjoy 12% off purchases from tax-free (via Global Blue), €5 refreshment vouchers and hands-free shopping, in addition to 10% off at the Village prices with a VIP Pass, all in payment through Visa payment cards and Credit cards from STC Bank.",
+      "corridors": [],
+      "offer_values": [
+        "12%",
+        "10%"
+      ],
+      "evidence_snapshot": "Enjoy 12% off purchases from tax-free (via Global Blue), €5 refreshment vouchers and hands-free shopping, in addition to 10% off at the Village prices with a VIP Pass, all in payment through Visa payment cards and Credit cards from STC Bank.",
+      "date_extraction_method": "not_found",
+      "source_verification": {
+        "status": "verified_website",
+        "verification_method": "official_website_page",
+        "checked_at": "2026-08-26T12:04:37.584346+00:00",
+        "source_url": "https://stcbank.com.sa/en/web/guest/w/la-vallee",
+        "source_changed": false,
+        "conflicts": [],
+        "error": null
+      },
+      "last_live_verified_at": "2026-08-26T12:04:37.584346+00:00",
+      "last_reviewed": "2026-08-26T12:04:37.584346+00:00",
+      "review_priority": 5,
+      "review_decision": "confirm_merchant_offer",
+      "review_approved": true,
+      "reviewed_by": "admin",
+      "reviewed_at": "2026-08-26T12:33:17.486754+00:00",
+      "review_request_id": "93d070ca-6835-4f86-b4b7-15373c5ba6a4",
+      "linked_posts": [],
+      "social_post_counts": {
+        "instagram": 0,
+        "x": 0,
+        "facebook": 0,
+        "tiktok": 0
+      },
+      "social_posts_total": 0,
+      "social_platform_count": 0,
+      "social_first_post": null,
+      "social_latest_post": null,
+      "social_posts_7d": 0,
+      "social_posts_30d": 0
     },
     {
       "id": "detected:stc-bank:d84f23b9a29aa8e48f49",
@@ -84371,7 +84387,7 @@
       "source_verification": {
         "status": "verified_social",
         "verification_method": "official_social_rss_or_inventory",
-        "checked_at": "2026-08-26T12:26:53.285907+00:00",
+        "checked_at": "2026-08-26T12:33:17.926295+00:00",
         "source_url": "https://www.instagram.com/reel/DYxvJOWiZY5/",
         "source_changed": false,
         "conflicts": [],
@@ -84481,7 +84497,7 @@
       "source_verification": {
         "status": "verified_social",
         "verification_method": "official_social_rss_or_inventory",
-        "checked_at": "2026-08-26T12:26:53.285907+00:00",
+        "checked_at": "2026-08-26T12:33:17.926295+00:00",
         "source_url": "https://www.facebook.com/usebarq/posts/update-your-barq-app-and-join-the-prediction-game-win-your-share-of-prizes-worth/122197690844385166/",
         "source_changed": false,
         "conflicts": [],
@@ -84582,7 +84598,7 @@
       "source_verification": {
         "status": "verified_social",
         "verification_method": "official_social_rss_or_inventory",
-        "checked_at": "2026-08-26T12:26:53.285907+00:00",
+        "checked_at": "2026-08-26T12:33:17.926295+00:00",
         "source_url": "https://www.facebook.com/usebarq/posts/planning-a-trip-%EF%B8%8Fbook-through-almatarapp-with-your-barq-visa-and-get-up-to-10-of/122178668528385166/",
         "source_changed": false,
         "conflicts": [],
@@ -84687,7 +84703,7 @@
       "source_verification": {
         "status": "verified_social",
         "verification_method": "official_social_rss_or_inventory",
-        "checked_at": "2026-08-26T12:26:53.285907+00:00",
+        "checked_at": "2026-08-26T12:33:17.926295+00:00",
         "source_url": "https://www.instagram.com/p/DbAtiuQNGlf/",
         "source_changed": false,
         "conflicts": [],
@@ -85632,7 +85648,7 @@
       "source_verification": {
         "status": "verified_social",
         "verification_method": "official_social_rss_or_inventory",
-        "checked_at": "2026-08-26T12:26:53.285907+00:00",
+        "checked_at": "2026-08-26T12:33:17.926295+00:00",
         "source_url": "https://x.com/urpay_sa/status/2074433249682845889",
         "source_changed": false,
         "conflicts": [],
@@ -85735,7 +85751,7 @@
       "source_verification": {
         "status": "verified_social",
         "verification_method": "official_social_rss_or_inventory",
-        "checked_at": "2026-08-26T12:26:53.285907+00:00",
+        "checked_at": "2026-08-26T12:33:17.926295+00:00",
         "source_url": "https://www.facebook.com/AlinmaPaySA/posts/%EF%B8%8F-fees-gonetravel-anywhere-and-use-your-alinmapay-cashback-cards-without-worryin/1619335260194305/",
         "source_changed": false,
         "conflicts": [],
@@ -86856,7 +86872,7 @@
       "source_verification": {
         "status": "verified_social",
         "verification_method": "official_social_rss_or_inventory",
-        "checked_at": "2026-08-26T12:26:53.285907+00:00",
+        "checked_at": "2026-08-26T12:33:17.926295+00:00",
         "source_url": "https://www.instagram.com/alinmapay/p/DbqaY05mm9E/",
         "source_changed": false,
         "conflicts": [],
@@ -90981,7 +90997,7 @@
       "source_verification": {
         "status": "verified_social",
         "verification_method": "official_social_rss_or_inventory",
-        "checked_at": "2026-08-26T12:26:53.285907+00:00",
+        "checked_at": "2026-08-26T12:33:17.926295+00:00",
         "source_url": "https://www.instagram.com/tiqmoksa/p/DbLZ9Yfj6dy/",
         "source_changed": false,
         "conflicts": [],
@@ -92290,7 +92306,7 @@
       "source_verification": {
         "status": "verified_social",
         "verification_method": "official_social_rss_or_inventory",
-        "checked_at": "2026-08-26T12:26:53.285907+00:00",
+        "checked_at": "2026-08-26T12:33:17.926295+00:00",
         "source_url": "https://www.instagram.com/reel/DWots29j8fx/?hl=en",
         "source_changed": false,
         "conflicts": [],
@@ -112942,37 +112958,37 @@
   "detail_verification_stats": {
     "network_checks": 0,
     "elapsed_seconds": 0.2,
-    "completed_at": "2026-08-26T12:26:53.495870+00:00"
+    "completed_at": "2026-08-26T12:33:18.088934+00:00"
   },
   "mobily_deterministic_classification": {
     "changed": 0,
-    "at": "2026-08-26T12:26:54.314308+00:00"
+    "at": "2026-08-26T12:33:18.865044+00:00"
   },
   "verified_official_classification": {
     "changed": 0,
-    "at": "2026-08-26T12:26:54.318440+00:00",
+    "at": "2026-08-26T12:33:18.868867+00:00",
     "version": "classifier-v4-source-aware"
   },
   "record_integrity": {
     "quarantined_or_demoted": 0,
-    "at": "2026-08-26T12:26:54.213809+00:00"
+    "at": "2026-08-26T12:33:18.764401+00:00"
   },
   "winner_announcement_integrity": {
     "normalized": 0,
-    "at": "2026-08-26T12:26:54.213071+00:00"
+    "at": "2026-08-26T12:33:18.763643+00:00"
   },
   "deduplication": {
     "removed": 0,
-    "at": "2026-08-26T12:26:54.277187+00:00"
+    "at": "2026-08-26T12:33:18.824715+00:00"
   },
   "final_status_normalization": {
     "changed": 0,
-    "at": "2026-08-26T12:26:54.354968+00:00"
+    "at": "2026-08-26T12:33:18.905803+00:00"
   },
-  "social_analytics_rebuilt_at": "2026-08-26T12:26:54.363214+00:00",
+  "social_analytics_rebuilt_at": "2026-08-26T12:33:18.911937+00:00",
   "media_sanitization": {
     "removed": 0,
-    "at": "2026-08-26T12:26:54.375519+00:00"
+    "at": "2026-08-26T12:33:18.921819+00:00"
   },
   "ai_summary": {
     "what_changed": [
@@ -113094,6 +113110,16 @@
         "detected:stc-bank:d84f23b9a29aa8e48f49"
       ],
       "campaign_id": "detected:stc-bank:d84f23b9a29aa8e48f49"
+    },
+    {
+      "request_id": "93d070ca-6835-4f86-b4b7-15373c5ba6a4",
+      "reviewed_at": "2026-08-26T12:33:17.486754+00:00",
+      "reviewed_by": "admin",
+      "action": "confirm_merchant_offer",
+      "item_ids": [
+        "detected:stc-bank:f7eead73e108aea96188"
+      ],
+      "campaign_id": "detected:stc-bank:f7eead73e108aea96188"
     }
   ]
 }
