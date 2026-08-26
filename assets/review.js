@@ -1,12 +1,20 @@
 (() => {
   "use strict";
   const C = window.CM;
-  const state = { data: null, selected: new Set(), filters: { search: "", competitor: "", reason: "", source: "" }, saving: false };
+  const state = { data: null, selected: new Set(), filters: { search: "", competitor: "", reason: "", source: "", suggested: "" }, saving: false };
   const $ = (id) => document.getElementById(id);
   const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
   function reviewItems() {
     return (state.data?.items || []).filter((item) => item.review_required === true);
+  }
+
+  function potentialMerchant(item) {
+    return item?.suggested_record_type === "merchant_offer";
+  }
+
+  function separateMerchantEligible(item) {
+    return potentialMerchant(item) && item?.source_type === "website" && item?.official_discovery === true && Boolean(officialEvidence(item));
   }
 
   function visibleItems() {
@@ -15,18 +23,24 @@
       if (state.filters.competitor && item.competitor_id !== state.filters.competitor) return false;
       if (state.filters.reason && !(item.review_reasons || []).includes(state.filters.reason)) return false;
       if (state.filters.source && item.source_type !== state.filters.source) return false;
+      if (state.filters.suggested === "none" && item.suggested_record_type) return false;
+      if (state.filters.suggested && state.filters.suggested !== "none" && item.suggested_record_type !== state.filters.suggested) return false;
       return !query || `${item.title || ""} ${item.snippet || ""}`.toLowerCase().includes(query);
-    }).sort((a, b) => Number(b.review_priority || 0) - Number(a.review_priority || 0));
+    }).sort((a, b) => Number(potentialMerchant(b)) - Number(potentialMerchant(a)) || Number(b.review_priority || 0) - Number(a.review_priority || 0));
   }
 
   function option(value, label) { return C.el("option", { value }, label); }
 
   function fillFilters() {
     const items = reviewItems(), competitors = C.byId(state.data.competitors);
-    const competitor = $("review-competitor"), reason = $("review-reason"), source = $("review-source");
+    const competitor = $("review-competitor"), reason = $("review-reason"), source = $("review-source"), suggested = $("review-suggested");
     C.clear(competitor); competitor.append(option("", C.t("all")), ...[...new Set(items.map((i) => i.competitor_id))].sort().map((id) => option(id, C.competitorName(competitors[id]))));
     C.clear(reason); reason.append(option("", C.t("allReasons")), ...[...new Set(items.flatMap((i) => i.review_reasons || []))].sort().map((value) => option(value, value.replaceAll("_", " "))));
     C.clear(source); source.append(option("", C.t("allSources")), ...[...new Set(items.map((i) => i.source_type).filter(Boolean))].sort().map((value) => option(value, C.t(value === "social" ? "posts" : value))));
+    C.clear(suggested); suggested.append(option("", C.t("all")), option("merchant_offer", C.t("merchantCandidates")), option("campaign", C.t("suggestedCampaign")), option("none", C.t("suggestedUnclassified")));
+    competitor.value = state.filters.competitor; reason.value = state.filters.reason; source.value = state.filters.source; suggested.value = state.filters.suggested;
+    const merchantCount = items.filter(separateMerchantEligible).length;
+    $("review-filter-merchants").textContent = `${C.t("merchantCandidates")} (${merchantCount})`;
   }
 
   function officialEvidence(item) {
@@ -48,10 +62,10 @@
     const competitors = C.byId(state.data.competitors), checked = state.selected.has(item.id), evidence = officialEvidence(item);
     const checkbox = C.el("input", { type: "checkbox", class: "review-card__check", checked, "aria-label": C.t("selectItems") });
     checkbox.addEventListener("change", () => { checkbox.checked ? state.selected.add(item.id) : state.selected.delete(item.id); updateBulk(); });
-    return C.el("article", { class: "review-card" },
+    return C.el("article", { class: `review-card${potentialMerchant(item) ? " review-card--merchant-candidate" : ""}` },
       C.el("div", { class: "review-card__selector" }, checkbox),
       C.el("div", { class: "review-card__content" },
-        C.el("div", { class: "review-card__top" }, C.el("strong", {}, C.competitorName(competitors[item.competitor_id])), C.pill(C.contentLabel(item), "warning"), item.suggested_record_type ? C.pill(`${C.t("suggestedType")}: ${C.t(item.suggested_record_type)}`, "info") : null),
+        C.el("div", { class: "review-card__top" }, C.el("strong", {}, C.competitorName(competitors[item.competitor_id])), C.pill(C.contentLabel(item), "warning"), item.suggested_record_type ? C.pill(`${C.t("suggestedType")}: ${C.t(item.suggested_record_type)}`, potentialMerchant(item) ? "gold" : "info") : null),
         C.el("h2", {}, item.title || "—"), item.snippet ? C.el("p", {}, item.snippet) : null,
         reasonPills(item),
         C.el("div", { class: "review-card__meta" }, C.el("span", {}, `${C.t("source")}: ${item.platform || item.source_type || "—"}`), item.published_at ? C.el("span", {}, C.formatDate(item.published_at, true)) : null),
@@ -92,6 +106,15 @@
     $("review-selected").textContent = `${C.t("selectedCount")}: ${state.selected.size}`;
   }
 
+  function confirmSeparateMerchants(ids) {
+    const items = selectedItems(ids);
+    if (!items.length) return alert(C.t("selectItems"));
+    if (items.some((item) => !separateMerchantEligible(item))) return alert(C.t("merchantBulkWebsiteOnly"));
+    const message = C.t("bulkMerchantConfirm").replace("{count}", String(items.length));
+    if (!window.confirm(message)) return;
+    submitDecision({ action: "confirm_merchant_offers_bulk", item_ids: items.map((item) => item.id) });
+  }
+
   function field(label, input) { return C.el("label", { class: "editor-field" }, C.el("span", {}, label), input); }
   function closeModal() { document.querySelector("#review-modal")?.remove(); }
 
@@ -114,7 +137,7 @@
   }
 
   async function pollReview(requestId) {
-    for (let attempt = 0; attempt < 120; attempt += 1) {
+    for (let attempt = 0; attempt < 360; attempt += 1) {
       const response = await fetch(`/__review-status?request_id=${encodeURIComponent(requestId)}`, { cache: "no-store", credentials: "same-origin" });
       const payload = await response.json().catch(() => ({}));
       if (!response.ok && response.status !== 202) throw new Error(payload.message || `HTTP ${response.status}`);
@@ -143,14 +166,16 @@
 
   function bind() {
     $("review-search").addEventListener("input", (event) => { state.filters.search = event.target.value; render(); });
-    for (const [id, key] of [["review-competitor", "competitor"], ["review-reason", "reason"], ["review-source", "source"]]) $(id).addEventListener("change", (event) => { state.filters[key] = event.target.value; render(); });
-    $("review-clear-filters").onclick = () => { state.filters = { search: "", competitor: "", reason: "", source: "" }; $("review-search").value = ""; fillFilters(); render(); };
+    for (const [id, key] of [["review-competitor", "competitor"], ["review-reason", "reason"], ["review-source", "source"], ["review-suggested", "suggested"]]) $(id).addEventListener("change", (event) => { state.filters[key] = event.target.value; render(); });
+    $("review-clear-filters").onclick = () => { state.filters = { search: "", competitor: "", reason: "", source: "", suggested: "" }; $("review-search").value = ""; fillFilters(); render(); };
+    $("review-filter-merchants").onclick = () => { state.selected.clear(); state.filters.suggested = "merchant_offer"; state.filters.source = "website"; $("review-suggested").value = "merchant_offer"; $("review-source").value = "website"; render(); };
     $("review-select-all").onchange = (event) => { visibleItems().forEach((item) => event.target.checked ? state.selected.add(item.id) : state.selected.delete(item.id)); render(); };
     $("review-group").onclick = () => openGroupDialog([...state.selected]); $("review-link").onclick = () => openLinkDialog([...state.selected]);
+    $("review-confirm-merchants").onclick = () => confirmSeparateMerchants([...state.selected]);
     $("review-not-campaign").onclick = () => submitDecision({ action: "mark_not_campaign", item_ids: [...state.selected] });
     $("review-awareness").onclick = () => submitDecision({ action: "mark_awareness", item_ids: [...state.selected] });
     $("review-clear-selection").onclick = () => { state.selected.clear(); render(); };
-    window.addEventListener("cm:language", render);
+    window.addEventListener("cm:language", () => { fillFilters(); render(); });
   }
 
   async function init() {

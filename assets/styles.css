@@ -37,6 +37,8 @@ button, select { cursor: pointer; }
 .button--secondary { background: var(--primary-soft); color: var(--primary); }
 .button--danger { background: #fff1f2; color: #b42318; border-color: #fecdd3; }
 .button--danger:hover { background: #ffe4e6; color: #991b1b; }
+.button--merchant { background: #fff7ed; color: #9a3412; border-color: #fdba74; }
+.button--merchant:hover { background: #ffedd5; color: #7c2d12; }
 .button--ghost { border-color: var(--border); background: var(--surface); }
 .button:hover, .language-button:hover { transform: translateY(-1px); box-shadow: 0 6px 16px rgba(16,24,40,.08); }
 .page-shell { max-width: 1240px; margin: auto; padding: 28px 24px 70px; }
@@ -429,7 +431,7 @@ button.stacked-bar__segment:hover { filter: brightness(1.12); }
   .chart-card { transition: none; }
 }
 
-/* v5.9.0: dedicated Admin review center */
+/* v5.9.1: dedicated Admin review center and separate Merchant Offer bulk action */
 .review-page { max-width: 1500px; }
 .review-hero { display: flex; align-items: flex-start; justify-content: space-between; gap: 24px; padding: 34px; border-radius: 24px; background: linear-gradient(135deg,#0f172a,#1e3a5f); color: #fff; box-shadow: var(--shadow); }
 .review-hero h1 { margin: 5px 0 10px; font-size: clamp(1.8rem,3vw,3rem); }
@@ -443,6 +445,7 @@ button.stacked-bar__segment:hover { filter: brightness(1.12); }
 .review-select-all input,.review-card__check { width: 20px; height: 20px; accent-color: var(--primary); }
 .review-list { display: grid; gap: 16px; }
 .review-card { display: grid; grid-template-columns: auto 1fr; gap: 16px; padding: 22px; border: 1px solid var(--border); border-inline-start: 5px solid #f59e0b; border-radius: 20px; background: var(--surface); box-shadow: 0 8px 24px rgba(15,23,42,.06); }
+.review-card--merchant-candidate { border-inline-start-color: #d97706; background: linear-gradient(90deg,rgba(255,247,237,.72),#fff 18%); }
 .review-card__selector { padding-top: 4px; }
 .review-card__top,.review-card__meta,.review-card__actions,.review-reasons { display: flex; align-items: center; flex-wrap: wrap; gap: 9px; }
 .review-card__top { margin-bottom: 10px; }

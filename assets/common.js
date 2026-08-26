@@ -1,4 +1,4 @@
-/* Competitor Monitor v5.9.0 admin review, source-aware classification and analytics build */
+/* Competitor Monitor v5.9.1 separate Merchant Offer bulk review and lock hotfix */
 (() => {
   "use strict";
   const LANG_KEY="cm_v54_language", ALERT_KEY="cm_v5_alert_ack", OVERRIDE_KEY="cm_v5_manual_overrides", DELTA_KEY="cm_v5_last_delta_export", REFRESH_KEY="cm_v573_refresh";
@@ -110,18 +110,20 @@
     comparisonFlat:"No change"
   });
   Object.assign(I18N.ar,{
-    reviewCenter:"مركز مراجعة الحملات",reviewCenterHint:"اعتمد العناصر بسرعة أو اجمع عدة منشورات كحملة واحدة. جميع القرارات تُحفظ في GitHub بسجل تدقيق.",
-    selectedCount:"العناصر المحددة",groupAsCampaign:"تجميع المحدد كحملة واحدة",linkExisting:"ربط بحملة موجودة",markNotCampaign:"ليست حملة",markAwareness:"محتوى توعوي",confirmCampaign:"اعتماد كحملة",confirmMerchant:"اعتماد كعرض شريك",clearSelection:"إلغاء التحديد",
+    reviewCenter:"مركز مراجعة الحملات وعروض الشركاء",reviewCenterHint:"راجع الحملات وعروض الشركاء المحتملة. يمكن اعتماد كل عرض شريك محدد كسجل مستقل، أو تجميع عدة أدلة في حملة واحدة.",
+    selectedCount:"العناصر المحددة",groupAsCampaign:"تجميع المحدد كحملة واحدة",confirmSeparateMerchants:"اعتماد المحدد كعروض شريك منفصلة",linkExisting:"ربط بحملة موجودة",markNotCampaign:"ليست حملة",markAwareness:"محتوى توعوي",confirmCampaign:"اعتماد كحملة",confirmMerchant:"اعتماد كعرض شريك",clearSelection:"إلغاء التحديد",
     suggestedType:"التصنيف المقترح",reviewReasons:"أسباب المراجعة",officialEvidence:"الدليل الرسمي",selectAllVisible:"تحديد النتائج الظاهرة",sameCompetitorRequired:"لا يمكن تجميع عناصر منافسين مختلفين. اختر عناصر لمنافس واحد.",
     createOneCampaign:"إنشاء سجل حملة واحد",recordType:"نوع السجل",campaignTitle:"اسم الحملة",campaignSummary:"ملخص الحملة",officialSourceRequired:"رابط رسمي تفصيلي",saveDecision:"حفظ القرار",cancel:"إلغاء",chooseCampaign:"اختر الحملة",accessDenied:"هذه الصفحة متاحة للأدمن فقط.",
-    reviewSaving:"جاري إرسال القرار…",reviewQueued:"تم إرسال القرار، جاري الحفظ…",reviewSaved:"تم حفظ القرار وتحديث الموقع.",reviewSaveFailed:"تعذر حفظ قرار المراجعة",reviewBusy:"يوجد قرار مراجعة آخر قيد الحفظ",noReviewItems:"لا توجد عناصر تحتاج مراجعة حاليًا.",allReasons:"كل الأسباب",allSources:"كل المصادر",openReviewCenter:"فتح مركز المراجعة"
+    reviewSaving:"جاري إرسال القرار…",reviewQueued:"تم إرسال القرار، جاري الحفظ…",reviewSaved:"تم حفظ القرار وتحديث الموقع.",reviewSaveFailed:"تعذر حفظ قرار المراجعة",reviewBusy:"يوجد قرار مراجعة آخر قيد الحفظ",noReviewItems:"لا توجد عناصر تحتاج مراجعة حاليًا.",allReasons:"كل الأسباب",allSources:"كل المصادر",openReviewCenter:"فتح مركز المراجعة",
+    merchantCandidates:"عروض شريك محتملة",suggestedCampaign:"حملات محتملة",suggestedUnclassified:"بدون تصنيف مقترح",merchantBulkWebsiteOnly:"الاعتماد الجماعي المنفصل متاح فقط للعناصر المصنفة كعروض شريك محتملة والمكتشفة من صفحات رسمية. استخدم ربط بحملة للمنشورات الاجتماعية.",bulkMerchantConfirm:"سيتم اعتماد {count} عنصر كعروض شريك مستقلة، ولن يتم دمجها في عرض واحد. هل تريد المتابعة؟"
   });
   Object.assign(I18N.en,{
-    reviewCenter:"Campaign Review Center",reviewCenterHint:"Approve items quickly or group several posts into one campaign. Every decision is persisted in GitHub with an audit trail.",
-    selectedCount:"Selected items",groupAsCampaign:"Group selected as one campaign",linkExisting:"Link to existing campaign",markNotCampaign:"Not a campaign",markAwareness:"Awareness",confirmCampaign:"Confirm campaign",confirmMerchant:"Confirm merchant offer",clearSelection:"Clear selection",
+    reviewCenter:"Campaign & Merchant Review Center",reviewCenterHint:"Review potential campaigns and merchant offers. Approve each selected merchant offer as a separate record, or group several evidence items into one campaign.",
+    selectedCount:"Selected items",groupAsCampaign:"Group selected as one campaign",confirmSeparateMerchants:"Confirm selected as separate merchant offers",linkExisting:"Link to existing campaign",markNotCampaign:"Not a campaign",markAwareness:"Awareness",confirmCampaign:"Confirm campaign",confirmMerchant:"Confirm merchant offer",clearSelection:"Clear selection",
     suggestedType:"Suggested type",reviewReasons:"Review reasons",officialEvidence:"Official evidence",selectAllVisible:"Select visible results",sameCompetitorRequired:"Items from different competitors cannot be grouped. Select one competitor only.",
     createOneCampaign:"Create one campaign record",recordType:"Record type",campaignTitle:"Campaign title",campaignSummary:"Campaign summary",officialSourceRequired:"Specific official source URL",saveDecision:"Save decision",cancel:"Cancel",chooseCampaign:"Choose campaign",accessDenied:"This page is available to Admin users only.",
-    reviewSaving:"Sending decision…",reviewQueued:"Decision queued; saving…",reviewSaved:"Decision saved and site updated.",reviewSaveFailed:"Could not save review decision",reviewBusy:"Another review decision is being saved",noReviewItems:"No items currently need review.",allReasons:"All reasons",allSources:"All sources",openReviewCenter:"Open review center"
+    reviewSaving:"Sending decision…",reviewQueued:"Decision queued; saving…",reviewSaved:"Decision saved and site updated.",reviewSaveFailed:"Could not save review decision",reviewBusy:"Another review decision is being saved",noReviewItems:"No items currently need review.",allReasons:"All reasons",allSources:"All sources",openReviewCenter:"Open review center",
+    merchantCandidates:"Potential merchant offers",suggestedCampaign:"Potential campaigns",suggestedUnclassified:"No suggested type",merchantBulkWebsiteOnly:"Separate bulk approval is only available for items classified as potential Merchant Offers and discovered from official offer pages. Use Link to existing campaign for social posts.",bulkMerchantConfirm:"Confirm {count} items as separate Merchant Offer records? They will not be merged into one offer."
   });
   let AUTH={authenticated:false,role:"viewer",user:""};
   async function loadAuth(){try{const r=await fetch("/__session",{cache:"no-store",credentials:"same-origin"});if(r.ok){const v=await r.json();AUTH={authenticated:!!v.authenticated,role:v.role||"viewer",user:v.username||v.user||""};}}catch{}return AUTH;}
