@@ -3603,11 +3603,11 @@
   ],
   "stats": {
     "active_campaigns": 32,
-    "merchant_offers": 46,
+    "merchant_offers": 47,
     "remittance_campaigns": 11,
     "expiring_30d": 5,
-    "social_posts_7d": 214,
-    "review_required": 670,
+    "social_posts_7d": 212,
+    "review_required": 669,
     "healthy_sources": 31,
     "failed_sources": 0,
     "total_sources": 31
@@ -3615,12 +3615,12 @@
   "refresh_summary": {
     "request_id": "32960626085",
     "competitor": "all",
-    "completed_at": "2026-08-26T10:56:33.129693+00:00",
+    "completed_at": "2026-08-26T12:00:32.942252+00:00",
     "new_offers": 0,
     "updated_offers": 98,
     "unchanged_offers": 271,
     "new_posts": 6,
-    "needs_review": 670,
+    "needs_review": 669,
     "failed_sources": 0,
     "zero_item_sources": 0,
     "preserved_last_known_good": 0
@@ -3720,12 +3720,12 @@
     {
       "request_id": "32960626085",
       "competitor": "all",
-      "completed_at": "2026-08-26T10:56:33.129693+00:00",
+      "completed_at": "2026-08-26T12:00:32.942252+00:00",
       "new_offers": 0,
       "updated_offers": 98,
       "unchanged_offers": 271,
       "new_posts": 6,
-      "needs_review": 670,
+      "needs_review": 669,
       "failed_sources": 0,
       "zero_item_sources": 0,
       "preserved_last_known_good": 0
@@ -3736,84 +3736,6 @@
     "policy": "last_known_good"
   },
   "items": [
-    {
-      "id": "detected:stc-bank:0769e7a89bc6baf3e45e",
-      "competitor_id": "stc-bank",
-      "source_key": "website:stc-bank:offers",
-      "source_type": "website",
-      "platform": "website",
-      "content_type": "review",
-      "suggested_record_type": null,
-      "campaign_category": "remittance",
-      "primary_category": "remittance",
-      "categories": [
-        "remittance"
-      ],
-      "title": "15% off on London Eye tickets!",
-      "snippet": "Enjoy a London Eye visit with 15% off on tickets using Visa payment cards and Credit cards from STC Bank.",
-      "link": "https://stcbank.com.sa/en/web/guest/w/london-eye",
-      "official_campaign_page_url": "https://stcbank.com.sa/en/web/guest/w/london-eye",
-      "primary_official_source_url": "https://stcbank.com.sa/en/web/guest/w/london-eye",
-      "social_links": {},
-      "social_link_count": 0,
-      "published_at": null,
-      "start_date": null,
-      "end_date": "2026-10-19T00:00:00+00:00",
-      "date_evidence": {
-        "start": null,
-        "end": null
-      },
-      "current_status": "Active",
-      "active": true,
-      "direct_link": true,
-      "verified": true,
-      "official_discovery": true,
-      "discovery_section": "current",
-      "review_required": true,
-      "review_reasons": [
-        "new_official_item_not_in_excel_inventory"
-      ],
-      "mechanic_tags": [
-        "discount",
-        "prize_draw"
-      ],
-      "theme_tags": [
-        "international_transfer",
-        "cards"
-      ],
-      "first_seen": "2026-08-25T15:44:42.097858+00:00",
-      "last_seen": "2026-08-26T10:55:22.261463+00:00",
-      "last_changed": "2026-08-25T15:44:42.097858+00:00",
-      "version": 1,
-      "change_history": [
-        {
-          "at": "2026-08-25T15:44:42.097858+00:00",
-          "type": "detected",
-          "version": 1
-        }
-      ],
-      "detail_timeout_seconds": 18,
-      "manual_override": true,
-      "summary": "Enjoy a London Eye visit with 15% off on tickets using Visa payment cards and Credit cards from STC Bank.",
-      "corridors": [],
-      "offer_values": [
-        "15%"
-      ],
-      "evidence_snapshot": "Enjoy a London Eye visit with 15% off on tickets using Visa payment cards and Credit cards from STC Bank.",
-      "date_extraction_method": "not_found",
-      "source_verification": {
-        "status": "verified_website",
-        "verification_method": "official_website_page",
-        "checked_at": "2026-08-26T07:14:00.783818+00:00",
-        "source_url": "https://stcbank.com.sa/en/web/guest/w/london-eye",
-        "source_changed": false,
-        "conflicts": [],
-        "error": null
-      },
-      "last_live_verified_at": "2026-08-26T07:14:00.783818+00:00",
-      "last_reviewed": "2026-08-26T07:14:00.783818+00:00",
-      "review_priority": 33
-    },
     {
       "id": "detected:stc-bank:ada5d587b4820e97b7e5",
       "competitor_id": "stc-bank",
@@ -23339,7 +23261,7 @@
       "primary_official_source_url": "https://x.com/MobilyPay/status/2091873161453400213",
       "manual_override": true,
       "corridors": [],
-      "suggested_campaign_id": "detected:mobily-pay:f3ba1937a63159024b5b",
+      "suggested_campaign_id": "detected:mobily-pay:f2953c8559c1e8fb8c5f",
       "review_priority": 23
     },
     {
@@ -29013,7 +28935,7 @@
       "primary_official_source_url": "https://x.com/MobilyPay/status/2089683923152654437",
       "manual_override": true,
       "corridors": [],
-      "suggested_campaign_id": "detected:mobily-pay:4232dc8e428d8da7c964",
+      "suggested_campaign_id": "detected:mobily-pay:f2953c8559c1e8fb8c5f",
       "review_priority": 23
     },
     {
@@ -32978,7 +32900,7 @@
       "primary_official_source_url": "https://x.com/MobilyPay/status/2087882778842964100",
       "manual_override": true,
       "corridors": [],
-      "suggested_campaign_id": "detected:mobily-pay:4232dc8e428d8da7c964",
+      "suggested_campaign_id": "detected:mobily-pay:f2953c8559c1e8fb8c5f",
       "review_priority": 23
     },
     {
@@ -33042,7 +32964,7 @@
       "primary_official_source_url": "https://x.com/MobilyPay/status/2087872089286160470",
       "manual_override": true,
       "corridors": [],
-      "suggested_campaign_id": "detected:mobily-pay:4232dc8e428d8da7c964",
+      "suggested_campaign_id": "detected:mobily-pay:f2953c8559c1e8fb8c5f",
       "review_priority": 23
     },
     {
@@ -42098,7 +42020,7 @@
       "primary_official_source_url": "https://x.com/MobilyPay/status/2084610312649777304",
       "manual_override": true,
       "corridors": [],
-      "suggested_campaign_id": "detected:mobily-pay:4232dc8e428d8da7c964",
+      "suggested_campaign_id": "detected:mobily-pay:f2953c8559c1e8fb8c5f",
       "review_priority": 23
     },
     {
@@ -42732,7 +42654,7 @@
       "primary_official_source_url": "https://x.com/MobilyPay/status/2084247914931458331",
       "manual_override": true,
       "corridors": [],
-      "suggested_campaign_id": "detected:mobily-pay:4232dc8e428d8da7c964",
+      "suggested_campaign_id": "detected:mobily-pay:f2953c8559c1e8fb8c5f",
       "review_priority": 23
     },
     {
@@ -47201,7 +47123,7 @@
       "primary_official_source_url": "https://www.tiktok.com/@mobilypay/video/7662430340115451154",
       "manual_override": true,
       "corridors": [],
-      "suggested_campaign_id": "detected:mobily-pay:4232dc8e428d8da7c964",
+      "suggested_campaign_id": "detected:mobily-pay:f2953c8559c1e8fb8c5f",
       "review_priority": 23
     },
     {
@@ -48314,7 +48236,7 @@
       "primary_official_source_url": "https://www.tiktok.com/@mobilypay/video/7649797922791410952",
       "manual_override": true,
       "corridors": [],
-      "suggested_campaign_id": "detected:mobily-pay:4232dc8e428d8da7c964",
+      "suggested_campaign_id": "detected:mobily-pay:f2953c8559c1e8fb8c5f",
       "review_priority": 23
     },
     {
@@ -48994,7 +48916,7 @@
       "primary_official_source_url": "https://www.tiktok.com/@mobilypay/video/7636330345058585864",
       "manual_override": true,
       "corridors": [],
-      "suggested_campaign_id": "detected:mobily-pay:4232dc8e428d8da7c964",
+      "suggested_campaign_id": "detected:mobily-pay:f2953c8559c1e8fb8c5f",
       "review_priority": 23
     },
     {
@@ -57642,12 +57564,12 @@
         "status": "verified_website",
         "verification_method": "official_website_page",
         "checked_at": "2026-08-26T10:55:51.256151+00:00",
-        "source_url": "https://mobilypay.sa/en/offers/offer-2.html",
+        "source_url": "https://mobilypay.sa/ar/offers/offer-2.html",
         "source_changed": false,
         "conflicts": [],
         "error": null
       },
-      "last_live_verified_at": "2026-08-26T02:43:01.501985+00:00",
+      "last_live_verified_at": "2026-08-26T10:55:51.256151+00:00",
       "last_reviewed": "2026-08-26T10:55:51.256151+00:00",
       "classification_method": "verified_official_rules_v4",
       "linked_posts": [],
@@ -58349,7 +58271,7 @@
       "source_verification": {
         "status": "verified_social",
         "verification_method": "official_social_rss_or_inventory",
-        "checked_at": "2026-08-26T10:55:51.256151+00:00",
+        "checked_at": "2026-08-26T12:00:31.814995+00:00",
         "source_url": "https://www.instagram.com/p/Dazzjtdt1Jt/?utm_source=ig_web_button_share_sheet&igsh=MzRlODBiNWFlZA==",
         "source_changed": false,
         "conflicts": [],
@@ -58459,7 +58381,7 @@
       "source_verification": {
         "status": "verified_social",
         "verification_method": "official_social_rss_or_inventory",
-        "checked_at": "2026-08-26T10:55:51.256151+00:00",
+        "checked_at": "2026-08-26T12:00:31.814995+00:00",
         "source_url": "https://www.instagram.com/reel/DaaydiADUvg/?utm_source=ig_web_button_share_sheet&igsh=MzRlODBiNWFlZA==",
         "source_changed": false,
         "conflicts": [],
@@ -58684,7 +58606,7 @@
       "source_verification": {
         "status": "verified_social",
         "verification_method": "official_social_rss_or_inventory",
-        "checked_at": "2026-08-26T10:55:51.256151+00:00",
+        "checked_at": "2026-08-26T12:00:31.814995+00:00",
         "source_url": "https://www.facebook.com/mobilypay/videos/sar-20000-is-waiting-for-you-make-an-international-transfer-with-mobilypay-and-i/4300117560266135/",
         "source_changed": false,
         "conflicts": [],
@@ -58788,7 +58710,7 @@
       "source_verification": {
         "status": "verified_social",
         "verification_method": "official_social_rss_or_inventory",
-        "checked_at": "2026-08-26T10:55:51.256151+00:00",
+        "checked_at": "2026-08-26T12:00:31.814995+00:00",
         "source_url": "https://www.instagram.com/p/DbBUcjiIHS1/",
         "source_changed": false,
         "conflicts": [],
@@ -58941,7 +58863,7 @@
       "source_verification": {
         "status": "verified_social",
         "verification_method": "official_social_rss_or_inventory",
-        "checked_at": "2026-08-26T10:55:51.256151+00:00",
+        "checked_at": "2026-08-26T12:00:31.814995+00:00",
         "source_url": "https://www.facebook.com/urpay.sa/posts/scratch-win-with-every-international-transfer-via-urpay-and-you-could-win-up-to-/1079237764323076/",
         "source_changed": false,
         "conflicts": [],
@@ -59043,7 +58965,7 @@
       "source_verification": {
         "status": "verified_social",
         "verification_method": "official_social_rss_or_inventory",
-        "checked_at": "2026-08-26T10:55:51.256151+00:00",
+        "checked_at": "2026-08-26T12:00:31.814995+00:00",
         "source_url": "https://www.instagram.com/alinmapay/p/CC_U-JDB6yh/",
         "source_changed": false,
         "conflicts": [],
@@ -59225,7 +59147,7 @@
       "source_verification": {
         "status": "verified_social",
         "verification_method": "official_social_rss_or_inventory",
-        "checked_at": "2026-08-26T10:55:51.256151+00:00",
+        "checked_at": "2026-08-26T12:00:31.814995+00:00",
         "source_url": "https://www.facebook.com/AlinmaPaySA/videos/zero-fees-fast-transfers-to-india/873682655502395/",
         "source_changed": false,
         "conflicts": [],
@@ -59559,12 +59481,12 @@
         "status": "verified_website",
         "verification_method": "official_website_page",
         "checked_at": "2026-08-26T04:51:50.529651+00:00",
-        "source_url": "https://mobilypay.sa/en/offers/offer-57.html",
+        "source_url": "https://mobilypay.sa/ar/offers/offer-57.html",
         "source_changed": false,
         "conflicts": [],
         "error": null
       },
-      "last_live_verified_at": "2026-08-26T02:43:01.501985+00:00",
+      "last_live_verified_at": "2026-08-26T04:51:50.529651+00:00",
       "last_reviewed": "2026-08-26T04:51:50.529651+00:00",
       "classification_method": "verified_official_rules_v4",
       "linked_posts": [],
@@ -59671,7 +59593,7 @@
         "status": "verified_website",
         "verification_method": "official_website_page",
         "checked_at": "2026-08-26T10:55:51.256151+00:00",
-        "source_url": "https://mobilypay.sa/en/offers/offer-7.html",
+        "source_url": "https://mobilypay.sa/ar/offers/offer-7.html",
         "source_changed": false,
         "conflicts": [],
         "error": null
@@ -59986,7 +59908,7 @@
         "status": "verified_website",
         "verification_method": "official_website_page",
         "checked_at": "2026-08-26T10:55:51.256151+00:00",
-        "source_url": "https://mobilypay.sa/en/offers/offer-26.html",
+        "source_url": "https://mobilypay.sa/ar/offers/offer-26.html",
         "source_changed": false,
         "conflicts": [],
         "error": null
@@ -60638,6 +60560,100 @@
       "review_priority": 5
     },
     {
+      "id": "detected:stc-bank:0769e7a89bc6baf3e45e",
+      "competitor_id": "stc-bank",
+      "source_key": "website:stc-bank:offers",
+      "source_type": "website",
+      "platform": "website",
+      "content_type": "merchant_offer",
+      "suggested_record_type": "merchant_offer",
+      "campaign_category": "merchant",
+      "primary_category": "remittance",
+      "categories": [
+        "remittance"
+      ],
+      "title": "15% off on London Eye tickets!",
+      "snippet": "Enjoy a London Eye visit with 15% off on tickets using Visa payment cards and Credit cards from STC Bank.",
+      "link": "https://stcbank.com.sa/en/web/guest/w/london-eye",
+      "official_campaign_page_url": "https://stcbank.com.sa/en/web/guest/w/london-eye",
+      "primary_official_source_url": "https://stcbank.com.sa/en/web/guest/w/london-eye",
+      "social_links": {},
+      "social_link_count": 0,
+      "published_at": null,
+      "start_date": null,
+      "end_date": "2026-10-19T00:00:00+00:00",
+      "date_evidence": {
+        "start": null,
+        "end": null
+      },
+      "current_status": "Active",
+      "active": true,
+      "direct_link": true,
+      "verified": true,
+      "official_discovery": true,
+      "discovery_section": "current",
+      "review_required": false,
+      "review_reasons": [],
+      "mechanic_tags": [
+        "discount",
+        "prize_draw"
+      ],
+      "theme_tags": [
+        "international_transfer",
+        "cards"
+      ],
+      "first_seen": "2026-08-25T15:44:42.097858+00:00",
+      "last_seen": "2026-08-26T10:55:22.261463+00:00",
+      "last_changed": "2026-08-25T15:44:42.097858+00:00",
+      "version": 1,
+      "change_history": [
+        {
+          "at": "2026-08-25T15:44:42.097858+00:00",
+          "type": "detected",
+          "version": 1
+        }
+      ],
+      "detail_timeout_seconds": 18,
+      "manual_override": true,
+      "summary": "Enjoy a London Eye visit with 15% off on tickets using Visa payment cards and Credit cards from STC Bank.",
+      "corridors": [],
+      "offer_values": [
+        "15%"
+      ],
+      "evidence_snapshot": "Enjoy a London Eye visit with 15% off on tickets using Visa payment cards and Credit cards from STC Bank.",
+      "date_extraction_method": "not_found",
+      "source_verification": {
+        "status": "verified_website",
+        "verification_method": "official_website_page",
+        "checked_at": "2026-08-26T07:14:00.783818+00:00",
+        "source_url": "https://stcbank.com.sa/en/web/guest/w/london-eye",
+        "source_changed": false,
+        "conflicts": [],
+        "error": null
+      },
+      "last_live_verified_at": "2026-08-26T07:14:00.783818+00:00",
+      "last_reviewed": "2026-08-26T07:14:00.783818+00:00",
+      "review_priority": 5,
+      "review_decision": "confirm_merchant_offer",
+      "review_approved": true,
+      "reviewed_by": "admin",
+      "reviewed_at": "2026-08-26T12:00:30.730278+00:00",
+      "review_request_id": "1988e116-93ab-4032-bb3c-fa1b42ed21ec",
+      "linked_posts": [],
+      "social_post_counts": {
+        "instagram": 0,
+        "x": 0,
+        "facebook": 0,
+        "tiktok": 0
+      },
+      "social_posts_total": 0,
+      "social_platform_count": 0,
+      "social_first_post": null,
+      "social_latest_post": null,
+      "social_posts_7d": 0,
+      "social_posts_30d": 0
+    },
+    {
       "id": "detected:stc-bank:fbee4408c8f62cd77d91",
       "competitor_id": "stc-bank",
       "source_key": "website:stc-bank:offers",
@@ -60897,7 +60913,7 @@
         "status": "verified_website",
         "verification_method": "official_website_page",
         "checked_at": "2026-08-26T10:55:51.256151+00:00",
-        "source_url": "https://www.alinmapay.com.sa/Offers/Winter---at-Urth-Caffe-offer-Dece25",
+        "source_url": "https://www.alinmapay.com.sa/Offers/Urth-Cafe-dec25",
         "source_changed": false,
         "conflicts": [],
         "error": null
@@ -60918,7 +60934,14 @@
       "social_latest_post": null,
       "social_posts_7d": 0,
       "social_posts_30d": 0,
-      "review_priority": 5
+      "review_priority": 5,
+      "media": {
+        "type": "image",
+        "url": "https://www.alinmapay.com.sa/-/media/Project/AlinmaPay/AlinmaPay/Icons/logo.png",
+        "thumbnail_url": "https://www.alinmapay.com.sa/-/media/Project/AlinmaPay/AlinmaPay/Icons/logo.png",
+        "source_type": "official_website",
+        "source_url": "https://www.alinmapay.com.sa/Offers/Urth-Cafe-dec25"
+      }
     },
     {
       "id": "detected:alinma-pay:d3d23607fa665c0de49e",
@@ -83056,7 +83079,7 @@
       "source_verification": {
         "status": "verified_social",
         "verification_method": "official_social_rss_or_inventory",
-        "checked_at": "2026-08-26T10:55:51.256151+00:00",
+        "checked_at": "2026-08-26T12:00:31.814995+00:00",
         "source_url": "https://www.instagram.com/reel/DYxvJOWiZY5/",
         "source_changed": false,
         "conflicts": [],
@@ -83166,7 +83189,7 @@
       "source_verification": {
         "status": "verified_social",
         "verification_method": "official_social_rss_or_inventory",
-        "checked_at": "2026-08-26T10:55:51.256151+00:00",
+        "checked_at": "2026-08-26T12:00:31.814995+00:00",
         "source_url": "https://www.facebook.com/usebarq/posts/update-your-barq-app-and-join-the-prediction-game-win-your-share-of-prizes-worth/122197690844385166/",
         "source_changed": false,
         "conflicts": [],
@@ -83267,7 +83290,7 @@
       "source_verification": {
         "status": "verified_social",
         "verification_method": "official_social_rss_or_inventory",
-        "checked_at": "2026-08-26T10:55:51.256151+00:00",
+        "checked_at": "2026-08-26T12:00:31.814995+00:00",
         "source_url": "https://www.facebook.com/usebarq/posts/planning-a-trip-%EF%B8%8Fbook-through-almatarapp-with-your-barq-visa-and-get-up-to-10-of/122178668528385166/",
         "source_changed": false,
         "conflicts": [],
@@ -83372,7 +83395,7 @@
       "source_verification": {
         "status": "verified_social",
         "verification_method": "official_social_rss_or_inventory",
-        "checked_at": "2026-08-26T10:55:51.256151+00:00",
+        "checked_at": "2026-08-26T12:00:31.814995+00:00",
         "source_url": "https://www.instagram.com/p/DbAtiuQNGlf/",
         "source_changed": false,
         "conflicts": [],
@@ -84317,7 +84340,7 @@
       "source_verification": {
         "status": "verified_social",
         "verification_method": "official_social_rss_or_inventory",
-        "checked_at": "2026-08-26T10:55:51.256151+00:00",
+        "checked_at": "2026-08-26T12:00:31.814995+00:00",
         "source_url": "https://x.com/urpay_sa/status/2074433249682845889",
         "source_changed": false,
         "conflicts": [],
@@ -84420,7 +84443,7 @@
       "source_verification": {
         "status": "verified_social",
         "verification_method": "official_social_rss_or_inventory",
-        "checked_at": "2026-08-26T10:55:51.256151+00:00",
+        "checked_at": "2026-08-26T12:00:31.814995+00:00",
         "source_url": "https://www.facebook.com/AlinmaPaySA/posts/%EF%B8%8F-fees-gonetravel-anywhere-and-use-your-alinmapay-cashback-cards-without-worryin/1619335260194305/",
         "source_changed": false,
         "conflicts": [],
@@ -85536,7 +85559,7 @@
       "source_verification": {
         "status": "verified_social",
         "verification_method": "official_social_rss_or_inventory",
-        "checked_at": "2026-08-26T10:55:51.256151+00:00",
+        "checked_at": "2026-08-26T12:00:31.814995+00:00",
         "source_url": "https://www.instagram.com/alinmapay/p/DbqaY05mm9E/",
         "source_changed": false,
         "conflicts": [],
@@ -89671,7 +89694,7 @@
       "source_verification": {
         "status": "verified_social",
         "verification_method": "official_social_rss_or_inventory",
-        "checked_at": "2026-08-26T10:55:51.256151+00:00",
+        "checked_at": "2026-08-26T12:00:31.814995+00:00",
         "source_url": "https://www.instagram.com/tiqmoksa/p/DbLZ9Yfj6dy/",
         "source_changed": false,
         "conflicts": [],
@@ -90950,7 +90973,7 @@
       "source_verification": {
         "status": "verified_social",
         "verification_method": "official_social_rss_or_inventory",
-        "checked_at": "2026-08-26T10:55:51.256151+00:00",
+        "checked_at": "2026-08-26T12:00:31.814995+00:00",
         "source_url": "https://www.instagram.com/reel/DWots29j8fx/?hl=en",
         "source_changed": false,
         "conflicts": [],
@@ -109657,7 +109680,7 @@
       ],
       "manual_override": true,
       "corridors": [],
-      "suggested_campaign_id": "detected:mobily-pay:4232dc8e428d8da7c964",
+      "suggested_campaign_id": "detected:mobily-pay:f2953c8559c1e8fb8c5f",
       "review_priority": 23
     },
     {
@@ -111221,39 +111244,39 @@
     }
   ],
   "detail_verification_stats": {
-    "network_checks": 24,
-    "elapsed_seconds": 32.3,
-    "completed_at": "2026-08-26T10:56:23.527679+00:00"
+    "network_checks": 0,
+    "elapsed_seconds": 0.2,
+    "completed_at": "2026-08-26T12:00:32.022765+00:00"
   },
   "mobily_deterministic_classification": {
     "changed": 0,
-    "at": "2026-08-26T10:56:30.016619+00:00"
+    "at": "2026-08-26T12:00:32.824691+00:00"
   },
   "verified_official_classification": {
     "changed": 0,
-    "at": "2026-08-26T10:56:30.019847+00:00",
+    "at": "2026-08-26T12:00:32.828652+00:00",
     "version": "classifier-v4-source-aware"
   },
   "record_integrity": {
     "quarantined_or_demoted": 0,
-    "at": "2026-08-26T10:56:29.938108+00:00"
+    "at": "2026-08-26T12:00:32.728342+00:00"
   },
   "winner_announcement_integrity": {
-    "normalized": 6,
-    "at": "2026-08-26T10:56:29.937348+00:00"
+    "normalized": 0,
+    "at": "2026-08-26T12:00:32.727641+00:00"
   },
   "deduplication": {
-    "removed": 5,
-    "at": "2026-08-26T10:56:29.985341+00:00"
+    "removed": 0,
+    "at": "2026-08-26T12:00:32.788497+00:00"
   },
   "final_status_normalization": {
     "changed": 0,
-    "at": "2026-08-26T10:56:30.051704+00:00"
+    "at": "2026-08-26T12:00:32.865170+00:00"
   },
-  "social_analytics_rebuilt_at": "2026-08-26T10:56:30.057007+00:00",
+  "social_analytics_rebuilt_at": "2026-08-26T12:00:32.873099+00:00",
   "media_sanitization": {
-    "removed": 1,
-    "at": "2026-08-26T10:56:30.065142+00:00"
+    "removed": 0,
+    "at": "2026-08-26T12:00:32.885298+00:00"
   },
   "ai_summary": {
     "what_changed": [
@@ -111293,15 +111316,11 @@
     "generated_at": "2026-08-26T10:56:30.067672+00:00"
   },
   "authoritative_delta": {
-    "added": [
-      "detected:barq:22c761ca658d2d3fc9fd"
-    ],
-    "removed": [
-      "detected:barq:a5db2146230537cf52b3"
-    ],
+    "added": [],
+    "removed": [],
     "changed": [],
     "initial": false,
-    "material": true
+    "material": false
   },
   "ai_usage": {
     "calls": 50,
@@ -111328,5 +111347,27 @@
         "estimated_usd": 0.040747
       }
     }
-  }
+  },
+  "review_activity": [
+    {
+      "request_id": "f031c312-bf79-4583-9b18-d59a29951519",
+      "reviewed_at": "2026-08-26T07:37:01.092444+00:00",
+      "reviewed_by": "admin",
+      "action": "confirm_merchant_offer",
+      "item_ids": [
+        "detected:stc-bank:fbee4408c8f62cd77d91"
+      ],
+      "campaign_id": "detected:stc-bank:fbee4408c8f62cd77d91"
+    },
+    {
+      "request_id": "1988e116-93ab-4032-bb3c-fa1b42ed21ec",
+      "reviewed_at": "2026-08-26T12:00:30.730278+00:00",
+      "reviewed_by": "admin",
+      "action": "confirm_merchant_offer",
+      "item_ids": [
+        "detected:stc-bank:0769e7a89bc6baf3e45e"
+      ],
+      "campaign_id": "detected:stc-bank:0769e7a89bc6baf3e45e"
+    }
+  ]
 }
