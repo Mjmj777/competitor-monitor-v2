@@ -49,8 +49,18 @@ try:
     mob=next((c for c in config.get('competitors',[]) if c.get('id')=='mobily-pay'),None)
     if mob:
         src=(mob.get('website_sources') or [{}])[0]
-        if '/ar/offers.html' not in str(src.get('url','')): fail('Mobily Pay official offers source must use the Arabic offers index')
+        if not re.search(r'mobilypay\.sa/(?:ar|en)/offers\.html(?:$|[?#])',str(src.get('url','')),re.I):
+            fail('Mobily Pay official offers source must use the Arabic or English current-offers index')
         if not src.get('expired_headings'): fail('Mobily Pay source must define expired-offer headings to exclude historical cards')
+        patterns=' '.join(src.get('detail_link_patterns') or [])
+        if '(?:ar|en)' not in patterns: fail('Mobily Pay detail patterns must accept both Arabic and English offer URLs')
+    if tiq:
+        tsrc=(tiq.get('website_sources') or [{}])[0]
+        tabs=tsrc.get('modal_tabs') or []
+        expected_tabs={('tiqmo Campaigns','campaign'),('tiqmo Offers','merchant_offer')}
+        actual_tabs={(row.get('label'),row.get('record_type')) for row in tabs}
+        if not expected_tabs.issubset(actual_tabs): fail('tiqmo modal parser must separate Campaigns from merchant Offers')
+        if 'img.close-button' not in (tsrc.get('modal_close_selectors') or []): fail('tiqmo modal parser must use the live close-button control')
 except Exception as exc: fail(f'Browser/source parser guard failed: {exc}')
 
 # Deterministic parser/date regression checks.
@@ -73,6 +83,10 @@ try:
     rows,_=_monitor.extract_website_candidates(fixture,mob,src,config,'test')
     titles={r.get('title') for r in rows}
     if 'عرض حالي' not in titles or 'عرض قديم' in titles: fail('Mobily Pay parser mixed expired offers into current discovery')
+    fixture_en='<h2>Latest Offers Available</h2><div><h3>Summer offers with our cards</h3><a href="/en/offers/offer-53.html">Explore More</a></div>'
+    rows_en,_=_monitor.extract_website_candidates(fixture_en,mob,src,config,'test-en')
+    if not any(r.get('title')=='Summer offers with our cards' for r in rows_en):
+        fail('Mobily Pay parser rejected a valid English offer detail URL')
 
     # Requests may assume Latin-1 when a UTF-8 page omits charset= from its
     # Content-Type. The collector must preserve Arabic in that exact scenario.
@@ -201,6 +215,43 @@ try:
     if 'triggerRefresh(state.competitor.id' not in competitorjs:
         fail('Competitor page scoped refresh is not connected')
 except Exception as exc: fail(f'Admin manual-refresh guard failed: {exc}')
+
+# v5.7.3 refresh completion, locking, summaries and data-safety regression guards.
+try:
+    worker=(BASE/'cloudflare-worker.js').read_text(encoding='utf-8')
+    wf=(BASE/'.github/workflows/monitor.yml').read_text(encoding='utf-8')
+    idx=(BASE/'index.html').read_text(encoding='utf-8')
+    competitor=(BASE/'competitor.html').read_text(encoding='utf-8')
+    common=(BASE/'assets/common.js').read_text(encoding='utf-8')
+    if '/__refresh-status' not in worker or 'workflowRuns(token)' not in worker:
+        fail('Worker refresh-status tracking or active-run lock is missing')
+    if 'request_id: requestId' not in worker or 'crypto.randomUUID()' not in worker:
+        fail('Worker does not attach a unique request_id to each Admin refresh')
+    if 'request_id:' not in wf or 'CM_REFRESH_REQUEST_ID' not in wf or 'run-name:' not in wf:
+        fail('Workflow request_id tracking is incomplete')
+    if 'resumeRefresh' not in common or 'refresh_summary' not in common:
+        fail('UI does not wait for and summarize the completed refresh')
+    if 'id="load-more"' not in idx or 'id="load-more"' not in competitor:
+        fail('Bounded result rendering / Load more is missing')
+    if 'id="review-reason-filter"' not in idx or 'id="review-reason-filter"' not in competitor:
+        fail('Admin Needs Review reason filter is missing')
+
+    summary=_monitor.build_refresh_summary(
+        {'items':[{'id':'offer:1','competitor_id':'mobily-pay','content_type':'campaign','title':'Old','active':True}]},
+        [
+            {'id':'offer:1','competitor_id':'mobily-pay','content_type':'campaign','title':'Updated','active':True},
+            {'id':'offer:2','competitor_id':'mobily-pay','content_type':'merchant_offer','title':'New','active':True,'review_required':True},
+        ],
+        [{'competitor_id':'mobily-pay','source_type':'website','success':True,'item_count':0}],
+        'mobily-pay','test-request','2026-08-26T00:00:00+00:00'
+    )
+    if summary.get('new_offers')!=1 or summary.get('updated_offers')!=1 or summary.get('zero_item_sources')!=1:
+        fail('Refresh summary counters are inconsistent')
+    import inspect
+    reconcile_source=inspect.getsource(_monitor.reconcile_live)
+    if 'item_count' not in reconcile_source or 'last known-good' not in reconcile_source:
+        fail('Zero-item source protection is missing from reconcile_live')
+except Exception as exc: fail(f'v5.7.3 refresh/data-safety guard failed: {exc}')
 
 # Verification timestamps/timing are operational metadata and must be admin-only.
 try:

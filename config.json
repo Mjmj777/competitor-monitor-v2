@@ -370,11 +370,11 @@
       "id": "mobily-pay",
       "name_en": "Mobily Pay",
       "website": "https://mobilypay.sa/",
-      "offers_url": "https://mobilypay.sa/ar/offers.html",
+      "offers_url": "https://mobilypay.sa/en/offers.html",
       "website_sources": [
         {
           "id": "offers",
-          "url": "https://mobilypay.sa/ar/offers.html",
+          "url": "https://mobilypay.sa/en/offers.html",
           "link_keywords": [
             "offer-details",
             "offer",
@@ -384,7 +384,7 @@
           ],
           "detail_link_patterns": [
             "offer-details\\.html\\?.*id=",
-            "/ar/offers/offer-[^/?]+\\.html",
+            "/(?:ar|en)/offers/offer-[^/?]+\\.html",
             "/offer(?:/|\\?).+"
           ],
           "require_detail_link": true,
@@ -403,7 +403,8 @@
             "Expired Offers",
             "Previous Offers"
           ],
-          "browser_fallback": false
+          "browser_fallback": true,
+          "browser_fallback_below_items": 20
         }
       ],
       "social_feeds": {
@@ -454,6 +455,21 @@
             "View details",
             "اعرف المزيد",
             "استكشف المزيد"
+          ],
+          "modal_tabs": [
+            {
+              "label": "tiqmo Campaigns",
+              "record_type": "campaign"
+            },
+            {
+              "label": "tiqmo Offers",
+              "record_type": "merchant_offer"
+            }
+          ],
+          "modal_close_selectors": [
+            "img.close-button",
+            ".close-button",
+            ".close_btn_div"
           ]
         }
       ],

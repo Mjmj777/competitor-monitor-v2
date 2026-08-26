@@ -1,4 +1,4 @@
-# Competitor Intelligence Monitor v5.7.1 — UTF-8 + Admin Refresh
+# Competitor Intelligence Monitor v5.7.3 — Source Reliability + Safe Admin Refresh
 
 Unified clean release for the six Saudi fintech competitors.
 
@@ -30,7 +30,16 @@ GitHub Actions runs hourly:
 - `Check now` on a competitor card or competitor page runs only that competitor's discovery and detail verification.
 - `Check all competitors` on the home page runs the complete monitor.
 - The Worker validates the signed session again and returns `403` for Viewer requests, including direct API attempts.
+- The UI waits for GitHub Actions completion and shows new/updated/unchanged offer counts, new posts, review volume and source failures.
+- The Worker rejects duplicate refresh requests while another monitor run is queued or running.
+- Zero-item or failed sources preserve the last known-good records and remain visible to Admin for retry.
 - Scheduled hourly runs continue to refresh all competitors.
+
+## Admin quality controls
+- Last 20 refresh summaries are retained in `data.json` and displayed only in Admin monitoring tools.
+- Failed or zero-item sources can retry the affected competitor.
+- Needs Review can be filtered by review reason.
+- Large lists render 40 records at a time through `Load more`.
 
 ## Verification cadence
 - Official offer indexes and social sources: hourly.

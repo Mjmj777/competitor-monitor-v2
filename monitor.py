@@ -185,6 +185,28 @@ def response_text(response: requests.Response) -> str:
     return raw.decode("utf-8", errors="replace")
 
 
+def contains_mojibake(value: Any) -> bool:
+    """Detect the common UTF-8-as-Latin-1 corruption seen in official Arabic pages."""
+    text = str(value or "")
+    return "Ø" in text or "Ù" in text or "\ufffd" in text
+
+
+def repair_mojibake_text(value: Any, limit: int | None = None) -> str:
+    """Repair reversible mojibake and leave irrecoverable text detectable for rejection."""
+    text = clean(value, limit)
+    if not contains_mojibake(text):
+        return text
+    for encoding in ("latin-1", "cp1252"):
+        try:
+            fixed = text.encode(encoding).decode("utf-8")
+            fixed = clean(fixed, limit)
+            if not contains_mojibake(fixed):
+                return fixed
+        except (UnicodeEncodeError, UnicodeDecodeError):
+            continue
+    return text
+
+
 def parse_date(value: str | None) -> str | None:
     value = clean(value)
     if not value:
@@ -236,7 +258,7 @@ def infer_tags(text: str) -> tuple[list[str], list[str]]:
 
 
 
-_MOBILY_EXPIRED_PATH = re.compile(r"/(?:ar/)?(?:expired[-_]?offers?|expiredoffers?)/", re.I)
+_MOBILY_EXPIRED_PATH = re.compile(r"/(?:(?:ar|en)/)?(?:expired[-_]?offers?|expiredoffers?)/", re.I)
 _MOBILY_CAMPAIGN_STRONG = (
     "تحويل دولي", "حوالة دولية", "الحوالات الدولية", "international transfer", "international transfers", "remittance",
     "كاش باك", "cashback", "cash back",
@@ -244,6 +266,9 @@ _MOBILY_CAMPAIGN_STRONG = (
     "رسوم التحويل", "بدون رسوم", "صفر رسوم", "zero fee", "zero fees", "fee-free", "no fee",
     "راتب", "رواتب", "salary", "payroll",
     "مساند", "musaned", "سداد", "sadad",
+    "رسوم العمليات الدولية", "رسوم المعاملات الدولية", "رسوم المشتريات الدولية",
+    "international transaction fee", "international transaction fees",
+    "foreign transaction fee", "foreign transaction fees",
     "اربح", "سحب", "جائزة", "جوائز", "win", "prize", "draw",
     "دعوة", "إحالة", "referral", "refer a friend",
 )
@@ -307,7 +332,7 @@ def mobily_current_detail_link(link: str | None) -> bool:
         path = (urlsplit(str(link)).path or "").casefold()
     except Exception:
         path = str(link).casefold()
-    return bool(re.search(r"/(?:ar/)?offers/offer-[^/?#]+\.html$", path, re.I)) and not bool(_MOBILY_EXPIRED_PATH.search(path))
+    return bool(re.search(r"/(?:(?:ar|en)/)?offers/offer-[^/?#]+\.html$", path, re.I)) and not bool(_MOBILY_EXPIRED_PATH.search(path))
 
 def mobily_card_title(anchor: Any, link: str) -> tuple[str, Any]:
     """Extract a current Mobily card title even when its heading is outside the CTA."""
@@ -697,135 +722,223 @@ def tiqmo_modal_items(competitor: dict[str, Any], source: dict[str, Any], config
         except Exception:
             return None
 
+    def close_visible_modal(page) -> None:
+        """Close tiqmo's custom popup using its real image control.
+
+        The current Vue popup does not respond to Escape. Leaving it open blocks the next
+        LEARN MORE control and causes a run to capture only the first campaign.
+        """
+        selectors = source.get("modal_close_selectors") or [
+            "img.close-button", ".close-button", ".close_btn_div"
+        ]
+        for selector in selectors:
+            try:
+                control = page.locator(selector)
+                if control.count() and control.first.is_visible():
+                    control.first.click(timeout=2500, force=True)
+                    try:
+                        page.locator(".popup-overlay").wait_for(state="hidden", timeout=2500)
+                    except Exception:
+                        page.wait_for_timeout(250)
+                    return
+            except Exception:
+                pass
+        try:
+            page.keyboard.press("Escape")
+            page.wait_for_timeout(250)
+        except Exception:
+            pass
+
     try:
         with sync_playwright() as p:
             browser = p.chromium.launch(headless=True, args=["--no-sandbox"])
             page = browser.new_page(user_agent=USER_AGENT, locale="en-US", viewport={"width": 1440, "height": 1000})
-            page.goto(source["url"], wait_until="domcontentloaded", timeout=timeout * 1000)
-            try:
-                page.wait_for_load_state("networkidle", timeout=min(timeout, 12) * 1000)
-            except Exception:
-                pass
 
-            # If a cookie banner blocks clicks, dismiss common accept buttons when present.
-            for label in ["Accept all", "Accept All", "Accept", "I agree", "موافق", "قبول الكل"]:
+            def prepare_listing_tab(tab_label: str | None, tab_index: int) -> None:
+                """Open a clean listing state before reading a tiqmo card.
+
+                The live Vue page can unmount the campaign cards after a popup has been
+                closed. Reopening the listing before the next card prevents a stale modal
+                or stale locator from stopping the rest of the source scan.
+                """
+                page.goto(source["url"], wait_until="domcontentloaded", timeout=timeout * 1000)
                 try:
-                    btn = page.get_by_role("button", name=re.compile(rf"^\s*{re.escape(label)}\s*$", re.I))
-                    if btn.count() and btn.first.is_visible():
-                        btn.first.click(timeout=1200)
-                        break
+                    page.wait_for_load_state("networkidle", timeout=min(timeout, 12) * 1000)
                 except Exception:
                     pass
 
-            ctas = page.locator("button, a").filter(has_text=cta_pattern)
-            count = min(ctas.count(), int(config["settings"].get("max_items_per_source", 80)))
-            if count == 0:
-                raise RuntimeError("No visible tiqmo LEARN MORE controls were found")
-
-            for index in range(count):
-                cta = ctas.nth(index)
-                try:
-                    if not cta.is_visible():
-                        continue
-                    card_title = card_title_for(cta)
-                    cta.scroll_into_view_if_needed(timeout=3000)
-                    cta.click(timeout=5000, force=True)
-
-                    payload = None
-                    for _ in range(12):
-                        page.wait_for_timeout(250)
-                        payload = visible_modal_payload(page)
-                        if payload and clean(payload.get("text"), 12000):
-                            break
-                    if not payload:
-                        raise RuntimeError(f"Offer modal did not appear for card {index + 1}")
-
-                    modal_text = clean(payload.get("text"), 12000)
-                    title = clean(payload.get("title"), 260) or card_title
-                    if not title:
-                        title = clean(modal_text.split("\n", 1)[0], 260) or f"tiqmo offer {index + 1}"
-                    title = strip_validity_prefix(title)
-                    identity = normalized_title(title) or digest(modal_text[:500])
-                    if identity in seen:
-                        page.keyboard.press("Escape")
-                        continue
-                    seen.add(identity)
-
-                    start_date, end_date, date_evidence = listing_date_hints(modal_text)
-                    category, categories = taxonomy_match(f"{title} {modal_text}", config)
-                    mechanics, themes = infer_tags(f"{title} {modal_text}")
-                    image = canonical(source["url"], clean(payload.get("image"))) if payload.get("image") else None
-                    source_locator = {"type": "modal", "label": title, "ordinal": index + 1}
-                    media = ({
-                        "url": image,
-                        "type": "image",
-                        "thumbnail_url": image,
-                        "source_type": "official_website",
-                        "source_url": source["url"],
-                        "verification_method": "official_website_modal",
-                    } if image else None)
-
-                    row = {
-                        "id": f"detected:{competitor['id']}:{digest('official-modal', identity)}",
-                        "competitor_id": competitor["id"],
-                        "source_key": key,
-                        "source_type": "website",
-                        "platform": "website",
-                        "content_type": "review",
-                        "campaign_category": category,
-                        "primary_category": category,
-                        "categories": categories,
-                        "title": title,
-                        "snippet": modal_text,
-                        "summary": modal_text[:1600],
-                        "link": source["url"],
-                        "official_campaign_page_url": source["url"],
-                        "primary_official_source_url": source["url"],
-                        "source_locator": source_locator,
-                        "source_detail_type": "modal",
-                        "social_links": {},
-                        "social_link_count": 0,
-                        "published_at": None,
-                        "start_date": start_date,
-                        "end_date": end_date,
-                        "date_evidence": {"modal": date_evidence} if date_evidence else {},
-                        "evidence_snapshot": date_evidence or modal_text[:1200],
-                        "current_status": "Needs Review",
-                        "active": True,
-                        "direct_link": False,
-                        "verified": True,
-                        "official_discovery": True,
-                        "discovery_section": "current",
-                        "review_required": True,
-                        "review_reasons": ["new_official_modal_not_in_excel_inventory"],
-                        "confidence": "high",
-                        "mechanic_tags": mechanics,
-                        "theme_tags": themes,
-                        "media": media,
-                        "source_verification": {
-                            "status": "verified_website",
-                            "verification_method": "official_website_modal",
-                            "checked_at": checked,
-                            "source_url": source["url"],
-                            "source_locator": source_locator,
-                            "source_changed": False,
-                            "conflicts": [],
-                            "error": None,
-                        },
-                    }
-                    rows.append(row)
-                except Exception as exc:
-                    print(f"[tiqmo modal {index + 1}] {type(exc).__name__}: {clean(exc, 300)}")
-                finally:
-                    # Close the current modal before opening the next card.
+                # If a cookie banner blocks clicks, dismiss common accept buttons.
+                for label in ["Accept all", "Accept All", "Accept", "I agree", "موافق", "قبول الكل"]:
                     try:
-                        page.keyboard.press("Escape")
-                        page.wait_for_timeout(180)
+                        btn = page.get_by_role("button", name=re.compile(rf"^\s*{re.escape(label)}\s*$", re.I))
+                        if btn.count() and btn.first.is_visible():
+                            btn.first.click(timeout=1200)
+                            break
                     except Exception:
                         pass
+
+                # Campaigns is the default live tab. Clicking it again can toggle the
+                # cards off on the current site, so only switch tabs after the first tab.
+                if tab_label and tab_index > 0:
+                    tab_button = page.get_by_role(
+                        "button", name=re.compile(rf"^\s*{re.escape(tab_label)}\s*$", re.I)
+                    )
+                    if not tab_button.count():
+                        raise RuntimeError(f"tiqmo tab control not found: {tab_label}")
+                    tab_button.first.click(timeout=4000, force=True)
+                    page.wait_for_timeout(900)
+
+            tabs = source.get("modal_tabs") or [{"label": None, "record_type": "campaign"}]
+            max_items = int(config["settings"].get("max_items_per_source", 80))
+            total_ctas = 0
+            tab_counts: dict[str, int] = {}
+
+            for tab_index, tab in enumerate(tabs):
+                tab_label = clean(tab.get("label"), 120) or None
+                record_type = clean(tab.get("record_type"), 40) or "campaign"
+                if record_type not in {"campaign", "merchant_offer"}:
+                    record_type = "campaign"
+
+                try:
+                    prepare_listing_tab(tab_label, tab_index)
+                except Exception as exc:
+                    print(f"[tiqmo tab {tab_label or 'default'}] {type(exc).__name__}: {clean(exc, 240)}")
+                    tab_counts[tab_label or "default"] = 0
+                    continue
+
+                ctas = page.locator("button, a").filter(has_text=cta_pattern)
+                count = min(ctas.count(), max(0, max_items - len(rows)))
+                tab_counts[tab_label or "default"] = count
+                total_ctas += count
+
+                for index in range(count):
+                    try:
+                        if index:
+                            prepare_listing_tab(tab_label, tab_index)
+                        # Resolve a fresh locator after every navigation. tiqmo's cards are
+                        # dynamic Vue components and old locator state is not dependable.
+                        ctas = page.locator("button, a").filter(has_text=cta_pattern)
+                        if index >= ctas.count():
+                            raise RuntimeError(f"Offer card {index + 1} disappeared after reload")
+                        cta = ctas.nth(index)
+                        if not cta.is_visible():
+                            continue
+                        card_title = card_title_for(cta)
+                        cta.scroll_into_view_if_needed(timeout=3000)
+                        cta.click(timeout=5000, force=True)
+
+                        payload = None
+                        for _ in range(12):
+                            page.wait_for_timeout(250)
+                            payload = visible_modal_payload(page)
+                            if payload and clean(payload.get("text"), 12000):
+                                break
+                        if not payload:
+                            raise RuntimeError(f"Offer modal did not appear for card {index + 1}")
+
+                        modal_text = repair_mojibake_text(payload.get("text"), 12000)
+                        title = repair_mojibake_text(payload.get("title"), 260) or repair_mojibake_text(card_title, 260)
+                        if not title:
+                            title = repair_mojibake_text(modal_text.split("\n", 1)[0], 260) or f"tiqmo offer {index + 1}"
+                        title = strip_validity_prefix(title)
+                        if contains_mojibake(title) or contains_mojibake(modal_text):
+                            raise RuntimeError(f"Corrupted text rejected for offer card {index + 1}")
+                        identity = normalized_title(title) or digest(modal_text[:500])
+                        seen_key = f"{record_type}:{identity}"
+                        if seen_key in seen:
+                            continue
+                        seen.add(seen_key)
+
+                        start_date, end_date, date_evidence = listing_date_hints(modal_text)
+                        category, categories = taxonomy_match(f"{title} {modal_text}", config)
+                        if record_type == "merchant_offer":
+                            category, categories = "merchant", ["merchant"]
+                        mechanics, themes = infer_tags(f"{title} {modal_text}")
+                        current_status, active = lifecycle_status({"start_date": start_date, "end_date": end_date})
+                        image = canonical(source["url"], clean(payload.get("image"))) if payload.get("image") else None
+                        source_locator = {
+                            "type": "modal",
+                            "section": tab_label or "default",
+                            "label": title,
+                            "ordinal": index + 1,
+                        }
+                        media = ({
+                            "url": image,
+                            "type": "image",
+                            "thumbnail_url": image,
+                            "source_type": "official_website",
+                            "source_url": source["url"],
+                            "verification_method": "official_website_modal",
+                        } if image else None)
+                        identity_digest = (
+                            digest("official-modal", identity)
+                            if record_type == "campaign"
+                            else digest("official-modal", record_type, identity)
+                        )
+
+                        row = {
+                            "id": f"detected:{competitor['id']}:{identity_digest}",
+                            "competitor_id": competitor["id"],
+                            "source_key": key,
+                            "source_type": "website",
+                            "platform": "website",
+                            "content_type": record_type,
+                            "suggested_record_type": record_type,
+                            "campaign_category": category,
+                            "primary_category": category,
+                            "categories": categories,
+                            "title": title,
+                            "snippet": modal_text,
+                            "summary": modal_text[:1600],
+                            "link": source["url"],
+                            "official_campaign_page_url": source["url"],
+                            "primary_official_source_url": source["url"],
+                            "source_locator": source_locator,
+                            "source_detail_type": "modal",
+                            "social_links": {},
+                            "social_link_count": 0,
+                            "published_at": None,
+                            "start_date": start_date,
+                            "end_date": end_date,
+                            "date_evidence": {"modal": date_evidence} if date_evidence else {},
+                            "evidence_snapshot": date_evidence or modal_text[:1200],
+                            "current_status": current_status,
+                            "active": active,
+                            "direct_link": False,
+                            "verified": True,
+                            "official_discovery": True,
+                            "discovery_section": tab_label or "current",
+                            "review_required": False,
+                            "review_reasons": [],
+                            "classification_method": "tiqmo_official_tab",
+                            "confidence": "high",
+                            "mechanic_tags": mechanics,
+                            "theme_tags": themes,
+                            "media": media,
+                            "source_verification": {
+                                "status": "verified_website",
+                                "verification_method": "official_website_modal",
+                                "checked_at": checked,
+                                "source_url": source["url"],
+                                "source_locator": source_locator,
+                                "source_changed": False,
+                                "conflicts": [],
+                                "error": None,
+                            },
+                        }
+                        rows.append(row)
+                    except Exception as exc:
+                        label = tab_label or "default"
+                        print(f"[tiqmo {label} modal {index + 1}] {type(exc).__name__}: {clean(exc, 300)}")
+                    finally:
+                        close_visible_modal(page)
+
+            if total_ctas == 0:
+                raise RuntimeError("No visible tiqmo LEARN MORE controls were found")
+            status["tab_counts"] = tab_counts
             browser.close()
 
-        status["success"] = True
+        status["success"] = bool(rows)
         status["item_count"] = len(rows)
         status["modal_count"] = len(rows)
         if not rows:
@@ -886,7 +999,11 @@ def extract_website_candidates(markup: str, competitor: dict[str, Any], source: 
         # Alinma Pay's offers index can place many unrelated offer cards inside the
         # same DOM container. Never use index-page body/card text as the detail
         # description for an Alinma campaign; the official detail page is authoritative.
-        snippet = "" if parser_name == "alinma-pay" else (title if parser_name == "mobily-pay" else clean(parent.get_text(" ", strip=True), 1200))
+        title = repair_mojibake_text(title, 220)
+        snippet = "" if parser_name == "alinma-pay" else (title if parser_name == "mobily-pay" else repair_mojibake_text(parent.get_text(" ", strip=True), 1200))
+        if contains_mojibake(title) or contains_mojibake(snippet):
+            skipped_general += 1
+            continue
         combined = f"{link} {title} {snippet}".casefold()
         if excludes and any(word in combined for word in excludes):
             continue
@@ -1194,7 +1311,13 @@ def reconcile_live(state: dict[str, Any], collected: list[dict[str, Any]], statu
     for stale_id in [key for key, row in items.items() if invalid_discovered_website_item(row)]:
         items.pop(stale_id, None)
 
-    successful = {row["source_key"] for row in statuses if row.get("success")}
+    # A reachable page that suddenly yields zero items is not sufficient evidence that
+    # every previously detected offer disappeared. Preserve the last known-good records
+    # and surface the zero-result source for Admin review instead of aging records out.
+    successful = {
+        row["source_key"] for row in statuses
+        if row.get("success") and int(row.get("item_count") or 0) > 0
+    }
     seen: set[str] = set()
     stamp = iso(now)
     for row in collected:
@@ -1445,6 +1568,69 @@ def build_stats(items: list[dict[str, Any]], statuses: list[dict[str, Any]], now
     }
 
 
+def refresh_fingerprint(row: dict[str, Any]) -> str:
+    """Stable comparison for the fields an Admin expects a refresh to change."""
+    return digest(
+        row.get("title"), row.get("summary") or row.get("snippet"),
+        row.get("content_type"), row.get("campaign_category"),
+        row.get("current_status"), row.get("active"),
+        row.get("start_date"), row.get("end_date"),
+        row.get("official_campaign_page_url") or row.get("link"),
+        length=32,
+    )
+
+
+def build_refresh_summary(
+    previous_data: dict[str, Any],
+    items: list[dict[str, Any]],
+    statuses: list[dict[str, Any]],
+    competitor_id: str,
+    request_id: str,
+    checked: str,
+) -> dict[str, Any]:
+    def in_scope(row: dict[str, Any]) -> bool:
+        return competitor_id == "all" or row.get("competitor_id") == competitor_id
+
+    previous = {
+        row.get("id"): row for row in previous_data.get("items", [])
+        if row.get("id") and in_scope(row)
+    }
+    current = {row.get("id"): row for row in items if row.get("id") and in_scope(row)}
+    offer_types = {"campaign", "merchant_offer", "review"}
+    new_ids = set(current) - set(previous)
+    common_ids = set(current) & set(previous)
+    new_offers = sum(1 for key in new_ids if current[key].get("content_type") in offer_types and current[key].get("source_type") != "social")
+    new_posts = sum(1 for key in new_ids if current[key].get("source_type") == "social")
+    updated_offers = sum(
+        1 for key in common_ids
+        if current[key].get("content_type") in offer_types
+        and current[key].get("source_type") != "social"
+        and refresh_fingerprint(current[key]) != refresh_fingerprint(previous[key])
+    )
+    unchanged_offers = sum(
+        1 for key in common_ids
+        if current[key].get("content_type") in offer_types
+        and current[key].get("source_type") != "social"
+        and refresh_fingerprint(current[key]) == refresh_fingerprint(previous[key])
+    )
+    scoped_statuses = [row for row in statuses if in_scope(row) and row.get("source_type") in {"website", "social"}]
+    failed = [row for row in scoped_statuses if not row.get("success")]
+    zero = [row for row in scoped_statuses if row.get("success") and int(row.get("item_count") or 0) == 0]
+    return {
+        "request_id": request_id,
+        "competitor": competitor_id,
+        "completed_at": checked,
+        "new_offers": new_offers,
+        "updated_offers": updated_offers,
+        "unchanged_offers": unchanged_offers,
+        "new_posts": new_posts,
+        "needs_review": sum(1 for row in current.values() if row.get("active") is not False and row.get("review_required")),
+        "failed_sources": len(failed),
+        "zero_item_sources": len(zero),
+        "preserved_last_known_good": len(failed) + len(zero),
+    }
+
+
 def validate(config: dict[str, Any]) -> None:
     if not config.get("competitors"):
         raise ValueError("No competitors configured")
@@ -1454,7 +1640,7 @@ def validate(config: dict[str, Any]) -> None:
         raise ValueError(f"Missing Excel categories: {sorted(required - category_ids)}")
 
 
-def run(config: dict[str, Any], competitor_id: str = "all") -> dict[str, Any]:
+def run(config: dict[str, Any], competitor_id: str = "all", request_id: str = "") -> dict[str, Any]:
     validate(config)
     now = now_utc(); checked = iso(now)
     configured_ids = {row["id"] for row in config["competitors"]}
@@ -1503,6 +1689,18 @@ def run(config: dict[str, Any], competitor_id: str = "all") -> dict[str, Any]:
     items.sort(key=lambda row: (row.get("active") is not False, parse_iso(row.get("published_at")) or parse_iso(row.get("last_changed")) or datetime.min.replace(tzinfo=timezone.utc)), reverse=True)
     previous = load_json(DATA_PATH, {})
     statuses = source_history(statuses, previous, checked, selected_competitors if partial_run else None)
+    request_id = clean(request_id, 120) or digest("refresh", competitor_id, checked, length=24)
+    refresh_summary = build_refresh_summary(previous, items, statuses, competitor_id, request_id, checked)
+    refresh_history = list(previous.get("refresh_history") or [])
+    refresh_history.append(refresh_summary)
+    refresh_baseline = {
+        row.get("id"): refresh_fingerprint(row)
+        for row in previous.get("items", [])
+        if row.get("id")
+        and row.get("content_type") in {"campaign", "merchant_offer", "review"}
+        and row.get("source_type") != "social"
+        and (competitor_id == "all" or row.get("competitor_id") == competitor_id)
+    }
     competitors = [{"id": row["id"], "name_ar": row["name_en"], "name_en": row["name_en"], "website": row.get("website"), "offers_url": row.get("offers_url")} for row in config["competitors"]]
     data = {
         "schema_version": 4, "generated_at": checked,
@@ -1511,7 +1709,15 @@ def run(config: dict[str, Any], competitor_id: str = "all") -> dict[str, Any]:
         "competitors": competitors, "categories": public_taxonomy(config, "categories"),
         "mechanic_types": public_taxonomy(config, "mechanic_types"), "themes": public_taxonomy(config, "themes"),
         "content_types": config.get("content_types", []), "source_status": statuses,
-        "stats": build_stats(items, statuses, now), "items": items,
+        "stats": build_stats(items, statuses, now),
+        "refresh_summary": refresh_summary,
+        "refresh_history": refresh_history[-20:],
+        "data_safety": {
+            "zero_or_failed_sources_preserved": refresh_summary["preserved_last_known_good"],
+            "policy": "last_known_good",
+        },
+        "_refresh_baseline": {"offers": refresh_baseline},
+        "items": items,
     }
     save_json(DATA_PATH, data)
     return data
@@ -1521,6 +1727,7 @@ def args() -> argparse.Namespace:
     parser = argparse.ArgumentParser()
     parser.add_argument("--validate-only", action="store_true")
     parser.add_argument("--competitor", default=os.environ.get("CM_COMPETITOR", "all"), help="Competitor id to refresh, or 'all'")
+    parser.add_argument("--request-id", default=os.environ.get("CM_REFRESH_REQUEST_ID", ""), help="Manual refresh request identifier")
     return parser.parse_args()
 
 
@@ -1531,7 +1738,7 @@ def main() -> int:
         options = args()
         if options.validate_only:
             print("Configuration is valid."); return 0
-        data = run(config, clean(options.competitor) or "all"); print(json.dumps(data["stats"], ensure_ascii=False)); return 0
+        data = run(config, clean(options.competitor) or "all", clean(options.request_id, 120)); print(json.dumps(data["stats"], ensure_ascii=False)); return 0
     except Exception as exc:
         print(f"ERROR: {type(exc).__name__}: {exc}", flush=True); return 1
 

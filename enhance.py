@@ -31,7 +31,7 @@ MECHANICS = {
 WINNER_ANNOUNCEMENT_WORDS=["winner","winners","congratulations","congrats","winner announcement","فائز","فائزة","فائزين","فائزينا","الفائز","الفائزة","الفائزين","مبروك","نبارك","تهانينا"]
 SOCIAL_HOSTS=("instagram.com","facebook.com","m.facebook.com","x.com","twitter.com","tiktok.com")
 AI_DATE_CALLS_THIS_RUN=0
-DETAIL_EXTRACTOR_VERSION="focused-detail-v2"
+DETAIL_EXTRACTOR_VERSION="focused-detail-v3-mobily-en"
 
 def is_winner_announcement(item):
     text=f"{item.get('title','')} {item.get('snippet','')}".casefold()
@@ -194,7 +194,7 @@ def enforce_record_integrity(data, config):
 
 
 
-_MOBILY_EXPIRED_PATH = re.compile(r"/(?:ar/)?(?:expired[-_]?offers?|expiredoffers?)/", re.I)
+_MOBILY_EXPIRED_PATH = re.compile(r"/(?:(?:ar|en)/)?(?:expired[-_]?offers?|expiredoffers?)/", re.I)
 _MOBILY_CAMPAIGN_STRONG = (
     "تحويل دولي", "حوالة دولية", "الحوالات الدولية", "international transfer", "international transfers", "remittance",
     "كاش باك", "cashback", "cash back",
@@ -202,6 +202,9 @@ _MOBILY_CAMPAIGN_STRONG = (
     "رسوم التحويل", "بدون رسوم", "صفر رسوم", "zero fee", "zero fees", "fee-free", "no fee",
     "راتب", "رواتب", "salary", "payroll",
     "مساند", "musaned", "سداد", "sadad",
+    "رسوم العمليات الدولية", "رسوم المعاملات الدولية", "رسوم المشتريات الدولية",
+    "international transaction fee", "international transaction fees",
+    "foreign transaction fee", "foreign transaction fees",
     "اربح", "سحب", "جائزة", "جوائز", "win", "prize", "draw",
     "دعوة", "إحالة", "referral", "refer a friend",
 )
@@ -295,7 +298,11 @@ def load(path: Path, default):
     try: return json.loads(path.read_text(encoding="utf-8"))
     except Exception: return default
 
-def save(path: Path, obj): path.write_text(json.dumps(obj, ensure_ascii=False, indent=2), encoding="utf-8")
+def save(path: Path, obj):
+    """Atomically replace generated JSON so an interrupted run cannot leave a partial file."""
+    tmp=path.with_suffix(path.suffix+".tmp")
+    tmp.write_text(json.dumps(obj, ensure_ascii=False, indent=2)+"\n",encoding="utf-8")
+    tmp.replace(path)
 def now(): return datetime.now(timezone.utc)
 def iso(d): return d.astimezone(timezone.utc).isoformat() if d else None
 
@@ -329,6 +336,39 @@ def contains_mojibake(value):
     if isinstance(value,(list,tuple)):return any(contains_mojibake(v) for v in value)
     text=str(value or "")
     return "Ø" in text or "Ù" in text or "\ufffd" in text
+
+def repair_mojibake(value):
+    """Recover UTF-8 text that an older run decoded as Latin-1/Windows-1252."""
+    if isinstance(value,dict):return {k:repair_mojibake(v) for k,v in value.items()}
+    if isinstance(value,list):return [repair_mojibake(v) for v in value]
+    if not isinstance(value,str) or not contains_mojibake(value):return value
+    for encoding in ("latin-1","cp1252"):
+        try:
+            fixed=value.encode(encoding).decode("utf-8")
+            if not contains_mojibake(fixed):return fixed
+        except (UnicodeEncodeError,UnicodeDecodeError):
+            continue
+    return value.replace("\ufffd","")
+
+def repair_legacy_mobily_text(data):
+    changed=0
+    for item in data.get("items",[]):
+        if item.get("competitor_id")!="mobily-pay":continue
+        for field in ("title","summary","snippet","evidence_snapshot"):
+            old=item.get(field);new=repair_mojibake(old)
+            if contains_mojibake(new):
+                if field=="title":
+                    match=re.search(r"offer-([^/?#]+)",clean(direct_url(item),1500),re.I)
+                    suffix=clean(match.group(1) if match else str(item.get("id") or "").rsplit(":",1)[-1],40)
+                    new=f"Mobily Pay offer {suffix or 'pending verification'}"
+                else:
+                    # The old cleaner collapsed some Latin-1 control bytes to spaces, so
+                    # those strings cannot be reconstructed reliably. Clear them and let
+                    # the forced official-detail recheck repopulate clean source text.
+                    new=None
+            if new!=old:item[field]=new;changed+=1
+    if changed:data["mobily_text_repairs"]={"fields_repaired":changed,"at":iso(now())}
+    return changed
 
 def hash_text(*parts): return hashlib.sha256("|".join(clean(p,5000) for p in parts).encode()).hexdigest()[:24]
 
@@ -718,6 +758,10 @@ def verify_details(data,state,config,overrides,competitor_filter=None):
 
     for item in candidates:
 
+        if item.get("competitor_id")=="mobily-pay":
+            for field in ("title","summary","snippet","evidence_snapshot"):
+                if field in item:item[field]=repair_mojibake(item.get(field))
+
         existing_sv=item.get("source_verification") or {}
         if existing_sv.get("status")=="verified_website" and existing_sv.get("verification_method")=="official_website_modal" and item.get("source_locator"):
             item["verified"]=True
@@ -869,7 +913,8 @@ def verify_details(data,state,config,overrides,competitor_filter=None):
         placeholder_titles={"new campaign pending source analysis","new campaign"}
         current_title=clean(item.get("title"),300)
         technical_placeholder=bool(re.fullmatch(r"mobily pay offer [^ ]+",current_title.casefold()))
-        if ex.get("title") and (not current_title or current_title.casefold() in placeholder_titles or technical_placeholder) and "title" not in manual:
+        damaged_mobily_title=item.get("competitor_id")=="mobily-pay" and contains_mojibake(current_title)
+        if ex.get("title") and (not current_title or current_title.casefold() in placeholder_titles or technical_placeholder or damaged_mobily_title) and "title" not in manual:
             item["title"]=ex["title"]
         if ex.get("summary") and "summary" not in manual:
             current_summary=clean(item.get("summary") or item.get("snippet"),5000)
@@ -1532,6 +1577,40 @@ def recompute_stats(data):
     items=data.get("items",[]);current=now();campaigns=[i for i in items if i.get("content_type")=="campaign" and i.get("active") is not False];merchants=[i for i in items if i.get("content_type")=="merchant_offer" and i.get("active") is not False];social7=[i for i in items if i.get("source_type")=="social" and i.get("active") is not False and (dt(i.get("published_at")) or datetime.min.replace(tzinfo=timezone.utc))>=current-timedelta(days=7)];statuses=[s for s in data.get("source_status",[]) if s.get("source_type") in {"website","social"}]
     data["stats"]={"active_campaigns":len(campaigns),"merchant_offers":len(merchants),"remittance_campaigns":sum(i.get("campaign_category")=="remittance" for i in campaigns),"expiring_30d":sum("Expiring" in (i.get("current_status") or "") for i in campaigns),"social_posts_7d":len(social7),"review_required":sum(i.get("active") is not False and i.get("review_required") for i in items),"healthy_sources":sum(bool(s.get("success")) for s in statuses),"failed_sources":sum(not s.get("success") for s in statuses),"total_sources":len(statuses)}
 
+def refresh_fingerprint(row):
+    raw="\x1f".join(clean(part,5000) for part in (
+        row.get("title"),row.get("summary") or row.get("snippet"),row.get("content_type"),
+        row.get("campaign_category"),row.get("current_status"),row.get("active"),
+        row.get("start_date"),row.get("end_date"),row.get("official_campaign_page_url") or row.get("link")
+    ))
+    return hashlib.sha256(raw.encode("utf-8")).hexdigest()[:32]
+
+def finalize_refresh_metadata(data):
+    """Refresh Admin-visible counts after classification, verification and deduplication."""
+    summary=data.get("refresh_summary") or {}
+    if not summary:return
+    target=clean(summary.get("competitor") or "all")
+    in_scope=lambda row: target in {"", "all", "*"} or row.get("competitor_id")==target
+    scoped=[i for i in data.get("items",[]) if in_scope(i)]
+    baseline=(data.pop("_refresh_baseline",{}) or {}).get("offers",{})
+    current_offers={i.get("id"):i for i in scoped if i.get("id") and i.get("content_type") in {"campaign","merchant_offer","review"} and i.get("source_type")!="social"}
+    if baseline:
+        new_ids=set(current_offers)-set(baseline);common_ids=set(current_offers)&set(baseline)
+        summary["new_offers"]=len(new_ids)
+        summary["updated_offers"]=sum(refresh_fingerprint(current_offers[key])!=baseline[key] for key in common_ids)
+        summary["unchanged_offers"]=sum(refresh_fingerprint(current_offers[key])==baseline[key] for key in common_ids)
+    statuses=[s for s in data.get("source_status",[]) if in_scope(s) and s.get("source_type") in {"website","social"}]
+    summary["needs_review"]=sum(i.get("active") is not False and i.get("review_required") for i in scoped)
+    summary["failed_sources"]=sum(not s.get("success") for s in statuses)
+    summary["zero_item_sources"]=sum(bool(s.get("success")) and int(s.get("item_count") or 0)==0 for s in statuses)
+    summary["preserved_last_known_good"]=summary["failed_sources"]+summary["zero_item_sources"]
+    summary["completed_at"]=iso(now())
+    history=data.get("refresh_history") or []
+    for row in reversed(history):
+        if row.get("request_id")==summary.get("request_id"):
+            row.update(summary);break
+    data["data_safety"]={"zero_or_failed_sources_preserved":summary["preserved_last_known_good"],"policy":"last_known_good"}
+
 def cli_args():
     parser=argparse.ArgumentParser()
     parser.add_argument("--competitor",default=os.environ.get("CM_COMPETITOR","all"),help="Competitor id for a scoped on-demand refresh, or 'all'.")
@@ -1542,12 +1621,12 @@ def main():
     data=load(DATA_PATH,{});state=load(STATE_PATH,{"schema_version":5,"items":{}});config=load(CONFIG_PATH,{});overrides=load(OVERRIDES_PATH,{"items":{},"new_items":[]})
     if not data.get("items"):print("No data items");return 0
     if target.casefold() not in {"", "all", "*"}:print(f"[TARGET] detail verification for {target}")
-    apply_manual_deletions(data,overrides);add_manual_new_items(data,overrides);verify_details(data,state,config,overrides,target);apply_mobily_deterministic_classification(data);enforce_record_integrity(data,config);enrich_social(data,state,config,overrides);apply_mobily_deterministic_classification(data);normalize_winner_announcements(data);enforce_record_integrity(data,config);consolidate_duplicates(data);apply_manual_deletions(data,overrides);apply_mobily_deterministic_classification(data);finalize_counted_statuses(data,overrides,config);recompute_social_analytics(data);sanitize_campaign_media(data);detect_duplicates_replacements(data)
+    repair_legacy_mobily_text(data);apply_manual_deletions(data,overrides);add_manual_new_items(data,overrides);verify_details(data,state,config,overrides,target);apply_mobily_deterministic_classification(data);enforce_record_integrity(data,config);enrich_social(data,state,config,overrides);apply_mobily_deterministic_classification(data);normalize_winner_announcements(data);enforce_record_integrity(data,config);consolidate_duplicates(data);apply_manual_deletions(data,overrides);apply_mobily_deterministic_classification(data);finalize_counted_statuses(data,overrides,config);recompute_social_analytics(data);sanitize_campaign_media(data);detect_duplicates_replacements(data)
     for item in data.get("items",[]):
         item["review_priority"]=review_priority(item);item.pop("confidence",None) # confidence stays internal, never a displayed score
     snap=snapshot_campaigns(data["items"]);delta=material_delta(state.get("summary_snapshot",{}),snap);summary=ai_summary(data["items"],delta,state,config)
     state.update(summary_snapshot=snap,ai_summary=summary,authoritative_delta=delta,schema_version=5,updated_at=iso(now()))
-    data.update(schema_version=5,ai_summary=summary,authoritative_delta=delta,ai_usage=state.get("ai_usage",{}));recompute_stats(data)
+    data.update(schema_version=5,ai_summary=summary,authoritative_delta=delta,ai_usage=state.get("ai_usage",{}));recompute_stats(data);finalize_refresh_metadata(data)
     data["items"].sort(key=lambda i:(i.get("active") is not False,i.get("review_priority",0),dt(i.get("published_at")) or dt(i.get("last_changed")) or datetime.min.replace(tzinfo=timezone.utc)),reverse=True)
     save(DATA_PATH,data);save(STATE_PATH,state);print(f"Enhanced {len(data['items'])} items · review={data['stats']['review_required']} · AI calls total={data.get('ai_usage',{}).get('calls',0)}");return 0
 
