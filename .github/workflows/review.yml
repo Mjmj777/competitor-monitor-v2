@@ -65,6 +65,7 @@ jobs:
           node --check assets/review.js
           node --check cloudflare-worker.js
           python postflight_check.py
+          python tests/classification_regression_test.py
           python tests/review_apply_test.py --self-check
 
       - name: Export approved Excel workbook
