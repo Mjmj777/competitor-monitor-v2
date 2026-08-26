@@ -34,7 +34,7 @@ WINNER_ANNOUNCEMENT_WORDS=["winner","winners","congratulations","congrats","winn
 SOCIAL_HOSTS=("instagram.com","facebook.com","m.facebook.com","x.com","twitter.com","tiktok.com")
 AI_DATE_CALLS_THIS_RUN=0
 DETAIL_EXTRACTOR_VERSION="focused-detail-v3-mobily-en"
-CLASSIFIER_VERSION="classifier-v4-source-aware"
+CLASSIFIER_VERSION="classifier-v5-merchant-candidates"
 
 def is_winner_announcement(item):
     text=f"{item.get('title','')} {item.get('snippet','')}".casefold()
@@ -302,10 +302,11 @@ _GENERIC_CAMPAIGN_STRONG = (
     "campaign runs", "campaign period", "enter the draw", "weekly draw", "prize draw",
     "win a car", "win prizes", "cash prizes", "cashback game", "cash back game",
     "international transfer", "international transfers", "remittance", "fee-free", "zero fee",
-    "salary cashback", "payroll", "musaned", "sadad",
+    "salary cashback", "payroll", "musaned", "sadad", "exchange rate", "preferred rate", "fixed rate",
     "فترة الحملة", "تبدأ الحملة", "تنتهي الحملة", "ادخل السحب", "دخول السحب",
     "سحب أسبوعي", "سحب شهري", "اربح سيارة", "جوائز نقدية", "لعبة الكاش باك",
     "حوالة دولية", "تحويل دولي", "الحوالات الدولية", "رواتب العمالة", "مساند", "سداد",
+    "سعر صرف", "سعر التحويل", "تثبيت الليرة", "تثبيت سعر",
 )
 _GENERIC_MERCHANT_STRONG = (
     "partner offer", "merchant offer", "exclusive partner", "discount at", "discount with",
@@ -313,6 +314,41 @@ _GENERIC_MERCHANT_STRONG = (
     "عرض شريك", "عروض الشركاء", "خصم لدى", "خصم في", "خصم مع", "رمز الخصم",
     "كود الخصم", "عند الدفع", "في المطعم", "في المتجر",
 )
+
+_GENERIC_MERCHANT_TITLE_TERMS = (
+    "restaurant", "cafe", "coffee", "hotel", "resort", "spa", "clinic", "store", "shop",
+    "shopping", "fashion", "beauty", "fitness", "furniture", "perfume", "chocolate", "tickets", "college", "school",
+    "مطعم", "كافيه", "قهوة", "فندق", "منتجع", "سبا", "عيادة", "متجر", "تسوق",
+    "أثاث", "اثاث", "عطور", "شوكولات", "مجوهرات", "هدايا", "بيوتي", "فتنس", "برقر", "كوليدج", "مدرسة",
+)
+
+_GENERIC_OWN_CAMPAIGN_TITLE_TERMS = (
+    "campaign", "حملة", "تحويل", "حوالة", "سعر صرف", "سعر التحويل", "تثبيت الليرة",
+    "دولار", "ريال", "بطاقة", "محفظة", "كاش باك", "cashback", "cash back", "draw", "سحب",
+    "prize", "جائزة", "متجر برق", "شرائح الكترونية", "شرائح إلكترونية",
+)
+
+
+def likely_named_merchant_offer(item, text):
+    """Suggest a partner/retailer offer from its official detail-page title.
+
+    Many Barq and STC partner pages expose only a merchant name in the card title.  This
+    helper intentionally creates a suggestion, not an automatic counted record; the page
+    must still pass official detail verification or receive explicit Admin approval.
+    """
+    title = clean(item.get("title"), 500).casefold()
+    if not title or any(marker in title for marker in _GENERIC_OWN_CAMPAIGN_TITLE_TERMS):
+        return False
+    if any(marker in title for marker in _GENERIC_MERCHANT_TITLE_TERMS):
+        return True
+    if re.search(r"(?:^|\s)[x×](?:\s|$)", title, re.I):
+        return True
+    if re.match(r"^\s*(?:عرض|offer)\b", title, re.I) or re.search(r"\b(?:عرض|offer)\s*$", title, re.I):
+        return True
+    return bool(
+        re.search(r"(?:exclusive|خصم|discount|off)\b", text, re.I)
+        and re.search(r"(?:\bat\b|\bwith\b|\bfrom\b|\s(?:لدى|مع|في|من)\s)", text, re.I)
+    )
 
 
 def verified_official_hint(item):
@@ -327,15 +363,24 @@ def verified_official_hint(item):
     mobily_hint = mobily_offer_hint(item)
     if mobily_hint in {"campaign", "merchant_offer", "expired"}:
         return mobily_hint
-    suggested = item.get("suggested_record_type")
-    if suggested in {"campaign", "merchant_offer"}:
-        return suggested
-    if item.get("campaign_category") == "merchant" or item.get("primary_category") == "merchant":
-        return "merchant_offer"
+    title_text = clean(item.get("title"), 1000).casefold()
     text = clean(" ".join(str(item.get(k) or "") for k in (
         "title", "summary", "snippet", "mechanic", "eligibility", "terms_note",
         "evidence_snapshot", "date_evidence",
     )), 12000).casefold()
+    # Title-first rules prevent a listing page's combined snippet from leaking campaign
+    # language into every merchant card (notably STC Bank's offers index).
+    if re.search(r"(?:\bcampaign\b|\bdraw\b|\bprize(?:s)?\b|\bwin\b|حملة|سحب|جائزة|جوائز|اربح)", title_text, re.I):
+        return "campaign"
+    if any(marker in title_text for marker in _GENERIC_CAMPAIGN_STRONG):
+        return "campaign"
+    if any(marker in title_text for marker in _GENERIC_MERCHANT_STRONG) or likely_named_merchant_offer(item, title_text):
+        return "merchant_offer"
+    # Preserve an earlier Merchant suggestion when the title does not contradict it.
+    # This is safer than allowing a combined listing-page snippet to turn every card into
+    # the first campaign mentioned on that page.
+    if item.get("suggested_record_type") == "merchant_offer":
+        return "merchant_offer"
     # Explicit campaign wording and proprietary mechanics outrank generic partner wording.
     if re.search(r"(?:\bcampaign\b|\bdraw\b|\bprize(?:s)?\b|\bwin\b|حملة|سحب|جائزة|جوائز|اربح)", text, re.I):
         return "campaign"
@@ -344,12 +389,19 @@ def verified_official_hint(item):
     merchant_signal = any(marker in text for marker in _GENERIC_MERCHANT_STRONG)
     merchant_discount = bool(re.search(r"(?:discount|خصم)\s*(?:up\s+to|حتى)?\s*\d{1,3}\s*%", text, re.I))
     partner_name = bool(re.search(r"(?:\s[x×]\s|\bwith\b|\bat\b|\s(?:لدى|مع|في)\s)", text, re.I))
-    if merchant_signal or (merchant_discount and partner_name):
+    if merchant_signal or (merchant_discount and partner_name) or likely_named_merchant_offer(item, text):
+        return "merchant_offer"
+    if item.get("campaign_category") == "merchant" or item.get("primary_category") == "merchant":
         return "merchant_offer"
     # Cashback/fee mechanics tied to the competitor's own card, transfer or wallet are campaigns.
     proprietary = bool(re.search(r"(?:cash\s*back|كاش\s*باك|استرداد نقدي|بدون رسوم|إعفاء من الرسوم)", text, re.I))
     own_product = bool(re.search(r"(?:card|wallet|transfer|remittance|salary|بطاقة|محفظة|تحويل|حوالة|راتب)", text, re.I))
-    return "campaign" if proprietary and own_product else None
+    if proprietary and own_product:
+        return "campaign"
+    # Existing AI/cache suggestions are considered only after deterministic source-aware
+    # rules so a stale campaign suggestion cannot hide a clear named merchant offer.
+    suggested = item.get("suggested_record_type")
+    return suggested if suggested in {"campaign", "merchant_offer"} else None
 
 
 _CLASSIFICATION_REVIEW_REASONS = {
@@ -364,7 +416,7 @@ def apply_verified_official_classification(data, config):
     changed = 0
     current = now()
     for item in data.get("items", []):
-        if item.get("review_approved") and item.get("review_decision") in {"confirm_campaign","confirm_merchant_offer"}:
+        if item.get("review_approved") and item.get("review_decision") in {"confirm_campaign","confirm_merchant_offer","confirm_merchant_offers_bulk"}:
             continue
         hint = verified_official_hint(item)
         if not hint:
@@ -400,7 +452,7 @@ def apply_verified_official_classification(data, config):
         item["active"] = active
         item["review_required"] = False
         item["review_reasons"] = [r for r in (item.get("review_reasons") or []) if r not in _CLASSIFICATION_REVIEW_REASONS]
-        item["classification_method"] = "verified_official_rules_v4"
+        item["classification_method"] = "verified_official_rules_v5"
         if previous != hint:
             changed += 1
     data["verified_official_classification"] = {"changed": changed, "at": iso(current), "version": CLASSIFIER_VERSION}
@@ -1596,7 +1648,7 @@ def finalize_counted_statuses(data, overrides, config):
     for item in data.get("items",[]):
         if item.get("content_type") not in {"campaign","merchant_offer"}:
             continue
-        if item.get("source_type")=="website" and item.get("official_discovery") and (item.get("source_verification") or {}).get("status")!="verified_website":
+        if item.get("source_type")=="website" and item.get("official_discovery") and not item.get("review_approved") and (item.get("source_verification") or {}).get("status")!="verified_website":
             suggested=item.get("content_type")
             item["content_type"]="review"
             item["suggested_record_type"]=suggested
@@ -1623,6 +1675,7 @@ def finalize_counted_statuses(data, overrides, config):
 def review_priority(item):
     n=0
     if item.get("review_required"):n+=20
+    if item.get("suggested_record_type")=="merchant_offer":n+=12
     if item.get("campaign_category")=="remittance":n+=8
     if item.get("source_type") in {"website","manual"}:n+=5
     if item.get("source_verification",{}).get("source_changed"):n+=6

@@ -218,17 +218,17 @@ try:
         fail('Competitor page scoped refresh is not connected')
 except Exception as exc: fail(f'Admin manual-refresh guard failed: {exc}')
 
-# v5.9.0 refresh completion, locking, summaries and data-safety regression guards.
+# v5.9.1 refresh completion, request tracking, summaries and data-safety regression guards.
 try:
     worker=(BASE/'cloudflare-worker.js').read_text(encoding='utf-8')
     wf=(BASE/'.github/workflows/monitor.yml').read_text(encoding='utf-8')
     idx=(BASE/'index.html').read_text(encoding='utf-8')
     competitor=(BASE/'competitor.html').read_text(encoding='utf-8')
     common=(BASE/'assets/common.js').read_text(encoding='utf-8')
-    if 'const WORKER_BUILD = "5.9.0"' not in worker:
-        fail('cloudflare-worker.js is outdated; upload the v5.9.0 Worker reference file')
+    if 'const WORKER_BUILD = "5.9.1"' not in worker:
+        fail('cloudflare-worker.js is outdated; upload the v5.9.1 Worker reference file')
     if '/__refresh-status' not in worker or 'workflowRuns(token)' not in worker:
-        fail('Worker refresh-status tracking or active-run lock is missing')
+        fail('Worker refresh-status tracking is missing')
     if 'request_id: requestId' not in worker or 'crypto.randomUUID()' not in worker:
         fail('Worker does not attach a unique request_id to each Admin refresh')
     if 'request_id:' not in wf or 'CM_REFRESH_REQUEST_ID' not in wf or 'run-name:' not in wf:
@@ -256,7 +256,7 @@ try:
         reconcile_source=inspect.getsource(_monitor.reconcile_live)
         if 'item_count' not in reconcile_source or 'last known-good' not in reconcile_source:
             fail('Zero-item source protection is missing from reconcile_live')
-except Exception as exc: fail(f'v5.9.0 refresh/data-safety guard failed: {exc}')
+except Exception as exc: fail(f'v5.9.1 refresh/data-safety guard failed: {exc}')
 
 # Admin review page, persistence workflow and grouping contract.
 try:
@@ -274,6 +274,14 @@ try:
         fail('Review UI does not group selected evidence into one same-competitor campaign')
     if 'review_history' not in apply_review or 'evidence_ids' not in apply_review:
         fail('Persistent review audit/evidence model is missing')
+    if 'id="review-confirm-merchants"' not in review_html or 'id="review-suggested"' not in review_html:
+        fail('Potential Merchant Offer filter or separate bulk action is missing from review.html')
+    if 'confirm_merchant_offers_bulk' not in review_js or 'separateMerchantEligible' not in review_js:
+        fail('Review UI does not persist selected Merchant Offers as separate records')
+    if 'confirm_merchant_offers_bulk' not in worker or 'confirm_merchant_offers_bulk' not in apply_review:
+        fail('Worker/Python separate Merchant Offer bulk contract is incomplete')
+    if 'Another review decision is being saved' in worker:
+        fail('Worker still contains the stale active-review lock')
     if 'python apply_review.py' not in review_wf or 'cancel-in-progress: false' not in review_wf:
         fail('Review persistence workflow is incomplete')
     if '- manual_overrides.json' not in monitor_wf.split('jobs:',1)[0]:
@@ -282,7 +290,7 @@ try:
         fail('manual_overrides.json must not be copied into the public Pages artifact')
     if 'review.html' not in review_wf or 'review.html' not in monitor_wf:
         fail('Review page is not included in both deployment paths')
-except Exception as exc: fail(f'v5.9.0 Admin review guard failed: {exc}')
+except Exception as exc: fail(f'v5.9.1 Admin review guard failed: {exc}')
 
 # v5.8.0 chart controls, interactivity and motion must stay wired to the UI.
 try:

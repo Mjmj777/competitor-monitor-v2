@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width,initial-scale=1.0">
   <title>Campaign Review Center</title>
-  <link rel="stylesheet" href="assets/styles.css?v=5.9.0">
+  <link rel="stylesheet" href="assets/styles.css?v=5.9.1">
 </head>
 <body>
   <header class="site-header">
@@ -28,6 +28,8 @@
           <label><span data-i18n="competitors"></span><select id="review-competitor"></select></label>
           <label><span data-i18n="reviewReason"></span><select id="review-reason"></select></label>
           <label><span data-i18n="source"></span><select id="review-source"></select></label>
+          <label><span data-i18n="suggestedType"></span><select id="review-suggested"></select></label>
+          <button id="review-filter-merchants" class="button button--secondary" type="button"></button>
           <button id="review-clear-filters" class="button button--ghost" data-i18n="clear"></button>
         </div>
       </section>
@@ -35,6 +37,7 @@
         <strong id="review-selected"></strong>
         <div class="review-bulk__actions">
           <button id="review-group" class="button button--primary" data-i18n="groupAsCampaign"></button>
+          <button id="review-confirm-merchants" class="button button--merchant" data-i18n="confirmSeparateMerchants"></button>
           <button id="review-link" class="button button--secondary" data-i18n="linkExisting"></button>
           <button id="review-not-campaign" class="button button--ghost" data-i18n="markNotCampaign"></button>
           <button id="review-awareness" class="button button--ghost" data-i18n="markAwareness"></button>
@@ -48,7 +51,7 @@
     </div>
   </main>
   <footer class="footer"><span>Competitor Intelligence Dashboard</span><a class="footer-signout" href="/__logout" data-i18n="signOut"></a></footer>
-  <script src="assets/common.js?v=5.9.0" defer></script>
-  <script src="assets/review.js?v=5.9.0" defer></script>
+  <script src="assets/common.js?v=5.9.1" defer></script>
+  <script src="assets/review.js?v=5.9.1" defer></script>
 </body>
 </html>

@@ -2,7 +2,7 @@ const ORIGIN = "https://mjmj777.github.io/competitor-monitor-v2";
 const GITHUB_REPOSITORY = "Mjmj777/competitor-monitor-v2";
 const GITHUB_WORKFLOW = "monitor.yml";
 const GITHUB_REVIEW_WORKFLOW = "review.yml";
-const WORKER_BUILD = "5.9.0";
+const WORKER_BUILD = "5.9.1";
 const REFRESH_TARGETS = new Set([
   "all",
   "stc-bank",
@@ -372,7 +372,7 @@ async function workflowRuns(token) {
 
 async function reviewWorkflowRuns(token) {
   const response = await fetch(
-    `https://api.github.com/repos/${GITHUB_REPOSITORY}/actions/workflows/${GITHUB_REVIEW_WORKFLOW}/runs?branch=main&per_page=30`,
+    `https://api.github.com/repos/${GITHUB_REPOSITORY}/actions/workflows/${GITHUB_REVIEW_WORKFLOW}/runs?branch=main&per_page=100`,
     { headers: githubHeaders(token) }
   );
   if (!response.ok) {
@@ -542,6 +542,7 @@ async function handleRefresh(request, env, session) {
 const REVIEW_ACTIONS = new Set([
   "confirm_campaign",
   "confirm_merchant_offer",
+  "confirm_merchant_offers_bulk",
   "group_campaign",
   "link_existing",
   "mark_not_campaign",
@@ -562,7 +563,8 @@ function validateAdminJsonRequest(request, session) {
 
 function validReviewPayload(payload) {
   if (!payload || !REVIEW_ACTIONS.has(String(payload.action || ""))) return "Unknown review action";
-  if (!Array.isArray(payload.item_ids) || payload.item_ids.length < 1 || payload.item_ids.length > 50) return "Select between 1 and 50 items";
+  const maxItems = payload.action === "confirm_merchant_offers_bulk" ? 200 : 50;
+  if (!Array.isArray(payload.item_ids) || payload.item_ids.length < 1 || payload.item_ids.length > maxItems) return `Select between 1 and ${maxItems} items`;
   if (payload.item_ids.some((value) => typeof value !== "string" || !/^[A-Za-z0-9:._-]{4,240}$/.test(value))) return "Invalid item ID";
   if (payload.action === "link_existing" && !/^[A-Za-z0-9:._-]{4,240}$/.test(String(payload.target_campaign_id || ""))) return "A target campaign is required";
   for (const field of ["title", "summary", "campaign_category", "record_type", "start_date", "end_date", "official_source_url"]) {
@@ -590,7 +592,7 @@ async function handleReviewStatus(request, env, session) {
     const runs = await reviewWorkflowRuns(token);
     const run = runs.find((item) => String(item?.display_title || "").includes(requestId));
     if (!run) return jsonResponse({ found: false, request_id: requestId, status: "queued" }, 202);
-    return jsonResponse({ found: true, request_id: requestId, status: run.status, conclusion: run.conclusion || null, updated_at: run.updated_at || null });
+    return jsonResponse({ found: true, request_id: requestId, status: run.status, conclusion: run.conclusion || null, updated_at: run.updated_at || null, run_url: run.html_url || null });
   } catch (error) {
     return jsonResponse({ error: "github_status_failed", message: String(error?.message || error) }, 502);
   }
@@ -614,12 +616,9 @@ async function handleReview(request, env, session) {
   if (invalid) return jsonResponse({ error: "invalid_review", message: invalid }, 400);
   const token = String(env.GITHUB_ACTIONS_TOKEN || "").trim();
   if (!token) return jsonResponse({ error: "missing_github_token", message: "GITHUB_ACTIONS_TOKEN is not configured" }, 503);
-  try {
-    const active = (await reviewWorkflowRuns(token)).find((item) => item && item.status !== "completed");
-    if (active) return jsonResponse({ error: "review_in_progress", message: "Another review decision is being saved" }, 409);
-  } catch (error) {
-    return jsonResponse({ error: "github_status_failed", message: String(error?.message || error) }, 502);
-  }
+  // GitHub's shared workflow concurrency group safely serializes monitor and review
+  // writes. Do not reject a new Admin decision merely because an older run is queued
+  // or waiting; that stale lock caused review actions to remain blocked indefinitely.
   const requestId = crypto.randomUUID();
   const encodedPayload = textToBase64Url(JSON.stringify(payload));
   const githubResponse = await fetch(

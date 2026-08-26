@@ -10,6 +10,7 @@ import argparse
 import base64
 import json
 import re
+import sys
 from datetime import datetime, timezone
 from pathlib import Path
 from urllib.parse import urlsplit
@@ -18,10 +19,12 @@ BASE = Path(__file__).resolve().parent
 DATA_PATH = BASE / "data.json"
 OVERRIDES_PATH = BASE / "manual_overrides.json"
 ALLOWED_ACTIONS = {
-    "confirm_campaign", "confirm_merchant_offer", "group_campaign",
+    "confirm_campaign", "confirm_merchant_offer", "confirm_merchant_offers_bulk", "group_campaign",
     "link_existing", "mark_not_campaign", "mark_awareness",
 }
 ALLOWED_CATEGORIES = {"remittance", "musaned", "sadad", "card", "engagement", "other", "merchant"}
+MAX_REVIEW_ITEMS = 50
+MAX_SEPARATE_MERCHANT_ITEMS = 200
 
 
 def load(path: Path, default):
@@ -152,8 +155,9 @@ def apply(payload, reviewer, request_id):
     if not isinstance(raw_ids, list):
         raise ValueError("item_ids must be an array")
     item_ids = list(dict.fromkeys(clean(value, 220) for value in raw_ids if clean(value, 220)))
-    if not 1 <= len(item_ids) <= 50:
-        raise ValueError("Select between 1 and 50 review items")
+    item_limit = MAX_SEPARATE_MERCHANT_ITEMS if action == "confirm_merchant_offers_bulk" else MAX_REVIEW_ITEMS
+    if not 1 <= len(item_ids) <= item_limit:
+        raise ValueError(f"Select between 1 and {item_limit} review items")
 
     data = load(DATA_PATH, {"items": []})
     overrides = load(OVERRIDES_PATH, {"schema_version": 3, "items": {}, "new_items": [], "review_history": []})
@@ -163,7 +167,10 @@ def apply(payload, reviewer, request_id):
         raise ValueError(f"Unknown item ids: {', '.join(missing[:3])}")
     items = [by_id[item_id] for item_id in item_ids]
     competitors = {item.get("competitor_id") for item in items}
-    if len(competitors) != 1 or None in competitors:
+    if None in competitors:
+        raise ValueError("Every review item must belong to a competitor")
+    grouped_actions = {"link_existing", "group_campaign", "confirm_campaign", "confirm_merchant_offer"}
+    if action in grouped_actions and len(competitors) != 1:
         raise ValueError("Grouped review items must belong to one competitor")
 
     reviewed_at = datetime.now(timezone.utc).isoformat()
@@ -171,8 +178,44 @@ def apply(payload, reviewer, request_id):
     request_id = clean(request_id, 120)
     campaign_id = None
     new_record = None
+    approved_record_ids = []
 
-    if action == "link_existing":
+    if action == "confirm_merchant_offers_bulk":
+        ineligible = [
+            item.get("id") for item in items
+            if item.get("source_type") != "website" or not item.get("official_discovery")
+        ]
+        if ineligible:
+            raise ValueError(
+                "Separate Merchant Offer approval only accepts official website discoveries; "
+                f"invalid items: {', '.join(ineligible[:3])}"
+            )
+        for item in items:
+            if not choose_source([item]):
+                raise ValueError(f"Merchant Offer {item['id']} is missing a specific official source URL")
+            patch = {
+                "content_type": "merchant_offer",
+                "suggested_record_type": "merchant_offer",
+                "campaign_category": "merchant",
+                "primary_category": "merchant",
+                "categories": ["merchant"],
+                "review_required": False,
+                "review_reasons": [],
+                "review_decision": action,
+                "review_approved": True,
+                "manual_override": True,
+                "classification_method": "admin_bulk_separate_merchant_v1",
+                "reviewed_by": reviewer,
+                "reviewed_at": reviewed_at,
+                "review_request_id": request_id,
+            }
+            overrides.setdefault("items", {})[item["id"]] = {
+                **overrides.get("items", {}).get(item["id"], {}),
+                **patch,
+            }
+            item.update(patch)
+            approved_record_ids.append(item["id"])
+    elif action == "link_existing":
         campaign_id = clean(payload.get("target_campaign_id"), 240)
         target = by_id.get(campaign_id)
         if not target or target.get("content_type") not in {"campaign", "merchant_offer"}:
@@ -228,7 +271,8 @@ def apply(payload, reviewer, request_id):
         "reviewed_by": reviewer,
         "action": action,
         "item_ids": item_ids,
-        "campaign_id": campaign_id or (items[0]["id"] if action.startswith("confirm_") else None),
+        "campaign_id": campaign_id or (items[0]["id"] if action in {"confirm_campaign", "confirm_merchant_offer"} else None),
+        "record_ids": approved_record_ids or ([items[0]["id"]] if action in {"confirm_campaign", "confirm_merchant_offer"} else []),
     })
     overrides["review_history"] = history[-500:]
     overrides["schema_version"] = 3
@@ -246,7 +290,12 @@ def main():
     parser.add_argument("--reviewer", default="admin")
     parser.add_argument("--request-id", required=True)
     args = parser.parse_args()
-    apply(decode_payload(args.payload), args.reviewer, args.request_id)
+    try:
+        apply(decode_payload(args.payload), args.reviewer, args.request_id)
+    except ValueError as exc:
+        message = str(exc).replace("%", "%25").replace("\r", "%0D").replace("\n", "%0A")
+        print(f"::error title=Review decision rejected::{message}", file=sys.stderr)
+        raise SystemExit(2) from exc
 
 
 if __name__ == "__main__":
