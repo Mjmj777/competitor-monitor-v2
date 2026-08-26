@@ -1,8 +1,16 @@
-/* Competitor Monitor v5.7.3 safe refresh and source reliability build */
+/* Competitor Monitor v5.8.0 analytics, safe refresh and source reliability build */
 (() => {
   "use strict";
   const LANG_KEY="cm_v54_language", ALERT_KEY="cm_v5_alert_ack", OVERRIDE_KEY="cm_v5_manual_overrides", DELTA_KEY="cm_v5_last_delta_export", REFRESH_KEY="cm_v573_refresh";
   const COLORS=["#0f766e","#2563eb","#7c3aed","#d97706","#dc2626","#475569"];
+  const COMPETITOR_COLORS={
+    "stc-bank":"#4f008c",
+    "barq":"#e59b00",
+    "mobily-pay":"#008c95",
+    "tiqmo":"#d94676",
+    "urpay":"#2563eb",
+    "alinma-pay":"#16a34a"
+  };
   const I18N={
     ar:{
       appTitle:"لوحة ذكاء المنافسين",appSubtitle:"متابعة الحملات والعروض والنشاط التسويقي للمنافسين",overview:"النظرة العامة",marketAnalysis:"تحليل السوق",competitors:"المنافسون",inventory:"سجل المنافسين",campaigns:"الحملات والعروض",merchantOffers:"عروض الشركاء",posts:"المنشورات",review:"بحاجة إلى مراجعة",all:"الكل",
@@ -35,6 +43,72 @@
       featuredCampaigns:"Current campaigns",viewAllCampaigns:"View all campaigns",noCurrentCampaigns:"No current campaigns",aiSummary:"Management summary",whatChanged:"What changed?",whyMatters:"Why it matters",managementTakeaway:"Management takeaway",categorySnapshot:"Category snapshot",noMedia:"No media available",checkNow:"Check now",checkAllNow:"Check all competitors",refreshRunning:"Requesting refresh…",refreshQueued:"Check queued",refreshWaiting:"Checking sources…",refreshComplete:"Refresh completed",refreshFailed:"Refresh failed",refreshBusy:"Another refresh is already running",refreshTimedOut:"The refresh took longer than expected; review GitHub Actions",newOffersCount:"New offers",updatedOffersCount:"Updated offers",unchangedOffersCount:"Unchanged offers",newPostsCount:"New posts",failedSourcesCount:"Failed sources",zeroSourcesCount:"Sources with no items",refreshHistory:"Refresh history",noRefreshHistory:"No refreshes recorded",retryFailed:"Retry competitor",lastNewOffer:"Latest new offer",loadMore:"Load more",reviewReason:"Review reason",signOut:"Sign out",language:"العربية"
     }
   };
+  Object.assign(I18N.ar,{
+    marketAnalytics:"تحليلات السوق",
+    campaignsByCompetitorNote:"ترتيب تنازلي للحملات النشطة الحالية. اضغط على المنافس لعرض سجلاته.",
+    campaignChanges30d:"تغيّرات الحملات خلال 30 يومًا",
+    campaignChangesNote:"حملات جديدة أو محدثة أو منتهية خلال آخر 30 يومًا.",
+    campaignMixByCompetitor:"مزيج الحملات حسب المنافس",
+    campaignMixNote:"توزيع نسبي للحملات النشطة على التصنيفات الرئيسية.",
+    coverageMatrixNote:"شدة اللون تعكس عدد الحملات. اضغط على الخلية لتصفية السجل.",
+    offersAndRisk:"العروض ومخاطر الانتهاء",
+    remittanceComparisonNote:"عدد حملات التحويل الدولي النشطة لكل منافس.",
+    merchantComparisonNote:"عروض الشركاء منفصلة عن مؤشرات الحملات.",
+    mechanicsMixNote:"أكثر آليات العروض استخدامًا في الحملات النشطة.",
+    expiryRiskNote:"الحملات القريبة من الانتهاء، بدون تاريخ نهاية، والمنتهية حديثًا.",
+    socialMediaActivity:"نشاط السوشيال ميديا",
+    socialActivityNote:"مقارنة الفترة الحالية بالفترة السابقة المماثلة حسب المنافس والمنصة.",
+    last7Days:"آخر 7 أيام",
+    last30Days:"آخر 30 يومًا",
+    currentPeriod:"الفترة الحالية",
+    previousPeriod:"الفترة السابقة",
+    allPlatforms:"جميع المنصات",
+    platform:"المنصة",
+    newStatus:"جديد",
+    updatedStatus:"محدّث",
+    expiredStatus:"منتهي",
+    expiring7:"≤7 أيام",
+    expiring30:"8–30 يومًا",
+    noEndDate:"بدون تاريخ نهاية",
+    chartTotal:"الإجمالي",
+    chartPeriod:"الفترة",
+    comparisonUp:"ارتفاع",
+    comparisonDown:"انخفاض",
+    comparisonFlat:"بدون تغيير"
+  });
+  Object.assign(I18N.en,{
+    marketAnalytics:"Market analytics",
+    campaignsByCompetitorNote:"Active campaigns sorted from highest to lowest. Select a competitor to filter the inventory.",
+    campaignChanges30d:"Campaign changes over 30 days",
+    campaignChangesNote:"Campaigns added, updated or expired during the last 30 days.",
+    campaignMixByCompetitor:"Campaign mix by competitor",
+    campaignMixNote:"Relative distribution of active campaigns across the main categories.",
+    coverageMatrixNote:"Darker cells indicate more campaigns. Select a cell to filter the inventory.",
+    offersAndRisk:"Offers and expiry risk",
+    remittanceComparisonNote:"Active remittance campaigns by competitor.",
+    merchantComparisonNote:"Merchant offers remain separate from campaign KPIs.",
+    mechanicsMixNote:"Most-used offer mechanics across active campaigns.",
+    expiryRiskNote:"Campaigns nearing expiry, missing an end date, or recently expired.",
+    socialMediaActivity:"Social media activity",
+    socialActivityNote:"Current period versus the equivalent previous period by competitor and platform.",
+    last7Days:"Last 7 days",
+    last30Days:"Last 30 days",
+    currentPeriod:"Current period",
+    previousPeriod:"Previous period",
+    allPlatforms:"All platforms",
+    platform:"Platform",
+    newStatus:"New",
+    updatedStatus:"Updated",
+    expiredStatus:"Expired",
+    expiring7:"≤7 days",
+    expiring30:"8–30 days",
+    noEndDate:"No end date",
+    chartTotal:"Total",
+    chartPeriod:"Period",
+    comparisonUp:"Increase",
+    comparisonDown:"Decrease",
+    comparisonFlat:"No change"
+  });
   let AUTH={authenticated:false,role:"viewer",user:""};
   async function loadAuth(){try{const r=await fetch("/__session",{cache:"no-store",credentials:"same-origin"});if(r.ok){const v=await r.json();AUTH={authenticated:!!v.authenticated,role:v.role||"viewer",user:v.user||""};}}catch{}return AUTH;}
   const auth=()=>({...AUTH});
@@ -96,8 +170,92 @@
   function alerts(items){const cutoff=new Date(localStorage.getItem(ALERT_KEY)||"1970-01-01T00:00:00Z");return[...new Map(items.filter(i=>{const d=new Date(i.last_changed||i.first_seen||0);return((!i.baseline_import&&d>cutoff)||(i.review_required&&d>cutoff));}).map(i=>[i.id,i])).values()].sort((a,b)=>new Date(b.last_changed||0)-new Date(a.last_changed||0));}
   const acknowledgeAlerts=()=>localStorage.setItem(ALERT_KEY,new Date().toISOString()); const alertLabel=i=>i.review_required?t("reviewAlert"):i.content_type==="campaign"?(Number(i.version||1)>1?t("updatedCampaign"):t("newCampaign")):i.content_type==="merchant_offer"?t("newMerchant"):t("newPost");
   const pill=(text,kind="neutral")=>el("span",{class:`pill pill--${kind}`},text);
-  function renderBarChart(container,rows,options={}){clear(container);const vals=options.keepZero?rows:rows.filter(r=>r.value>0);if(!vals.length)return container.appendChild(el("div",{class:"empty-state"},t("noData")));const max=Math.max(1,...vals.map(r=>r.value));vals.forEach((r,i)=>container.appendChild(el("div",{class:"bar-row"},el("div",{class:"bar-row__label"},r.label),el("div",{class:"bar-row__track"},el("span",{class:"bar-row__fill",style:`width:${r.value?Math.max(3,r.value/max*100):0}%;--bar-color:${r.color||COLORS[i%COLORS.length]}`})),el("strong",{class:"bar-row__value"},String(r.value)))));}
-  function renderMatrix(container,rowDefs,colDefs,valueFn){clear(container);const table=el("div",{class:"matrix"});table.appendChild(el("div",{class:"matrix__row matrix__row--head"},el("strong",{},""),...colDefs.map(c=>el("strong",{},c.label))));rowDefs.forEach(r=>table.appendChild(el("div",{class:"matrix__row"},r.href?el("a",{href:r.href},r.label):el("strong",{},r.label),...colDefs.map(c=>el("span",{class:"matrix__cell"},String(valueFn(r,c)||0))))));container.appendChild(table);}
+  const competitorColor=id=>COMPETITOR_COLORS[id]||COLORS[0];
+  const prefersReducedMotion=()=>window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
+  let chartObserver=null;
+  function countUp(node){
+    const target=Number(node.dataset.countTarget||0);
+    if(!Number.isFinite(target)||prefersReducedMotion()){node.textContent=String(target);return;}
+    const started=performance.now(),duration=650;
+    const step=now=>{const progress=Math.min(1,(now-started)/duration),eased=1-Math.pow(1-progress,3);node.textContent=String(Math.round(target*eased));if(progress<1)requestAnimationFrame(step);};
+    requestAnimationFrame(step);
+  }
+  function observeChart(container){
+    if(!container)return;
+    container.classList.remove("is-chart-visible");
+    container.querySelectorAll("[data-count-target]").forEach(n=>n.textContent=prefersReducedMotion()?n.dataset.countTarget:"0");
+    if(prefersReducedMotion()){container.classList.add("is-chart-visible");return;}
+    if(!("IntersectionObserver" in window)){container.classList.add("is-chart-visible");container.querySelectorAll("[data-count-target]").forEach(countUp);return;}
+    chartObserver??=new IntersectionObserver(entries=>entries.forEach(entry=>{if(!entry.isIntersecting)return;const node=entry.target;node.classList.add("is-chart-visible");node.querySelectorAll("[data-count-target]").forEach(countUp);chartObserver.unobserve(node);}),{threshold:.18,rootMargin:"0px 0px -8% 0px"});
+    chartObserver.unobserve(container);
+    chartObserver.observe(container);
+  }
+  function chartTarget(tag,row,children){
+    const attrs={class:`bar-row${row.onClick||row.href?" bar-row--interactive":""}`,title:row.tooltip||`${row.label}: ${row.value??0}`};
+    if(row.href){attrs.href=row.href;return el("a",attrs,...children);}
+    if(row.onClick){attrs.type="button";attrs.onclick=row.onClick;return el("button",attrs,...children);}
+    return el(tag,attrs,...children);
+  }
+  function renderBarChart(container,rows,options={}){
+    clear(container);
+    let vals=options.keepZero?[...rows]:rows.filter(r=>Number(r.value)>0);
+    if(options.sort!==false)vals.sort((a,b)=>Number(b.value||0)-Number(a.value||0));
+    if(!vals.length){container.appendChild(el("div",{class:"empty-state"},t("noData")));return;}
+    const max=Math.max(1,...vals.map(r=>Number(r.value)||0));
+    vals.forEach((r,i)=>{
+      const value=Number(r.value)||0,pct=value?Math.max(2.5,value/max*100):0,color=r.color||COLORS[i%COLORS.length];
+      const label=el("span",{class:"bar-row__label"},r.label);
+      const track=el("span",{class:"bar-row__track","aria-hidden":"true"},el("span",{class:"bar-row__fill",style:`width:${pct}%;--bar-color:${color};--chart-delay:${i*70}ms`}));
+      const number=el("strong",{class:"bar-row__value","data-count-target":value},String(value));
+      container.appendChild(chartTarget("div",r,[label,track,number]));
+    });
+    observeChart(container);
+  }
+  function renderStackedBarChart(container,rowDefs,series,options={}){
+    clear(container);
+    const normalizedRows=rowDefs.map(row=>({...row,values:Object.fromEntries(series.map(s=>[s.id,Number(row.values?.[s.id]||0)]))}));
+    const maxTotal=Math.max(1,...normalizedRows.map(row=>series.reduce((sum,s)=>sum+row.values[s.id],0)));
+    const legend=el("div",{class:"chart-legend"},series.map(s=>el("span",{},el("i",{style:`--legend-color:${s.color}`}),s.label)));
+    container.appendChild(legend);
+    normalizedRows.forEach((row,rowIndex)=>{
+      const total=series.reduce((sum,s)=>sum+row.values[s.id],0),outerWidth=options.normalize?100:(total?Math.max(3,total/maxTotal*100):0);
+      const segments=series.map(s=>{
+        const value=row.values[s.id],width=total?value/total*100:0,pct=total?Math.round(value/total*100):0;
+        const attrs={class:"stacked-bar__segment",style:`width:${width}%;--segment-color:${s.color}`,title:`${row.label} · ${s.label}: ${value}${options.normalize?` (${pct}%)`:""}`};
+        if(options.onSegmentClick&&value){attrs.type="button";attrs.onclick=()=>options.onSegmentClick(row,s,value);return el("button",attrs);}
+        return el("span",attrs);
+      });
+      const rowNode=el("div",{class:"stacked-row"},row.href?el("a",{class:"stacked-row__label",href:row.href},row.label):el("span",{class:"stacked-row__label"},row.label),el("div",{class:"stacked-bar__rail"},el("div",{class:"stacked-bar__track",style:`width:${outerWidth}%;--chart-delay:${rowIndex*75}ms`},segments)),el("strong",{class:"stacked-row__total","data-count-target":total},String(total)));
+      container.appendChild(rowNode);
+    });
+    observeChart(container);
+  }
+  function renderGroupedBarChart(container,rowDefs,series,options={}){
+    clear(container);
+    const max=Math.max(1,...rowDefs.flatMap(row=>series.map(s=>Number(row.values?.[s.id]||0))));
+    container.appendChild(el("div",{class:"chart-legend"},series.map(s=>el("span",{},el("i",{style:`--legend-color:${s.color}`}),s.label))));
+    rowDefs.forEach((row,rowIndex)=>{
+      const bars=series.map((s,seriesIndex)=>{const value=Number(row.values?.[s.id]||0),pct=value?Math.max(2.5,value/max*100):0,color=row.colors?.[s.id]||s.color;return el("div",{class:"grouped-bar",title:`${row.label} · ${s.label}: ${value}`},el("span",{class:"grouped-bar__track"},el("span",{class:"grouped-bar__fill",style:`width:${pct}%;--bar-color:${color};--chart-delay:${rowIndex*70+seriesIndex*45}ms`})),el("strong",{"data-count-target":value},String(value)));});
+      const attrs={class:`grouped-row${row.onClick?" grouped-row--interactive":""}`};
+      let node;
+      if(row.onClick){attrs.type="button";attrs.onclick=row.onClick;node=el("button",attrs,el("span",{class:"grouped-row__label"},row.label),el("div",{class:"grouped-row__bars"},bars));}
+      else node=el("div",attrs,el("span",{class:"grouped-row__label"},row.label),el("div",{class:"grouped-row__bars"},bars));
+      container.appendChild(node);
+    });
+    observeChart(container);
+  }
+  function renderMatrix(container,rowDefs,colDefs,valueFn,options={}){
+    clear(container);
+    const values=rowDefs.flatMap(r=>colDefs.map(c=>Number(valueFn(r,c))||0)),max=Math.max(1,...values);
+    const table=el("div",{class:"matrix heatmap-table",style:`--matrix-columns:${colDefs.length}`});
+    table.appendChild(el("div",{class:"matrix__row matrix__row--head"},el("strong",{},""),...colDefs.map(c=>el("strong",{},c.label))));
+    rowDefs.forEach((r,rowIndex)=>{
+      const cells=colDefs.map((c,colIndex)=>{const value=Number(valueFn(r,c))||0,intensity=value/max,attrs={class:`matrix__cell heatmap-cell${options.onCellClick&&value?" heatmap-cell--interactive":""}`,style:`--heat:${intensity};--chart-delay:${(rowIndex*colDefs.length+colIndex)*24}ms`,title:`${r.label} · ${c.label}: ${value}`,"aria-label":`${r.label}, ${c.label}: ${value}`};if(options.onCellClick&&value){attrs.type="button";attrs.onclick=()=>options.onCellClick(r,c,value);return el("button",attrs,el("span",{"data-count-target":value},String(value)));}return el("span",attrs,el("span",{"data-count-target":value},String(value)));});
+      table.appendChild(el("div",{class:"matrix__row"},r.href?el("a",{href:r.href},r.label):el("strong",{},r.label),cells));
+    });
+    container.appendChild(table);
+    observeChart(container);
+  }
   function renderMedia(item,compact=false){const m=item.media;if(!m?.url)return null;if(m.type==="video"){if(/\.(mp4|webm|mov)(\?|$)/i.test(m.url))return el("video",{class:compact?"media media--compact":"media",controls:true,preload:"metadata",poster:m.thumbnail_url||""},el("source",{src:m.url}));if(m.thumbnail_url)return el("div",{class:"media-link"},el("img",{src:m.thumbnail_url,alt:"",loading:"lazy"}),el("span",{class:"media-play"},"▶"));return el("div",{class:"media-placeholder"},"▶");}return el("img",{class:compact?"media media--compact":"media",src:m.thumbnail_url||m.url,alt:item.title||"",loading:"lazy",referrerpolicy:"no-referrer"});}
   const contentLabel=i=>i.content_type==="review"?t("review_type"):t(i.content_type); const categoryLabel=(i,data)=>{const r=byId(data.categories)[i.campaign_category||i.primary_category];return r?taxonomyName(r):"—";};
   function socialIdentity(value){if(!value)return"";try{const u=new URL(value,location.href);let h=u.hostname.toLowerCase().replace(/^www\./,"");if(h==="twitter.com")h="x.com";if(h==="m.facebook.com")h="facebook.com";const p=(u.pathname||"/").replace(/\/{2,}/g,"/").replace(/\/$/,"").toLowerCase()||"/";return`${h}${p}`;}catch{return String(value).trim().toLowerCase().replace(/\/$/,"");}}
@@ -114,5 +272,5 @@
   function showError(container,error){clear(container);container.appendChild(el("div",{class:"error-state"},el("strong",{},t("loadError")),el("code",{},String(error)),el("button",{class:"button button--primary",onclick:()=>location.reload()},t("retry"))));}
   function csvEscape(v){const s=v==null?"":String(v);return/[",\n]/.test(s)?`"${s.replaceAll('"','""')}"`:s;}
   function exportDelta(data){if(!isAdmin())return;const since=new Date(localStorage.getItem(DELTA_KEY)||data.inventory_source?.review_date||"1970-01-01"),comps=byId(data.competitors),cats=byId(data.categories),rows=(data.items||[]).filter(i=>!i.baseline_import&&new Date(i.last_changed||i.first_seen||0)>since),head=["Competitor","Record Type","Category","Title","Status","Start Date","End Date","Changed At","Official URL"],body=rows.map(i=>[competitorName(comps[i.competitor_id]),i.content_type,taxonomyName(cats[i.campaign_category]),i.title,i.current_status,i.start_date,i.end_date,i.last_changed||i.first_seen,i.official_campaign_page_url||i.link]);downloadBlob(`competitor_delta_${new Date().toISOString().slice(0,10)}.csv`,[head,...body].map(r=>r.map(csvEscape).join(",")).join("\n"),"text/csv;charset=utf-8");localStorage.setItem(DELTA_KEY,new Date().toISOString());}
-  window.CM={lifecycleFor,normalizeLifecycle,t,language,setLanguage,initLanguage,loadAuth,auth,isAdmin,loadData,triggerRefresh,resumeRefresh,el,clear,byId,competitorName,taxonomyName,formatDate,timeAgo,withinDays,countBy,getOverrides,exportOverrides,importOverrides,saveItemOverride,addNewItem,deleteCampaign,activeCampaigns,activeMerchants,socialPosts,alerts,acknowledgeAlerts,alertLabel,pill,renderBarChart,renderMatrix,renderMedia,renderItemCard,renderMediaCard,openEditor,openAddCampaign,sourceRow,refreshHistoryRow,showError,categoryLabel,contentLabel,exportDelta};
+  window.CM={lifecycleFor,normalizeLifecycle,t,language,setLanguage,initLanguage,loadAuth,auth,isAdmin,loadData,triggerRefresh,resumeRefresh,el,clear,byId,competitorName,taxonomyName,formatDate,timeAgo,withinDays,countBy,getOverrides,exportOverrides,importOverrides,saveItemOverride,addNewItem,deleteCampaign,activeCampaigns,activeMerchants,socialPosts,alerts,acknowledgeAlerts,alertLabel,pill,competitorColor,renderBarChart,renderStackedBarChart,renderGroupedBarChart,renderMatrix,renderMedia,renderItemCard,renderMediaCard,openEditor,openAddCampaign,sourceRow,refreshHistoryRow,showError,categoryLabel,contentLabel,exportDelta};
 })();
