@@ -98094,7 +98094,7 @@
     }
   },
   "ai_cache": {},
-  "updated_at": "2026-08-26T07:15:50.805500+00:00",
+  "updated_at": "2026-08-26T07:37:02.668291+00:00",
   "ai_classification_cache": {
     "post:alinma-pay:facebook:342fb820cfeedf68ae83": {
       "content_key": "b7909a066e1ce27745e0337d",
@@ -105220,18 +105220,90 @@
     }
   },
   "summary_snapshot": {
-    "detected:tiqmo:d176b1db63a815ac9a33": {
-      "title": "Your Monthly Streak",
+    "detected:mobily-pay:f3ba1937a63159024b5b": {
+      "title": "INTERNATIONAL TRANSFER TO PAKISTAN IS FREE",
       "campaign_category": "remittance",
       "mechanic": null,
       "current_status": "End Date Not Stated",
-      "start_date": null,
+      "start_date": "2023-11-08T00:00:00+00:00",
       "end_date": null,
       "active": true
     },
-    "detected:tiqmo:89908f62d5f010cd07ea": {
-      "title": "Play and Earn",
-      "campaign_category": "engagement",
+    "detected:mobily-pay:76820229d07bde6398c7": {
+      "title": "Trips For hotel and flight reservations",
+      "campaign_category": "other",
+      "mechanic": null,
+      "current_status": "Expiring ≤7 Days",
+      "start_date": "2026-08-16T00:00:00+00:00",
+      "end_date": "2026-08-31T00:00:00+00:00",
+      "active": true
+    },
+    "detected:mobily-pay:f2953c8559c1e8fb8c5f": {
+      "title": "EARN MILES WITH ALL MOBILY PAY SERVICES",
+      "campaign_category": "other",
+      "mechanic": null,
+      "current_status": "Active",
+      "start_date": "2025-02-01T00:00:00+00:00",
+      "end_date": "2026-09-30T00:00:00+00:00",
+      "active": true
+    },
+    "detected:mobily-pay:4232dc8e428d8da7c964": {
+      "title": "10 SAR CASHBACK",
+      "campaign_category": "other",
+      "mechanic": null,
+      "current_status": "Expiring ≤7 Days",
+      "start_date": "2026-01-05T00:00:00+00:00",
+      "end_date": "2026-08-30T00:00:00+00:00",
+      "active": true
+    },
+    "detected:alinma-pay:e185f47787fe476946bf": {
+      "title": "صفر رسوم على المشتريات الدولية",
+      "campaign_category": "card",
+      "mechanic": null,
+      "current_status": "Expiring ≤7 Days",
+      "start_date": "2026-06-24T00:00:00+00:00",
+      "end_date": "2026-08-31T00:00:00+00:00",
+      "active": true
+    },
+    "detected:alinma-pay:4388e8323ca781e0c1eb": {
+      "title": "كاش باك 100% على رواتب عمالتك المنزلية",
+      "campaign_category": "musaned",
+      "mechanic": null,
+      "current_status": "Active",
+      "start_date": null,
+      "end_date": "2026-12-28T00:00:00+00:00",
+      "active": true
+    },
+    "detected:alinma-pay:fbdb515d54da29d177be": {
+      "title": "عرض اليمن: كاش باك 5 ريال",
+      "campaign_category": "other",
+      "mechanic": null,
+      "current_status": "Expiring ≤7 Days",
+      "start_date": "2026-07-27T00:00:00+00:00",
+      "end_date": "2026-08-27T00:00:00+00:00",
+      "active": true
+    },
+    "detected:alinma-pay:b4e4c06d766a276abafa": {
+      "title": "عرض الهند على رسوم التحويلات الدولية",
+      "campaign_category": "other",
+      "mechanic": null,
+      "current_status": "Active",
+      "start_date": "2026-08-08T00:00:00+00:00",
+      "end_date": "2026-12-31T00:00:00+00:00",
+      "active": true
+    },
+    "detected:barq:a5db2146230537cf52b3": {
+      "title": "حملة الصيف \\ مارثون برق",
+      "campaign_category": "other",
+      "mechanic": null,
+      "current_status": "End Date Not Stated",
+      "start_date": "2026-05-24T00:00:00+00:00",
+      "end_date": null,
+      "active": true
+    },
+    "detected:tiqmo:d176b1db63a815ac9a33": {
+      "title": "Your Monthly Streak",
+      "campaign_category": "remittance",
       "mechanic": null,
       "current_status": "End Date Not Stated",
       "start_date": null,
@@ -105247,55 +105319,10 @@
       "end_date": "2026-10-19T00:00:00+00:00",
       "active": true
     },
-    "campaign:stc-bank:1": {
-      "title": "0% International Transaction Fees and Free Cash Withdrawals",
-      "campaign_category": "card",
-      "mechanic": "0% international transaction fees and free international ATM withdrawals",
-      "current_status": "Expiring ≤7 Days",
-      "start_date": "2026-05-17T00:00:00+00:00",
-      "end_date": "2026-08-31T00:00:00+00:00",
-      "active": true
-    },
-    "campaign:stc-bank:16": {
-      "title": "Targeted Cash Reward on International Purchases",
-      "campaign_category": "card",
-      "mechanic": "Cash amount specified in the customer SMS after meeting the stated minimum spend",
-      "current_status": "Active",
-      "start_date": null,
-      "end_date": "2026-10-02T00:00:00+00:00",
-      "active": true
-    },
-    "campaign:barq:1": {
-      "title": "barq Marathon",
-      "campaign_category": "engagement",
-      "mechanic": "Prize pool increased to SAR 500,000 and 20,000 winners",
-      "current_status": "End Date Not Stated",
-      "start_date": null,
-      "end_date": null,
-      "active": true
-    },
-    "campaign:barq:2": {
-      "title": "Prediction Game",
-      "campaign_category": "engagement",
-      "mechanic": "Prediction game with prizes worth up to SAR 500,000",
-      "current_status": "End Date Not Stated",
-      "start_date": null,
-      "end_date": null,
-      "active": true
-    },
     "campaign:barq:4": {
       "title": "Zero-Fee International Transfers",
       "campaign_category": "remittance",
       "mechanic": "Zero transfer fees on eligible transfers",
-      "current_status": "End Date Not Stated",
-      "start_date": null,
-      "end_date": null,
-      "active": true
-    },
-    "campaign:barq:5": {
-      "title": "Zero Travel Fees with barq Visa",
-      "campaign_category": "card",
-      "mechanic": "",
       "current_status": "End Date Not Stated",
       "start_date": null,
       "end_date": null,
@@ -105337,6 +105364,87 @@
       "end_date": null,
       "active": true
     },
+    "campaign:urpay:9": {
+      "title": "International Transfer Scratch & Win – Up to SAR 10,000",
+      "campaign_category": "remittance",
+      "mechanic": "Scratch-and-win cash prizes up to SAR 10,000",
+      "current_status": "End Date Not Stated",
+      "start_date": null,
+      "end_date": null,
+      "active": true
+    },
+    "campaign:alinma-pay:3": {
+      "title": "International Transfers for SAR 5",
+      "campaign_category": "remittance",
+      "mechanic": "Flat SAR 5 transfer fee",
+      "current_status": "End Date Not Stated",
+      "start_date": null,
+      "end_date": null,
+      "active": true
+    },
+    "campaign:alinma-pay:4": {
+      "title": "Zero-Fee Transfers to India from SAR 700",
+      "campaign_category": "remittance",
+      "mechanic": "Zero transfer fee for transfers of SAR 700 or more",
+      "current_status": "End Date Not Stated",
+      "start_date": null,
+      "end_date": null,
+      "active": true
+    },
+    "detected:tiqmo:89908f62d5f010cd07ea": {
+      "title": "Play and Earn",
+      "campaign_category": "engagement",
+      "mechanic": null,
+      "current_status": "End Date Not Stated",
+      "start_date": null,
+      "end_date": null,
+      "active": true
+    },
+    "campaign:stc-bank:1": {
+      "title": "0% International Transaction Fees and Free Cash Withdrawals",
+      "campaign_category": "card",
+      "mechanic": "0% international transaction fees and free international ATM withdrawals",
+      "current_status": "Expiring ≤7 Days",
+      "start_date": "2026-05-17T00:00:00+00:00",
+      "end_date": "2026-08-31T00:00:00+00:00",
+      "active": true
+    },
+    "campaign:stc-bank:16": {
+      "title": "Targeted Cash Reward on International Purchases",
+      "campaign_category": "card",
+      "mechanic": "Cash amount specified in the customer SMS after meeting the stated minimum spend",
+      "current_status": "Active",
+      "start_date": null,
+      "end_date": "2026-10-02T00:00:00+00:00",
+      "active": true
+    },
+    "campaign:barq:1": {
+      "title": "barq Marathon",
+      "campaign_category": "engagement",
+      "mechanic": "Prize pool increased to SAR 500,000 and 20,000 winners",
+      "current_status": "End Date Not Stated",
+      "start_date": null,
+      "end_date": null,
+      "active": true
+    },
+    "campaign:barq:2": {
+      "title": "Prediction Game",
+      "campaign_category": "engagement",
+      "mechanic": "Prediction game with prizes worth up to SAR 500,000",
+      "current_status": "End Date Not Stated",
+      "start_date": null,
+      "end_date": null,
+      "active": true
+    },
+    "campaign:barq:5": {
+      "title": "Zero Travel Fees with barq Visa",
+      "campaign_category": "card",
+      "mechanic": "",
+      "current_status": "End Date Not Stated",
+      "start_date": null,
+      "end_date": null,
+      "active": true
+    },
     "campaign:tiqmo:5": {
       "title": "Zero International Card Transaction Fees",
       "campaign_category": "card",
@@ -105364,28 +105472,10 @@
       "end_date": null,
       "active": true
     },
-    "campaign:urpay:9": {
-      "title": "International Transfer Scratch & Win – Up to SAR 10,000",
-      "campaign_category": "remittance",
-      "mechanic": "Scratch-and-win cash prizes up to SAR 10,000",
-      "current_status": "End Date Not Stated",
-      "start_date": null,
-      "end_date": null,
-      "active": true
-    },
     "campaign:alinma-pay:2": {
       "title": "Zero International Transaction Fees on Cashback Cards",
       "campaign_category": "card",
       "mechanic": "Zero international transaction fees, first two international cash withdrawals free, plus cashback on eligible purchases",
-      "current_status": "End Date Not Stated",
-      "start_date": null,
-      "end_date": null,
-      "active": true
-    },
-    "campaign:alinma-pay:3": {
-      "title": "International Transfers for SAR 5",
-      "campaign_category": "remittance",
-      "mechanic": "Flat SAR 5 transfer fee",
       "current_status": "End Date Not Stated",
       "start_date": null,
       "end_date": null,
@@ -105418,14 +105508,23 @@
       "end_date": null,
       "active": true
     },
-    "campaign:alinma-pay:4": {
-      "title": "Zero-Fee Transfers to India from SAR 700",
+    "campaign:mobily-pay:1": {
+      "title": "International Transfer Prize Draw – SAR 110,000",
       "campaign_category": "remittance",
-      "mechanic": "Zero transfer fee for transfers of SAR 700 or more",
-      "current_status": "End Date Not Stated",
+      "mechanic": "Five daily winners; SAR 1,000 per winner; 110 total winners and SAR 110,000 total prize pool",
+      "current_status": "Expired",
+      "start_date": "2026-06-15T00:00:00+00:00",
+      "end_date": "2026-07-06T00:00:00+00:00",
+      "active": false
+    },
+    "campaign:tiqmo:3": {
+      "title": "100% Cashback on International Transfers – May Edition",
+      "campaign_category": "remittance",
+      "mechanic": "100% cashback on the transfer amount; 10 daily winners; no minimum stated",
+      "current_status": "Expired",
       "start_date": null,
-      "end_date": null,
-      "active": true
+      "end_date": "2026-05-31T00:00:00+00:00",
+      "active": false
     },
     "detected:tiqmo:62f452efb0655e36f2bb": {
       "title": "Every riyal you spend is a chance to win 250,000 SAR",
@@ -105454,15 +105553,6 @@
       "end_date": "2026-07-19T00:00:00+00:00",
       "active": false
     },
-    "campaign:mobily-pay:1": {
-      "title": "International Transfer Prize Draw – SAR 110,000",
-      "campaign_category": "remittance",
-      "mechanic": "Five daily winners; SAR 1,000 per winner; 110 total winners and SAR 110,000 total prize pool",
-      "current_status": "Expired",
-      "start_date": "2026-06-15T00:00:00+00:00",
-      "end_date": "2026-07-06T00:00:00+00:00",
-      "active": false
-    },
     "campaign:mobily-pay:5": {
       "title": "Summer Card Offers – Fees on Us & Up to 2% Cashback",
       "campaign_category": "card",
@@ -105479,15 +105569,6 @@
       "current_status": "Expired",
       "start_date": "2026-07-15T00:00:00+00:00",
       "end_date": "2026-07-31T00:00:00+00:00",
-      "active": false
-    },
-    "campaign:tiqmo:3": {
-      "title": "100% Cashback on International Transfers – May Edition",
-      "campaign_category": "remittance",
-      "mechanic": "100% cashback on the transfer amount; 10 daily winners; no minimum stated",
-      "current_status": "Expired",
-      "start_date": null,
-      "end_date": "2026-05-31T00:00:00+00:00",
       "active": false
     },
     "campaign:tiqmo:6": {
@@ -105511,7 +105592,7 @@
   },
   "ai_summary": {
     "what_changed": [
-      "1 added · 9 removed · 0 updated"
+      "9 added · 0 removed · 0 updated"
     ],
     "why_it_matters": [
       "Current campaign totals and expiry status are calculated from the full active inventory."
@@ -105520,11 +105601,11 @@
     "category_snapshot": [
       {
         "category": "Remittance",
-        "summary": "10 active campaign(s) in the current verified inventory."
+        "summary": "11 active campaign(s) in the current verified inventory."
       },
       {
         "category": "Musaned",
-        "summary": "2 active campaign(s) in the current verified inventory."
+        "summary": "3 active campaign(s) in the current verified inventory."
       },
       {
         "category": "SADAD",
@@ -105532,31 +105613,33 @@
       },
       {
         "category": "Card",
-        "summary": "7 active campaign(s) in the current verified inventory."
+        "summary": "8 active campaign(s) in the current verified inventory."
       },
       {
         "category": "Engagement",
         "summary": "3 active campaign(s) in the current verified inventory."
+      },
+      {
+        "category": "Other",
+        "summary": "6 active campaign(s) in the current verified inventory."
       }
     ],
     "generated_by": "rules",
-    "generated_at": "2026-08-26T07:15:46.411651+00:00"
+    "generated_at": "2026-08-26T07:37:02.668274+00:00"
   },
   "authoritative_delta": {
     "added": [
-      "detected:stc-bank:1971eae04c5a15cc8860"
-    ],
-    "removed": [
+      "detected:mobily-pay:f3ba1937a63159024b5b",
       "detected:mobily-pay:76820229d07bde6398c7",
       "detected:mobily-pay:f2953c8559c1e8fb8c5f",
       "detected:mobily-pay:4232dc8e428d8da7c964",
-      "detected:mobily-pay:f3ba1937a63159024b5b",
       "detected:alinma-pay:e185f47787fe476946bf",
       "detected:alinma-pay:4388e8323ca781e0c1eb",
       "detected:alinma-pay:fbdb515d54da29d177be",
       "detected:alinma-pay:b4e4c06d766a276abafa",
       "detected:barq:a5db2146230537cf52b3"
     ],
+    "removed": [],
     "changed": [],
     "initial": false,
     "material": true

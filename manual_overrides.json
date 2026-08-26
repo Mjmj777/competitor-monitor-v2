@@ -1,6 +1,32 @@
 {
-  "schema_version": 2,
-  "updated_at": null,
-  "items": {},
-  "new_items": []
+  "schema_version": 3,
+  "updated_at": "2026-08-26T07:37:01.092444+00:00",
+  "items": {
+    "detected:stc-bank:fbee4408c8f62cd77d91": {
+      "content_type": "merchant_offer",
+      "suggested_record_type": "merchant_offer",
+      "campaign_category": "merchant",
+      "review_required": false,
+      "review_reasons": [],
+      "review_decision": "confirm_merchant_offer",
+      "review_approved": true,
+      "manual_override": true,
+      "reviewed_by": "admin",
+      "reviewed_at": "2026-08-26T07:37:01.092444+00:00",
+      "review_request_id": "f031c312-bf79-4583-9b18-d59a29951519"
+    }
+  },
+  "new_items": [],
+  "review_history": [
+    {
+      "request_id": "f031c312-bf79-4583-9b18-d59a29951519",
+      "reviewed_at": "2026-08-26T07:37:01.092444+00:00",
+      "reviewed_by": "admin",
+      "action": "confirm_merchant_offer",
+      "item_ids": [
+        "detected:stc-bank:fbee4408c8f62cd77d91"
+      ],
+      "campaign_id": "detected:stc-bank:fbee4408c8f62cd77d91"
+    }
+  ]
 }
