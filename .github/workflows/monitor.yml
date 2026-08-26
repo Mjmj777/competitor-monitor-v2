@@ -78,6 +78,17 @@ jobs:
         if: steps.playwright-cache.outputs.cache-hit != 'true'
         run: python -m playwright install chromium
 
+      - name: Validate JavaScript syntax
+        shell: bash
+        run: |
+          node --check assets/common.js
+          node --check assets/index.js
+          node --check assets/competitor.js
+          node --check assets/item.js
+          node --check cloudflare-worker.js
+          node tests/chart_renderer_test.mjs
+          node tests/worker_refresh_test.mjs
+
       - name: Preflight consistency check
         run: python preflight_check.py
 
