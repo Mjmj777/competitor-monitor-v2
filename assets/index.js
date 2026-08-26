@@ -225,7 +225,7 @@
     C.renderMatrix(
       document.getElementById("coverage-matrix"),
       competitors.map((competitor) => ({ id: competitor.id, label: C.competitorName(competitor), href: `competitor.html?id=${competitor.id}` })),
-      categories,
+      categorySeries,
       (competitor, category) => activeCampaigns.filter((item) => item.competitor_id === competitor.id && item.campaign_category === category.id).length,
       { onCellClick: (competitor, category) => applyChartFilters(competitor.id, category.id) },
     );
