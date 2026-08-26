@@ -8,12 +8,14 @@ ERRORS=[]
 def fail(msg): ERRORS.append(msg)
 
 required=[
-    'index.html','competitor.html','item.html','monitor.py','enhance.py','export_excel.py','preflight_check.py','postflight_check.py','config.json','requirements.txt',
-    'competitor_campaigns_template.xlsx','inventory.json','manual_overrides.json','.github/workflows/monitor.yml','assets/common.js','assets/index.js','assets/competitor.js','assets/item.js','assets/styles.css'
+    'index.html','competitor.html','item.html','monitor.py','enhance.py','export_excel.py','preflight_check.py','postflight_check.py','config.json','requirements.txt','cloudflare-worker.js',
+    'competitor_campaigns_template.xlsx','inventory.json','manual_overrides.json','.github/workflows/monitor.yml','assets/common.js','assets/index.js','assets/competitor.js','assets/item.js','assets/styles.css','tests/chart_renderer_test.mjs','tests/worker_refresh_test.mjs'
 ]
 for name in required:
     if not (BASE/name).exists(): fail(f'Missing required file: {name}')
 
+_monitor=None
+_enhance=None
 try:
     config=json.loads((BASE/'config.json').read_text(encoding='utf-8'))
     comps=config.get('competitors',[])
@@ -210,19 +212,21 @@ try:
         fail('Admin competitor refresh control is missing from competitor.html')
     if '/__refresh' not in common or 'if(!isAdmin())return false' not in common:
         fail('Client refresh helper is missing its Admin guard')
-    if 'triggerRefresh("all"' not in indexjs or 'triggerRefresh(comp.id' not in indexjs:
+    if 'triggerRefresh("all"' not in indexjs or not re.search(r'triggerRefresh\((?:comp|competitor)\.id',indexjs):
         fail('Home page must support refresh-all and per-competitor refresh')
     if 'triggerRefresh(state.competitor.id' not in competitorjs:
         fail('Competitor page scoped refresh is not connected')
 except Exception as exc: fail(f'Admin manual-refresh guard failed: {exc}')
 
-# v5.7.3 refresh completion, locking, summaries and data-safety regression guards.
+# v5.8.0 refresh completion, locking, summaries and data-safety regression guards.
 try:
     worker=(BASE/'cloudflare-worker.js').read_text(encoding='utf-8')
     wf=(BASE/'.github/workflows/monitor.yml').read_text(encoding='utf-8')
     idx=(BASE/'index.html').read_text(encoding='utf-8')
     competitor=(BASE/'competitor.html').read_text(encoding='utf-8')
     common=(BASE/'assets/common.js').read_text(encoding='utf-8')
+    if 'const WORKER_BUILD = "5.8.0"' not in worker:
+        fail('cloudflare-worker.js is outdated; upload the v5.8.0 Worker reference file')
     if '/__refresh-status' not in worker or 'workflowRuns(token)' not in worker:
         fail('Worker refresh-status tracking or active-run lock is missing')
     if 'request_id: requestId' not in worker or 'crypto.randomUUID()' not in worker:
@@ -236,22 +240,49 @@ try:
     if 'id="review-reason-filter"' not in idx or 'id="review-reason-filter"' not in competitor:
         fail('Admin Needs Review reason filter is missing')
 
-    summary=_monitor.build_refresh_summary(
-        {'items':[{'id':'offer:1','competitor_id':'mobily-pay','content_type':'campaign','title':'Old','active':True}]},
-        [
-            {'id':'offer:1','competitor_id':'mobily-pay','content_type':'campaign','title':'Updated','active':True},
-            {'id':'offer:2','competitor_id':'mobily-pay','content_type':'merchant_offer','title':'New','active':True,'review_required':True},
-        ],
-        [{'competitor_id':'mobily-pay','source_type':'website','success':True,'item_count':0}],
-        'mobily-pay','test-request','2026-08-26T00:00:00+00:00'
-    )
-    if summary.get('new_offers')!=1 or summary.get('updated_offers')!=1 or summary.get('zero_item_sources')!=1:
-        fail('Refresh summary counters are inconsistent')
-    import inspect
-    reconcile_source=inspect.getsource(_monitor.reconcile_live)
-    if 'item_count' not in reconcile_source or 'last known-good' not in reconcile_source:
-        fail('Zero-item source protection is missing from reconcile_live')
-except Exception as exc: fail(f'v5.7.3 refresh/data-safety guard failed: {exc}')
+    if _monitor is not None:
+        summary=_monitor.build_refresh_summary(
+            {'items':[{'id':'offer:1','competitor_id':'mobily-pay','content_type':'campaign','title':'Old','active':True}]},
+            [
+                {'id':'offer:1','competitor_id':'mobily-pay','content_type':'campaign','title':'Updated','active':True},
+                {'id':'offer:2','competitor_id':'mobily-pay','content_type':'merchant_offer','title':'New','active':True,'review_required':True},
+            ],
+            [{'competitor_id':'mobily-pay','source_type':'website','success':True,'item_count':0}],
+            'mobily-pay','test-request','2026-08-26T00:00:00+00:00'
+        )
+        if summary.get('new_offers')!=1 or summary.get('updated_offers')!=1 or summary.get('zero_item_sources')!=1:
+            fail('Refresh summary counters are inconsistent')
+        import inspect
+        reconcile_source=inspect.getsource(_monitor.reconcile_live)
+        if 'item_count' not in reconcile_source or 'last known-good' not in reconcile_source:
+            fail('Zero-item source protection is missing from reconcile_live')
+except Exception as exc: fail(f'v5.8.0 refresh/data-safety guard failed: {exc}')
+
+# v5.8.0 chart controls, interactivity and motion must stay wired to the UI.
+try:
+    idx=(BASE/'index.html').read_text(encoding='utf-8')
+    competitor=(BASE/'competitor.html').read_text(encoding='utf-8')
+    common=(BASE/'assets/common.js').read_text(encoding='utf-8')
+    indexjs=(BASE/'assets/index.js').read_text(encoding='utf-8')
+    styles=(BASE/'assets/styles.css').read_text(encoding='utf-8')
+    for chart_id in ['campaigns-chart','changes-chart','category-chart','coverage-matrix','remittance-chart','merchant-chart','mechanics-chart','expiry-chart','channel-chart']:
+        if f'id="{chart_id}"' not in idx:
+            fail(f'v5.8.0 chart container is missing: {chart_id}')
+    if 'id="social-period-filter"' not in idx or 'value="7"' not in idx or 'value="30"' not in idx:
+        fail('Social activity 7/30-day period filter is missing')
+    if 'id="social-platform-filter"' not in idx:
+        fail('Social activity platform filter is missing')
+    if 'id="competitor-social-period-filter"' not in competitor or 'id="competitor-social-platform-filter"' not in competitor:
+        fail('Competitor social comparison filters are missing')
+    if 'renderStackedBarChart' not in common or 'renderGroupedBarChart' not in common:
+        fail('Interactive stacked/grouped chart renderers are missing')
+    if 'IntersectionObserver' not in common or 'is-chart-visible' not in common:
+        fail('Scroll-triggered chart reveal is missing')
+    if 'prefers-reduced-motion' not in styles:
+        fail('Chart animation must respect reduced-motion preferences')
+    if 'currentPeriod' not in indexjs or 'previousPeriod' not in indexjs or 'socialPeriod' not in indexjs:
+        fail('Social current-versus-previous comparison logic is incomplete')
+except Exception as exc: fail(f'v5.8.0 chart guard failed: {exc}')
 
 # Verification timestamps/timing are operational metadata and must be admin-only.
 try:
