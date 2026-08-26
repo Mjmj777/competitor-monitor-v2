@@ -10,6 +10,20 @@ on:
   schedule:
     - cron: "0 * * * *"
   workflow_dispatch:
+    inputs:
+      competitor:
+        description: Competitor to refresh
+        required: true
+        default: all
+        type: choice
+        options:
+          - all
+          - stc-bank
+          - barq
+          - mobily-pay
+          - tiqmo
+          - urpay
+          - alinma-pay
 
 permissions:
   contents: write
@@ -18,7 +32,7 @@ permissions:
 
 concurrency:
   group: competitor-monitor-pages
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 jobs:
   build:
@@ -65,12 +79,15 @@ jobs:
         run: python monitor.py --validate-only
 
       - name: Collect competitor intelligence
-        run: python monitor.py
+        env:
+          TARGET_COMPETITOR: ${{ inputs.competitor || 'all' }}
+        run: python monitor.py --competitor "$TARGET_COMPETITOR"
 
       - name: Enrich, deduplicate and link sources
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-        run: python enhance.py
+          TARGET_COMPETITOR: ${{ inputs.competitor || 'all' }}
+        run: python enhance.py --competitor "$TARGET_COMPETITOR"
 
       - name: Postflight semantic check
         run: python postflight_check.py
