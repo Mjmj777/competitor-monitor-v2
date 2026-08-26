@@ -1,4 +1,4 @@
-/* Competitor Monitor v5.8.0 analytics, safe refresh and source reliability build */
+/* Competitor Monitor v5.9.0 admin review, source-aware classification and analytics build */
 (() => {
   "use strict";
   const LANG_KEY="cm_v54_language", ALERT_KEY="cm_v5_alert_ack", OVERRIDE_KEY="cm_v5_manual_overrides", DELTA_KEY="cm_v5_last_delta_export", REFRESH_KEY="cm_v573_refresh";
@@ -109,8 +109,22 @@
     comparisonDown:"Decrease",
     comparisonFlat:"No change"
   });
+  Object.assign(I18N.ar,{
+    reviewCenter:"مركز مراجعة الحملات",reviewCenterHint:"اعتمد العناصر بسرعة أو اجمع عدة منشورات كحملة واحدة. جميع القرارات تُحفظ في GitHub بسجل تدقيق.",
+    selectedCount:"العناصر المحددة",groupAsCampaign:"تجميع المحدد كحملة واحدة",linkExisting:"ربط بحملة موجودة",markNotCampaign:"ليست حملة",markAwareness:"محتوى توعوي",confirmCampaign:"اعتماد كحملة",confirmMerchant:"اعتماد كعرض شريك",clearSelection:"إلغاء التحديد",
+    suggestedType:"التصنيف المقترح",reviewReasons:"أسباب المراجعة",officialEvidence:"الدليل الرسمي",selectAllVisible:"تحديد النتائج الظاهرة",sameCompetitorRequired:"لا يمكن تجميع عناصر منافسين مختلفين. اختر عناصر لمنافس واحد.",
+    createOneCampaign:"إنشاء سجل حملة واحد",recordType:"نوع السجل",campaignTitle:"اسم الحملة",campaignSummary:"ملخص الحملة",officialSourceRequired:"رابط رسمي تفصيلي",saveDecision:"حفظ القرار",cancel:"إلغاء",chooseCampaign:"اختر الحملة",accessDenied:"هذه الصفحة متاحة للأدمن فقط.",
+    reviewSaving:"جاري إرسال القرار…",reviewQueued:"تم إرسال القرار، جاري الحفظ…",reviewSaved:"تم حفظ القرار وتحديث الموقع.",reviewSaveFailed:"تعذر حفظ قرار المراجعة",reviewBusy:"يوجد قرار مراجعة آخر قيد الحفظ",noReviewItems:"لا توجد عناصر تحتاج مراجعة حاليًا.",allReasons:"كل الأسباب",allSources:"كل المصادر",openReviewCenter:"فتح مركز المراجعة"
+  });
+  Object.assign(I18N.en,{
+    reviewCenter:"Campaign Review Center",reviewCenterHint:"Approve items quickly or group several posts into one campaign. Every decision is persisted in GitHub with an audit trail.",
+    selectedCount:"Selected items",groupAsCampaign:"Group selected as one campaign",linkExisting:"Link to existing campaign",markNotCampaign:"Not a campaign",markAwareness:"Awareness",confirmCampaign:"Confirm campaign",confirmMerchant:"Confirm merchant offer",clearSelection:"Clear selection",
+    suggestedType:"Suggested type",reviewReasons:"Review reasons",officialEvidence:"Official evidence",selectAllVisible:"Select visible results",sameCompetitorRequired:"Items from different competitors cannot be grouped. Select one competitor only.",
+    createOneCampaign:"Create one campaign record",recordType:"Record type",campaignTitle:"Campaign title",campaignSummary:"Campaign summary",officialSourceRequired:"Specific official source URL",saveDecision:"Save decision",cancel:"Cancel",chooseCampaign:"Choose campaign",accessDenied:"This page is available to Admin users only.",
+    reviewSaving:"Sending decision…",reviewQueued:"Decision queued; saving…",reviewSaved:"Decision saved and site updated.",reviewSaveFailed:"Could not save review decision",reviewBusy:"Another review decision is being saved",noReviewItems:"No items currently need review.",allReasons:"All reasons",allSources:"All sources",openReviewCenter:"Open review center"
+  });
   let AUTH={authenticated:false,role:"viewer",user:""};
-  async function loadAuth(){try{const r=await fetch("/__session",{cache:"no-store",credentials:"same-origin"});if(r.ok){const v=await r.json();AUTH={authenticated:!!v.authenticated,role:v.role||"viewer",user:v.user||""};}}catch{}return AUTH;}
+  async function loadAuth(){try{const r=await fetch("/__session",{cache:"no-store",credentials:"same-origin"});if(r.ok){const v=await r.json();AUTH={authenticated:!!v.authenticated,role:v.role||"viewer",user:v.username||v.user||""};}}catch{}return AUTH;}
   const auth=()=>({...AUTH});
   const isAdmin=()=>AUTH.role==="admin";
   const language=()=>localStorage.getItem(LANG_KEY)||"en"; const t=k=>I18N[language()]?.[k]??I18N.en[k]??k;
@@ -124,8 +138,8 @@
   function timeAgo(v){if(!v)return"—";const ms=Date.now()-new Date(v).getTime();if(ms<60000)return"now";if(ms<3600000)return`${Math.floor(ms/60000)}m`;if(ms<86400000)return`${Math.floor(ms/3600000)}h`;return`${Math.floor(ms/86400000)}d`;}
   const withinDays=(i,d)=>{const x=new Date(i.published_at||i.last_changed||0);return!Number.isNaN(x.getTime())&&x>=new Date(Date.now()-d*86400000);};
   function countBy(items,getter){const m=new Map();items.forEach(i=>{const raw=getter(i);(Array.isArray(raw)?raw:[raw]).filter(Boolean).forEach(k=>m.set(k,(m.get(k)||0)+1));});return m;}
-  const blankOverrides=()=>({schema_version:2,items:{},new_items:[]});
-  function getOverrides(){try{const v=JSON.parse(localStorage.getItem(OVERRIDE_KEY)||"null")||blankOverrides();v.items||={};v.new_items||=[];return v;}catch{return blankOverrides();}}
+  const blankOverrides=()=>({schema_version:3,items:{},new_items:[],review_history:[]});
+  function getOverrides(){try{const v=JSON.parse(localStorage.getItem(OVERRIDE_KEY)||"null")||blankOverrides();v.items||={};v.new_items||=[];v.review_history||=[];return v;}catch{return blankOverrides();}}
   const setOverrides=v=>localStorage.setItem(OVERRIDE_KEY,JSON.stringify(v));
   function dateOnly(v){const m=String(v||"").match(/^(\d{4})-(\d{2})-(\d{2})/);return m?`${m[1]}-${m[2]}-${m[3]}`:"";}
   function todayDateOnly(){const d=new Date(),y=d.getFullYear(),m=String(d.getMonth()+1).padStart(2,"0"),day=String(d.getDate()).padStart(2,"0");return `${y}-${m}-${day}`;}
@@ -165,7 +179,7 @@
   function downloadBlob(name,text,type){const blob=new Blob([text],{type});const a=el("a",{href:URL.createObjectURL(blob),download:name});document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove();},500);}
   function exportOverrides(){if(!isAdmin())return;const v=getOverrides();v.updated_at=new Date().toISOString();downloadBlob("manual_overrides.json",JSON.stringify(v,null,2),"application/json");}
   function deleteCampaign(item,options={}){if(!isAdmin()||!item||item.content_type!=="campaign")return false;if(!confirm(t("deleteConfirm")))return false;saveItemOverride(item.id,{deleted:true,active:false,current_status:"Deleted",deleted_at:new Date().toISOString(),deleted_title:item.title||"",deleted_competitor_id:item.competitor_id||"",deleted_url:item.official_campaign_page_url||item.primary_official_source_url||item.link||""});exportOverrides();if(options.redirect){location.href=options.redirect;}else{location.reload();}return true;}
-  function importOverrides(file){if(!isAdmin())return;const reader=new FileReader();reader.onload=()=>{try{const v=JSON.parse(reader.result);setOverrides({...blankOverrides(),...v,items:v.items||{},new_items:v.new_items||[]});location.reload();}catch(e){alert(String(e));}};reader.readAsText(file);}
+  function importOverrides(file){if(!isAdmin())return;const reader=new FileReader();reader.onload=()=>{try{const v=JSON.parse(reader.result);setOverrides({...blankOverrides(),...v,items:v.items||{},new_items:v.new_items||[],review_history:v.review_history||[]});location.reload();}catch(e){alert(String(e));}};reader.readAsText(file);}
   const activeCampaigns=items=>items.filter(i=>i.active!==false&&i.content_type==="campaign"); const activeMerchants=items=>items.filter(i=>i.active!==false&&i.content_type==="merchant_offer"); const socialPosts=(items,days=null)=>items.filter(i=>i.active!==false&&i.source_type==="social"&&(!days||withinDays(i,days)));
   function alerts(items){const cutoff=new Date(localStorage.getItem(ALERT_KEY)||"1970-01-01T00:00:00Z");return[...new Map(items.filter(i=>{const d=new Date(i.last_changed||i.first_seen||0);return((!i.baseline_import&&d>cutoff)||(i.review_required&&d>cutoff));}).map(i=>[i.id,i])).values()].sort((a,b)=>new Date(b.last_changed||0)-new Date(a.last_changed||0));}
   const acknowledgeAlerts=()=>localStorage.setItem(ALERT_KEY,new Date().toISOString()); const alertLabel=i=>i.review_required?t("reviewAlert"):i.content_type==="campaign"?(Number(i.version||1)>1?t("updatedCampaign"):t("newCampaign")):i.content_type==="merchant_offer"?t("newMerchant"):t("newPost");
