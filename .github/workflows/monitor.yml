@@ -7,6 +7,7 @@ on:
     paths-ignore:
       - data.json
       - state.json
+      - manual_overrides.json
       - competitor_campaigns_latest.xlsx
   schedule:
     - cron: "0 * * * *"
@@ -89,9 +90,13 @@ jobs:
           node --check assets/index.js
           node --check assets/competitor.js
           node --check assets/item.js
+          node --check assets/review.js
           node --check cloudflare-worker.js
           node tests/chart_renderer_test.mjs
           node tests/worker_refresh_test.mjs
+          node tests/worker_review_test.mjs
+          python tests/classification_regression_test.py
+          python tests/review_apply_test.py
 
       - name: Preflight consistency check
         run: python preflight_check.py
@@ -154,7 +159,7 @@ jobs:
         run: |
           rm -rf _site
           mkdir -p _site/assets
-          cp index.html competitor.html item.html data.json manual_overrides.json competitor_campaigns_latest.xlsx _site/
+          cp index.html competitor.html item.html review.html data.json competitor_campaigns_latest.xlsx _site/
           cp -R assets/. _site/assets/
           touch _site/.nojekyll
 
