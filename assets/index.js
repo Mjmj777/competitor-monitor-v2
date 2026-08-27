@@ -84,6 +84,17 @@
     const summary = state.data.ai_summary || {};
     const box = document.getElementById("ai-summary");
     C.clear(box);
+    if (summary.executive_view) {
+      box.append(
+        summaryCard(C.t("executiveView"), summary.executive_view, true),
+        summaryCard(C.t("keyMarketDevelopments"), summary.key_developments || []),
+        summaryCard(C.t("managementAttention"), summary.management_attention || []),
+        summaryCard(C.t("recommendedActions"), summary.recommended_actions || []),
+        summaryCard(C.t("portfolioInsight"), summary.portfolio_insight || ""),
+      );
+      return;
+    }
+    // Backward compatibility while a newly deployed frontend waits for the next data refresh.
     box.append(
       summaryCard(C.t("whatChanged"), summary.what_changed || []),
       summaryCard(C.t("whyMatters"), summary.why_it_matters || []),
@@ -112,15 +123,10 @@
 
   function campaignChangeValues(competitorId) {
     const records = state.data.items.filter((item) => item.content_type === "campaign" && item.competitor_id === competitorId);
-    const recentExpiry = (item) => {
-      const statusExpired = item.current_status === "Expired" && inAgeRange(item.last_changed || item.end_date, 0, 30);
-      const endDateExpired = inAgeRange(item.end_date, 0, 30);
-      return statusExpired || endDateExpired;
-    };
     return {
-      new: records.filter((item) => !item.baseline_import && inAgeRange(item.first_seen, 0, 30)).length,
-      updated: records.filter((item) => Number(item.version || 1) > 1 && inAgeRange(item.last_changed, 0, 30)).length,
-      expired: records.filter(recentExpiry).length,
+      new: records.filter((item) => !item.review_required && inAgeRange(item.market_launch_date, 0, 30)).length,
+      updated: records.filter((item) => inAgeRange(item.market_last_changed, 0, 30)).length,
+      expired: records.filter((item) => inAgeRange(item.market_expiry_date, 0, 30)).length,
     };
   }
 
