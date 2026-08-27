@@ -87,6 +87,14 @@
     );
   }
 
+  function renderScanSummary() {
+    const node = $("review-scan-summary"), scan = state.data?.full_review_scan;
+    if (!node || !scan?.completed_at) { if (node) node.textContent = ""; return; }
+    const linked = Number(scan.linked_social || 0);
+    const duplicates = Number(scan.counted_duplicates_removed || 0) + Number(scan.review_duplicates_removed || 0);
+    node.textContent = `${C.t("lastFullReviewScan")}: ${C.formatDate(scan.completed_at, true)} · ${C.t("reviewCleaned")}: ${Number(scan.cleaned || 0)} · ${C.t("autoLinked")}: ${linked} · ${C.t("duplicatesRemoved")}: ${duplicates}`;
+  }
+
   function render() {
     const rows = visibleItems(), list = $("review-list"); C.clear(list);
     if (!rows.length) list.append(C.el("div", { class: "empty-state" }, C.t("noReviewItems")));
@@ -94,6 +102,7 @@
     $("review-total").textContent = `${reviewItems().length} ${C.t("reviewRequired")}`;
     $("review-result-count").textContent = `${rows.length} ${C.t("results")}`;
     $("review-select-all").checked = rows.length > 0 && rows.every((item) => state.selected.has(item.id));
+    renderScanSummary();
     updateBulk();
   }
 
@@ -182,6 +191,7 @@
     $("review-not-campaign").onclick = () => submitDecision({ action: "mark_not_campaign", item_ids: [...state.selected] });
     $("review-awareness").onclick = () => submitDecision({ action: "mark_awareness", item_ids: [...state.selected] });
     $("review-clear-selection").onclick = () => { state.selected.clear(); render(); };
+    $("review-full-scan").onclick = (event) => { if (window.confirm(C.t("fullReviewScanConfirm"))) C.triggerRefresh("all", event.currentTarget); };
     window.addEventListener("cm:language", () => { fillFilters(); render(); });
   }
 
@@ -190,7 +200,7 @@
     try {
       await C.loadAuth();
       if (!C.isAdmin()) { $("loading").hidden = true; $("error").append(C.el("div", { class: "error-state" }, C.t("accessDenied"))); return; }
-      state.data = await C.loadData(); fillFilters(); bind(); render(); $("loading").hidden = true; $("content").hidden = false;
+      state.data = await C.loadData(); fillFilters(); bind(); render(); $("loading").hidden = true; $("content").hidden = false; C.resumeRefresh();
     } catch (error) { $("loading").hidden = true; C.showError($("error"), error); }
   }
   document.addEventListener("DOMContentLoaded", init);
