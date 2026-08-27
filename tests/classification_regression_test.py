@@ -379,15 +379,78 @@ enhance.annotate_market_timing(social_rows)
 social_delta = enhance.material_delta(control_snapshot, enhance.snapshot_campaigns(social_rows), social_rows, "2026-08-27T08:00:00+00:00")
 assert not social_delta["market_launches"]
 
+# Every approved campaign receives a Start Date. The priority is an explicit official date,
+# then the earliest confirmed official publication/post, then a clearly marked first-observed
+# estimate. The last fallback must never be reported as a market launch.
+explicit_start = management_campaign("campaign:start:official", start_date="2026-08-10T00:00:00+00:00")
+confirmed_post_start = management_campaign(
+    "campaign:start:confirmed-post",
+    start_date=None,
+    published_at="2026-08-20T09:00:00+00:00",
+    social_first_post="2026-08-18T18:30:00+00:00",
+    linked_posts=[{
+        "id": "post:start:confirmed",
+        "link": "https://www.instagram.com/p/STARTCONFIRMED/",
+        "published_at": "2026-08-18T18:30:00+00:00",
+    }],
+    first_seen="2026-08-22T00:00:00+00:00",
+)
+observed_start = management_campaign(
+    "campaign:start:observed",
+    start_date=None,
+    published_at=None,
+    social_first_post=None,
+    linked_posts=[],
+    first_seen="2026-08-23T14:00:00+00:00",
+)
+start_date_payload = {"items": [explicit_start, confirmed_post_start, observed_start]}
+start_stats = enhance.ensure_campaign_start_dates(start_date_payload)
+assert start_stats == {
+    "official": 1,
+    "from_verified_post": 1,
+    "from_first_observed": 1,
+    "remaining_missing": 0,
+    "at": "2026-08-27T12:00:00+00:00",
+}
+assert confirmed_post_start["start_date"].startswith("2026-08-18")
+assert confirmed_post_start["start_date_basis"] == "first_verified_social_post"
+assert confirmed_post_start["start_date_source_url"].endswith("/STARTCONFIRMED/")
+assert enhance.campaign_market_date(confirmed_post_start)[1] == "first_official_campaign_post"
+published_evidence = management_campaign(
+    "campaign:start:official-publication",
+    start_date="2026-08-20T09:00:00+00:00",
+    start_date_basis="first_verified_social_post",
+    start_date_evidence_type="record_publication",
+)
+assert enhance.campaign_market_date(published_evidence)[1] == "official_published_date"
+assert observed_start["start_date"].startswith("2026-08-23")
+assert observed_start["start_date_basis"] == "first_observed"
+assert observed_start["start_date_estimated"] is True
+assert enhance.campaign_market_date(observed_start) == (None, None)
+assert all(enhance.dt(row.get("start_date")) for row in start_date_payload["items"])
+
 summary = enhance.deterministic_summary(late_rows, late_delta)
 assert "executive_view" in summary and "recommended_actions" in summary
 assert "No verified market launch" in summary["key_developments"][0]
 assert "1 added" not in json.dumps(summary)
+assert enhance.MANAGEMENT_EXPIRY_DAYS == 7
+assert all("within 30 days" not in row for row in summary["management_attention"])
 
 chart_source = (ROOT / "assets" / "index.js").read_text(encoding="utf-8")
 chart_logic = chart_source.split("function campaignChangeValues", 1)[1].split("function renderSocialChart", 1)[0]
 assert "market_launch_date" in chart_logic and "market_last_changed" in chart_logic and "market_expiry_date" in chart_logic
 assert "item.first_seen" not in chart_logic and "item.last_changed" not in chart_logic
+
+# Published Date remains internal social evidence; campaign-facing pages and Excel show only
+# Start Date and End Date.
+item_source = (ROOT / "assets" / "item.js").read_text(encoding="utf-8")
+common_source = (ROOT / "assets" / "common.js").read_text(encoding="utf-8")
+excel_source = (ROOT / "export_excel.py").read_text(encoding="utf-8")
+assert 'i.source_type === "social" ? [[C.t("published")' in item_source
+assert 'const showPublished=item.source_type==="social"' in common_source
+assert 'showPublished?field(t("published"),pub):null' in common_source
+assert '("E","published_at")' not in excel_source
+assert '[("F","start_date"),("G","end_date")]' in excel_source
 enhance.now = original_now
 
 # Detail verification must stop starting new network calls when its wall-clock budget is
