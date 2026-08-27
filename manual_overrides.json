@@ -1,6 +1,6 @@
 {
   "schema_version": 3,
-  "updated_at": "2026-08-27T04:37:48.233045+00:00",
+  "updated_at": "2026-08-27T04:39:16.674519+00:00",
   "items": {
     "detected:stc-bank:fbee4408c8f62cd77d91": {
       "content_type": "merchant_offer",
@@ -2517,6 +2517,19 @@
       "reviewed_by": "admin",
       "reviewed_at": "2026-08-27T04:37:48.233045+00:00",
       "review_request_id": "c4bfe5b1-5506-4195-a19f-4563552fc37d"
+    },
+    "detected:stc-bank:c060b1d79a252a32e7cc": {
+      "content_type": "merchant_offer",
+      "suggested_record_type": "merchant_offer",
+      "campaign_category": "merchant",
+      "review_required": false,
+      "review_reasons": [],
+      "review_decision": "confirm_merchant_offer",
+      "review_approved": true,
+      "manual_override": true,
+      "reviewed_by": "admin",
+      "reviewed_at": "2026-08-27T04:39:16.674519+00:00",
+      "review_request_id": "fb40b44a-5d1c-49e7-951d-4e87fd94850d"
     }
   },
   "new_items": [
@@ -2911,6 +2924,19 @@
         "detected:barq:e884d501014f6eaadf80",
         "detected:barq:484c0374a94f059f92cb",
         "detected:barq:b2736b275717b6b57c0e"
+      ]
+    },
+    {
+      "request_id": "fb40b44a-5d1c-49e7-951d-4e87fd94850d",
+      "reviewed_at": "2026-08-27T04:39:16.674519+00:00",
+      "reviewed_by": "admin",
+      "action": "confirm_merchant_offer",
+      "item_ids": [
+        "detected:stc-bank:c060b1d79a252a32e7cc"
+      ],
+      "campaign_id": "detected:stc-bank:c060b1d79a252a32e7cc",
+      "record_ids": [
+        "detected:stc-bank:c060b1d79a252a32e7cc"
       ]
     }
   ]

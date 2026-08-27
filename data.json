@@ -3915,11 +3915,11 @@
   ],
   "stats": {
     "active_campaigns": 33,
-    "merchant_offers": 182,
+    "merchant_offers": 183,
     "remittance_campaigns": 11,
     "expiring_30d": 6,
     "social_posts_7d": 225,
-    "review_required": 508,
+    "review_required": 507,
     "healthy_sources": 31,
     "failed_sources": 0,
     "total_sources": 31
@@ -3927,12 +3927,12 @@
   "refresh_summary": {
     "request_id": "33037601934",
     "competitor": "all",
-    "completed_at": "2026-08-27T04:37:50.157966+00:00",
+    "completed_at": "2026-08-27T04:39:19.127369+00:00",
     "new_offers": 1,
     "updated_offers": 216,
     "unchanged_offers": 129,
     "new_posts": 36,
-    "needs_review": 508,
+    "needs_review": 507,
     "failed_sources": 0,
     "zero_item_sources": 0,
     "preserved_last_known_good": 0
@@ -4058,12 +4058,12 @@
     {
       "request_id": "33037601934",
       "competitor": "all",
-      "completed_at": "2026-08-27T04:37:50.157966+00:00",
+      "completed_at": "2026-08-27T04:39:19.127369+00:00",
       "new_offers": 1,
       "updated_offers": 216,
       "unchanged_offers": 129,
       "new_posts": 36,
-      "needs_review": 508,
+      "needs_review": 507,
       "failed_sources": 0,
       "zero_item_sources": 0,
       "preserved_last_known_good": 0
@@ -4156,92 +4156,6 @@
         "conflicts": [],
         "error": "ConnectionError: HTTPSConnectionPool(host='liferay-bank-web-prod.apps.dmz46-oc-int-1.ad.stcpay.com.sa', port=443): Max retries exceeded with url: /en/web/guest/w/louvre (Caused by NameResolutionError(\"HTTPSConnection(host='liferay-bank-web-prod.apps.dmz46-oc-int-1.ad.stcpay.com.sa', port=443): Failed to resolve 'liferay-bank-web-prod.apps.dmz46-oc-int-1.ad.stcpay.com.sa' ([Errno -2] Name or service not known)\"))"
       },
-      "review_priority": 33
-    },
-    {
-      "id": "detected:stc-bank:c060b1d79a252a32e7cc",
-      "competitor_id": "stc-bank",
-      "source_key": "website:stc-bank:offers",
-      "source_type": "website",
-      "platform": "website",
-      "content_type": "review",
-      "suggested_record_type": null,
-      "campaign_category": "remittance",
-      "primary_category": "remittance",
-      "categories": [
-        "remittance"
-      ],
-      "title": "A Unique Experience at Galeries Lafayette!",
-      "snippet": "Enjoy free premium lounge access alongside refreshments, fast-track tax refunds and hands-free shopping with Visa payment cards and Credit cards from STC Bank.",
-      "link": "https://stcbank.com.sa/en/web/guest/w/galeries",
-      "official_campaign_page_url": "https://stcbank.com.sa/en/web/guest/w/galeries",
-      "primary_official_source_url": "https://stcbank.com.sa/en/web/guest/w/galeries",
-      "social_links": {},
-      "social_link_count": 0,
-      "published_at": null,
-      "start_date": null,
-      "end_date": "2026-10-19T00:00:00+00:00",
-      "date_evidence": {
-        "start": null,
-        "end": null
-      },
-      "current_status": "Active",
-      "active": true,
-      "direct_link": true,
-      "verified": true,
-      "official_discovery": true,
-      "discovery_section": "current",
-      "review_required": true,
-      "review_reasons": [
-        "new_official_item_not_in_excel_inventory"
-      ],
-      "mechanic_tags": [
-        "discount",
-        "prize_draw"
-      ],
-      "theme_tags": [
-        "international_transfer",
-        "cards"
-      ],
-      "first_seen": "2026-08-25T15:44:42.097858+00:00",
-      "last_seen": "2026-08-27T03:51:56.195769+00:00",
-      "last_changed": "2026-08-27T03:51:56.195769+00:00",
-      "version": 3,
-      "change_history": [
-        {
-          "at": "2026-08-25T15:44:42.097858+00:00",
-          "type": "detected",
-          "version": 1
-        },
-        {
-          "at": "2026-08-26T12:01:59.476231+00:00",
-          "type": "updated",
-          "version": 2
-        },
-        {
-          "at": "2026-08-27T03:51:56.195769+00:00",
-          "type": "updated",
-          "version": 3
-        }
-      ],
-      "detail_timeout_seconds": 18,
-      "manual_override": true,
-      "summary": "Enjoy free premium lounge access alongside refreshments, fast-track tax refunds and hands-free shopping with Visa payment cards and Credit cards from STC Bank.",
-      "corridors": [],
-      "offer_values": [],
-      "evidence_snapshot": "Enjoy free premium lounge access alongside refreshments, fast-track tax refunds and hands-free shopping with Visa payment cards and Credit cards from STC Bank.",
-      "date_extraction_method": "not_found",
-      "source_verification": {
-        "status": "verified_website",
-        "verification_method": "official_website_page",
-        "checked_at": "2026-08-26T12:04:37.584346+00:00",
-        "source_url": "https://stcbank.com.sa/en/web/guest/w/galeries",
-        "source_changed": false,
-        "conflicts": [],
-        "error": null
-      },
-      "last_live_verified_at": "2026-08-26T12:04:37.584346+00:00",
-      "last_reviewed": "2026-08-26T12:04:37.584346+00:00",
       "review_priority": 33
     },
     {
@@ -45293,6 +45207,108 @@
       "review_priority": 20
     },
     {
+      "id": "detected:stc-bank:c060b1d79a252a32e7cc",
+      "competitor_id": "stc-bank",
+      "source_key": "website:stc-bank:offers",
+      "source_type": "website",
+      "platform": "website",
+      "content_type": "merchant_offer",
+      "suggested_record_type": "merchant_offer",
+      "campaign_category": "merchant",
+      "primary_category": "remittance",
+      "categories": [
+        "remittance"
+      ],
+      "title": "A Unique Experience at Galeries Lafayette!",
+      "snippet": "Enjoy free premium lounge access alongside refreshments, fast-track tax refunds and hands-free shopping with Visa payment cards and Credit cards from STC Bank.",
+      "link": "https://stcbank.com.sa/en/web/guest/w/galeries",
+      "official_campaign_page_url": "https://stcbank.com.sa/en/web/guest/w/galeries",
+      "primary_official_source_url": "https://stcbank.com.sa/en/web/guest/w/galeries",
+      "social_links": {},
+      "social_link_count": 0,
+      "published_at": null,
+      "start_date": null,
+      "end_date": "2026-10-19T00:00:00+00:00",
+      "date_evidence": {
+        "start": null,
+        "end": null
+      },
+      "current_status": "Active",
+      "active": true,
+      "direct_link": true,
+      "verified": true,
+      "official_discovery": true,
+      "discovery_section": "current",
+      "review_required": false,
+      "review_reasons": [],
+      "mechanic_tags": [
+        "discount",
+        "prize_draw"
+      ],
+      "theme_tags": [
+        "international_transfer",
+        "cards"
+      ],
+      "first_seen": "2026-08-25T15:44:42.097858+00:00",
+      "last_seen": "2026-08-27T03:51:56.195769+00:00",
+      "last_changed": "2026-08-27T03:51:56.195769+00:00",
+      "version": 3,
+      "change_history": [
+        {
+          "at": "2026-08-25T15:44:42.097858+00:00",
+          "type": "detected",
+          "version": 1
+        },
+        {
+          "at": "2026-08-26T12:01:59.476231+00:00",
+          "type": "updated",
+          "version": 2
+        },
+        {
+          "at": "2026-08-27T03:51:56.195769+00:00",
+          "type": "updated",
+          "version": 3
+        }
+      ],
+      "detail_timeout_seconds": 18,
+      "manual_override": true,
+      "summary": "Enjoy free premium lounge access alongside refreshments, fast-track tax refunds and hands-free shopping with Visa payment cards and Credit cards from STC Bank.",
+      "corridors": [],
+      "offer_values": [],
+      "evidence_snapshot": "Enjoy free premium lounge access alongside refreshments, fast-track tax refunds and hands-free shopping with Visa payment cards and Credit cards from STC Bank.",
+      "date_extraction_method": "not_found",
+      "source_verification": {
+        "status": "verified_website",
+        "verification_method": "official_website_page",
+        "checked_at": "2026-08-26T12:04:37.584346+00:00",
+        "source_url": "https://stcbank.com.sa/en/web/guest/w/galeries",
+        "source_changed": false,
+        "conflicts": [],
+        "error": null
+      },
+      "last_live_verified_at": "2026-08-26T12:04:37.584346+00:00",
+      "last_reviewed": "2026-08-26T12:04:37.584346+00:00",
+      "review_priority": 17,
+      "review_decision": "confirm_merchant_offer",
+      "review_approved": true,
+      "reviewed_by": "admin",
+      "reviewed_at": "2026-08-27T04:39:16.674519+00:00",
+      "review_request_id": "fb40b44a-5d1c-49e7-951d-4e87fd94850d",
+      "linked_posts": [],
+      "social_post_counts": {
+        "instagram": 0,
+        "x": 0,
+        "facebook": 0,
+        "tiktok": 0
+      },
+      "social_posts_total": 0,
+      "social_platform_count": 0,
+      "social_first_post": null,
+      "social_latest_post": null,
+      "social_posts_7d": 0,
+      "social_posts_30d": 0
+    },
+    {
       "id": "detected:stc-bank:7b46d3c2cae682f75e4e",
       "competitor_id": "stc-bank",
       "source_key": "website:stc-bank:offers",
@@ -47078,7 +47094,7 @@
         "status": "verified_website",
         "verification_method": "official_website_page",
         "checked_at": "2026-08-26T05:05:58.171940+00:00",
-        "source_url": "https://barq.com/ar/offers/maestro-pizza-x-barq/",
+        "source_url": "https://barq.com/offers/maestro-pizza-x-barq/",
         "source_changed": false,
         "conflicts": [],
         "error": null
@@ -47602,7 +47618,7 @@
         "url": "https://barq.com/wp-content/uploads/Enigma-Escape-Games-1024x525.png",
         "thumbnail_url": "https://barq.com/wp-content/uploads/Enigma-Escape-Games-1024x525.png",
         "source_type": "official_website",
-        "source_url": "https://barq.com/ar/offers/enigma-games/"
+        "source_url": "https://barq.com/offers/enigma-games/"
       },
       "first_seen": "2026-08-26T05:05:29.025352+00:00",
       "last_seen": "2026-08-26T07:10:45.580101+00:00",
@@ -47648,7 +47664,7 @@
         "status": "verified_website",
         "verification_method": "official_website_page",
         "checked_at": "2026-08-26T05:16:29.348703+00:00",
-        "source_url": "https://barq.com/ar/offers/enigma-games/",
+        "source_url": "https://barq.com/offers/enigma-games/",
         "source_changed": false,
         "conflicts": [],
         "error": null
@@ -47718,7 +47734,7 @@
         "url": "https://barq.com/wp-content/uploads/Sweet-Atelier-1024x525.png",
         "thumbnail_url": "https://barq.com/wp-content/uploads/Sweet-Atelier-1024x525.png",
         "source_type": "official_website",
-        "source_url": "https://barq.com/ar/offers/sweet-atelier/"
+        "source_url": "https://barq.com/offers/sweet-atelier/"
       },
       "first_seen": "2026-08-26T05:05:29.025352+00:00",
       "last_seen": "2026-08-26T07:10:45.580101+00:00",
@@ -47762,7 +47778,7 @@
         "status": "verified_website",
         "verification_method": "official_website_page",
         "checked_at": "2026-08-26T05:16:29.348703+00:00",
-        "source_url": "https://barq.com/ar/offers/sweet-atelier/",
+        "source_url": "https://barq.com/offers/sweet-atelier/",
         "source_changed": false,
         "conflicts": [],
         "error": null
@@ -48156,7 +48172,7 @@
         "url": "https://barq.com/wp-content/uploads/Sisley-1024x525.png",
         "thumbnail_url": "https://barq.com/wp-content/uploads/Sisley-1024x525.png",
         "source_type": "official_website",
-        "source_url": "https://barq.com/ar/offers/sisley-paris/"
+        "source_url": "https://barq.com/offers/sisley-paris/"
       },
       "first_seen": "2026-08-26T05:05:29.025352+00:00",
       "last_seen": "2026-08-26T07:10:45.580101+00:00",
@@ -48200,12 +48216,12 @@
         "status": "verified_website",
         "verification_method": "official_website_page",
         "checked_at": "2026-08-26T05:16:29.348703+00:00",
-        "source_url": "https://barq.com/ar/offers/sisley-paris/",
+        "source_url": "https://barq.com/offers/sisley-paris/",
         "source_changed": false,
         "conflicts": [],
         "error": null
       },
-      "last_live_verified_at": "2026-08-26T08:10:25.539430+00:00",
+      "last_live_verified_at": "2026-08-26T05:16:29.348703+00:00",
       "last_reviewed": "2026-08-26T05:16:29.348703+00:00",
       "classification_method": "verified_official_rules_v5",
       "linked_posts": [],
@@ -48525,7 +48541,7 @@
         "status": "failed",
         "verification_method": "official_website_page",
         "checked_at": "2026-08-26T05:16:29.348703+00:00",
-        "source_url": "https://barq.com/ar/offers/cafe-laperouse/",
+        "source_url": "https://barq.com/offers/cafe-laperouse/",
         "source_changed": false,
         "conflicts": [],
         "error": "HTTPError: 404 Client Error: Not Found for url: https://barq.com/ar/offers/cafe-laperouse/"
@@ -54541,7 +54557,7 @@
         "status": "failed",
         "verification_method": "official_website_page",
         "checked_at": "2026-08-25T23:57:04.915241+00:00",
-        "source_url": "https://barq.com/ar/offers/crimson-lounge/",
+        "source_url": "https://barq.com/offers/crimson-lounge/",
         "source_changed": false,
         "conflicts": [],
         "error": "ConnectTimeout: HTTPSConnectionPool(host='barq.com', port=443): Max retries exceeded with url: /ar/offers/crimson-lounge/ (Caused by ConnectTimeoutError(<HTTPSConnection(host='barq.com', port=443) at 0x7f2c18e2c230>, 'Connection to barq.com timed out. (connect timeout=18)'))"
@@ -54796,7 +54812,7 @@
         "status": "failed",
         "verification_method": "official_website_page",
         "checked_at": "2026-08-25T23:57:04.915241+00:00",
-        "source_url": "https://barq.com/ar/offers/q-fit/",
+        "source_url": "https://barq.com/offers/qfit/",
         "source_changed": false,
         "conflicts": [],
         "error": "ConnectTimeout: HTTPSConnectionPool(host='barq.com', port=443): Max retries exceeded with url: /ar/offers/q-fit/ (Caused by ConnectTimeoutError(<HTTPSConnection(host='barq.com', port=443) at 0x7f2c18e2cbc0>, 'Connection to barq.com timed out. (connect timeout=18)'))"
@@ -54887,7 +54903,7 @@
         "status": "failed",
         "verification_method": "official_website_page",
         "checked_at": "2026-08-25T23:57:04.915241+00:00",
-        "source_url": "https://barq.com/ar/offers/pet-paws-vet-clinic/",
+        "source_url": "https://barq.com/offers/pet-paws-vet-clinic/",
         "source_changed": false,
         "conflicts": [],
         "error": "ConnectTimeout: HTTPSConnectionPool(host='barq.com', port=443): Max retries exceeded with url: /ar/offers/pet-paws-vet-clinic/ (Caused by ConnectTimeoutError(<HTTPSConnection(host='barq.com', port=443) at 0x7f2c18e2cef0>, 'Connection to barq.com timed out. (connect timeout=18)'))"
@@ -55142,7 +55158,7 @@
         "status": "failed",
         "verification_method": "official_website_page",
         "checked_at": "2026-08-25T23:57:04.915241+00:00",
-        "source_url": "https://barq.com/ar/offers/loca-beauty/",
+        "source_url": "https://barq.com/offers/loca-beauty/",
         "source_changed": false,
         "conflicts": [],
         "error": "ConnectTimeout: HTTPSConnectionPool(host='barq.com', port=443): Max retries exceeded with url: /ar/offers/loca-beauty/ (Caused by ConnectTimeoutError(<HTTPSConnection(host='barq.com', port=443) at 0x7f2c18e2da00>, 'Connection to barq.com timed out. (connect timeout=18)'))"
@@ -55397,7 +55413,7 @@
         "status": "failed",
         "verification_method": "official_website_page",
         "checked_at": "2026-08-25T23:57:04.915241+00:00",
-        "source_url": "https://barq.com/ar/offers/maru-chocolatier/",
+        "source_url": "https://barq.com/offers/maru-chocolatier-offer/",
         "source_changed": false,
         "conflicts": [],
         "error": "ConnectTimeout: HTTPSConnectionPool(host='barq.com', port=443): Max retries exceeded with url: /ar/offers/maru-chocolatier/ (Caused by ConnectTimeoutError(<HTTPSConnection(host='barq.com', port=443) at 0x7f2c18e2d130>, 'Connection to barq.com timed out. (connect timeout=18)'))"
@@ -55570,7 +55586,7 @@
         "status": "failed",
         "verification_method": "official_website_page",
         "checked_at": "2026-08-25T23:57:04.915241+00:00",
-        "source_url": "https://barq.com/ar/offers/elegant-things/",
+        "source_url": "https://barq.com/offers/elegant-things/",
         "source_changed": false,
         "conflicts": [],
         "error": "ConnectTimeout: HTTPSConnectionPool(host='barq.com', port=443): Max retries exceeded with url: /ar/offers/elegant-things/ (Caused by ConnectTimeoutError(<HTTPSConnection(host='barq.com', port=443) at 0x7f2c18e2cd70>, 'Connection to barq.com timed out. (connect timeout=18)'))"
@@ -55743,7 +55759,7 @@
         "status": "failed",
         "verification_method": "official_website_page",
         "checked_at": "2026-08-25T23:57:04.915241+00:00",
-        "source_url": "https://barq.com/ar/offers/%d8%b9%d8%b1%d8%b6-klue/",
+        "source_url": "https://barq.com/offers/klue-offer/",
         "source_changed": false,
         "conflicts": [],
         "error": "ConnectTimeout: HTTPSConnectionPool(host='barq.com', port=443): Max retries exceeded with url: /ar/offers/%D8%B9%D8%B1%D8%B6-klue/ (Caused by ConnectTimeoutError(<HTTPSConnection(host='barq.com', port=443) at 0x7f2c18e2c170>, 'Connection to barq.com timed out. (connect timeout=18)'))"
@@ -55834,7 +55850,7 @@
         "status": "failed",
         "verification_method": "official_website_page",
         "checked_at": "2026-08-25T23:57:04.915241+00:00",
-        "source_url": "https://barq.com/ar/offers/ferns-n-petals/",
+        "source_url": "https://barq.com/offers/ferns-n-petals/",
         "source_changed": false,
         "conflicts": [],
         "error": "ConnectTimeout: HTTPSConnectionPool(host='barq.com', port=443): Max retries exceeded with url: /ar/offers/ferns-n-petals/ (Caused by ConnectTimeoutError(<HTTPSConnection(host='barq.com', port=443) at 0x7f2c18e2e030>, 'Connection to barq.com timed out. (connect timeout=18)'))"
@@ -56089,7 +56105,7 @@
         "status": "failed",
         "verification_method": "official_website_page",
         "checked_at": "2026-08-25T23:57:04.915241+00:00",
-        "source_url": "https://barq.com/ar/offers/hustle-n-flow-offer/",
+        "source_url": "https://barq.com/offers/hustle-n-flow-offer/",
         "source_changed": false,
         "conflicts": [],
         "error": "ConnectTimeout: HTTPSConnectionPool(host='barq.com', port=443): Max retries exceeded with url: /ar/offers/hustle-n-flow-offer/ (Caused by ConnectTimeoutError(<HTTPSConnection(host='barq.com', port=443) at 0x7f2c18e2ec00>, 'Connection to barq.com timed out. (connect timeout=18)'))"
@@ -56180,7 +56196,7 @@
         "status": "failed",
         "verification_method": "official_website_page",
         "checked_at": "2026-08-25T23:57:04.915241+00:00",
-        "source_url": "https://barq.com/ar/offers/nue-by-nomad/",
+        "source_url": "https://barq.com/offers/nue-by-nomad/",
         "source_changed": false,
         "conflicts": [],
         "error": "ConnectTimeout: HTTPSConnectionPool(host='barq.com', port=443): Max retries exceeded with url: /ar/offers/nue-by-nomad/ (Caused by ConnectTimeoutError(<HTTPSConnection(host='barq.com', port=443) at 0x7f2c18e2ef90>, 'Connection to barq.com timed out. (connect timeout=18)'))"
@@ -62638,7 +62654,7 @@
       "source_verification": {
         "status": "verified_social",
         "verification_method": "official_social_rss_or_inventory",
-        "checked_at": "2026-08-27T04:37:48.595986+00:00",
+        "checked_at": "2026-08-27T04:39:17.140963+00:00",
         "source_url": "https://www.instagram.com/p/Dazzjtdt1Jt/?utm_source=ig_web_button_share_sheet&igsh=MzRlODBiNWFlZA==",
         "source_changed": false,
         "conflicts": [],
@@ -62748,7 +62764,7 @@
       "source_verification": {
         "status": "verified_social",
         "verification_method": "official_social_rss_or_inventory",
-        "checked_at": "2026-08-27T04:37:48.595986+00:00",
+        "checked_at": "2026-08-27T04:39:17.140963+00:00",
         "source_url": "https://www.instagram.com/reel/DaaydiADUvg/?utm_source=ig_web_button_share_sheet&igsh=MzRlODBiNWFlZA==",
         "source_changed": false,
         "conflicts": [],
@@ -62973,7 +62989,7 @@
       "source_verification": {
         "status": "verified_social",
         "verification_method": "official_social_rss_or_inventory",
-        "checked_at": "2026-08-27T04:37:48.595986+00:00",
+        "checked_at": "2026-08-27T04:39:17.140963+00:00",
         "source_url": "https://www.facebook.com/mobilypay/videos/sar-20000-is-waiting-for-you-make-an-international-transfer-with-mobilypay-and-i/4300117560266135/",
         "source_changed": false,
         "conflicts": [],
@@ -63077,7 +63093,7 @@
       "source_verification": {
         "status": "verified_social",
         "verification_method": "official_social_rss_or_inventory",
-        "checked_at": "2026-08-27T04:37:48.595986+00:00",
+        "checked_at": "2026-08-27T04:39:17.140963+00:00",
         "source_url": "https://www.instagram.com/p/DbBUcjiIHS1/",
         "source_changed": false,
         "conflicts": [],
@@ -63230,7 +63246,7 @@
       "source_verification": {
         "status": "verified_social",
         "verification_method": "official_social_rss_or_inventory",
-        "checked_at": "2026-08-27T04:37:48.595986+00:00",
+        "checked_at": "2026-08-27T04:39:17.140963+00:00",
         "source_url": "https://www.facebook.com/urpay.sa/posts/scratch-win-with-every-international-transfer-via-urpay-and-you-could-win-up-to-/1079237764323076/",
         "source_changed": false,
         "conflicts": [],
@@ -63332,7 +63348,7 @@
       "source_verification": {
         "status": "verified_social",
         "verification_method": "official_social_rss_or_inventory",
-        "checked_at": "2026-08-27T04:37:48.595986+00:00",
+        "checked_at": "2026-08-27T04:39:17.140963+00:00",
         "source_url": "https://www.instagram.com/alinmapay/p/CC_U-JDB6yh/",
         "source_changed": false,
         "conflicts": [],
@@ -63514,7 +63530,7 @@
       "source_verification": {
         "status": "verified_social",
         "verification_method": "official_social_rss_or_inventory",
-        "checked_at": "2026-08-27T04:37:48.595986+00:00",
+        "checked_at": "2026-08-27T04:39:17.140963+00:00",
         "source_url": "https://www.facebook.com/AlinmaPaySA/videos/zero-fees-fast-transfers-to-india/873682655502395/",
         "source_changed": false,
         "conflicts": [],
@@ -63734,6 +63750,14 @@
             "source": "https://m.facebook.com/Tiqmoksa/posts/pfbid02c7PJipWJA9SNNWsSqsG1H72VTzeqYR6PVsHx4Y3NagD5vLYJbDzgy7cc93XhXQT6l",
             "method": "official_social"
           }
+        },
+        {
+          "at": "2026-08-27T04:39:17.232251+00:00",
+          "type": "manual_source_verified",
+          "details": {
+            "source": "https://m.facebook.com/Tiqmoksa/posts/pfbid02c7PJipWJA9SNNWsSqsG1H72VTzeqYR6PVsHx4Y3NagD5vLYJbDzgy7cc93XhXQT6l",
+            "method": "official_social"
+          }
         }
       ],
       "review_approved": true,
@@ -63749,7 +63773,7 @@
       "source_verification": {
         "status": "verified_social",
         "verification_method": "official_social_rss_or_inventory",
-        "checked_at": "2026-08-27T04:37:48.595986+00:00",
+        "checked_at": "2026-08-27T04:39:17.140963+00:00",
         "source_url": "https://m.facebook.com/Tiqmoksa/posts/pfbid02c7PJipWJA9SNNWsSqsG1H72VTzeqYR6PVsHx4Y3NagD5vLYJbDzgy7cc93XhXQT6l",
         "source_changed": false,
         "conflicts": [],
@@ -86813,7 +86837,7 @@
       "source_verification": {
         "status": "verified_social",
         "verification_method": "official_social_rss_or_inventory",
-        "checked_at": "2026-08-27T04:37:48.595986+00:00",
+        "checked_at": "2026-08-27T04:39:17.140963+00:00",
         "source_url": "https://www.instagram.com/reel/DYxvJOWiZY5/",
         "source_changed": false,
         "conflicts": [],
@@ -86923,7 +86947,7 @@
       "source_verification": {
         "status": "verified_social",
         "verification_method": "official_social_rss_or_inventory",
-        "checked_at": "2026-08-27T04:37:48.595986+00:00",
+        "checked_at": "2026-08-27T04:39:17.140963+00:00",
         "source_url": "https://www.facebook.com/usebarq/posts/update-your-barq-app-and-join-the-prediction-game-win-your-share-of-prizes-worth/122197690844385166/",
         "source_changed": false,
         "conflicts": [],
@@ -87024,7 +87048,7 @@
       "source_verification": {
         "status": "verified_social",
         "verification_method": "official_social_rss_or_inventory",
-        "checked_at": "2026-08-27T04:37:48.595986+00:00",
+        "checked_at": "2026-08-27T04:39:17.140963+00:00",
         "source_url": "https://www.facebook.com/usebarq/posts/planning-a-trip-%EF%B8%8Fbook-through-almatarapp-with-your-barq-visa-and-get-up-to-10-of/122178668528385166/",
         "source_changed": false,
         "conflicts": [],
@@ -87129,7 +87153,7 @@
       "source_verification": {
         "status": "verified_social",
         "verification_method": "official_social_rss_or_inventory",
-        "checked_at": "2026-08-27T04:37:48.595986+00:00",
+        "checked_at": "2026-08-27T04:39:17.140963+00:00",
         "source_url": "https://www.instagram.com/p/DbAtiuQNGlf/",
         "source_changed": false,
         "conflicts": [],
@@ -88074,7 +88098,7 @@
       "source_verification": {
         "status": "verified_social",
         "verification_method": "official_social_rss_or_inventory",
-        "checked_at": "2026-08-27T04:37:48.595986+00:00",
+        "checked_at": "2026-08-27T04:39:17.140963+00:00",
         "source_url": "https://x.com/urpay_sa/status/2074433249682845889",
         "source_changed": false,
         "conflicts": [],
@@ -88177,7 +88201,7 @@
       "source_verification": {
         "status": "verified_social",
         "verification_method": "official_social_rss_or_inventory",
-        "checked_at": "2026-08-27T04:37:48.595986+00:00",
+        "checked_at": "2026-08-27T04:39:17.140963+00:00",
         "source_url": "https://www.facebook.com/AlinmaPaySA/posts/%EF%B8%8F-fees-gonetravel-anywhere-and-use-your-alinmapay-cashback-cards-without-worryin/1619335260194305/",
         "source_changed": false,
         "conflicts": [],
@@ -89303,7 +89327,7 @@
       "source_verification": {
         "status": "verified_social",
         "verification_method": "official_social_rss_or_inventory",
-        "checked_at": "2026-08-27T04:37:48.595986+00:00",
+        "checked_at": "2026-08-27T04:39:17.140963+00:00",
         "source_url": "https://www.instagram.com/alinmapay/p/DbqaY05mm9E/",
         "source_changed": false,
         "conflicts": [],
@@ -93410,7 +93434,7 @@
       "source_verification": {
         "status": "verified_social",
         "verification_method": "official_social_rss_or_inventory",
-        "checked_at": "2026-08-27T04:37:48.595986+00:00",
+        "checked_at": "2026-08-27T04:39:17.140963+00:00",
         "source_url": "https://www.instagram.com/tiqmoksa/p/DbLZ9Yfj6dy/",
         "source_changed": false,
         "conflicts": [],
@@ -94668,7 +94692,7 @@
       "source_verification": {
         "status": "verified_social",
         "verification_method": "official_social_rss_or_inventory",
-        "checked_at": "2026-08-27T04:37:48.595986+00:00",
+        "checked_at": "2026-08-27T04:39:17.140963+00:00",
         "source_url": "https://www.instagram.com/reel/DWots29j8fx/?hl=en",
         "source_changed": false,
         "conflicts": [],
@@ -114701,37 +114725,37 @@
   "detail_verification_stats": {
     "network_checks": 0,
     "elapsed_seconds": 0.1,
-    "completed_at": "2026-08-27T04:37:48.675573+00:00"
+    "completed_at": "2026-08-27T04:39:17.233358+00:00"
   },
   "mobily_deterministic_classification": {
     "changed": 0,
-    "at": "2026-08-27T04:37:50.069638+00:00"
+    "at": "2026-08-27T04:39:19.017617+00:00"
   },
   "verified_official_classification": {
     "changed": 0,
-    "at": "2026-08-27T04:37:50.071969+00:00",
+    "at": "2026-08-27T04:39:19.020547+00:00",
     "version": "classifier-v5-merchant-candidates"
   },
   "record_integrity": {
     "quarantined_or_demoted": 0,
-    "at": "2026-08-27T04:37:49.538574+00:00"
+    "at": "2026-08-27T04:39:18.309805+00:00"
   },
   "winner_announcement_integrity": {
     "normalized": 0,
-    "at": "2026-08-27T04:37:49.537841+00:00"
+    "at": "2026-08-27T04:39:18.308892+00:00"
   },
   "deduplication": {
-    "removed": 36,
-    "at": "2026-08-27T04:37:50.034933+00:00"
+    "removed": 0,
+    "at": "2026-08-27T04:39:18.970452+00:00"
   },
   "final_status_normalization": {
-    "changed": 52,
-    "at": "2026-08-27T04:37:50.092221+00:00"
+    "changed": 0,
+    "at": "2026-08-27T04:39:19.046264+00:00"
   },
-  "social_analytics_rebuilt_at": "2026-08-27T04:37:50.104628+00:00",
+  "social_analytics_rebuilt_at": "2026-08-27T04:39:19.061534+00:00",
   "media_sanitization": {
     "removed": 0,
-    "at": "2026-08-27T04:37:50.120436+00:00"
+    "at": "2026-08-27T04:39:19.081099+00:00"
   },
   "ai_summary": {
     "what_changed": [
@@ -115164,6 +115188,19 @@
         "detected:barq:e884d501014f6eaadf80",
         "detected:barq:484c0374a94f059f92cb",
         "detected:barq:b2736b275717b6b57c0e"
+      ]
+    },
+    {
+      "request_id": "fb40b44a-5d1c-49e7-951d-4e87fd94850d",
+      "reviewed_at": "2026-08-27T04:39:16.674519+00:00",
+      "reviewed_by": "admin",
+      "action": "confirm_merchant_offer",
+      "item_ids": [
+        "detected:stc-bank:c060b1d79a252a32e7cc"
+      ],
+      "campaign_id": "detected:stc-bank:c060b1d79a252a32e7cc",
+      "record_ids": [
+        "detected:stc-bank:c060b1d79a252a32e7cc"
       ]
     }
   ]
