@@ -2234,7 +2234,7 @@ def review_priority(item):
     return n
 
 MANAGEMENT_WINDOW_DAYS=7
-MANAGEMENT_EXPIRY_DAYS=30
+MANAGEMENT_EXPIRY_DAYS=7
 MARKET_UPDATE_FIELDS=("mechanic","eligibility","terms_note","start_date","end_date","offer_values","corridors")
 SNAPSHOT_FIELDS=(
     "competitor_id","title","campaign_category","mechanic","eligibility","terms_note",
@@ -2409,7 +2409,7 @@ def deterministic_summary(items,delta):
     if expiring:
         names=", ".join(f"{competitor_label(i.get('competitor_id'))} — {clean(i.get('title'),90)}" for i in expiring[:3])
         noun="campaign" if len(expiring)==1 else "campaigns"
-        attention.append(f"{len(expiring)} {noun} are scheduled to expire within 30 days: {names}{'…' if len(expiring)>3 else '.'}")
+        attention.append(f"{len(expiring)} {noun} are scheduled to expire within {MANAGEMENT_EXPIRY_DAYS} days: {names}{'…' if len(expiring)>3 else '.'}")
     pressure=[row for row in events if any(term in row["text"].casefold() for term in ("zero fee","0 fee","fee-free","no fee","cashback","صفر رسوم","بدون رسوم","استرداد نقدي"))]
     if pressure:
         attention.append(f"Recent verified activity includes a fee or cashback mechanic from {pressure[0]['competitor']}; assess potential pricing pressure before treating it as a broader market trend.")
