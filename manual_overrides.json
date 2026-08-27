@@ -1,6 +1,6 @@
 {
   "schema_version": 3,
-  "updated_at": "2026-08-27T05:30:33.177261+00:00",
+  "updated_at": "2026-08-27T11:28:10.006642+00:00",
   "items": {
     "detected:stc-bank:fbee4408c8f62cd77d91": {
       "content_type": "merchant_offer",
@@ -2725,6 +2725,19 @@
       "record_role": "campaign_evidence",
       "content_type": "awareness",
       "current_status": "Linked"
+    },
+    "detected:barq:a5db2146230537cf52b3": {
+      "review_required": false,
+      "review_reasons": [],
+      "review_decision": "link_existing",
+      "reviewed_by": "admin",
+      "reviewed_at": "2026-08-27T11:28:10.006642+00:00",
+      "review_request_id": "e07e7299-7821-451a-82c3-04180411db84",
+      "campaign_id": "campaign:barq:1",
+      "linked_campaign_id": "campaign:barq:1",
+      "record_role": "campaign_evidence",
+      "content_type": "awareness",
+      "current_status": "Linked"
     }
   },
   "new_items": [
@@ -3221,6 +3234,17 @@
         "detected:urpay:d5bb9e4e4cbdb4917a9d"
       ],
       "campaign_id": "campaign:urpay:1",
+      "record_ids": []
+    },
+    {
+      "request_id": "e07e7299-7821-451a-82c3-04180411db84",
+      "reviewed_at": "2026-08-27T11:28:10.006642+00:00",
+      "reviewed_by": "admin",
+      "action": "link_existing",
+      "item_ids": [
+        "detected:barq:a5db2146230537cf52b3"
+      ],
+      "campaign_id": "campaign:barq:1",
       "record_ids": []
     }
   ]
