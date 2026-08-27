@@ -81,7 +81,22 @@
     chartPeriod:"الفترة",
     comparisonUp:"ارتفاع",
     comparisonDown:"انخفاض",
-    comparisonFlat:"بدون تغيير"
+    comparisonFlat:"بدون تغيير",
+    campaignCategoryDistribution:"توزيع فئات الحملات",
+    campaignCategoryDistributionNote:"حصة كل فئة من إجمالي الحملات النشطة. اضغط على الفئة لعرض حملاتها.",
+    upcomingExpiries7d:"تنتهي خلال 7 أيام",
+    recentMarketChanges:"أحدث تغيّرات السوق",
+    verifiedChangesOnly:"تغيّرات موثقة فقط",
+    noUpcomingExpiries:"لا توجد حملات تنتهي خلال 7 أيام.",
+    noRecentMarketChanges:"لا توجد تغيّرات سوقية موثقة خلال آخر 30 يومًا.",
+    daysRemaining:"أيام متبقية",
+    expiresToday:"تنتهي اليوم",
+    dataUpToDate:"البيانات محدثة",
+    dataMayBeDelayed:"قد تتأخر بعض بيانات المنافسين",
+    lastUpdated:"آخر تحديث",
+    shareOfActive:"من الحملات النشطة",
+    highestCompetitor:"الأعلى",
+    selectToView:"اضغط لعرض السجلات"
   });
   Object.assign(I18N.en,{
     marketAnalytics:"Market analytics",
@@ -121,7 +136,22 @@
     chartPeriod:"Period",
     comparisonUp:"Increase",
     comparisonDown:"Decrease",
-    comparisonFlat:"No change"
+    comparisonFlat:"No change",
+    campaignCategoryDistribution:"Campaign category distribution",
+    campaignCategoryDistributionNote:"Share of active campaigns by category. Select a category to view its campaigns.",
+    upcomingExpiries7d:"Expiring within 7 days",
+    recentMarketChanges:"Recent market changes",
+    verifiedChangesOnly:"Verified changes only",
+    noUpcomingExpiries:"No campaigns expire within the next 7 days.",
+    noRecentMarketChanges:"No verified market changes were recorded in the last 30 days.",
+    daysRemaining:"days remaining",
+    expiresToday:"Expires today",
+    dataUpToDate:"Data up to date",
+    dataMayBeDelayed:"Some competitor data may be delayed",
+    lastUpdated:"Last updated",
+    shareOfActive:"of active campaigns",
+    highestCompetitor:"Highest",
+    selectToView:"Select to view records"
   });
   Object.assign(I18N.ar,{
     reviewCenter:"مركز مراجعة الحملات وعروض الشركاء",reviewCenterHint:"راجع الحملات وعروض الشركاء المحتملة. يمكن اعتماد كل عرض شريك محدد كسجل مستقل، أو تجميع عدة أدلة في حملة واحدة.",
@@ -268,7 +298,7 @@
     const max=Math.max(1,...rowDefs.flatMap(row=>series.map(s=>Number(row.values?.[s.id]||0))));
     container.appendChild(el("div",{class:"chart-legend"},series.map(s=>el("span",{},el("i",{style:`--legend-color:${s.color}`}),s.label))));
     rowDefs.forEach((row,rowIndex)=>{
-      const bars=series.map((s,seriesIndex)=>{const value=Number(row.values?.[s.id]||0),pct=value?Math.max(2.5,value/max*100):0,color=row.colors?.[s.id]||s.color;return el("div",{class:"grouped-bar",title:`${row.label} · ${s.label}: ${value}`},el("span",{class:"grouped-bar__track"},el("span",{class:"grouped-bar__fill",style:`width:${pct}%;--bar-color:${color};--chart-delay:${rowIndex*70+seriesIndex*45}ms`})),el("strong",{"data-count-target":value},String(value)));});
+      const bars=series.map((s,seriesIndex)=>{const value=Number(row.values?.[s.id]||0),pct=value?Math.max(2.5,value/max*100):0,color=row.colors?.[s.id]||s.color;return el("div",{class:"grouped-bar",title:row.tooltips?.[s.id]||`${row.label} · ${s.label}: ${value}`},el("span",{class:"grouped-bar__track"},el("span",{class:"grouped-bar__fill",style:`width:${pct}%;--bar-color:${color};--chart-delay:${rowIndex*70+seriesIndex*45}ms`})),el("strong",{"data-count-target":value},String(value)));});
       const attrs={class:`grouped-row${row.onClick?" grouped-row--interactive":""}`};
       let node;
       if(row.onClick){attrs.type="button";attrs.onclick=row.onClick;node=el("button",attrs,el("span",{class:"grouped-row__label"},row.label),el("div",{class:"grouped-row__bars"},bars));}
@@ -276,6 +306,23 @@
       container.appendChild(node);
     });
     observeChart(container);
+  }
+  function renderDonutChart(container,rows,options={}){
+    clear(container);
+    const values=rows.map(row=>({...row,value:Number(row.value)||0})).filter(row=>row.value>0),total=values.reduce((sum,row)=>sum+row.value,0);
+    if(!total){container.appendChild(el("div",{class:"empty-state"},t("noData")));return;}
+    let cursor=0;
+    const stops=values.map((row,index)=>{const start=cursor,end=cursor+row.value/total*100;cursor=end;return`${row.color||COLORS[index%COLORS.length]} ${start}% ${end}%`;});
+    const donut=el("div",{class:"donut-chart",style:`--donut:${stops.join(",")}`},el("div",{class:"donut-chart__center"},el("strong",{"data-count-target":total},String(total)),el("span",{},options.centerLabel||t("chartTotal"))));
+    const legend=el("div",{class:"donut-legend"},values.map((row,index)=>{const pct=Math.round(row.value/total*100),attrs={class:`donut-legend__row${row.onClick?" donut-legend__row--interactive":""}`,title:row.tooltip||`${row.label}: ${row.value} (${pct}%)`};if(row.onClick){attrs.type="button";attrs.onclick=row.onClick;}return el(row.onClick?"button":"div",attrs,el("i",{style:`--legend-color:${row.color||COLORS[index%COLORS.length]}`}),el("span",{},row.label),el("strong",{},`${row.value} · ${pct}%`));}));
+    container.appendChild(el("div",{class:"donut-layout"},donut,legend));observeChart(container);
+  }
+  function renderColumnChart(container,rows,options={}){
+    clear(container);
+    const values=options.keepZero?[...rows]:rows.filter(row=>Number(row.value)>0);
+    if(!values.length){container.appendChild(el("div",{class:"empty-state"},t("noData")));return;}
+    const max=Math.max(1,...values.map(row=>Number(row.value)||0));
+    container.appendChild(el("div",{class:"column-chart"},values.map((row,index)=>{const value=Number(row.value)||0,height=value?Math.max(5,value/max*100):0,attrs={class:`column-chart__item${row.onClick?" column-chart__item--interactive":""}`,title:row.tooltip||`${row.label}: ${value}`};if(row.onClick){attrs.type="button";attrs.onclick=row.onClick;}return el(row.onClick?"button":"div",attrs,el("strong",{"data-count-target":value},String(value)),el("span",{class:"column-chart__rail"},el("span",{class:"column-chart__fill",style:`height:${height}%;--bar-color:${row.color||COLORS[index%COLORS.length]};--chart-delay:${index*70}ms`})),el("small",{},row.label));})));observeChart(container);
   }
   function renderMatrix(container,rowDefs,colDefs,valueFn,options={}){
     clear(container);
@@ -306,5 +353,5 @@
   function csvEscape(v){const s=v==null?"":String(v);return/[",\n]/.test(s)?`"${s.replaceAll('"','""')}"`:s;}
   function exportDelta(data){if(!isAdmin())return;const since=new Date(localStorage.getItem(DELTA_KEY)||data.inventory_source?.review_date||"1970-01-01"),comps=byId(data.competitors),cats=byId(data.categories),rows=(data.items||[]).filter(i=>!i.baseline_import&&new Date(i.last_changed||i.first_seen||0)>since),head=["Competitor","Record Type","Category","Title","Status","Start Date","End Date","Changed At","Official URL"],body=rows.map(i=>[competitorName(comps[i.competitor_id]),i.content_type,taxonomyName(cats[i.campaign_category]),i.title,i.current_status,i.start_date,i.end_date,i.last_changed||i.first_seen,i.official_campaign_page_url||i.link]);downloadBlob(`competitor_delta_${new Date().toISOString().slice(0,10)}.csv`,[head,...body].map(r=>r.map(csvEscape).join(",")).join("\n"),"text/csv;charset=utf-8");localStorage.setItem(DELTA_KEY,new Date().toISOString());}
   setupReportDownloads();
-  window.CM={lifecycleFor,normalizeLifecycle,t,language,setLanguage,initLanguage,loadAuth,auth,isAdmin,loadData,triggerRefresh,resumeRefresh,el,clear,byId,competitorName,taxonomyName,formatDate,timeAgo,withinDays,countBy,getOverrides,exportOverrides,importOverrides,saveItemOverride,addNewItem,deleteCampaign,activeCampaigns,activeMerchants,socialPosts,alerts,acknowledgeAlerts,alertLabel,pill,competitorColor,renderBarChart,renderStackedBarChart,renderGroupedBarChart,renderMatrix,renderMedia,renderItemCard,renderMediaCard,openEditor,openAddCampaign,sourceRow,refreshHistoryRow,showError,categoryLabel,contentLabel,exportDelta};
+  window.CM={lifecycleFor,normalizeLifecycle,t,language,setLanguage,initLanguage,loadAuth,auth,isAdmin,loadData,triggerRefresh,resumeRefresh,el,clear,byId,competitorName,taxonomyName,formatDate,timeAgo,withinDays,countBy,getOverrides,exportOverrides,importOverrides,saveItemOverride,addNewItem,deleteCampaign,activeCampaigns,activeMerchants,socialPosts,alerts,acknowledgeAlerts,alertLabel,pill,competitorColor,renderBarChart,renderStackedBarChart,renderGroupedBarChart,renderDonutChart,renderColumnChart,renderMatrix,renderMedia,renderItemCard,renderMediaCard,openEditor,openAddCampaign,sourceRow,refreshHistoryRow,showError,categoryLabel,contentLabel,exportDelta};
 })();

@@ -9,6 +9,7 @@
     campaignChangePeriod: 30,
     socialPeriod: 7,
     socialPlatform: "",
+    marketEventFilter: "",
     filters: { q: "", competitor: "", category: "", source: "", reviewReason: "" },
   };
 
@@ -61,11 +62,16 @@
     const s = state.data.stats || {};
     const grid = document.getElementById("kpi-grid");
     C.clear(grid);
+    const expiring7 = campaigns().filter((item) => {
+      const end = validDate(item.end_date);
+      const days = end ? (end.getTime() - Date.now()) / 86400000 : -1;
+      return days >= 0 && days <= 7;
+    }).length;
     const rows = [
       [C.t("activeCampaigns"), s.active_campaigns || campaigns().length, C.t("activeCampaignsDetail"), "primary"],
       [C.t("merchantPortfolio"), s.merchant_offers || merchants().length, C.t("merchantPortfolioDetail"), "gold"],
       [C.t("remittanceCampaigns"), s.remittance_campaigns || 0, C.t("remittance"), "blue"],
-      [C.t("expiring30d"), s.expiring_30d || 0, C.t("expiryRisk"), s.expiring_30d ? "danger" : "default"],
+      [C.t("upcomingExpiries7d"), expiring7, C.t("expiryRisk"), expiring7 ? "danger" : "default"],
       [C.t("socialPosts7d"), s.social_posts_7d || 0, C.t("channelActivity7d"), "purple"],
     ];
     if (C.isAdmin()) {
@@ -111,6 +117,7 @@
   }
 
   function applyChartFilters(competitor = "", category = "", tab = "campaign") {
+    state.marketEventFilter = "";
     state.filters.competitor = competitor;
     state.filters.category = category;
     const competitorSelect = document.getElementById("competitor-filter");
@@ -118,6 +125,17 @@
     if (competitorSelect) competitorSelect.value = competitor;
     if (categorySelect) categorySelect.value = category;
     selectTab(tab);
+    resetList();
+    document.getElementById("content-tabs")?.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+
+  function applyMarketEventFilter(competitor, eventType) {
+    state.marketEventFilter = eventType;
+    state.filters.competitor = competitor;
+    state.filters.category = "";
+    document.getElementById("competitor-filter").value = competitor;
+    document.getElementById("category-filter").value = "";
+    selectTab("campaign");
     resetList();
     document.getElementById("content-tabs")?.scrollIntoView({ behavior: "smooth", block: "start" });
   }
@@ -146,6 +164,10 @@
           previous: competitorPosts.filter((item) => inAgeRange(socialDate(item), period, period * 2)).length,
         },
         colors: { current: C.competitorColor(competitor.id), previous: "#cbd5e1" },
+        tooltips: {
+          current: `${C.competitorName(competitor)} · ${C.t("currentPeriod")}: ${competitorPosts.filter((item) => inAgeRange(socialDate(item), 0, period)).length} · ${C.t("selectToView")}`,
+          previous: `${C.competitorName(competitor)} · ${C.t("previousPeriod")}: ${competitorPosts.filter((item) => inAgeRange(socialDate(item), period, period * 2)).length}`,
+        },
         onClick: () => applyChartFilters(competitor.id, "", "posts"),
       };
     });
@@ -188,13 +210,12 @@
 
     C.renderBarChart(
       document.getElementById("campaigns-chart"),
-      competitors.map((competitor) => ({
-        id: competitor.id,
-        label: C.competitorName(competitor),
-        value: campaignCounts.get(competitor.id) || 0,
-        color: C.competitorColor(competitor.id),
-        onClick: () => applyChartFilters(competitor.id),
-      })),
+      competitors.map((competitor) => {
+        const rows = activeCampaigns.filter((item) => item.competitor_id === competitor.id);
+        const breakdown = categories.map((category) => ({ label: C.taxonomyName(category), value: rows.filter((item) => item.campaign_category === category.id).length })).filter((entry) => entry.value).map((entry) => `${entry.label}: ${entry.value}`).join(" · ");
+        const expiring = rows.filter((item) => { const end = validDate(item.end_date); const days = end ? (end.getTime() - Date.now()) / 86400000 : -1; return days >= 0 && days <= 7; }).length;
+        return { id: competitor.id, label: C.competitorName(competitor), value: campaignCounts.get(competitor.id) || 0, color: C.competitorColor(competitor.id), tooltip: `${C.competitorName(competitor)}: ${rows.length}\n${breakdown}${expiring ? `\n${C.t("upcomingExpiries7d")}: ${expiring}` : ""}\n${C.t("selectToView")}`, onClick: () => applyChartFilters(competitor.id) };
+      }),
       { keepZero: true },
     );
 
@@ -211,7 +232,7 @@
         { id: "updated", label: C.t("updatedStatus"), color: "#2563eb" },
         { id: "expired", label: C.t("expiredStatus"), color: "#dc2626" },
       ],
-      { normalize: false },
+      { normalize: false, onSegmentClick: (competitor, eventType) => applyMarketEventFilter(competitor.id, eventType.id) },
     );
 
     const categorySeries = categories.map((category) => ({
@@ -219,19 +240,16 @@
       label: C.taxonomyName(category),
       color: CATEGORY_COLORS[category.id] || "#64748b",
     }));
-    C.renderStackedBarChart(
+    const categoryCounts = C.countBy(activeCampaigns, (item) => item.campaign_category);
+    C.renderDonutChart(
       document.getElementById("category-chart"),
-      competitors.map((competitor) => ({
-        id: competitor.id,
-        label: C.competitorName(competitor),
-        href: `competitor.html?id=${competitor.id}`,
-        values: Object.fromEntries(categories.map((category) => [category.id, activeCampaigns.filter((item) => item.competitor_id === competitor.id && item.campaign_category === category.id).length])),
-      })),
-      categorySeries,
-      {
-        normalize: true,
-        onSegmentClick: (competitor, category) => applyChartFilters(competitor.id, category.id),
-      },
+      categories.map((category) => {
+        const value = categoryCounts.get(category.id) || 0;
+        const leaders = competitors.map((competitor) => ({ name: C.competitorName(competitor), value: activeCampaigns.filter((item) => item.competitor_id === competitor.id && item.campaign_category === category.id).length })).sort((a, b) => b.value - a.value);
+        const share = activeCampaigns.length ? Math.round(value / activeCampaigns.length * 100) : 0;
+        return { id: category.id, label: C.taxonomyName(category), value, color: CATEGORY_COLORS[category.id] || "#64748b", tooltip: `${C.taxonomyName(category)}: ${value} (${share}% ${C.t("shareOfActive")})${leaders[0]?.value ? `\n${C.t("highestCompetitor")}: ${leaders[0].name} — ${leaders[0].value}` : ""}\n${C.t("selectToView")}`, onClick: () => applyChartFilters("", category.id) };
+      }),
+      { centerLabel: C.t("activeCampaigns") },
     );
 
     C.renderMatrix(
@@ -242,15 +260,9 @@
       { onCellClick: (competitor, category) => applyChartFilters(competitor.id, category.id) },
     );
 
-    C.renderBarChart(
+    C.renderColumnChart(
       document.getElementById("remittance-chart"),
-      competitors.map((competitor) => ({
-        id: competitor.id,
-        label: C.competitorName(competitor),
-        value: activeCampaigns.filter((item) => item.competitor_id === competitor.id && item.campaign_category === "remittance").length,
-        color: C.competitorColor(competitor.id),
-        onClick: () => applyChartFilters(competitor.id, "remittance"),
-      })),
+      competitors.map((competitor) => { const rows = activeCampaigns.filter((item) => item.competitor_id === competitor.id && item.campaign_category === "remittance"); return { id: competitor.id, label: C.competitorName(competitor), value: rows.length, color: C.competitorColor(competitor.id), tooltip: `${C.competitorName(competitor)} · ${C.t("remittanceCampaigns")}: ${rows.length}\n${C.t("selectToView")}`, onClick: () => applyChartFilters(competitor.id, "remittance") }; }),
       { keepZero: true },
     );
 
@@ -304,6 +316,45 @@
     );
 
     renderSocialChart();
+  }
+
+  function renderDecisionSignals() {
+    const now = Date.now();
+    const competitors = C.byId(state.data.competitors);
+    const upcoming = campaigns().map((item) => ({ item, end: validDate(item.end_date) })).filter((row) => row.end && row.end.getTime() >= now && row.end.getTime() - now <= 7 * 86400000).sort((a, b) => a.end - b.end);
+    const expiryBox = document.getElementById("upcoming-expiries");
+    document.getElementById("upcoming-expiry-count").textContent = String(upcoming.length);
+    C.clear(expiryBox);
+    if (!upcoming.length) expiryBox.appendChild(C.el("div", { class: "empty-state empty-state--compact" }, C.t("noUpcomingExpiries")));
+    upcoming.forEach(({ item, end }) => {
+      const days = Math.max(0, Math.ceil((end.getTime() - now) / 86400000));
+      expiryBox.appendChild(C.el("a", { class: "decision-row", href: `item.html?id=${encodeURIComponent(item.id)}` }, C.el("span", { class: "decision-row__marker decision-row__marker--expiry" }, String(days)), C.el("span", { class: "decision-row__body" }, C.el("strong", {}, item.title || "—"), C.el("small", {}, `${C.competitorName(competitors[item.competitor_id])} · ${C.formatDate(item.end_date)}`)), C.el("span", { class: "decision-row__meta" }, days ? `${days} ${C.t("daysRemaining")}` : C.t("expiresToday"))));
+    });
+
+    const events = [];
+    state.data.items.filter((item) => item.content_type === "campaign" && !item.review_required).forEach((item) => {
+      if (inAgeRange(item.market_launch_date, 0, 30)) events.push({ item, type: "new", at: item.market_launch_date });
+      if (inAgeRange(item.market_last_changed, 0, 30)) events.push({ item, type: "updated", at: item.market_last_changed });
+      if (item.active === false && inAgeRange(item.market_expiry_date || item.end_date, 0, 30)) events.push({ item, type: "expired", at: item.market_expiry_date || item.end_date });
+    });
+    events.sort((a, b) => new Date(b.at) - new Date(a.at));
+    const changesBox = document.getElementById("recent-market-changes");
+    C.clear(changesBox);
+    if (!events.length) changesBox.appendChild(C.el("div", { class: "empty-state empty-state--compact" }, C.t("noRecentMarketChanges")));
+    events.slice(0, 5).forEach(({ item, type, at }) => changesBox.appendChild(C.el("a", { class: "decision-row", href: `item.html?id=${encodeURIComponent(item.id)}` }, C.el("span", { class: `decision-row__marker decision-row__marker--${type}` }, type === "new" ? "+" : type === "updated" ? "↻" : "−"), C.el("span", { class: "decision-row__body" }, C.el("strong", {}, item.title || "—"), C.el("small", {}, C.competitorName(competitors[item.competitor_id]))), C.el("span", { class: "decision-row__meta" }, `${C.t(`${type}Status`)} · ${C.formatDate(at)}`))));
+  }
+
+  function renderFreshness() {
+    const relevant = (state.data.source_status || []).filter((status) => ["website", "social"].includes(status.source_type));
+    const latestByCompetitor = new Map();
+    relevant.filter((status) => status.success && status.last_success_at).forEach((status) => {
+      const current = latestByCompetitor.get(status.competitor_id);
+      if (!current || new Date(status.last_success_at) > new Date(current)) latestByCompetitor.set(status.competitor_id, status.last_success_at);
+    });
+    const delayed = state.data.competitors.some((competitor) => { const value = latestByCompetitor.get(competitor.id); return !value || Date.now() - new Date(value).getTime() > 72 * 3600000; });
+    const node = document.getElementById("data-freshness");
+    node.textContent = `${delayed ? C.t("dataMayBeDelayed") : C.t("dataUpToDate")} · ${C.t("lastUpdated")}: ${C.formatDate(state.data.generated_at, true)}`;
+    node.classList.toggle("meta-chip--warning", delayed);
   }
 
   function renderCompetitors() {
@@ -402,7 +453,11 @@
 
   function filtered() {
     const query = state.filters.q.toLowerCase();
-    return state.data.items.filter((item) => item.active !== false && (C.isAdmin() || !(item.review_required || item.content_type === "review")) && tabMatch(item) && (!query || `${item.title || ""} ${item.snippet || ""}`.toLowerCase().includes(query)) && (!state.filters.competitor || item.competitor_id === state.filters.competitor) && (!state.filters.category || item.campaign_category === state.filters.category) && (!state.filters.source || item.source_type === state.filters.source) && (!state.filters.reviewReason || (item.review_reasons || []).includes(state.filters.reviewReason)));
+    return state.data.items.filter((item) => {
+      const eventMatch = !state.marketEventFilter || (state.marketEventFilter === "new" && inAgeRange(item.market_launch_date, 0, state.campaignChangePeriod)) || (state.marketEventFilter === "updated" && inAgeRange(item.market_last_changed, 0, state.campaignChangePeriod)) || (state.marketEventFilter === "expired" && item.active === false && inAgeRange(item.market_expiry_date || item.end_date, 0, state.campaignChangePeriod));
+      const lifecycleMatch = state.marketEventFilter ? eventMatch : item.active !== false;
+      return lifecycleMatch && (C.isAdmin() || !(item.review_required || item.content_type === "review")) && tabMatch(item) && (!query || `${item.title || ""} ${item.snippet || ""}`.toLowerCase().includes(query)) && (!state.filters.competitor || item.competitor_id === state.filters.competitor) && (!state.filters.category || item.campaign_category === state.filters.category) && (!state.filters.source || item.source_type === state.filters.source) && (!state.filters.reviewReason || (item.review_reasons || []).includes(state.filters.reviewReason));
+    });
   }
 
   function renderBulk() {
@@ -448,6 +503,7 @@
     document.getElementById("content-tabs").onclick = (event) => {
       const button = event.target.closest("button[data-type]");
       if (!button) return;
+      state.marketEventFilter = "";
       selectTab(button.dataset.type);
       resetList();
     };
@@ -463,6 +519,7 @@
       };
     }
     document.getElementById("clear-filters").onclick = () => {
+      state.marketEventFilter = "";
       state.filters = { q: "", competitor: "", category: "", source: "", reviewReason: "" };
       ["search", "competitor-filter", "category-filter", "source-filter", "review-reason-filter"].forEach((id) => {
         const node = document.getElementById(id);
@@ -520,6 +577,8 @@
     renderRefreshHistory();
     renderKpis();
     renderSummary();
+    renderFreshness();
+    renderDecisionSignals();
     renderCharts();
     renderCompetitors();
     renderMedia();
