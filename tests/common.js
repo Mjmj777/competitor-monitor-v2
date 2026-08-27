@@ -1,4 +1,4 @@
-/* Competitor Monitor v5.9.1 separate Merchant Offer bulk review and lock hotfix */
+/* Competitor Monitor v5.10.0 full review reconciliation and dated report download */
 (() => {
   "use strict";
   const LANG_KEY="cm_v54_language", ALERT_KEY="cm_v5_alert_ack", OVERRIDE_KEY="cm_v5_manual_overrides", DELTA_KEY="cm_v5_last_delta_export", REFRESH_KEY="cm_v573_refresh";
@@ -81,7 +81,22 @@
     chartPeriod:"الفترة",
     comparisonUp:"ارتفاع",
     comparisonDown:"انخفاض",
-    comparisonFlat:"بدون تغيير"
+    comparisonFlat:"بدون تغيير",
+    campaignCategoryDistribution:"توزيع فئات الحملات",
+    campaignCategoryDistributionNote:"حصة كل فئة من إجمالي الحملات النشطة. اضغط على الفئة لعرض حملاتها.",
+    upcomingExpiries7d:"تنتهي خلال 7 أيام",
+    recentMarketChanges:"أحدث تغيّرات السوق",
+    verifiedChangesOnly:"تغيّرات موثقة فقط",
+    noUpcomingExpiries:"لا توجد حملات تنتهي خلال 7 أيام.",
+    noRecentMarketChanges:"لا توجد تغيّرات سوقية موثقة خلال آخر 30 يومًا.",
+    daysRemaining:"أيام متبقية",
+    expiresToday:"تنتهي اليوم",
+    dataUpToDate:"البيانات محدثة",
+    dataMayBeDelayed:"قد تتأخر بعض بيانات المنافسين",
+    lastUpdated:"آخر تحديث",
+    shareOfActive:"من الحملات النشطة",
+    highestCompetitor:"الأعلى",
+    selectToView:"اضغط لعرض السجلات"
   });
   Object.assign(I18N.en,{
     marketAnalytics:"Market analytics",
@@ -121,7 +136,22 @@
     chartPeriod:"Period",
     comparisonUp:"Increase",
     comparisonDown:"Decrease",
-    comparisonFlat:"No change"
+    comparisonFlat:"No change",
+    campaignCategoryDistribution:"Campaign category distribution",
+    campaignCategoryDistributionNote:"Share of active campaigns by category. Select a category to view its campaigns.",
+    upcomingExpiries7d:"Expiring within 7 days",
+    recentMarketChanges:"Recent market changes",
+    verifiedChangesOnly:"Verified changes only",
+    noUpcomingExpiries:"No campaigns expire within the next 7 days.",
+    noRecentMarketChanges:"No verified market changes were recorded in the last 30 days.",
+    daysRemaining:"days remaining",
+    expiresToday:"Expires today",
+    dataUpToDate:"Data up to date",
+    dataMayBeDelayed:"Some competitor data may be delayed",
+    lastUpdated:"Last updated",
+    shareOfActive:"of active campaigns",
+    highestCompetitor:"Highest",
+    selectToView:"Select to view records"
   });
   Object.assign(I18N.ar,{
     reviewCenter:"مركز مراجعة الحملات وعروض الشركاء",reviewCenterHint:"راجع الحملات وعروض الشركاء المحتملة. يمكن اعتماد كل عرض شريك محدد كسجل مستقل، أو تجميع عدة أدلة في حملة واحدة.",
@@ -129,7 +159,8 @@
     suggestedType:"التصنيف المقترح",reviewReasons:"أسباب المراجعة",officialEvidence:"الدليل الرسمي",selectAllVisible:"تحديد النتائج الظاهرة",sameCompetitorRequired:"لا يمكن تجميع عناصر منافسين مختلفين. اختر عناصر لمنافس واحد.",
     createOneCampaign:"إنشاء سجل حملة واحد",recordType:"نوع السجل",campaignTitle:"اسم الحملة",campaignSummary:"ملخص الحملة",officialSourceRequired:"رابط رسمي تفصيلي",saveDecision:"حفظ القرار",cancel:"إلغاء",chooseCampaign:"اختر الحملة",accessDenied:"هذه الصفحة متاحة للأدمن فقط.",
     reviewSaving:"جاري إرسال القرار…",reviewQueued:"تم إرسال القرار، جاري الحفظ…",reviewSaved:"تم حفظ القرار وتحديث الموقع.",reviewSaveFailed:"تعذر حفظ قرار المراجعة",reviewBusy:"يوجد قرار مراجعة آخر قيد الحفظ",noReviewItems:"لا توجد عناصر تحتاج مراجعة حاليًا.",allReasons:"كل الأسباب",allSources:"كل المصادر",openReviewCenter:"فتح مركز المراجعة",
-    merchantCandidates:"عروض شريك محتملة",suggestedCampaign:"حملات محتملة",suggestedUnclassified:"بدون تصنيف مقترح",merchantBulkWebsiteOnly:"الاعتماد الجماعي المنفصل متاح فقط للعناصر المصنفة كعروض شريك محتملة والمكتشفة من صفحات رسمية. استخدم ربط بحملة للمنشورات الاجتماعية.",bulkMerchantConfirm:"سيتم اعتماد {count} عنصر كعروض شريك مستقلة، ولن يتم دمجها في عرض واحد. هل تريد المتابعة؟"
+    merchantCandidates:"عروض شريك محتملة",suggestedCampaign:"حملات محتملة",suggestedUnclassified:"بدون تصنيف مقترح",merchantBulkWebsiteOnly:"الاعتماد الجماعي المنفصل متاح فقط للعناصر المصنفة كعروض شريك محتملة والمكتشفة من صفحات رسمية. استخدم ربط بحملة للمنشورات الاجتماعية.",bulkMerchantConfirm:"سيتم اعتماد {count} عنصر كعروض شريك مستقلة، ولن يتم دمجها في عرض واحد. هل تريد المتابعة؟",
+    fullReviewScan:"تشغيل فحص شامل للمراجعة",fullReviewScanConfirm:"سيتم تحديث جميع المنافسين ومقارنة كل عناصر Needs Review بالحملات وعروض الشركاء الموجودة. قد يستغرق ذلك عدة دقائق. هل تريد المتابعة؟",lastFullReviewScan:"آخر فحص شامل",reviewCleaned:"تم تنظيف",autoLinked:"تم الربط تلقائيًا",duplicatesRemoved:"تكرارات أزيلت"
   });
   Object.assign(I18N.en,{
     reviewCenter:"Campaign & Merchant Review Center",reviewCenterHint:"Review potential campaigns and merchant offers. Approve each selected merchant offer as a separate record, or group several evidence items into one campaign.",
@@ -137,7 +168,8 @@
     suggestedType:"Suggested type",reviewReasons:"Review reasons",officialEvidence:"Official evidence",selectAllVisible:"Select visible results",sameCompetitorRequired:"Items from different competitors cannot be grouped. Select one competitor only.",
     createOneCampaign:"Create one campaign record",recordType:"Record type",campaignTitle:"Campaign title",campaignSummary:"Campaign summary",officialSourceRequired:"Specific official source URL",saveDecision:"Save decision",cancel:"Cancel",chooseCampaign:"Choose campaign",accessDenied:"This page is available to Admin users only.",
     reviewSaving:"Sending decision…",reviewQueued:"Decision queued; saving…",reviewSaved:"Decision saved and site updated.",reviewSaveFailed:"Could not save review decision",reviewBusy:"Another review decision is being saved",noReviewItems:"No items currently need review.",allReasons:"All reasons",allSources:"All sources",openReviewCenter:"Open review center",
-    merchantCandidates:"Potential merchant offers",suggestedCampaign:"Potential campaigns",suggestedUnclassified:"No suggested type",merchantBulkWebsiteOnly:"Separate bulk approval is only available for items classified as potential Merchant Offers and discovered from official offer pages. Use Link to existing campaign for social posts.",bulkMerchantConfirm:"Confirm {count} items as separate Merchant Offer records? They will not be merged into one offer."
+    merchantCandidates:"Potential merchant offers",suggestedCampaign:"Potential campaigns",suggestedUnclassified:"No suggested type",merchantBulkWebsiteOnly:"Separate bulk approval is only available for items classified as potential Merchant Offers and discovered from official offer pages. Use Link to existing campaign for social posts.",bulkMerchantConfirm:"Confirm {count} items as separate Merchant Offer records? They will not be merged into one offer.",
+    fullReviewScan:"Run full review scan",fullReviewScanConfirm:"This will refresh all competitors and compare every Needs Review item with existing campaigns and merchant offers. It may take several minutes. Continue?",lastFullReviewScan:"Last full review scan",reviewCleaned:"Cleaned",autoLinked:"Auto-linked",duplicatesRemoved:"Duplicates removed"
   });
   let AUTH={authenticated:false,role:"viewer",user:""};
   async function loadAuth(){try{const r=await fetch("/__session",{cache:"no-store",credentials:"same-origin"});if(r.ok){const v=await r.json();AUTH={authenticated:!!v.authenticated,role:v.role||"viewer",user:v.username||v.user||""};}}catch{}return AUTH;}
@@ -159,6 +191,7 @@
   const setOverrides=v=>localStorage.setItem(OVERRIDE_KEY,JSON.stringify(v));
   function dateOnly(v){const m=String(v||"").match(/^(\d{4})-(\d{2})-(\d{2})/);return m?`${m[1]}-${m[2]}-${m[3]}`:"";}
   function todayDateOnly(){const d=new Date(),y=d.getFullYear(),m=String(d.getMonth()+1).padStart(2,"0"),day=String(d.getDate()).padStart(2,"0");return `${y}-${m}-${day}`;}
+  function setupReportDownloads(){const stamp=todayDateOnly(),nonce=Date.now();document.querySelectorAll("[data-report-download]").forEach(link=>{const url=new URL("competitor_campaigns_latest.xlsx",location.href);url.searchParams.set("download",String(nonce));link.href=url.href;link.download=`Competitor-Analysis-${stamp}.xlsx`;});}
   function dayDiff(a,b){const ad=new Date(`${a}T00:00:00Z`),bd=new Date(`${b}T00:00:00Z`);return Math.round((ad-bd)/86400000);}
   function lifecycleFor(item){const today=todayDateOnly(),start=dateOnly(item?.start_date),end=dateOnly(item?.end_date);if(start&&start>today)return{status:"Upcoming",active:true};if(end){const days=dayDiff(end,today);if(days<0)return{status:"Expired",active:false};if(days<=7)return{status:"Expiring ≤7 Days",active:true};if(days<=30)return{status:"Expiring 8–30 Days",active:true};return{status:"Active",active:true};}return{status:"End Date Not Stated",active:true};}
   function staleNoEndNote(v){const x=String(v||"").trim().toLowerCase();return !!x&&(x.includes("end date is not stated")||x.includes("end date not stated")||x.includes("no end date")||x.includes("تاريخ الانتهاء غير")||x.includes("تاريخ انتهاء غير")||x.includes("لم يتم ذكر تاريخ الانتهاء")||x.includes("لم يذكر تاريخ الانتهاء"));}
@@ -174,7 +207,7 @@
   function refreshLock(){try{return JSON.parse(localStorage.getItem(REFRESH_KEY)||"null");}catch{return null;}}
   function saveRefreshLock(value){try{value?localStorage.setItem(REFRESH_KEY,JSON.stringify(value)):localStorage.removeItem(REFRESH_KEY);}catch{}}
   function setRefreshControls(disabled,label=""){document.querySelectorAll("[data-refresh-control],#refresh-all,#refresh-competitor").forEach(button=>{if(!button.dataset.refreshLabel)button.dataset.refreshLabel=button.textContent||"";button.disabled=disabled;if(label)button.textContent=label;else button.textContent=button.dataset.refreshLabel;});}
-  function refreshSummaryText(summary){return[
+  function refreshSummaryText(summary,scan=null){const lines=[
     t("refreshComplete"),
     `${t("newOffersCount")}: ${Number(summary?.new_offers||0)}`,
     `${t("updatedOffersCount")}: ${Number(summary?.updated_offers||0)}`,
@@ -183,10 +216,10 @@
     `${t("needsReview")}: ${Number(summary?.needs_review||0)}`,
     `${t("failedSourcesCount")}: ${Number(summary?.failed_sources||0)}`,
     `${t("zeroSourcesCount")}: ${Number(summary?.zero_item_sources||0)}`,
-  ].join("\n");}
+  ];if(scan)lines.push(`${t("reviewCleaned")}: ${Number(scan.cleaned||0)}`,`${t("autoLinked")}: ${Number(scan.linked_social||0)}`,`${t("duplicatesRemoved")}: ${Number(scan.counted_duplicates_removed||0)+Number(scan.review_duplicates_removed||0)}`);return lines.join("\n");}
   async function refreshStatus(requestId){const r=await fetch(`/__refresh-status?request_id=${encodeURIComponent(requestId)}`,{cache:"no-store",credentials:"same-origin"});let payload={};try{payload=await r.json();}catch{}if(!r.ok&&r.status!==202)throw new Error(payload.message||payload.error||`HTTP ${r.status}`);return payload;}
   async function completedRefreshData(requestId){for(let attempt=0;attempt<24;attempt+=1){try{const data=await loadData();if(data.refresh_summary?.request_id===requestId)return data;}catch{}await sleep(5000);}return null;}
-  async function waitForRefresh(lock,button=null){if(!lock?.requestId)return false;setRefreshControls(true,t("refreshWaiting"));if(button)button.textContent=t("refreshWaiting");const started=Number(lock.startedAt||Date.now());try{while(Date.now()-started<30*60*1000){const status=await refreshStatus(lock.requestId);if(status.status==="completed"){if(status.conclusion!=="success")throw new Error(status.conclusion||t("refreshFailed"));const data=await completedRefreshData(lock.requestId);saveRefreshLock(null);alert(data?refreshSummaryText(data.refresh_summary):t("refreshComplete"));location.reload();return true;}await sleep(8000);}throw new Error(t("refreshTimedOut"));}catch(error){saveRefreshLock(null);setRefreshControls(false);if(button)button.title=String(error?.message||error);alert(`${t("refreshFailed")}: ${error?.message||error}`);return false;}}
+  async function waitForRefresh(lock,button=null){if(!lock?.requestId)return false;setRefreshControls(true,t("refreshWaiting"));if(button)button.textContent=t("refreshWaiting");const started=Number(lock.startedAt||Date.now());try{while(Date.now()-started<30*60*1000){const status=await refreshStatus(lock.requestId);if(status.status==="completed"){if(status.conclusion!=="success")throw new Error(status.conclusion||t("refreshFailed"));const data=await completedRefreshData(lock.requestId);saveRefreshLock(null);alert(data?refreshSummaryText(data.refresh_summary,data.full_review_scan):t("refreshComplete"));location.reload();return true;}await sleep(8000);}throw new Error(t("refreshTimedOut"));}catch(error){saveRefreshLock(null);setRefreshControls(false);if(button)button.title=String(error?.message||error);alert(`${t("refreshFailed")}: ${error?.message||error}`);return false;}}
   async function resumeRefresh(){if(!isAdmin())return false;const lock=refreshLock();if(!lock)return false;if(Date.now()-Number(lock.startedAt||0)>35*60*1000){saveRefreshLock(null);return false;}return waitForRefresh(lock);}
   async function triggerRefresh(competitor="all",button=null){if(!isAdmin())return false;const existing=refreshLock();if(existing&&Date.now()-Number(existing.startedAt||0)<35*60*1000)return waitForRefresh(existing,button);setRefreshControls(true,t("refreshRunning"));try{const r=await fetch("/__refresh",{method:"POST",credentials:"same-origin",cache:"no-store",headers:{"Content-Type":"application/json","X-Requested-With":"competitor-monitor"},body:JSON.stringify({competitor})});let payload={};try{payload=await r.json();}catch{}if(!r.ok){if(r.status===409)throw new Error(t("refreshBusy"));throw new Error(payload.message||payload.error||`HTTP ${r.status}`);}if(!payload.request_id)throw new Error("Refresh request ID missing");const lock={requestId:payload.request_id,competitor,startedAt:Date.now()};saveRefreshLock(lock);if(button)button.textContent=t("refreshQueued");return waitForRefresh(lock,button);}catch(error){saveRefreshLock(null);setRefreshControls(false);if(button)button.title=String(error?.message||error);alert(`${t("refreshFailed")}: ${error?.message||error}`);return false;}}
   function saveItemOverride(id,patch){if(!isAdmin())return;const v=getOverrides();v.updated_at=new Date().toISOString();v.items[id]={...(v.items[id]||{}),...patch};setOverrides(v);}
@@ -265,7 +298,7 @@
     const max=Math.max(1,...rowDefs.flatMap(row=>series.map(s=>Number(row.values?.[s.id]||0))));
     container.appendChild(el("div",{class:"chart-legend"},series.map(s=>el("span",{},el("i",{style:`--legend-color:${s.color}`}),s.label))));
     rowDefs.forEach((row,rowIndex)=>{
-      const bars=series.map((s,seriesIndex)=>{const value=Number(row.values?.[s.id]||0),pct=value?Math.max(2.5,value/max*100):0,color=row.colors?.[s.id]||s.color;return el("div",{class:"grouped-bar",title:`${row.label} · ${s.label}: ${value}`},el("span",{class:"grouped-bar__track"},el("span",{class:"grouped-bar__fill",style:`width:${pct}%;--bar-color:${color};--chart-delay:${rowIndex*70+seriesIndex*45}ms`})),el("strong",{"data-count-target":value},String(value)));});
+      const bars=series.map((s,seriesIndex)=>{const value=Number(row.values?.[s.id]||0),pct=value?Math.max(2.5,value/max*100):0,color=row.colors?.[s.id]||s.color;return el("div",{class:"grouped-bar",title:row.tooltips?.[s.id]||`${row.label} · ${s.label}: ${value}`},el("span",{class:"grouped-bar__track"},el("span",{class:"grouped-bar__fill",style:`width:${pct}%;--bar-color:${color};--chart-delay:${rowIndex*70+seriesIndex*45}ms`})),el("strong",{"data-count-target":value},String(value)));});
       const attrs={class:`grouped-row${row.onClick?" grouped-row--interactive":""}`};
       let node;
       if(row.onClick){attrs.type="button";attrs.onclick=row.onClick;node=el("button",attrs,el("span",{class:"grouped-row__label"},row.label),el("div",{class:"grouped-row__bars"},bars));}
@@ -273,6 +306,23 @@
       container.appendChild(node);
     });
     observeChart(container);
+  }
+  function renderDonutChart(container,rows,options={}){
+    clear(container);
+    const values=rows.map(row=>({...row,value:Number(row.value)||0})).filter(row=>row.value>0),total=values.reduce((sum,row)=>sum+row.value,0);
+    if(!total){container.appendChild(el("div",{class:"empty-state"},t("noData")));return;}
+    let cursor=0;
+    const stops=values.map((row,index)=>{const start=cursor,end=cursor+row.value/total*100;cursor=end;return`${row.color||COLORS[index%COLORS.length]} ${start}% ${end}%`;});
+    const donut=el("div",{class:"donut-chart",style:`--donut:${stops.join(",")}`},el("div",{class:"donut-chart__center"},el("strong",{"data-count-target":total},String(total)),el("span",{},options.centerLabel||t("chartTotal"))));
+    const legend=el("div",{class:"donut-legend"},values.map((row,index)=>{const pct=Math.round(row.value/total*100),attrs={class:`donut-legend__row${row.onClick?" donut-legend__row--interactive":""}`,title:row.tooltip||`${row.label}: ${row.value} (${pct}%)`};if(row.onClick){attrs.type="button";attrs.onclick=row.onClick;}return el(row.onClick?"button":"div",attrs,el("i",{style:`--legend-color:${row.color||COLORS[index%COLORS.length]}`}),el("span",{},row.label),el("strong",{},`${row.value} · ${pct}%`));}));
+    container.appendChild(el("div",{class:"donut-layout"},donut,legend));observeChart(container);
+  }
+  function renderColumnChart(container,rows,options={}){
+    clear(container);
+    const values=options.keepZero?[...rows]:rows.filter(row=>Number(row.value)>0);
+    if(!values.length){container.appendChild(el("div",{class:"empty-state"},t("noData")));return;}
+    const max=Math.max(1,...values.map(row=>Number(row.value)||0));
+    container.appendChild(el("div",{class:"column-chart"},values.map((row,index)=>{const value=Number(row.value)||0,height=value?Math.max(5,value/max*100):0,attrs={class:`column-chart__item${row.onClick?" column-chart__item--interactive":""}`,title:row.tooltip||`${row.label}: ${value}`};if(row.onClick){attrs.type="button";attrs.onclick=row.onClick;}return el(row.onClick?"button":"div",attrs,el("strong",{"data-count-target":value},String(value)),el("span",{class:"column-chart__rail"},el("span",{class:"column-chart__fill",style:`height:${height}%;--bar-color:${row.color||COLORS[index%COLORS.length]};--chart-delay:${index*70}ms`})),el("small",{},row.label));})));observeChart(container);
   }
   function renderMatrix(container,rowDefs,colDefs,valueFn,options={}){
     clear(container);
@@ -302,5 +352,6 @@
   function showError(container,error){clear(container);container.appendChild(el("div",{class:"error-state"},el("strong",{},t("loadError")),el("code",{},String(error)),el("button",{class:"button button--primary",onclick:()=>location.reload()},t("retry"))));}
   function csvEscape(v){const s=v==null?"":String(v);return/[",\n]/.test(s)?`"${s.replaceAll('"','""')}"`:s;}
   function exportDelta(data){if(!isAdmin())return;const since=new Date(localStorage.getItem(DELTA_KEY)||data.inventory_source?.review_date||"1970-01-01"),comps=byId(data.competitors),cats=byId(data.categories),rows=(data.items||[]).filter(i=>!i.baseline_import&&new Date(i.last_changed||i.first_seen||0)>since),head=["Competitor","Record Type","Category","Title","Status","Start Date","End Date","Changed At","Official URL"],body=rows.map(i=>[competitorName(comps[i.competitor_id]),i.content_type,taxonomyName(cats[i.campaign_category]),i.title,i.current_status,i.start_date,i.end_date,i.last_changed||i.first_seen,i.official_campaign_page_url||i.link]);downloadBlob(`competitor_delta_${new Date().toISOString().slice(0,10)}.csv`,[head,...body].map(r=>r.map(csvEscape).join(",")).join("\n"),"text/csv;charset=utf-8");localStorage.setItem(DELTA_KEY,new Date().toISOString());}
-  window.CM={lifecycleFor,normalizeLifecycle,t,language,setLanguage,initLanguage,loadAuth,auth,isAdmin,loadData,triggerRefresh,resumeRefresh,el,clear,byId,competitorName,taxonomyName,formatDate,timeAgo,withinDays,countBy,getOverrides,exportOverrides,importOverrides,saveItemOverride,addNewItem,deleteCampaign,activeCampaigns,activeMerchants,socialPosts,alerts,acknowledgeAlerts,alertLabel,pill,competitorColor,renderBarChart,renderStackedBarChart,renderGroupedBarChart,renderMatrix,renderMedia,renderItemCard,renderMediaCard,openEditor,openAddCampaign,sourceRow,refreshHistoryRow,showError,categoryLabel,contentLabel,exportDelta};
+  setupReportDownloads();
+  window.CM={lifecycleFor,normalizeLifecycle,t,language,setLanguage,initLanguage,loadAuth,auth,isAdmin,loadData,triggerRefresh,resumeRefresh,el,clear,byId,competitorName,taxonomyName,formatDate,timeAgo,withinDays,countBy,getOverrides,exportOverrides,importOverrides,saveItemOverride,addNewItem,deleteCampaign,activeCampaigns,activeMerchants,socialPosts,alerts,acknowledgeAlerts,alertLabel,pill,competitorColor,renderBarChart,renderStackedBarChart,renderGroupedBarChart,renderDonutChart,renderColumnChart,renderMatrix,renderMedia,renderItemCard,renderMediaCard,openEditor,openAddCampaign,sourceRow,refreshHistoryRow,showError,categoryLabel,contentLabel,exportDelta};
 })();

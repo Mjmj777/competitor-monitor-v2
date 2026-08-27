@@ -124,6 +124,23 @@ C.renderGroupedBarChart(grouped, [
 ]);
 assert.equal(grouped.children.length, 2, "Grouped chart must contain a legend and one row");
 
+const donut = new MockNode("div");
+C.renderDonutChart(donut, [
+  { label: "Remittance", value: 7, color: "#123", onClick: () => {} },
+  { label: "Card", value: 3, color: "#456" },
+], { centerLabel: "Active" });
+assert.equal(donut.children.length, 1, "Donut chart layout was not rendered");
+assert.ok(donut.classList.contains("is-chart-visible"), "Donut chart was not revealed");
+
+const columns = new MockNode("div");
+C.renderColumnChart(columns, [
+  { label: "A", value: 4, onClick: () => {} },
+  { label: "B", value: 0 },
+], { keepZero: true });
+assert.equal(columns.children.length, 1, "Column chart wrapper was not rendered");
+assert.equal(columns.children[0].children.length, 2, "Column chart must preserve zero-value competitors");
+assert.ok(columns.classList.contains("is-chart-visible"), "Column chart was not revealed");
+
 const matrix = new MockNode("div");
 C.renderMatrix(matrix, [{ id: "a", label: "A" }], [{ id: "x", label: "X" }], () => 2, { onCellClick: () => {} });
 assert.equal(matrix.children.length, 1, "Heatmap table was not rendered");
@@ -139,5 +156,14 @@ assert.match(
   /\n\s+categorySeries,\n/,
   "Coverage matrix must receive labeled category definitions",
 );
+assert.match(indexSource, /C\.renderDonutChart\(/, "Campaign categories must use a donut chart");
+assert.match(indexSource, /C\.renderColumnChart\(/, "Remittance comparison must use a column chart");
+assert.match(indexSource, /upcomingExpiries7d/, "Seven-day expiry signal is missing");
+assert.match(indexSource, /recent-market-changes/, "Recent verified market changes are missing");
+
+const indexHtml = fs.readFileSync(new URL("../index.html", import.meta.url), "utf8");
+assert.match(indexHtml, /id="data-freshness"/, "Viewer data freshness indicator is missing");
+assert.match(indexHtml, /id="upcoming-expiries"/, "Upcoming expiry section is missing");
+assert.match(indexHtml, /id="recent-market-changes"/, "Recent market changes section is missing");
 
 console.log("Chart renderer tests passed");
