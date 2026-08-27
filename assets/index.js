@@ -7,6 +7,7 @@
     tab: "campaign",
     visible: 40,
     campaignChangePeriod: 30,
+    campaignChangeCustom: { from: "", to: "" },
     socialPeriod: 7,
     socialPlatform: "",
     marketEventFilter: "",
@@ -52,6 +53,14 @@
   function inAgeRange(value, fromDays, toDays) {
     const age = ageInDays(value);
     return age >= fromDays && age < toDays;
+  }
+
+  function inCampaignChangePeriod(value) {
+    const parsed = validDate(value);
+    if (!parsed) return false;
+    const { from, to } = state.campaignChangeCustom;
+    if (from && to) return parsed >= new Date(`${from}T00:00:00Z`) && parsed <= new Date(`${to}T23:59:59Z`);
+    return inAgeRange(value, 0, state.campaignChangePeriod);
   }
 
   function socialDate(item) {
@@ -142,11 +151,10 @@
 
   function campaignChangeValues(competitorId) {
     const records = state.data.items.filter((item) => item.content_type === "campaign" && item.competitor_id === competitorId);
-    const period = state.campaignChangePeriod;
     return {
-      new: records.filter((item) => !item.review_required && inAgeRange(item.market_launch_date, 0, period)).length,
-      updated: records.filter((item) => inAgeRange(item.market_last_changed, 0, period)).length,
-      expired: records.filter((item) => item.active === false && inAgeRange(item.market_expiry_date || item.end_date, 0, period)).length,
+      new: records.filter((item) => !item.review_required && inCampaignChangePeriod(item.market_launch_date)).length,
+      updated: records.filter((item) => inCampaignChangePeriod(item.market_last_changed)).length,
+      expired: records.filter((item) => item.active === false && inCampaignChangePeriod(item.market_expiry_date || item.end_date)).length,
     };
   }
 
@@ -206,7 +214,12 @@
     const changeTitle = document.getElementById("campaign-changes-title");
     const changeNote = document.getElementById("campaign-changes-note");
     if (changeTitle) changeTitle.textContent = C.t("campaignChanges");
-    if (changeNote) changeNote.textContent = C.t("campaignChangesNote").replace("{days}", String(state.campaignChangePeriod));
+    if (changeNote) {
+      const custom = state.campaignChangeCustom;
+      changeNote.textContent = custom.from && custom.to
+        ? `${C.t("verifiedChangesOnly")} · ${C.formatDate(custom.from)} — ${C.formatDate(custom.to)}`
+        : C.t("campaignChangesNote").replace("{days}", String(state.campaignChangePeriod));
+    }
 
     C.renderBarChart(
       document.getElementById("campaigns-chart"),
@@ -370,7 +383,7 @@
       const actions = C.el("div", { class: "competitor-card__actions" });
       if (C.isAdmin()) actions.appendChild(C.el("button", { type: "button", class: "button button--primary", "data-refresh-control": "true", onclick: (event) => C.triggerRefresh(competitor.id, event.currentTarget) }, C.t("checkNow")));
       actions.appendChild(C.el("a", { class: "button button--secondary competitor-card__viewall", href: `competitor.html?id=${competitor.id}` }, C.t("viewAllCampaigns")));
-      box.appendChild(C.el("article", { class: "competitor-card competitor-card--campaigns" }, C.el("div", { class: "competitor-card__head" }, C.el("div", {}, C.el("h3", {}, C.competitorName(competitor)), latest ? C.el("small", { class: "competitor-last-new" }, `${C.t("lastNewOffer")}: ${C.formatDate(latest)}`) : null), C.el("span", { class: "count-badge" }, String(current.length))), list, actions));
+      box.appendChild(C.el("article", { class: "competitor-card competitor-card--campaigns" }, C.el("a", { class: "competitor-logo-stage", href: `competitor.html?id=${competitor.id}`, "aria-label": C.competitorName(competitor) }, C.el("img", { src: C.competitorLogo(competitor.id), alt: `${C.competitorName(competitor)} logo`, loading: "lazy" })), C.el("div", { class: "competitor-card__head" }, C.el("div", {}, C.el("h3", {}, C.competitorName(competitor)), latest ? C.el("small", { class: "competitor-last-new" }, `${C.t("lastNewOffer")}: ${C.formatDate(latest)}`) : null), C.el("span", { class: "count-badge" }, String(current.length))), list, actions));
     });
   }
 
@@ -454,7 +467,7 @@
   function filtered() {
     const query = state.filters.q.toLowerCase();
     return state.data.items.filter((item) => {
-      const eventMatch = !state.marketEventFilter || (state.marketEventFilter === "new" && inAgeRange(item.market_launch_date, 0, state.campaignChangePeriod)) || (state.marketEventFilter === "updated" && inAgeRange(item.market_last_changed, 0, state.campaignChangePeriod)) || (state.marketEventFilter === "expired" && item.active === false && inAgeRange(item.market_expiry_date || item.end_date, 0, state.campaignChangePeriod));
+      const eventMatch = !state.marketEventFilter || (state.marketEventFilter === "new" && inCampaignChangePeriod(item.market_launch_date)) || (state.marketEventFilter === "updated" && inCampaignChangePeriod(item.market_last_changed)) || (state.marketEventFilter === "expired" && item.active === false && inCampaignChangePeriod(item.market_expiry_date || item.end_date));
       const lifecycleMatch = state.marketEventFilter ? eventMatch : item.active !== false;
       return lifecycleMatch && (C.isAdmin() || !(item.review_required || item.content_type === "review")) && tabMatch(item) && (!query || `${item.title || ""} ${item.snippet || ""}`.toLowerCase().includes(query)) && (!state.filters.competitor || item.competitor_id === state.filters.competitor) && (!state.filters.category || item.campaign_category === state.filters.category) && (!state.filters.source || item.source_type === state.filters.source) && (!state.filters.reviewReason || (item.review_reasons || []).includes(state.filters.reviewReason));
     });
@@ -536,8 +549,20 @@
       renderSocialChart();
     };
     document.getElementById("campaign-change-period-filter").onchange = (event) => {
+      const custom = event.target.value === "custom";
+      document.getElementById("campaign-custom-period").hidden = !custom;
+      if (custom) return;
       const value = Number(event.target.value);
+      state.campaignChangeCustom = { from: "", to: "" };
       state.campaignChangePeriod = [7, 14, 30].includes(value) ? value : 30;
+      renderCharts();
+    };
+    document.getElementById("campaign-period-apply").onclick = () => {
+      const from = document.getElementById("campaign-period-from").value;
+      const to = document.getElementById("campaign-period-to").value;
+      if (!from || !to || from > to) return alert(C.t("customPeriod"));
+      state.campaignChangeCustom = { from, to };
+      state.marketEventFilter = "";
       renderCharts();
     };
     document.getElementById("social-platform-filter").onchange = (event) => {

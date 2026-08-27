@@ -44,6 +44,9 @@
 
   function hero() {
     document.getElementById("competitor-name").textContent = C.competitorName(state.competitor);
+    const logo = document.getElementById("competitor-logo");
+    logo.src = C.competitorLogo(state.competitor.id);
+    logo.alt = `${C.competitorName(state.competitor)} logo`;
     document.getElementById("competitor-summary").textContent = `${campaigns().length} ${C.t("activeCampaigns")} · ${merchants().length} ${C.t("merchantOffers")} · ${C.socialPosts(rows(), 7).length} ${C.t("socialPosts7d")}`;
     document.getElementById("website-url").href = state.competitor.website || "#";
     document.getElementById("offers-url").href = state.competitor.offers_url || "#";
@@ -161,7 +164,10 @@
 
   function filtered() {
     const query = state.filters.q.toLowerCase();
-    return rows().filter((item) => item.active !== false && (C.isAdmin() || !(item.review_required || item.content_type === "review")) && tabMatch(item) && (!query || `${item.title || ""} ${item.snippet || ""}`.toLowerCase().includes(query)) && (!state.filters.category || item.campaign_category === state.filters.category) && (!state.filters.status || item.current_status === state.filters.status) && (!state.filters.reviewReason || (item.review_reasons || []).includes(state.filters.reviewReason)));
+    return rows().filter((item) => {
+      const mergedVisible = C.isAdmin() && state.filters.status === "Merged" && item.current_status === "Merged";
+      return (item.active !== false || mergedVisible) && (C.isAdmin() || !(item.review_required || item.content_type === "review")) && tabMatch(item) && (!query || `${item.title || ""} ${item.snippet || ""}`.toLowerCase().includes(query)) && (!state.filters.category || item.campaign_category === state.filters.category) && (!state.filters.status || item.current_status === state.filters.status) && (!state.filters.reviewReason || (item.review_reasons || []).includes(state.filters.reviewReason));
+    });
   }
 
   function renderList() {
