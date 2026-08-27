@@ -10,6 +10,9 @@
     "manual_overrides_path": "manual_overrides.json",
     "detail_verification_interval_hours": 6,
     "max_detail_checks_per_run": 24,
+    "detail_verification_time_budget_seconds": 150,
+    "detail_verification_max_timeout_seconds": 12,
+    "detail_verification_retries": 0,
     "browser_timeout_seconds": 25,
     "detail_verification_missing_date_hours": 2,
     "detail_verification_expiring_hours": 2,
@@ -596,10 +599,13 @@
     "classification_model": "gpt-5.6-terra",
     "classification_reasoning": "low",
     "classification_max_items_per_run": 20,
+    "classification_website_max_items_per_run": 0,
     "classification_recent_days": 14,
+    "request_timeout_seconds": 45,
+    "request_max_retries": 0,
     "summary_enabled": true,
     "summary_model": "gpt-5.6-sol",
-    "summary_reasoning": "xhigh",
+    "summary_reasoning": "low",
     "pricing": {
       "gpt-5.6-terra": {
         "input": 2.5,
@@ -613,6 +619,6 @@
     "date_extraction_enabled": true,
     "date_extraction_model": "gpt-5.6-terra",
     "date_extraction_reasoning": "low",
-    "date_extraction_max_items_per_run": 6
+    "date_extraction_max_items_per_run": 2
   }
 }

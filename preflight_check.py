@@ -188,11 +188,24 @@ try:
         fail('Workflow manual competitor input is not connected to monitor.py')
     if 'python enhance.py --competitor "$TARGET_COMPETITOR"' not in wf:
         fail('Workflow manual competitor input is not connected to enhance.py')
+    timeout_match=re.search(r'jobs:\s*\n\s*build:.*?timeout-minutes:\s*(\d+)',wf,re.S)
+    if not timeout_match or int(timeout_match.group(1))<35:
+        fail('Build job timeout must allow the bounded full-review run to finish')
+    if 'PYTHONUNBUFFERED: "1"' not in wf:
+        fail('Enhance progress logs must be unbuffered in GitHub Actions')
     if 'cancel-in-progress: true' in wf:
         fail('Manual refreshes must queue instead of cancelling a running monitor job')
     detail_interval=float(config.get('settings',{}).get('detail_verification_interval_hours',99))
     if not (1 <= detail_interval <= 6):
         fail('Stable offer detail verification interval must be between 1 and 6 hours')
+    settings=config.get('settings',{})
+    if not (30 <= float(settings.get('detail_verification_time_budget_seconds',0)) <= 240):
+        fail('Detail verification must have a 30–240 second wall-clock budget')
+    if not (5 <= int(settings.get('detail_verification_max_timeout_seconds',0)) <= 15):
+        fail('Each detail request must have a bounded 5–15 second timeout')
+    enhance_source=(BASE/'enhance.py').read_text(encoding='utf-8')
+    if 'within_budget=elapsed_now<time_budget' not in enhance_source or 'max_retries=int(ai.get("request_max_retries",0))' not in enhance_source:
+        fail('Network/OpenAI runtime budgets are not enforced by enhance.py')
     if float(config.get('settings',{}).get('detail_verification_missing_date_hours',99)) > 2:
         fail('Offers missing dates must be rechecked within 2 hours')
     if int(config.get('settings',{}).get('max_detail_checks_per_run',999)) > 30:

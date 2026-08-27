@@ -815,7 +815,7 @@ def ai_fill_dates(ex,state,config):
     else:
         max_calls=int(config.get("ai",{}).get("date_extraction_max_items_per_run",6))
         if AI_DATE_CALLS_THIS_RUN>=max_calls:return ex
-        client=openai_client()
+        client=openai_client(config)
         if not client:return ex
         model=config.get("ai",{}).get("date_extraction_model",config.get("ai",{}).get("classification_model","gpt-5.6-terra"))
         schema={"type":"object","additionalProperties":False,"properties":{"start_date":{"type":["string","null"]},"end_date":{"type":["string","null"]},"evidence":{"type":["string","null"]}},"required":["start_date","end_date","evidence"]}
@@ -930,10 +930,14 @@ def verify_details(data,state,config,overrides,competitor_filter=None):
     max_checks=int(config.get("settings",{}).get("max_detail_checks_per_run",24))
     if competitor_filter:
         max_checks=max(max_checks,int(config.get("settings",{}).get("manual_refresh_max_detail_checks",60)))
+    time_budget=float(config.get("settings",{}).get("detail_verification_time_budget_seconds",150))
+    max_timeout=max(5,int(config.get("settings",{}).get("detail_verification_max_timeout_seconds",12)))
+    retries=max(0,int(config.get("settings",{}).get("detail_verification_retries",0)))
     current=now(); checks=0; new_status=[]; skip=os.environ.get("CM_SKIP_NETWORK")=="1"
+    budget_notice_printed=False
     perf_started=time.perf_counter()
     session=requests.Session(); session.headers.update({"User-Agent":USER_AGENT,"Accept-Language":"en,ar;q=0.9"})
-    retry=Retry(total=2,connect=2,read=1,backoff_factor=.7,status_forcelist=[429,500,502,503,504],allowed_methods=["GET"])
+    retry=Retry(total=retries,connect=retries,read=0,backoff_factor=.3,status_forcelist=[429,500,502,503,504],allowed_methods=["GET"])
     session.mount("https://",HTTPAdapter(max_retries=retry));session.mount("http://",HTTPAdapter(max_retries=retry))
 
     candidates=[]
@@ -1036,7 +1040,12 @@ def verify_details(data,state,config,overrides,competitor_filter=None):
 
         # Admin-added campaigns get an immediate verification slot and cannot be starved by
         # the normal detail-page quota. They are few and explicitly requested by the user.
-        if due and (manual_candidate or checks<max_checks) and not skip:
+        elapsed_now=time.perf_counter()-perf_started
+        within_budget=elapsed_now<time_budget
+        if due and not within_budget and not skip and not budget_notice_printed:
+            print(f"[PERF] detail verification time budget reached at {elapsed_now:.1f}s; remaining pages keep last-known-good data.",flush=True)
+            budget_notice_printed=True
+        if due and (manual_candidate or checks<max_checks) and not skip and within_budget:
             checks+=1
             detail_status={
                 "source_key":f"detail:{item['id']}",
@@ -1050,7 +1059,8 @@ def verify_details(data,state,config,overrides,competitor_filter=None):
                 "error":None,
             }
             try:
-                item_timeout=int(item.get("detail_timeout_seconds") or timeout)
+                item_timeout=min(max_timeout,max(5,int(item.get("detail_timeout_seconds") or timeout)))
+                print(f"[DETAIL {checks}/{max_checks}] {item.get('competitor_id')} · timeout={item_timeout}s",flush=True)
                 r=session.get(url,timeout=item_timeout)
                 r.raise_for_status()
                 ex=ai_fill_dates(extract_page(response_text(r),url),state,config)
@@ -1079,6 +1089,7 @@ def verify_details(data,state,config,overrides,competitor_filter=None):
                 cache[item["id"]]=cached
                 detail_status["error"]=cached["error"]
                 detail_status["last_success_at"]=cached.get("last_success_at")
+            print(f"[DETAIL {checks}/{max_checks}] {'ok' if detail_status.get('success') else 'failed'} · {item.get('competitor_id')}",flush=True)
             new_status.append(detail_status)
 
         ex=cached.get("extracted") or {}
@@ -1199,7 +1210,7 @@ def verify_details(data,state,config,overrides,competitor_filter=None):
         "elapsed_seconds":elapsed,
         "completed_at":iso(now()),
     }
-    print(f"[PERF] detail verification: {checks} network checks in {elapsed:.1f}s")
+    print(f"[PERF] detail verification: {checks} network checks in {elapsed:.1f}s",flush=True)
 
 def tokenize(text):
     return {x for x in re.findall(r"[\w%]+",clean(text,5000).casefold()) if len(x)>2}
@@ -1675,11 +1686,15 @@ def rescan_needs_review(data,config):
     summary["completed_at"]=iso(now())
     return summary
 
-def openai_client():
+def openai_client(config=None):
     if not os.environ.get("OPENAI_API_KEY"): return None
     try:
         from openai import OpenAI
-        return OpenAI()
+        ai=(config or {}).get("ai",{})
+        return OpenAI(
+            timeout=float(ai.get("request_timeout_seconds",45)),
+            max_retries=int(ai.get("request_max_retries",0)),
+        )
     except Exception as exc:
         print(f"[OpenAI unavailable] {exc}"); return None
 
@@ -1696,11 +1711,12 @@ def add_usage(state,kind,model,inp,out,config):
 
 def ai_classify(posts,campaigns,state,config):
     if not posts or not config.get("ai",{}).get("classification_enabled",True): return {}
-    client=openai_client()
+    client=openai_client(config)
     if not client:return {}
     model=config.get("ai",{}).get("classification_model","gpt-5.6-terra")
-    allowed_campaigns=[{"id":c["id"],"competitor_id":c.get("competitor_id"),"record_type":c.get("content_type"),"title":c.get("title"),"category":c.get("campaign_category"),"mechanic":c.get("mechanic"),"corridors":c.get("corridors",[]),"offer_values":c.get("offer_values",[]),"start_date":c.get("start_date"),"end_date":c.get("end_date")} for c in campaigns if c.get("active") is not False]
-    rows=[{"id":p["id"],"competitor_id":p.get("competitor_id"),"source_type":p.get("source_type"),"title":p.get("title"),"text":p.get("snippet"),"platform":p.get("platform"),"published_at":p.get("published_at"),"start_date":p.get("start_date"),"end_date":p.get("end_date"),"official_url":p.get("official_campaign_page_url") or p.get("link")} for p in posts]
+    relevant_competitors={p.get("competitor_id") for p in posts if p.get("competitor_id")}
+    allowed_campaigns=[{"id":c["id"],"competitor_id":c.get("competitor_id"),"record_type":c.get("content_type"),"title":clean(c.get("title"),300),"category":c.get("campaign_category"),"mechanic":clean(c.get("mechanic"),600),"corridors":c.get("corridors",[]),"offer_values":c.get("offer_values",[]),"start_date":c.get("start_date"),"end_date":c.get("end_date")} for c in campaigns if c.get("active") is not False and c.get("competitor_id") in relevant_competitors]
+    rows=[{"id":p["id"],"competitor_id":p.get("competitor_id"),"source_type":p.get("source_type"),"title":clean(p.get("title"),300),"text":clean(p.get("snippet"),1600),"platform":p.get("platform"),"published_at":p.get("published_at"),"start_date":p.get("start_date"),"end_date":p.get("end_date"),"official_url":p.get("official_campaign_page_url") or p.get("link")} for p in posts]
     categories=["remittance","musaned","sadad","card","engagement","merchant","other"]
     schema={"type":"object","additionalProperties":False,"properties":{"items":{"type":"array","items":{"type":"object","additionalProperties":False,"properties":{"id":{"type":"string"},"decision":{"type":"string","enum":["link","review","standalone"]},"record_type":{"type":"string","enum":["campaign","merchant_offer","social_post","awareness","review"]},"category":{"type":"string","enum":categories},"matched_campaign_id":{"type":["string","null"]}},"required":["id","decision","record_type","category","matched_campaign_id"]}}},"required":["items"]}
     instructions="""Classify official competitor intelligence items for a Saudi fintech monitor. Respect source_type. For source_type=social, a post NEVER creates a counted campaign by itself: winner announcements, congratulations, reminders, result/follow-up posts should link to an existing same-competitor campaign when clearly supported, otherwise decision=review. When a social poster clearly names the same retailer/restaurant/hotel/merchant as an existing merchant_offer and its discount, promo code or validity dates are compatible, decision=link to that merchant_offer; obvious Arabic/English transliterations of the same merchant name are valid evidence. If the same merchant has multiple offers, require compatible benefit values or dates. For source_type=website, a specific detail page discovered from the competitor's configured official offers page may be classified as campaign or merchant_offer. A merchant/partner discount at a named retailer, restaurant, hotel, clinic, store or partner using a card/promo code is merchant_offer and must NOT be a campaign KPI. A campaign is the competitor's own promotional mechanic such as remittance pricing/cashback/prizes, card-spend campaign, SADAD/Musaned promotion, or engagement competition. NEVER link across competitors. Link only when meaning, product/corridor and mechanic support the match. Product awareness without a concrete mechanic is awareness/review. If uncertain use decision=review. Return only the schema. Do not invent dates, values or campaigns."""
@@ -1787,8 +1803,9 @@ def enrich_social(data,state,config,overrides):
                 decision["review_reasons"]=list(dict.fromkeys((decision.get("review_reasons") or [])+["official_detail_not_verified"]))
             row.update(decision); continue
         extra.append(row)
-    extra_decisions=ai_classify(extra[:maxn],campaigns,state,config)
-    for row in extra[:maxn]:
+    website_maxn=int(config.get("ai",{}).get("classification_website_max_items_per_run",0))
+    extra_decisions=ai_classify(extra[:website_maxn],campaigns,state,config) if website_maxn>0 else {}
+    for row in extra[:website_maxn]:
         d=extra_decisions.get(row["id"]);
         if not d: continue
         match=d.get("matched_campaign_id")
@@ -2287,7 +2304,7 @@ def ai_summary(items,delta,state,config):
     previous_delta=state.get("authoritative_delta") or {}
     if prior_bad and not delta.get("material") and previous_delta.get("material"):
         effective_delta=previous_delta
-    fallback=deterministic_summary(items,effective_delta);client=openai_client()
+    fallback=deterministic_summary(items,effective_delta);client=openai_client(config)
     if not client or not config.get("ai",{}).get("summary_enabled",True):return fallback
     model=config.get("ai",{}).get("summary_model","gpt-5.6-sol");campaigns=[i for i in items if i.get("content_type")=="campaign" and i.get("active") is not False]
     compact=[{"competitor":(i.get("competitor_id") or "").replace("-"," "),"title":i.get("title"),"category":i.get("campaign_category"),"mechanic":i.get("mechanic"),"start_date":i.get("start_date"),"end_date":i.get("end_date"),"status":i.get("current_status"),"corridors":i.get("corridors",[]),"offer_values":i.get("offer_values",[]),"social_posts_total":i.get("social_posts_total",0)} for i in campaigns]
@@ -2354,10 +2371,12 @@ def main():
     if not data.get("items"):print("No data items");return 0
     initial_review_count=sum(item.get("active") is not False and item.get("review_required") for item in data.get("items",[]))
     if target.casefold() not in {"", "all", "*"}:print(f"[TARGET] detail verification for {target}")
+    print(f"[STAGE 1/5] Verify official detail pages · review queue={initial_review_count}",flush=True)
     repair_legacy_mobily_text(data)
     apply_manual_deletions(data,overrides)
     add_manual_new_items(data,overrides)
     verify_details(data,state,config,overrides,target)
+    print("[STAGE 2/5] Classify and link official/social records",flush=True)
     apply_mobily_deterministic_classification(data)
     apply_verified_official_classification(data,config)
     enforce_record_integrity(data,config)
@@ -2365,6 +2384,7 @@ def main():
     apply_mobily_deterministic_classification(data)
     apply_verified_official_classification(data,config)
 
+    print("[STAGE 3/5] Reconcile the full Needs Review backlog",flush=True)
     # Every run now reconciles the complete Needs Review backlog with all canonical
     # campaigns and merchant offers, instead of looking only at newly fetched rows.
     scan_summary=rescan_needs_review(data,config)
@@ -2381,16 +2401,21 @@ def main():
     sanitize_campaign_media(data)
     detect_duplicates_replacements(data)
     scan_summary["review_after"]=sum(item.get("active") is not False and item.get("review_required") for item in data.get("items",[]))
-    scan_summary["reconciliation_review_before"]=scan_summary["review_before"]
-    scan_summary["review_before"]=initial_review_count
+    # Stage 2 can legitimately surface previously unflagged social posts as Potential Campaigns
+    # or Potential Merchant Offers. Measure the cleanup against the queue that the full scan
+    # actually received, while retaining the workflow-entry count for an honest net comparison.
+    scan_summary["workflow_review_before"]=initial_review_count
     scan_summary["cleaned"]=max(0,scan_summary["review_before"]-scan_summary["review_after"])
+    scan_summary["workflow_net_change"]=scan_summary["review_after"]-initial_review_count
     data["full_review_scan"]=scan_summary
+    print(f"[STAGE 4/5] Review reconciliation complete · {scan_summary['review_before']} → {scan_summary['review_after']} · workflow input={initial_review_count}",flush=True)
     for item in data.get("items",[]):
         item["review_priority"]=review_priority(item);item.pop("confidence",None) # confidence stays internal, never a displayed score
     snap=snapshot_campaigns(data["items"]);delta=material_delta(state.get("summary_snapshot",{}),snap);summary=ai_summary(data["items"],delta,state,config)
     state.update(summary_snapshot=snap,ai_summary=summary,authoritative_delta=delta,schema_version=5,updated_at=iso(now()))
+    print("[STAGE 5/5] Save generated data",flush=True)
     data.update(schema_version=5,ai_summary=summary,authoritative_delta=delta,ai_usage=state.get("ai_usage",{}));recompute_stats(data);finalize_refresh_metadata(data)
     data["items"].sort(key=lambda i:(i.get("active") is not False,i.get("review_priority",0),dt(i.get("published_at")) or dt(i.get("last_changed")) or datetime.min.replace(tzinfo=timezone.utc)),reverse=True)
-    save(DATA_PATH,data);save(STATE_PATH,state);print(f"Enhanced {len(data['items'])} items · review={data['stats']['review_required']} · AI calls total={data.get('ai_usage',{}).get('calls',0)}");return 0
+    save(DATA_PATH,data);save(STATE_PATH,state);print(f"Enhanced {len(data['items'])} items · review={data['stats']['review_required']} · AI calls total={data.get('ai_usage',{}).get('calls',0)}",flush=True);return 0
 
 if __name__=="__main__": raise SystemExit(main())
