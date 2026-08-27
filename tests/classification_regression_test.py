@@ -43,7 +43,7 @@ data = {"items": [stc]}
 assert enhance.apply_verified_official_classification(data, config) == 1
 assert stc["content_type"] == "campaign"
 assert stc["review_required"] is False
-assert stc["classification_method"] == "verified_official_rules_v5"
+assert stc["classification_method"] == "verified_official_rules_v6"
 
 # The cache key must change when a page moves from unverified to verified.
 unverified = official_item(source_verification={"status": "needs_review"})
@@ -154,6 +154,92 @@ assert "merchant_offer_match_conflict" in wrong_value["review_reasons"]
 assert wrong_date.get("campaign_id") is None
 assert wrong_date["review_required"] is True
 assert "merchant_offer_match_conflict" in wrong_date["review_reasons"]
+
+# The same explicit Merchant Offer published across official social platforms becomes one
+# canonical offer, while each post remains a linked social evidence record.
+taco_facebook = social_post(
+    "post:mobily-pay:facebook:taco",
+    "مضبطينك بخصم 20% مع تاكو هت ولا تنسى الكود",
+    competitor_id="mobily-pay",
+    platform="facebook",
+    campaign_category="merchant",
+    published_at="2026-08-25T18:08:14+00:00",
+    review_reasons=["potential_merchant_offer_unmatched"],
+)
+taco_instagram = social_post(
+    "post:mobily-pay:instagram:taco",
+    "مضبطينك بخصم 20% مع تاكو هت ولا تنسى الكود",
+    competitor_id="mobily-pay",
+    platform="instagram",
+    campaign_category="merchant",
+    published_at="2026-08-25T18:06:59+00:00",
+    review_reasons=["potential_merchant_offer_unmatched"],
+)
+taco_payload = {"items": [taco_facebook, taco_instagram]}
+taco_offers = enhance.promote_repeated_social_merchant_offers(taco_payload)
+assert len(taco_offers) == 1
+assert taco_offers[0]["content_type"] == "merchant_offer"
+assert taco_offers[0]["classification_method"] == "official_social_cross_platform_match"
+assert taco_offers[0]["start_date"].startswith("2026-08-25")
+assert {taco_facebook["campaign_id"], taco_instagram["campaign_id"]} == {taco_offers[0]["id"]}
+assert taco_facebook["review_required"] is False and taco_instagram["review_required"] is False
+
+# A single-platform official social offer is auto-registered only after the AI returns an
+# explicit Merchant Offer decision at 90% confidence or higher.
+solo_offer = social_post(
+    "post:urpay:x:solo-merchant",
+    "Get 25% off at Blue Cafe with your urpay card",
+    competitor_id="urpay",
+    platform="x",
+    campaign_category="merchant",
+)
+solo_payload = {"items": [solo_offer]}
+solo_config = copy.deepcopy(config)
+solo_config["ai"].update({"classification_enabled": True, "classification_max_items_per_run": 10, "classification_recent_days": 365})
+original_ai_batched = enhance.ai_classify_batched
+try:
+    enhance.ai_classify_batched = lambda posts, campaigns, state, cfg: {
+        solo_offer["id"]: {
+            "id": solo_offer["id"], "decision": "standalone", "record_type": "merchant_offer",
+            "category": "merchant", "matched_campaign_id": None, "confidence": 0.95,
+            "merchant_name": "Blue Cafe",
+        }
+    } if solo_offer in posts else {}
+    enhance.enrich_social(solo_payload, {}, solo_config, {"items": {}})
+finally:
+    enhance.ai_classify_batched = original_ai_batched
+solo_records = [row for row in solo_payload["items"] if row.get("content_type") == "merchant_offer"]
+assert len(solo_records) == 1
+assert solo_offer["campaign_id"] == solo_records[0]["id"]
+assert solo_offer["review_required"] is False
+assert solo_records[0]["merchant_name"] == "Blue Cafe"
+
+# Similar merchant wording with a different benefit is never collapsed by fuzzy title alone.
+different_value_payload = {"items": [
+    social_post("post:merchant:x:20", "خصم 20% لدى المطعم", competitor_id="barq", platform="x", campaign_category="merchant"),
+    social_post("post:merchant:instagram:30", "خصم 30% لدى المطعم", competitor_id="barq", platform="instagram", campaign_category="merchant"),
+]}
+assert enhance.promote_repeated_social_merchant_offers(different_value_payload) == []
+
+# A freshly rediscovered named Barq partner card is trusted as first-party listing evidence
+# even when the browser-only detail route returns 404 to the direct verification client.
+barq_listing = official_item(
+    id="detected:barq:vogacloset",
+    competitor_id="barq",
+    title="VogaCloset × برق",
+    snippet="تقدم فيزا بالشراكة مع VogaCloset عرضًا لحاملي بطاقة برق فيزا.",
+    evidence_snapshot="يسري هذا العرض ابتداءً من 16 ابريل 2026 وحتى 30 سبتمبر 2026",
+    link="https://barq.com/ar/offers/vogacloset-offer/",
+    official_campaign_page_url="https://barq.com/ar/offers/vogacloset-offer/",
+    verified=True,
+    last_seen=enhance.iso(enhance.now()),
+    source_verification={"status": "failed", "verification_method": "official_website_page", "error": "HTTP 404"},
+)
+barq_listing_payload = {"items": [barq_listing]}
+enhance.apply_verified_official_classification(barq_listing_payload, config)
+assert barq_listing["content_type"] == "merchant_offer"
+assert barq_listing["review_required"] is False
+assert barq_listing["classification_method"] == "verified_official_listing_merchant_v1"
 
 # An explicit end date printed on the official social poster fills a missing website date.
 aliexpress = merchant_offer(
@@ -440,6 +526,11 @@ chart_source = (ROOT / "assets" / "index.js").read_text(encoding="utf-8")
 chart_logic = chart_source.split("function campaignChangeValues", 1)[1].split("function renderSocialChart", 1)[0]
 assert "market_launch_date" in chart_logic and "market_last_changed" in chart_logic and "market_expiry_date" in chart_logic
 assert "item.first_seen" not in chart_logic and "item.last_changed" not in chart_logic
+assert "state.campaignChangePeriod" in chart_logic
+assert "item.market_expiry_date || item.end_date" in chart_logic
+index_html = (ROOT / "index.html").read_text(encoding="utf-8")
+assert 'id="campaign-change-period-filter"' in index_html
+assert all(f'value="{days}"' in index_html for days in (7, 14, 30))
 
 # Published Date remains internal social evidence; campaign-facing pages and Excel show only
 # Start Date and End Date.
