@@ -3915,11 +3915,11 @@
   ],
   "stats": {
     "active_campaigns": 33,
-    "merchant_offers": 183,
+    "merchant_offers": 184,
     "remittance_campaigns": 11,
     "expiring_30d": 6,
     "social_posts_7d": 225,
-    "review_required": 501,
+    "review_required": 494,
     "healthy_sources": 31,
     "failed_sources": 0,
     "total_sources": 31
@@ -3927,12 +3927,12 @@
   "refresh_summary": {
     "request_id": "33037601934",
     "competitor": "all",
-    "completed_at": "2026-08-27T04:42:30.810924+00:00",
+    "completed_at": "2026-08-27T04:44:52.878260+00:00",
     "new_offers": 1,
     "updated_offers": 216,
     "unchanged_offers": 129,
     "new_posts": 36,
-    "needs_review": 501,
+    "needs_review": 494,
     "failed_sources": 0,
     "zero_item_sources": 0,
     "preserved_last_known_good": 0
@@ -4058,12 +4058,12 @@
     {
       "request_id": "33037601934",
       "competitor": "all",
-      "completed_at": "2026-08-27T04:42:30.810924+00:00",
+      "completed_at": "2026-08-27T04:44:52.878260+00:00",
       "new_offers": 1,
       "updated_offers": 216,
       "unchanged_offers": 129,
       "new_posts": 36,
-      "needs_review": 501,
+      "needs_review": 494,
       "failed_sources": 0,
       "zero_item_sources": 0,
       "preserved_last_known_good": 0
@@ -6927,68 +6927,6 @@
       "review_priority": 23
     },
     {
-      "id": "post:stc-bank:tiktok:f583a599a8e5c8e9f255",
-      "competitor_id": "stc-bank",
-      "source_key": "social:stc-bank:tiktok",
-      "source_type": "social",
-      "platform": "tiktok",
-      "content_type": "social_post",
-      "campaign_category": "card",
-      "primary_category": "card",
-      "categories": [
-        "card"
-      ],
-      "title": "‏هللتين تجيب لك شاورمتين من فروع نجم الشاورما مع بطاقات STC Bank الرقمية 🌯🌯 ‏تُطبّق الشروط والأحكام.",
-      "snippet": "‏هللتين تجيب لك شاورمتين من فروع نجم الشاورما مع بطاقات STC Bank الرقمية 🌯🌯 ‏تُطبّق الشروط والأحكام. ♬ original sound - STC Bank",
-      "link": "https://www.tiktok.com/@stcbank_ksa/video/7678387805898247444",
-      "social_links": {
-        "tiktok": "https://www.tiktok.com/@stcbank_ksa/video/7678387805898247444"
-      },
-      "outbound_links": [
-        "https://p19-common-sign.tiktokcdn-us.com/tos-alisg-p-0037/oM4BA2FfCPO1iAA6E6QXIHYBwi0COuAtkHRCIA~tplv-tiktokx-origin.image?dr=9636&idc=useast5&ps=13740610&shcp=43f4a2f9&shp=81f88b70&t=4d5b0474&x-expires=1787972400&x-signature=bxRpmowkqTwHwPJqD39S6m7oel0%3D"
-      ],
-      "official_evidence_url": null,
-      "official_campaign_page_url": null,
-      "primary_official_source_url": "https://www.tiktok.com/@stcbank_ksa/video/7678387805898247444",
-      "social_link_count": 1,
-      "published_at": "2026-08-26T17:06:21+00:00",
-      "active": true,
-      "direct_link": true,
-      "verified": true,
-      "review_required": true,
-      "review_reasons": [
-        "social_campaign_match_uncertain"
-      ],
-      "current_status": null,
-      "post_role": "promotion_or_content",
-      "mechanic_tags": [
-        "other"
-      ],
-      "theme_tags": [
-        "other"
-      ],
-      "media": {
-        "url": "https://p19-common-sign.tiktokcdn-us.com/tos-alisg-p-0037/oM4BA2FfCPO1iAA6E6QXIHYBwi0COuAtkHRCIA~tplv-tiktokx-origin.image?dr=9636&idc=useast5&ps=13740610&shcp=43f4a2f9&shp=81f88b70&t=4d5b0474&x-expires=1787972400&x-signature=bxRpmowkqTwHwPJqD39S6m7oel0%3D",
-        "type": "image",
-        "thumbnail_url": "https://p19-common-sign.tiktokcdn-us.com/tos-alisg-p-0037/oM4BA2FfCPO1iAA6E6QXIHYBwi0COuAtkHRCIA~tplv-tiktokx-origin.image?dr=9636&idc=useast5&ps=13740610&shcp=43f4a2f9&shp=81f88b70&t=4d5b0474&x-expires=1787972400&x-signature=bxRpmowkqTwHwPJqD39S6m7oel0%3D"
-      },
-      "first_seen": "2026-08-27T03:51:56.195769+00:00",
-      "last_seen": "2026-08-27T03:51:56.195769+00:00",
-      "last_changed": "2026-08-27T03:51:56.195769+00:00",
-      "version": 1,
-      "change_history": [
-        {
-          "at": "2026-08-27T03:51:56.195769+00:00",
-          "type": "detected",
-          "version": 1
-        }
-      ],
-      "manual_override": true,
-      "corridors": [],
-      "suggested_campaign_id": "campaign:stc-bank:16",
-      "review_priority": 23
-    },
-    {
       "id": "post:mobily-pay:instagram:93ef8afc8788faf7150c",
       "competitor_id": "mobily-pay",
       "source_key": "social:mobily-pay:instagram",
@@ -7292,70 +7230,6 @@
       "manual_override": true,
       "corridors": [],
       "suggested_campaign_id": "detected:barq:22c761ca658d2d3fc9fd",
-      "review_priority": 23
-    },
-    {
-      "id": "post:stc-bank:x:0192a38926bf8a7dd2be",
-      "competitor_id": "stc-bank",
-      "source_key": "social:stc-bank:x",
-      "source_type": "social",
-      "platform": "x",
-      "content_type": "social_post",
-      "campaign_category": "card",
-      "primary_category": "card",
-      "categories": [
-        "card"
-      ],
-      "title": "جاهزين لبداية العرض؟ شاورمتين بهللتين 😎",
-      "snippet": "جاهزين لبداية العرض؟ شاورمتين بهللتين 😎STC Bank (@stcbank_ksa)هللتين تجيب لك شاورمتين من فروع نجم الشاورما مع بطاقات STC Bank الرقمية 🌯🌯 تُطبّق الشروط والأحكام.— https://x.com/stcbank_ksa/status/2092598029194784807 — STC Bank (@stcbank_ksa) Aug 26, 2026",
-      "link": "https://x.com/stcbank_ksa/status/2092641573104194037",
-      "social_links": {
-        "x": "https://x.com/stcbank_ksa/status/2092641573104194037"
-      },
-      "outbound_links": [
-        "https://x.com/stcbank_ksa/status/2092598029194784807",
-        "https://twitter.com/stcbank_ksa/status/2092641573104194037",
-        "https://platform.twitter.com/widgets.js"
-      ],
-      "official_evidence_url": null,
-      "official_campaign_page_url": null,
-      "primary_official_source_url": "https://x.com/stcbank_ksa/status/2092641573104194037",
-      "social_link_count": 1,
-      "published_at": "2026-08-26T15:53:00+00:00",
-      "active": true,
-      "direct_link": true,
-      "verified": true,
-      "review_required": true,
-      "review_reasons": [
-        "social_campaign_match_uncertain"
-      ],
-      "current_status": null,
-      "post_role": "promotion_or_content",
-      "mechanic_tags": [
-        "other"
-      ],
-      "theme_tags": [
-        "other"
-      ],
-      "media": {
-        "url": "https://pbs.twimg.com/pbs.twimg.com/media/HQpk9R9XMAAtMGT.jpg",
-        "type": "image",
-        "thumbnail_url": "https://pbs.twimg.com/pbs.twimg.com/media/HQpk9R9XMAAtMGT.jpg"
-      },
-      "first_seen": "2026-08-27T03:51:56.195769+00:00",
-      "last_seen": "2026-08-27T03:51:56.195769+00:00",
-      "last_changed": "2026-08-27T03:51:56.195769+00:00",
-      "version": 1,
-      "change_history": [
-        {
-          "at": "2026-08-27T03:51:56.195769+00:00",
-          "type": "detected",
-          "version": 1
-        }
-      ],
-      "manual_override": true,
-      "corridors": [],
-      "suggested_campaign_id": "campaign:stc-bank:16",
       "review_priority": 23
     },
     {
@@ -7802,131 +7676,6 @@
       "review_priority": 23
     },
     {
-      "id": "post:stc-bank:facebook:dbc973428da2d7e5c3b9",
-      "competitor_id": "stc-bank",
-      "source_key": "social:stc-bank:facebook",
-      "source_type": "social",
-      "platform": "facebook",
-      "content_type": "social_post",
-      "campaign_category": "card",
-      "primary_category": "card",
-      "categories": [
-        "card"
-      ],
-      "title": "هللتين تجيب لك شاورمتين من فروع نجم الشاورما مع بطاقات STC Bank الرقمية 🌯🌯 تُطبّق الشروط والأحكام.",
-      "snippet": "هللتين تجيب لك شاورمتين من فروع نجم الشاورما مع بطاقات STC Bank الرقمية 🌯🌯 تُطبّق الشروط والأحكام.",
-      "link": "https://m.facebook.com/stcbank/posts/pfbid0caax32vrMB6hP71RW9r7kTHsFBj8J1vNL1c1wbM6WzWdZhsRSvy8rzpWkcTNW4Del",
-      "social_links": {
-        "facebook": "https://m.facebook.com/stcbank/posts/pfbid0caax32vrMB6hP71RW9r7kTHsFBj8J1vNL1c1wbM6WzWdZhsRSvy8rzpWkcTNW4Del"
-      },
-      "outbound_links": [
-        "https://scontent-ams2-1.xx.fbcdn.net/v/t39.30808-6/787796897_1397589929164541_6687244998353956162_n.jpg?_nc_cat=111&_nc_gid=WYo1wCG0-N069_24e0VSUQ&_nc_ht=scontent-ams2-1.xx&_nc_oc=AdqZIvYdisFBLtlb-xtSyyDhUD6EiFiEy9DQAmwU0rcdXnqc8kM1vzwY1bNQW1IxHYRgtKCzoY9SPqURjmkSGM_1&_nc_ohc=ENfzjFwtHQkQ7kNvwHvtiQr&_nc_sid=ebae6b&_nc_ss=79289&_nc_zt=23&ccb=1-7&oe=6A9582E6&oh=00_AQFouvjPkmfGHtd8tMp9PjmUrobmZJ3eVeeMqqnUJ3gUcw&stp=dst-jpg_s1080x2048_tt6"
-      ],
-      "official_evidence_url": null,
-      "official_campaign_page_url": null,
-      "primary_official_source_url": "https://m.facebook.com/stcbank/posts/pfbid0caax32vrMB6hP71RW9r7kTHsFBj8J1vNL1c1wbM6WzWdZhsRSvy8rzpWkcTNW4Del",
-      "social_link_count": 1,
-      "published_at": "2026-08-26T13:03:01+00:00",
-      "active": true,
-      "direct_link": true,
-      "verified": true,
-      "review_required": true,
-      "review_reasons": [
-        "social_campaign_match_uncertain"
-      ],
-      "current_status": null,
-      "post_role": "promotion_or_content",
-      "mechanic_tags": [
-        "other"
-      ],
-      "theme_tags": [
-        "other"
-      ],
-      "media": {
-        "url": "https://scontent-ams2-1.xx.fbcdn.net/v/t39.30808-6/787796897_1397589929164541_6687244998353956162_n.jpg?_nc_cat=111&_nc_gid=WYo1wCG0-N069_24e0VSUQ&_nc_ht=scontent-ams2-1.xx&_nc_oc=AdqZIvYdisFBLtlb-xtSyyDhUD6EiFiEy9DQAmwU0rcdXnqc8kM1vzwY1bNQW1IxHYRgtKCzoY9SPqURjmkSGM_1&_nc_ohc=ENfzjFwtHQkQ7kNvwHvtiQr&_nc_sid=ebae6b&_nc_ss=79289&_nc_zt=23&ccb=1-7&oe=6A9582E6&oh=00_AQFouvjPkmfGHtd8tMp9PjmUrobmZJ3eVeeMqqnUJ3gUcw&stp=dst-jpg_s1080x2048_tt6",
-        "type": "image",
-        "thumbnail_url": "https://scontent-ams2-1.xx.fbcdn.net/v/t39.30808-6/787796897_1397589929164541_6687244998353956162_n.jpg?_nc_cat=111&_nc_gid=WYo1wCG0-N069_24e0VSUQ&_nc_ht=scontent-ams2-1.xx&_nc_oc=AdqZIvYdisFBLtlb-xtSyyDhUD6EiFiEy9DQAmwU0rcdXnqc8kM1vzwY1bNQW1IxHYRgtKCzoY9SPqURjmkSGM_1&_nc_ohc=ENfzjFwtHQkQ7kNvwHvtiQr&_nc_sid=ebae6b&_nc_ss=79289&_nc_zt=23&ccb=1-7&oe=6A9582E6&oh=00_AQFouvjPkmfGHtd8tMp9PjmUrobmZJ3eVeeMqqnUJ3gUcw&stp=dst-jpg_s1080x2048_tt6"
-      },
-      "first_seen": "2026-08-27T03:51:56.195769+00:00",
-      "last_seen": "2026-08-27T03:51:56.195769+00:00",
-      "last_changed": "2026-08-27T03:51:56.195769+00:00",
-      "version": 1,
-      "change_history": [
-        {
-          "at": "2026-08-27T03:51:56.195769+00:00",
-          "type": "detected",
-          "version": 1
-        }
-      ],
-      "manual_override": true,
-      "corridors": [],
-      "suggested_campaign_id": "campaign:stc-bank:16",
-      "review_priority": 23
-    },
-    {
-      "id": "post:stc-bank:x:ac6ed1d6d2bec1fd6eb0",
-      "competitor_id": "stc-bank",
-      "source_key": "social:stc-bank:x",
-      "source_type": "social",
-      "platform": "x",
-      "content_type": "social_post",
-      "campaign_category": "card",
-      "primary_category": "card",
-      "categories": [
-        "card"
-      ],
-      "title": "هللتين تجيب لك شاورمتين من فروع نجم الشاورما مع بطاقات STC Bank الرقمية 🌯🌯 تُطبّق الشروط والأحكام.",
-      "snippet": "هللتين تجيب لك شاورمتين من فروع نجم الشاورما مع بطاقات STC Bank الرقمية 🌯🌯 تُطبّق الشروط والأحكام. — STC Bank (@stcbank_ksa) Aug 26, 2026",
-      "link": "https://x.com/stcbank_ksa/status/2092598029194784807",
-      "social_links": {
-        "x": "https://x.com/stcbank_ksa/status/2092598029194784807"
-      },
-      "outbound_links": [
-        "https://twitter.com/stcbank_ksa/status/2092598029194784807",
-        "https://platform.twitter.com/widgets.js"
-      ],
-      "official_evidence_url": null,
-      "official_campaign_page_url": null,
-      "primary_official_source_url": "https://x.com/stcbank_ksa/status/2092598029194784807",
-      "social_link_count": 1,
-      "published_at": "2026-08-26T13:00:00+00:00",
-      "active": true,
-      "direct_link": true,
-      "verified": true,
-      "review_required": true,
-      "review_reasons": [
-        "social_campaign_match_uncertain"
-      ],
-      "current_status": null,
-      "post_role": "promotion_or_content",
-      "mechanic_tags": [
-        "other"
-      ],
-      "theme_tags": [
-        "other"
-      ],
-      "media": {
-        "url": "https://pbs.twimg.com/pbs.twimg.com/media/HQpk9R9XMAAtMGT.jpg",
-        "type": "image",
-        "thumbnail_url": "https://pbs.twimg.com/pbs.twimg.com/media/HQpk9R9XMAAtMGT.jpg"
-      },
-      "first_seen": "2026-08-27T03:51:56.195769+00:00",
-      "last_seen": "2026-08-27T03:51:56.195769+00:00",
-      "last_changed": "2026-08-27T03:51:56.195769+00:00",
-      "version": 1,
-      "change_history": [
-        {
-          "at": "2026-08-27T03:51:56.195769+00:00",
-          "type": "detected",
-          "version": 1
-        }
-      ],
-      "manual_override": true,
-      "corridors": [],
-      "suggested_campaign_id": "campaign:stc-bank:16",
-      "review_priority": 23
-    },
-    {
       "id": "post:mobily-pay:x:ee55e74a604faf098a92",
       "competitor_id": "mobily-pay",
       "source_key": "social:mobily-pay:x",
@@ -7988,189 +7737,6 @@
       "manual_override": true,
       "corridors": [],
       "suggested_campaign_id": "detected:mobily-pay:f2953c8559c1e8fb8c5f",
-      "review_priority": 23
-    },
-    {
-      "id": "post:stc-bank:facebook:357b1e5b21a1dc276c97",
-      "competitor_id": "stc-bank",
-      "source_key": "social:stc-bank:facebook",
-      "source_type": "social",
-      "platform": "facebook",
-      "content_type": "social_post",
-      "campaign_category": "card",
-      "primary_category": "card",
-      "categories": [
-        "card"
-      ],
-      "title": "هللتين تجيب لك شاورمتين من فروع نجم الشاورما مع بطاقات STC Bank الرقمية 🌯🌯 تُطبّق الشروط والأحكام.",
-      "snippet": "هللتين تجيب لك شاورمتين من فروع نجم الشاورما مع بطاقات STC Bank الرقمية 🌯🌯 تُطبّق الشروط والأحكام.",
-      "link": "https://m.facebook.com/stcbank/posts/pfbid0HAQqzMjzqcqFv8cBsxnzsiVq9S4Kc4Gb2XQgxCEtDZzDKdVvnvNnb3ZjfjexEnExl",
-      "social_links": {
-        "facebook": "https://m.facebook.com/stcbank/posts/pfbid0HAQqzMjzqcqFv8cBsxnzsiVq9S4Kc4Gb2XQgxCEtDZzDKdVvnvNnb3ZjfjexEnExl"
-      },
-      "outbound_links": [
-        "https://scontent-waw2-2.xx.fbcdn.net/v/t51.82787-15/786433737_18392023234201961_7426576045685473402_n.jpg?_nc_cat=105&_nc_gid=AAPV7goKFVykx4nFr0w2FQ&_nc_ht=scontent-waw2-2.xx&_nc_oc=AdoxaIv5ktNEfoKSRX0BMZZIe_4n-WLaK8s7lsLxsiZVAPSaN0HjLexoW4QPFKZERJs&_nc_ohc=m1tOlQ0PnGYQ7kNvwEkxQn6&_nc_sid=ebae6b&_nc_ss=7b289&_nc_zt=23&ccb=1-7&oe=6A94DCC2&oh=00_AQG-clX1NIBZ8W1ZJwRdoBPbZTkevFfSSMas41vJL8UHBQ&stp=dst-jpg_p843x403_tt6"
-      ],
-      "official_evidence_url": null,
-      "official_campaign_page_url": null,
-      "primary_official_source_url": "https://m.facebook.com/stcbank/posts/pfbid0HAQqzMjzqcqFv8cBsxnzsiVq9S4Kc4Gb2XQgxCEtDZzDKdVvnvNnb3ZjfjexEnExl",
-      "social_link_count": 1,
-      "published_at": "2026-08-26T12:57:28+00:00",
-      "active": true,
-      "direct_link": true,
-      "verified": true,
-      "review_required": true,
-      "review_reasons": [
-        "social_campaign_match_uncertain"
-      ],
-      "current_status": null,
-      "post_role": "promotion_or_content",
-      "mechanic_tags": [
-        "other"
-      ],
-      "theme_tags": [
-        "other"
-      ],
-      "media": {
-        "url": "https://scontent-waw2-2.xx.fbcdn.net/v/t51.82787-15/786433737_18392023234201961_7426576045685473402_n.jpg?_nc_cat=105&_nc_gid=AAPV7goKFVykx4nFr0w2FQ&_nc_ht=scontent-waw2-2.xx&_nc_oc=AdoxaIv5ktNEfoKSRX0BMZZIe_4n-WLaK8s7lsLxsiZVAPSaN0HjLexoW4QPFKZERJs&_nc_ohc=m1tOlQ0PnGYQ7kNvwEkxQn6&_nc_sid=ebae6b&_nc_ss=7b289&_nc_zt=23&ccb=1-7&oe=6A94DCC2&oh=00_AQG-clX1NIBZ8W1ZJwRdoBPbZTkevFfSSMas41vJL8UHBQ&stp=dst-jpg_p843x403_tt6",
-        "type": "image",
-        "thumbnail_url": "https://scontent-waw2-2.xx.fbcdn.net/v/t51.82787-15/786433737_18392023234201961_7426576045685473402_n.jpg?_nc_cat=105&_nc_gid=AAPV7goKFVykx4nFr0w2FQ&_nc_ht=scontent-waw2-2.xx&_nc_oc=AdoxaIv5ktNEfoKSRX0BMZZIe_4n-WLaK8s7lsLxsiZVAPSaN0HjLexoW4QPFKZERJs&_nc_ohc=m1tOlQ0PnGYQ7kNvwEkxQn6&_nc_sid=ebae6b&_nc_ss=7b289&_nc_zt=23&ccb=1-7&oe=6A94DCC2&oh=00_AQG-clX1NIBZ8W1ZJwRdoBPbZTkevFfSSMas41vJL8UHBQ&stp=dst-jpg_p843x403_tt6"
-      },
-      "first_seen": "2026-08-27T03:51:56.195769+00:00",
-      "last_seen": "2026-08-27T03:51:56.195769+00:00",
-      "last_changed": "2026-08-27T03:51:56.195769+00:00",
-      "version": 1,
-      "change_history": [
-        {
-          "at": "2026-08-27T03:51:56.195769+00:00",
-          "type": "detected",
-          "version": 1
-        }
-      ],
-      "manual_override": true,
-      "corridors": [],
-      "suggested_campaign_id": "campaign:stc-bank:16",
-      "review_priority": 23
-    },
-    {
-      "id": "post:stc-bank:instagram:6f02732588a09df24931",
-      "competitor_id": "stc-bank",
-      "source_key": "social:stc-bank:instagram",
-      "source_type": "social",
-      "platform": "instagram",
-      "content_type": "social_post",
-      "campaign_category": "card",
-      "primary_category": "card",
-      "categories": [
-        "card"
-      ],
-      "title": "هللتين تجيب لك شاورمتين من فروع نجم الشاورما مع بطاقات STC Bank الرقمية 🌯🌯 تُطبّق الشروط والأحكام.",
-      "snippet": "هللتين تجيب لك شاورمتين من فروع نجم الشاورما مع بطاقات STC Bank الرقمية 🌯🌯 تُطبّق الشروط والأحكام.",
-      "link": "https://www.instagram.com/p/DcgQ2S7sqjC",
-      "social_links": {
-        "instagram": "https://www.instagram.com/p/DcgQ2S7sqjC"
-      },
-      "outbound_links": [
-        "https://scontent-ams2-1.cdninstagram.com/v/t51.82787-15/786433737_18392023234201961_7426576045685473402_n.jpg?_nc_ad=z-m&_nc_cat=105&_nc_cid=0&_nc_gid=yWAzbUWF2qVECwWRtdC01A&_nc_ht=scontent-ams2-1.cdninstagram.com&_nc_oc=AdqKUW2Onh6s42skRo6HLzmbl6SmgAKYjFQbmxggGYqXoVn_3dO26xlvwy-3EGgCcHFBMomlpgxChqbFAfEXcPDh&_nc_ohc=m1tOlQ0PnGYQ7kNvwFTw9Rq&_nc_sid=58cdad&_nc_ss=7a22e&_nc_zt=23&ccb=7-5&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMjgxNi5zZHIucmVndWxhcl9waG90by5DMyJ9&ig_cache_key=Mzk3MjI0ODk3MTI2NTYxNjA2Ng%3D%3D.3-ccb7-5&oe=6A958582&oh=00_AQFEPoriwy1cwV4eIjPpdPCg8PxcZ5nptqjmlriUle5zZg&stp=dst-jpg_e35_tt6"
-      ],
-      "official_evidence_url": null,
-      "official_campaign_page_url": null,
-      "primary_official_source_url": "https://www.instagram.com/p/DcgQ2S7sqjC",
-      "social_link_count": 1,
-      "published_at": "2026-08-26T12:57:20+00:00",
-      "active": true,
-      "direct_link": true,
-      "verified": true,
-      "review_required": true,
-      "review_reasons": [
-        "social_campaign_match_uncertain"
-      ],
-      "current_status": null,
-      "post_role": "promotion_or_content",
-      "mechanic_tags": [
-        "other"
-      ],
-      "theme_tags": [
-        "other"
-      ],
-      "media": {
-        "url": "https://scontent-ams2-1.cdninstagram.com/v/t51.82787-15/786433737_18392023234201961_7426576045685473402_n.jpg?_nc_ad=z-m&_nc_cat=105&_nc_cid=0&_nc_gid=yWAzbUWF2qVECwWRtdC01A&_nc_ht=scontent-ams2-1.cdninstagram.com&_nc_oc=AdqKUW2Onh6s42skRo6HLzmbl6SmgAKYjFQbmxggGYqXoVn_3dO26xlvwy-3EGgCcHFBMomlpgxChqbFAfEXcPDh&_nc_ohc=m1tOlQ0PnGYQ7kNvwFTw9Rq&_nc_sid=58cdad&_nc_ss=7a22e&_nc_zt=23&ccb=7-5&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMjgxNi5zZHIucmVndWxhcl9waG90by5DMyJ9&ig_cache_key=Mzk3MjI0ODk3MTI2NTYxNjA2Ng%3D%3D.3-ccb7-5&oe=6A958582&oh=00_AQFEPoriwy1cwV4eIjPpdPCg8PxcZ5nptqjmlriUle5zZg&stp=dst-jpg_e35_tt6",
-        "type": "image",
-        "thumbnail_url": "https://scontent-ams2-1.cdninstagram.com/v/t51.82787-15/786433737_18392023234201961_7426576045685473402_n.jpg?_nc_ad=z-m&_nc_cat=105&_nc_cid=0&_nc_gid=yWAzbUWF2qVECwWRtdC01A&_nc_ht=scontent-ams2-1.cdninstagram.com&_nc_oc=AdqKUW2Onh6s42skRo6HLzmbl6SmgAKYjFQbmxggGYqXoVn_3dO26xlvwy-3EGgCcHFBMomlpgxChqbFAfEXcPDh&_nc_ohc=m1tOlQ0PnGYQ7kNvwFTw9Rq&_nc_sid=58cdad&_nc_ss=7a22e&_nc_zt=23&ccb=7-5&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMjgxNi5zZHIucmVndWxhcl9waG90by5DMyJ9&ig_cache_key=Mzk3MjI0ODk3MTI2NTYxNjA2Ng%3D%3D.3-ccb7-5&oe=6A958582&oh=00_AQFEPoriwy1cwV4eIjPpdPCg8PxcZ5nptqjmlriUle5zZg&stp=dst-jpg_e35_tt6"
-      },
-      "first_seen": "2026-08-27T03:51:56.195769+00:00",
-      "last_seen": "2026-08-27T03:51:56.195769+00:00",
-      "last_changed": "2026-08-27T03:51:56.195769+00:00",
-      "version": 1,
-      "change_history": [
-        {
-          "at": "2026-08-27T03:51:56.195769+00:00",
-          "type": "detected",
-          "version": 1
-        }
-      ],
-      "manual_override": true,
-      "corridors": [],
-      "suggested_campaign_id": "campaign:stc-bank:16",
-      "review_priority": 23
-    },
-    {
-      "id": "post:stc-bank:x:ec0258621183dfd52421",
-      "competitor_id": "stc-bank",
-      "source_key": "social:stc-bank:x",
-      "source_type": "social",
-      "platform": "x",
-      "content_type": "social_post",
-      "campaign_category": "card",
-      "primary_category": "card",
-      "categories": [
-        "card"
-      ],
-      "title": "هللتين تجيب لك شاورمتين من فروع نجم الشاورما مع بطاقات STC Bank الرقمية 🌯🌯 تُطبّق الشروط والأحكام.",
-      "snippet": "هللتين تجيب لك شاورمتين من فروع نجم الشاورما مع بطاقات STC Bank الرقمية 🌯🌯 تُطبّق الشروط والأحكام. — STC Bank (@stcbank_ksa) Aug 26, 2026",
-      "link": "https://x.com/stcbank_ksa/status/2092597344306925975",
-      "social_links": {
-        "x": "https://x.com/stcbank_ksa/status/2092597344306925975"
-      },
-      "outbound_links": [
-        "https://twitter.com/stcbank_ksa/status/2092597344306925975",
-        "https://platform.twitter.com/widgets.js"
-      ],
-      "official_evidence_url": null,
-      "official_campaign_page_url": null,
-      "primary_official_source_url": "https://x.com/stcbank_ksa/status/2092597344306925975",
-      "social_link_count": 1,
-      "published_at": "2026-08-26T12:57:00+00:00",
-      "active": true,
-      "direct_link": true,
-      "verified": true,
-      "review_required": true,
-      "review_reasons": [
-        "social_campaign_match_uncertain"
-      ],
-      "current_status": null,
-      "post_role": "promotion_or_content",
-      "mechanic_tags": [
-        "other"
-      ],
-      "theme_tags": [
-        "other"
-      ],
-      "media": null,
-      "first_seen": "2026-08-27T03:51:56.195769+00:00",
-      "last_seen": "2026-08-27T03:51:56.195769+00:00",
-      "last_changed": "2026-08-27T03:51:56.195769+00:00",
-      "version": 1,
-      "change_history": [
-        {
-          "at": "2026-08-27T03:51:56.195769+00:00",
-          "type": "detected",
-          "version": 1
-        }
-      ],
-      "manual_override": true,
-      "corridors": [],
-      "suggested_campaign_id": "campaign:stc-bank:16",
       "review_priority": 23
     },
     {
@@ -44644,6 +44210,196 @@
       "review_priority": 20
     },
     {
+      "id": "manual:review:stc-bank:b4e4cfae-a604-4687-acc9-1be2a22d74c7",
+      "record_id": null,
+      "competitor_id": "stc-bank",
+      "source_key": "manual:stc-bank",
+      "source_type": "manual",
+      "platform": "website",
+      "content_type": "merchant_offer",
+      "suggested_record_type": "merchant_offer",
+      "campaign_category": "merchant",
+      "primary_category": "merchant",
+      "categories": [
+        "merchant"
+      ],
+      "title": "2 Shawarmas for 2 Halals only from Najm Alshawarma!",
+      "snippet": "Enjoy 2 shawarmas for 2 Halals at Najm Alshawarma branches when using all STC Bank cards.",
+      "summary": "Enjoy 2 shawarmas for 2 Halals at Najm Alshawarma branches when using all STC Bank cards.",
+      "link": "https://stcbank.com.sa/en/web/guest/w/najm-alshawrma-1",
+      "official_campaign_page_url": "https://stcbank.com.sa/en/web/guest/w/najm-alshawrma-1",
+      "primary_official_source_url": "https://stcbank.com.sa/en/web/guest/w/najm-alshawrma-1",
+      "social_links": {
+        "tiktok": "https://www.tiktok.com/@stcbank_ksa/video/7678387805898247444",
+        "x": [
+          "https://x.com/stcbank_ksa/status/2092641573104194037",
+          "https://x.com/stcbank_ksa/status/2092598029194784807",
+          "https://x.com/stcbank_ksa/status/2092597344306925975"
+        ],
+        "facebook": [
+          "https://m.facebook.com/stcbank/posts/pfbid0caax32vrMB6hP71RW9r7kTHsFBj8J1vNL1c1wbM6WzWdZhsRSvy8rzpWkcTNW4Del",
+          "https://m.facebook.com/stcbank/posts/pfbid0HAQqzMjzqcqFv8cBsxnzsiVq9S4Kc4Gb2XQgxCEtDZzDKdVvnvNnb3ZjfjexEnExl"
+        ],
+        "instagram": "https://www.instagram.com/p/DcgQ2S7sqjC"
+      },
+      "published_at": null,
+      "start_date": null,
+      "end_date": null,
+      "current_status": "End Date Not Stated",
+      "active": true,
+      "operation_type": "",
+      "mechanic": "",
+      "eligibility": "",
+      "terms_note": "",
+      "verified": false,
+      "review_required": false,
+      "review_reasons": [],
+      "manual_override": true,
+      "first_seen": "2026-08-27T04:44:49.998803+00:00",
+      "last_changed": "2026-08-27T04:44:49.998803+00:00",
+      "change_history": [
+        {
+          "at": "2026-08-27T04:44:50.632792+00:00",
+          "type": "manual_created",
+          "details": {}
+        }
+      ],
+      "review_approved": true,
+      "review_decision": "group_campaign",
+      "reviewed_by": "admin",
+      "reviewed_at": "2026-08-27T04:44:49.998803+00:00",
+      "review_request_id": "b4e4cfae-a604-4687-acc9-1be2a22d74c7",
+      "evidence_ids": [
+        "detected:stc-bank:fdbfc5834dbfb13ad3e0",
+        "post:stc-bank:tiktok:f583a599a8e5c8e9f255",
+        "post:stc-bank:x:0192a38926bf8a7dd2be",
+        "post:stc-bank:facebook:dbc973428da2d7e5c3b9",
+        "post:stc-bank:x:ac6ed1d6d2bec1fd6eb0",
+        "post:stc-bank:facebook:357b1e5b21a1dc276c97",
+        "post:stc-bank:instagram:6f02732588a09df24931",
+        "post:stc-bank:x:ec0258621183dfd52421"
+      ],
+      "source_verification": {
+        "status": "needs_review",
+        "verification_method": "official_website_page",
+        "checked_at": null,
+        "source_url": "https://stcbank.com.sa/en/web/guest/w/najm-alshawrma-1",
+        "source_changed": false,
+        "conflicts": [],
+        "error": null
+      },
+      "linked_posts": [
+        {
+          "id": "post:stc-bank:x:ec0258621183dfd52421",
+          "platform": "x",
+          "title": "هللتين تجيب لك شاورمتين من فروع نجم الشاورما مع بطاقات STC Bank الرقمية 🌯🌯 تُطبّق الشروط والأحكام.",
+          "link": "https://x.com/stcbank_ksa/status/2092597344306925975",
+          "published_at": "2026-08-26T12:57:00+00:00",
+          "media": null,
+          "match_method": "manual",
+          "source_origin": "master+rss"
+        },
+        {
+          "id": "post:stc-bank:instagram:6f02732588a09df24931",
+          "platform": "instagram",
+          "title": "هللتين تجيب لك شاورمتين من فروع نجم الشاورما مع بطاقات STC Bank الرقمية 🌯🌯 تُطبّق الشروط والأحكام.",
+          "link": "https://www.instagram.com/p/DcgQ2S7sqjC",
+          "published_at": "2026-08-26T12:57:20+00:00",
+          "media": {
+            "url": "https://scontent-ams2-1.cdninstagram.com/v/t51.82787-15/786433737_18392023234201961_7426576045685473402_n.jpg?_nc_ad=z-m&_nc_cat=105&_nc_cid=0&_nc_gid=yWAzbUWF2qVECwWRtdC01A&_nc_ht=scontent-ams2-1.cdninstagram.com&_nc_oc=AdqKUW2Onh6s42skRo6HLzmbl6SmgAKYjFQbmxggGYqXoVn_3dO26xlvwy-3EGgCcHFBMomlpgxChqbFAfEXcPDh&_nc_ohc=m1tOlQ0PnGYQ7kNvwFTw9Rq&_nc_sid=58cdad&_nc_ss=7a22e&_nc_zt=23&ccb=7-5&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMjgxNi5zZHIucmVndWxhcl9waG90by5DMyJ9&ig_cache_key=Mzk3MjI0ODk3MTI2NTYxNjA2Ng%3D%3D.3-ccb7-5&oe=6A958582&oh=00_AQFEPoriwy1cwV4eIjPpdPCg8PxcZ5nptqjmlriUle5zZg&stp=dst-jpg_e35_tt6",
+            "type": "image",
+            "thumbnail_url": "https://scontent-ams2-1.cdninstagram.com/v/t51.82787-15/786433737_18392023234201961_7426576045685473402_n.jpg?_nc_ad=z-m&_nc_cat=105&_nc_cid=0&_nc_gid=yWAzbUWF2qVECwWRtdC01A&_nc_ht=scontent-ams2-1.cdninstagram.com&_nc_oc=AdqKUW2Onh6s42skRo6HLzmbl6SmgAKYjFQbmxggGYqXoVn_3dO26xlvwy-3EGgCcHFBMomlpgxChqbFAfEXcPDh&_nc_ohc=m1tOlQ0PnGYQ7kNvwFTw9Rq&_nc_sid=58cdad&_nc_ss=7a22e&_nc_zt=23&ccb=7-5&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMjgxNi5zZHIucmVndWxhcl9waG90by5DMyJ9&ig_cache_key=Mzk3MjI0ODk3MTI2NTYxNjA2Ng%3D%3D.3-ccb7-5&oe=6A958582&oh=00_AQFEPoriwy1cwV4eIjPpdPCg8PxcZ5nptqjmlriUle5zZg&stp=dst-jpg_e35_tt6"
+          },
+          "match_method": "manual",
+          "source_origin": "master+rss"
+        },
+        {
+          "id": "post:stc-bank:facebook:357b1e5b21a1dc276c97",
+          "platform": "facebook",
+          "title": "هللتين تجيب لك شاورمتين من فروع نجم الشاورما مع بطاقات STC Bank الرقمية 🌯🌯 تُطبّق الشروط والأحكام.",
+          "link": "https://m.facebook.com/stcbank/posts/pfbid0HAQqzMjzqcqFv8cBsxnzsiVq9S4Kc4Gb2XQgxCEtDZzDKdVvnvNnb3ZjfjexEnExl",
+          "published_at": "2026-08-26T12:57:28+00:00",
+          "media": {
+            "url": "https://scontent-waw2-2.xx.fbcdn.net/v/t51.82787-15/786433737_18392023234201961_7426576045685473402_n.jpg?_nc_cat=105&_nc_gid=AAPV7goKFVykx4nFr0w2FQ&_nc_ht=scontent-waw2-2.xx&_nc_oc=AdoxaIv5ktNEfoKSRX0BMZZIe_4n-WLaK8s7lsLxsiZVAPSaN0HjLexoW4QPFKZERJs&_nc_ohc=m1tOlQ0PnGYQ7kNvwEkxQn6&_nc_sid=ebae6b&_nc_ss=7b289&_nc_zt=23&ccb=1-7&oe=6A94DCC2&oh=00_AQG-clX1NIBZ8W1ZJwRdoBPbZTkevFfSSMas41vJL8UHBQ&stp=dst-jpg_p843x403_tt6",
+            "type": "image",
+            "thumbnail_url": "https://scontent-waw2-2.xx.fbcdn.net/v/t51.82787-15/786433737_18392023234201961_7426576045685473402_n.jpg?_nc_cat=105&_nc_gid=AAPV7goKFVykx4nFr0w2FQ&_nc_ht=scontent-waw2-2.xx&_nc_oc=AdoxaIv5ktNEfoKSRX0BMZZIe_4n-WLaK8s7lsLxsiZVAPSaN0HjLexoW4QPFKZERJs&_nc_ohc=m1tOlQ0PnGYQ7kNvwEkxQn6&_nc_sid=ebae6b&_nc_ss=7b289&_nc_zt=23&ccb=1-7&oe=6A94DCC2&oh=00_AQG-clX1NIBZ8W1ZJwRdoBPbZTkevFfSSMas41vJL8UHBQ&stp=dst-jpg_p843x403_tt6"
+          },
+          "match_method": "manual",
+          "source_origin": "master+rss"
+        },
+        {
+          "id": "post:stc-bank:x:ac6ed1d6d2bec1fd6eb0",
+          "platform": "x",
+          "title": "هللتين تجيب لك شاورمتين من فروع نجم الشاورما مع بطاقات STC Bank الرقمية 🌯🌯 تُطبّق الشروط والأحكام.",
+          "link": "https://x.com/stcbank_ksa/status/2092598029194784807",
+          "published_at": "2026-08-26T13:00:00+00:00",
+          "media": {
+            "url": "https://pbs.twimg.com/pbs.twimg.com/media/HQpk9R9XMAAtMGT.jpg",
+            "type": "image",
+            "thumbnail_url": "https://pbs.twimg.com/pbs.twimg.com/media/HQpk9R9XMAAtMGT.jpg"
+          },
+          "match_method": "manual",
+          "source_origin": "master+rss"
+        },
+        {
+          "id": "post:stc-bank:facebook:dbc973428da2d7e5c3b9",
+          "platform": "facebook",
+          "title": "هللتين تجيب لك شاورمتين من فروع نجم الشاورما مع بطاقات STC Bank الرقمية 🌯🌯 تُطبّق الشروط والأحكام.",
+          "link": "https://m.facebook.com/stcbank/posts/pfbid0caax32vrMB6hP71RW9r7kTHsFBj8J1vNL1c1wbM6WzWdZhsRSvy8rzpWkcTNW4Del",
+          "published_at": "2026-08-26T13:03:01+00:00",
+          "media": {
+            "url": "https://scontent-ams2-1.xx.fbcdn.net/v/t39.30808-6/787796897_1397589929164541_6687244998353956162_n.jpg?_nc_cat=111&_nc_gid=WYo1wCG0-N069_24e0VSUQ&_nc_ht=scontent-ams2-1.xx&_nc_oc=AdqZIvYdisFBLtlb-xtSyyDhUD6EiFiEy9DQAmwU0rcdXnqc8kM1vzwY1bNQW1IxHYRgtKCzoY9SPqURjmkSGM_1&_nc_ohc=ENfzjFwtHQkQ7kNvwHvtiQr&_nc_sid=ebae6b&_nc_ss=79289&_nc_zt=23&ccb=1-7&oe=6A9582E6&oh=00_AQFouvjPkmfGHtd8tMp9PjmUrobmZJ3eVeeMqqnUJ3gUcw&stp=dst-jpg_s1080x2048_tt6",
+            "type": "image",
+            "thumbnail_url": "https://scontent-ams2-1.xx.fbcdn.net/v/t39.30808-6/787796897_1397589929164541_6687244998353956162_n.jpg?_nc_cat=111&_nc_gid=WYo1wCG0-N069_24e0VSUQ&_nc_ht=scontent-ams2-1.xx&_nc_oc=AdqZIvYdisFBLtlb-xtSyyDhUD6EiFiEy9DQAmwU0rcdXnqc8kM1vzwY1bNQW1IxHYRgtKCzoY9SPqURjmkSGM_1&_nc_ohc=ENfzjFwtHQkQ7kNvwHvtiQr&_nc_sid=ebae6b&_nc_ss=79289&_nc_zt=23&ccb=1-7&oe=6A9582E6&oh=00_AQFouvjPkmfGHtd8tMp9PjmUrobmZJ3eVeeMqqnUJ3gUcw&stp=dst-jpg_s1080x2048_tt6"
+          },
+          "match_method": "manual",
+          "source_origin": "master+rss"
+        },
+        {
+          "id": "post:stc-bank:x:0192a38926bf8a7dd2be",
+          "platform": "x",
+          "title": "جاهزين لبداية العرض؟ شاورمتين بهللتين 😎",
+          "link": "https://x.com/stcbank_ksa/status/2092641573104194037",
+          "published_at": "2026-08-26T15:53:00+00:00",
+          "media": {
+            "url": "https://pbs.twimg.com/pbs.twimg.com/media/HQpk9R9XMAAtMGT.jpg",
+            "type": "image",
+            "thumbnail_url": "https://pbs.twimg.com/pbs.twimg.com/media/HQpk9R9XMAAtMGT.jpg"
+          },
+          "match_method": "manual",
+          "source_origin": "master+rss"
+        },
+        {
+          "id": "post:stc-bank:tiktok:f583a599a8e5c8e9f255",
+          "platform": "tiktok",
+          "title": "‏هللتين تجيب لك شاورمتين من فروع نجم الشاورما مع بطاقات STC Bank الرقمية 🌯🌯 ‏تُطبّق الشروط والأحكام.",
+          "link": "https://www.tiktok.com/@stcbank_ksa/video/7678387805898247444",
+          "published_at": "2026-08-26T17:06:21+00:00",
+          "media": {
+            "url": "https://p19-common-sign.tiktokcdn-us.com/tos-alisg-p-0037/oM4BA2FfCPO1iAA6E6QXIHYBwi0COuAtkHRCIA~tplv-tiktokx-origin.image?dr=9636&idc=useast5&ps=13740610&shcp=43f4a2f9&shp=81f88b70&t=4d5b0474&x-expires=1787972400&x-signature=bxRpmowkqTwHwPJqD39S6m7oel0%3D",
+            "type": "image",
+            "thumbnail_url": "https://p19-common-sign.tiktokcdn-us.com/tos-alisg-p-0037/oM4BA2FfCPO1iAA6E6QXIHYBwi0COuAtkHRCIA~tplv-tiktokx-origin.image?dr=9636&idc=useast5&ps=13740610&shcp=43f4a2f9&shp=81f88b70&t=4d5b0474&x-expires=1787972400&x-signature=bxRpmowkqTwHwPJqD39S6m7oel0%3D"
+          },
+          "match_method": "manual",
+          "source_origin": "master+rss"
+        }
+      ],
+      "social_post_counts": {
+        "instagram": 1,
+        "x": 3,
+        "facebook": 2,
+        "tiktok": 1
+      },
+      "social_posts_total": 7,
+      "social_platform_count": 4,
+      "social_first_post": "2026-08-26T12:57:00+00:00",
+      "social_latest_post": "2026-08-26T17:06:21+00:00",
+      "social_posts_7d": 7,
+      "social_posts_30d": 7,
+      "social_link_count": 7,
+      "review_priority": 17
+    },
+    {
       "id": "detected:stc-bank:c060b1d79a252a32e7cc",
       "competitor_id": "stc-bank",
       "source_key": "website:stc-bank:offers",
@@ -62640,7 +62396,7 @@
       "source_verification": {
         "status": "verified_social",
         "verification_method": "official_social_rss_or_inventory",
-        "checked_at": "2026-08-27T04:42:28.839730+00:00",
+        "checked_at": "2026-08-27T04:44:50.632839+00:00",
         "source_url": "https://www.instagram.com/p/Dazzjtdt1Jt/?utm_source=ig_web_button_share_sheet&igsh=MzRlODBiNWFlZA==",
         "source_changed": false,
         "conflicts": [],
@@ -62750,7 +62506,7 @@
       "source_verification": {
         "status": "verified_social",
         "verification_method": "official_social_rss_or_inventory",
-        "checked_at": "2026-08-27T04:42:28.839730+00:00",
+        "checked_at": "2026-08-27T04:44:50.632839+00:00",
         "source_url": "https://www.instagram.com/reel/DaaydiADUvg/?utm_source=ig_web_button_share_sheet&igsh=MzRlODBiNWFlZA==",
         "source_changed": false,
         "conflicts": [],
@@ -62975,7 +62731,7 @@
       "source_verification": {
         "status": "verified_social",
         "verification_method": "official_social_rss_or_inventory",
-        "checked_at": "2026-08-27T04:42:28.839730+00:00",
+        "checked_at": "2026-08-27T04:44:50.632839+00:00",
         "source_url": "https://www.facebook.com/mobilypay/videos/sar-20000-is-waiting-for-you-make-an-international-transfer-with-mobilypay-and-i/4300117560266135/",
         "source_changed": false,
         "conflicts": [],
@@ -63079,7 +62835,7 @@
       "source_verification": {
         "status": "verified_social",
         "verification_method": "official_social_rss_or_inventory",
-        "checked_at": "2026-08-27T04:42:28.839730+00:00",
+        "checked_at": "2026-08-27T04:44:50.632839+00:00",
         "source_url": "https://www.instagram.com/p/DbBUcjiIHS1/",
         "source_changed": false,
         "conflicts": [],
@@ -63232,7 +62988,7 @@
       "source_verification": {
         "status": "verified_social",
         "verification_method": "official_social_rss_or_inventory",
-        "checked_at": "2026-08-27T04:42:28.839730+00:00",
+        "checked_at": "2026-08-27T04:44:50.632839+00:00",
         "source_url": "https://www.facebook.com/urpay.sa/posts/scratch-win-with-every-international-transfer-via-urpay-and-you-could-win-up-to-/1079237764323076/",
         "source_changed": false,
         "conflicts": [],
@@ -63334,7 +63090,7 @@
       "source_verification": {
         "status": "verified_social",
         "verification_method": "official_social_rss_or_inventory",
-        "checked_at": "2026-08-27T04:42:28.839730+00:00",
+        "checked_at": "2026-08-27T04:44:50.632839+00:00",
         "source_url": "https://www.instagram.com/alinmapay/p/CC_U-JDB6yh/",
         "source_changed": false,
         "conflicts": [],
@@ -63516,7 +63272,7 @@
       "source_verification": {
         "status": "verified_social",
         "verification_method": "official_social_rss_or_inventory",
-        "checked_at": "2026-08-27T04:42:28.839730+00:00",
+        "checked_at": "2026-08-27T04:44:50.632839+00:00",
         "source_url": "https://www.facebook.com/AlinmaPaySA/videos/zero-fees-fast-transfers-to-india/873682655502395/",
         "source_changed": false,
         "conflicts": [],
@@ -63752,6 +63508,14 @@
             "source": "https://m.facebook.com/Tiqmoksa/posts/pfbid02c7PJipWJA9SNNWsSqsG1H72VTzeqYR6PVsHx4Y3NagD5vLYJbDzgy7cc93XhXQT6l",
             "method": "official_social"
           }
+        },
+        {
+          "at": "2026-08-27T04:44:50.750163+00:00",
+          "type": "manual_source_verified",
+          "details": {
+            "source": "https://m.facebook.com/Tiqmoksa/posts/pfbid02c7PJipWJA9SNNWsSqsG1H72VTzeqYR6PVsHx4Y3NagD5vLYJbDzgy7cc93XhXQT6l",
+            "method": "official_social"
+          }
         }
       ],
       "review_approved": true,
@@ -63767,7 +63531,7 @@
       "source_verification": {
         "status": "verified_social",
         "verification_method": "official_social_rss_or_inventory",
-        "checked_at": "2026-08-27T04:42:28.839730+00:00",
+        "checked_at": "2026-08-27T04:44:50.632839+00:00",
         "source_url": "https://m.facebook.com/Tiqmoksa/posts/pfbid02c7PJipWJA9SNNWsSqsG1H72VTzeqYR6PVsHx4Y3NagD5vLYJbDzgy7cc93XhXQT6l",
         "source_changed": false,
         "conflicts": [],
@@ -65087,6 +64851,496 @@
       "social_posts_7d": 0,
       "social_posts_30d": 0,
       "review_priority": 5
+    },
+    {
+      "id": "post:stc-bank:tiktok:f583a599a8e5c8e9f255",
+      "competitor_id": "stc-bank",
+      "source_key": "social:stc-bank:tiktok",
+      "source_type": "social",
+      "platform": "tiktok",
+      "content_type": "social_post",
+      "campaign_category": "card",
+      "primary_category": "card",
+      "categories": [
+        "card"
+      ],
+      "title": "‏هللتين تجيب لك شاورمتين من فروع نجم الشاورما مع بطاقات STC Bank الرقمية 🌯🌯 ‏تُطبّق الشروط والأحكام.",
+      "snippet": "‏هللتين تجيب لك شاورمتين من فروع نجم الشاورما مع بطاقات STC Bank الرقمية 🌯🌯 ‏تُطبّق الشروط والأحكام. ♬ original sound - STC Bank",
+      "link": "https://www.tiktok.com/@stcbank_ksa/video/7678387805898247444",
+      "social_links": {
+        "tiktok": "https://www.tiktok.com/@stcbank_ksa/video/7678387805898247444"
+      },
+      "outbound_links": [
+        "https://p19-common-sign.tiktokcdn-us.com/tos-alisg-p-0037/oM4BA2FfCPO1iAA6E6QXIHYBwi0COuAtkHRCIA~tplv-tiktokx-origin.image?dr=9636&idc=useast5&ps=13740610&shcp=43f4a2f9&shp=81f88b70&t=4d5b0474&x-expires=1787972400&x-signature=bxRpmowkqTwHwPJqD39S6m7oel0%3D"
+      ],
+      "official_evidence_url": null,
+      "official_campaign_page_url": null,
+      "primary_official_source_url": "https://www.tiktok.com/@stcbank_ksa/video/7678387805898247444",
+      "social_link_count": 1,
+      "published_at": "2026-08-26T17:06:21+00:00",
+      "active": true,
+      "direct_link": true,
+      "verified": true,
+      "review_required": false,
+      "review_reasons": [
+        "linked_campaign_deleted"
+      ],
+      "current_status": "Needs Review",
+      "post_role": "promotion_or_content",
+      "mechanic_tags": [
+        "other"
+      ],
+      "theme_tags": [
+        "other"
+      ],
+      "media": {
+        "url": "https://p19-common-sign.tiktokcdn-us.com/tos-alisg-p-0037/oM4BA2FfCPO1iAA6E6QXIHYBwi0COuAtkHRCIA~tplv-tiktokx-origin.image?dr=9636&idc=useast5&ps=13740610&shcp=43f4a2f9&shp=81f88b70&t=4d5b0474&x-expires=1787972400&x-signature=bxRpmowkqTwHwPJqD39S6m7oel0%3D",
+        "type": "image",
+        "thumbnail_url": "https://p19-common-sign.tiktokcdn-us.com/tos-alisg-p-0037/oM4BA2FfCPO1iAA6E6QXIHYBwi0COuAtkHRCIA~tplv-tiktokx-origin.image?dr=9636&idc=useast5&ps=13740610&shcp=43f4a2f9&shp=81f88b70&t=4d5b0474&x-expires=1787972400&x-signature=bxRpmowkqTwHwPJqD39S6m7oel0%3D"
+      },
+      "first_seen": "2026-08-27T03:51:56.195769+00:00",
+      "last_seen": "2026-08-27T03:51:56.195769+00:00",
+      "last_changed": "2026-08-27T03:51:56.195769+00:00",
+      "version": 1,
+      "change_history": [
+        {
+          "at": "2026-08-27T03:51:56.195769+00:00",
+          "type": "detected",
+          "version": 1
+        }
+      ],
+      "manual_override": true,
+      "corridors": [],
+      "suggested_campaign_id": "campaign:stc-bank:16",
+      "review_priority": 3,
+      "review_decision": "group_campaign",
+      "reviewed_by": "admin",
+      "reviewed_at": "2026-08-27T04:44:49.998803+00:00",
+      "review_request_id": "b4e4cfae-a604-4687-acc9-1be2a22d74c7",
+      "campaign_id": "manual:review:stc-bank:b4e4cfae-a604-4687-acc9-1be2a22d74c7",
+      "linked_campaign_id": null,
+      "record_role": "campaign_evidence",
+      "match_method": "manual"
+    },
+    {
+      "id": "post:stc-bank:x:0192a38926bf8a7dd2be",
+      "competitor_id": "stc-bank",
+      "source_key": "social:stc-bank:x",
+      "source_type": "social",
+      "platform": "x",
+      "content_type": "social_post",
+      "campaign_category": "card",
+      "primary_category": "card",
+      "categories": [
+        "card"
+      ],
+      "title": "جاهزين لبداية العرض؟ شاورمتين بهللتين 😎",
+      "snippet": "جاهزين لبداية العرض؟ شاورمتين بهللتين 😎STC Bank (@stcbank_ksa)هللتين تجيب لك شاورمتين من فروع نجم الشاورما مع بطاقات STC Bank الرقمية 🌯🌯 تُطبّق الشروط والأحكام.— https://x.com/stcbank_ksa/status/2092598029194784807 — STC Bank (@stcbank_ksa) Aug 26, 2026",
+      "link": "https://x.com/stcbank_ksa/status/2092641573104194037",
+      "social_links": {
+        "x": "https://x.com/stcbank_ksa/status/2092641573104194037"
+      },
+      "outbound_links": [
+        "https://x.com/stcbank_ksa/status/2092598029194784807",
+        "https://twitter.com/stcbank_ksa/status/2092641573104194037",
+        "https://platform.twitter.com/widgets.js"
+      ],
+      "official_evidence_url": null,
+      "official_campaign_page_url": null,
+      "primary_official_source_url": "https://x.com/stcbank_ksa/status/2092641573104194037",
+      "social_link_count": 1,
+      "published_at": "2026-08-26T15:53:00+00:00",
+      "active": true,
+      "direct_link": true,
+      "verified": true,
+      "review_required": false,
+      "review_reasons": [
+        "linked_campaign_deleted"
+      ],
+      "current_status": "Needs Review",
+      "post_role": "promotion_or_content",
+      "mechanic_tags": [
+        "other"
+      ],
+      "theme_tags": [
+        "other"
+      ],
+      "media": {
+        "url": "https://pbs.twimg.com/pbs.twimg.com/media/HQpk9R9XMAAtMGT.jpg",
+        "type": "image",
+        "thumbnail_url": "https://pbs.twimg.com/pbs.twimg.com/media/HQpk9R9XMAAtMGT.jpg"
+      },
+      "first_seen": "2026-08-27T03:51:56.195769+00:00",
+      "last_seen": "2026-08-27T03:51:56.195769+00:00",
+      "last_changed": "2026-08-27T03:51:56.195769+00:00",
+      "version": 1,
+      "change_history": [
+        {
+          "at": "2026-08-27T03:51:56.195769+00:00",
+          "type": "detected",
+          "version": 1
+        }
+      ],
+      "manual_override": true,
+      "corridors": [],
+      "suggested_campaign_id": "campaign:stc-bank:16",
+      "review_priority": 3,
+      "review_decision": "group_campaign",
+      "reviewed_by": "admin",
+      "reviewed_at": "2026-08-27T04:44:49.998803+00:00",
+      "review_request_id": "b4e4cfae-a604-4687-acc9-1be2a22d74c7",
+      "campaign_id": "manual:review:stc-bank:b4e4cfae-a604-4687-acc9-1be2a22d74c7",
+      "linked_campaign_id": null,
+      "record_role": "campaign_evidence",
+      "match_method": "manual"
+    },
+    {
+      "id": "post:stc-bank:facebook:dbc973428da2d7e5c3b9",
+      "competitor_id": "stc-bank",
+      "source_key": "social:stc-bank:facebook",
+      "source_type": "social",
+      "platform": "facebook",
+      "content_type": "social_post",
+      "campaign_category": "card",
+      "primary_category": "card",
+      "categories": [
+        "card"
+      ],
+      "title": "هللتين تجيب لك شاورمتين من فروع نجم الشاورما مع بطاقات STC Bank الرقمية 🌯🌯 تُطبّق الشروط والأحكام.",
+      "snippet": "هللتين تجيب لك شاورمتين من فروع نجم الشاورما مع بطاقات STC Bank الرقمية 🌯🌯 تُطبّق الشروط والأحكام.",
+      "link": "https://m.facebook.com/stcbank/posts/pfbid0caax32vrMB6hP71RW9r7kTHsFBj8J1vNL1c1wbM6WzWdZhsRSvy8rzpWkcTNW4Del",
+      "social_links": {
+        "facebook": "https://m.facebook.com/stcbank/posts/pfbid0caax32vrMB6hP71RW9r7kTHsFBj8J1vNL1c1wbM6WzWdZhsRSvy8rzpWkcTNW4Del"
+      },
+      "outbound_links": [
+        "https://scontent-ams2-1.xx.fbcdn.net/v/t39.30808-6/787796897_1397589929164541_6687244998353956162_n.jpg?_nc_cat=111&_nc_gid=WYo1wCG0-N069_24e0VSUQ&_nc_ht=scontent-ams2-1.xx&_nc_oc=AdqZIvYdisFBLtlb-xtSyyDhUD6EiFiEy9DQAmwU0rcdXnqc8kM1vzwY1bNQW1IxHYRgtKCzoY9SPqURjmkSGM_1&_nc_ohc=ENfzjFwtHQkQ7kNvwHvtiQr&_nc_sid=ebae6b&_nc_ss=79289&_nc_zt=23&ccb=1-7&oe=6A9582E6&oh=00_AQFouvjPkmfGHtd8tMp9PjmUrobmZJ3eVeeMqqnUJ3gUcw&stp=dst-jpg_s1080x2048_tt6"
+      ],
+      "official_evidence_url": null,
+      "official_campaign_page_url": null,
+      "primary_official_source_url": "https://m.facebook.com/stcbank/posts/pfbid0caax32vrMB6hP71RW9r7kTHsFBj8J1vNL1c1wbM6WzWdZhsRSvy8rzpWkcTNW4Del",
+      "social_link_count": 1,
+      "published_at": "2026-08-26T13:03:01+00:00",
+      "active": true,
+      "direct_link": true,
+      "verified": true,
+      "review_required": false,
+      "review_reasons": [
+        "linked_campaign_deleted"
+      ],
+      "current_status": "Needs Review",
+      "post_role": "promotion_or_content",
+      "mechanic_tags": [
+        "other"
+      ],
+      "theme_tags": [
+        "other"
+      ],
+      "media": {
+        "url": "https://scontent-ams2-1.xx.fbcdn.net/v/t39.30808-6/787796897_1397589929164541_6687244998353956162_n.jpg?_nc_cat=111&_nc_gid=WYo1wCG0-N069_24e0VSUQ&_nc_ht=scontent-ams2-1.xx&_nc_oc=AdqZIvYdisFBLtlb-xtSyyDhUD6EiFiEy9DQAmwU0rcdXnqc8kM1vzwY1bNQW1IxHYRgtKCzoY9SPqURjmkSGM_1&_nc_ohc=ENfzjFwtHQkQ7kNvwHvtiQr&_nc_sid=ebae6b&_nc_ss=79289&_nc_zt=23&ccb=1-7&oe=6A9582E6&oh=00_AQFouvjPkmfGHtd8tMp9PjmUrobmZJ3eVeeMqqnUJ3gUcw&stp=dst-jpg_s1080x2048_tt6",
+        "type": "image",
+        "thumbnail_url": "https://scontent-ams2-1.xx.fbcdn.net/v/t39.30808-6/787796897_1397589929164541_6687244998353956162_n.jpg?_nc_cat=111&_nc_gid=WYo1wCG0-N069_24e0VSUQ&_nc_ht=scontent-ams2-1.xx&_nc_oc=AdqZIvYdisFBLtlb-xtSyyDhUD6EiFiEy9DQAmwU0rcdXnqc8kM1vzwY1bNQW1IxHYRgtKCzoY9SPqURjmkSGM_1&_nc_ohc=ENfzjFwtHQkQ7kNvwHvtiQr&_nc_sid=ebae6b&_nc_ss=79289&_nc_zt=23&ccb=1-7&oe=6A9582E6&oh=00_AQFouvjPkmfGHtd8tMp9PjmUrobmZJ3eVeeMqqnUJ3gUcw&stp=dst-jpg_s1080x2048_tt6"
+      },
+      "first_seen": "2026-08-27T03:51:56.195769+00:00",
+      "last_seen": "2026-08-27T03:51:56.195769+00:00",
+      "last_changed": "2026-08-27T03:51:56.195769+00:00",
+      "version": 1,
+      "change_history": [
+        {
+          "at": "2026-08-27T03:51:56.195769+00:00",
+          "type": "detected",
+          "version": 1
+        }
+      ],
+      "manual_override": true,
+      "corridors": [],
+      "suggested_campaign_id": "campaign:stc-bank:16",
+      "review_priority": 3,
+      "review_decision": "group_campaign",
+      "reviewed_by": "admin",
+      "reviewed_at": "2026-08-27T04:44:49.998803+00:00",
+      "review_request_id": "b4e4cfae-a604-4687-acc9-1be2a22d74c7",
+      "campaign_id": "manual:review:stc-bank:b4e4cfae-a604-4687-acc9-1be2a22d74c7",
+      "linked_campaign_id": null,
+      "record_role": "campaign_evidence",
+      "match_method": "manual"
+    },
+    {
+      "id": "post:stc-bank:x:ac6ed1d6d2bec1fd6eb0",
+      "competitor_id": "stc-bank",
+      "source_key": "social:stc-bank:x",
+      "source_type": "social",
+      "platform": "x",
+      "content_type": "social_post",
+      "campaign_category": "card",
+      "primary_category": "card",
+      "categories": [
+        "card"
+      ],
+      "title": "هللتين تجيب لك شاورمتين من فروع نجم الشاورما مع بطاقات STC Bank الرقمية 🌯🌯 تُطبّق الشروط والأحكام.",
+      "snippet": "هللتين تجيب لك شاورمتين من فروع نجم الشاورما مع بطاقات STC Bank الرقمية 🌯🌯 تُطبّق الشروط والأحكام. — STC Bank (@stcbank_ksa) Aug 26, 2026",
+      "link": "https://x.com/stcbank_ksa/status/2092598029194784807",
+      "social_links": {
+        "x": "https://x.com/stcbank_ksa/status/2092598029194784807"
+      },
+      "outbound_links": [
+        "https://twitter.com/stcbank_ksa/status/2092598029194784807",
+        "https://platform.twitter.com/widgets.js"
+      ],
+      "official_evidence_url": null,
+      "official_campaign_page_url": null,
+      "primary_official_source_url": "https://x.com/stcbank_ksa/status/2092598029194784807",
+      "social_link_count": 1,
+      "published_at": "2026-08-26T13:00:00+00:00",
+      "active": true,
+      "direct_link": true,
+      "verified": true,
+      "review_required": false,
+      "review_reasons": [
+        "linked_campaign_deleted"
+      ],
+      "current_status": "Needs Review",
+      "post_role": "promotion_or_content",
+      "mechanic_tags": [
+        "other"
+      ],
+      "theme_tags": [
+        "other"
+      ],
+      "media": {
+        "url": "https://pbs.twimg.com/pbs.twimg.com/media/HQpk9R9XMAAtMGT.jpg",
+        "type": "image",
+        "thumbnail_url": "https://pbs.twimg.com/pbs.twimg.com/media/HQpk9R9XMAAtMGT.jpg"
+      },
+      "first_seen": "2026-08-27T03:51:56.195769+00:00",
+      "last_seen": "2026-08-27T03:51:56.195769+00:00",
+      "last_changed": "2026-08-27T03:51:56.195769+00:00",
+      "version": 1,
+      "change_history": [
+        {
+          "at": "2026-08-27T03:51:56.195769+00:00",
+          "type": "detected",
+          "version": 1
+        }
+      ],
+      "manual_override": true,
+      "corridors": [],
+      "suggested_campaign_id": "campaign:stc-bank:16",
+      "review_priority": 3,
+      "review_decision": "group_campaign",
+      "reviewed_by": "admin",
+      "reviewed_at": "2026-08-27T04:44:49.998803+00:00",
+      "review_request_id": "b4e4cfae-a604-4687-acc9-1be2a22d74c7",
+      "campaign_id": "manual:review:stc-bank:b4e4cfae-a604-4687-acc9-1be2a22d74c7",
+      "linked_campaign_id": null,
+      "record_role": "campaign_evidence",
+      "match_method": "manual"
+    },
+    {
+      "id": "post:stc-bank:facebook:357b1e5b21a1dc276c97",
+      "competitor_id": "stc-bank",
+      "source_key": "social:stc-bank:facebook",
+      "source_type": "social",
+      "platform": "facebook",
+      "content_type": "social_post",
+      "campaign_category": "card",
+      "primary_category": "card",
+      "categories": [
+        "card"
+      ],
+      "title": "هللتين تجيب لك شاورمتين من فروع نجم الشاورما مع بطاقات STC Bank الرقمية 🌯🌯 تُطبّق الشروط والأحكام.",
+      "snippet": "هللتين تجيب لك شاورمتين من فروع نجم الشاورما مع بطاقات STC Bank الرقمية 🌯🌯 تُطبّق الشروط والأحكام.",
+      "link": "https://m.facebook.com/stcbank/posts/pfbid0HAQqzMjzqcqFv8cBsxnzsiVq9S4Kc4Gb2XQgxCEtDZzDKdVvnvNnb3ZjfjexEnExl",
+      "social_links": {
+        "facebook": "https://m.facebook.com/stcbank/posts/pfbid0HAQqzMjzqcqFv8cBsxnzsiVq9S4Kc4Gb2XQgxCEtDZzDKdVvnvNnb3ZjfjexEnExl"
+      },
+      "outbound_links": [
+        "https://scontent-waw2-2.xx.fbcdn.net/v/t51.82787-15/786433737_18392023234201961_7426576045685473402_n.jpg?_nc_cat=105&_nc_gid=AAPV7goKFVykx4nFr0w2FQ&_nc_ht=scontent-waw2-2.xx&_nc_oc=AdoxaIv5ktNEfoKSRX0BMZZIe_4n-WLaK8s7lsLxsiZVAPSaN0HjLexoW4QPFKZERJs&_nc_ohc=m1tOlQ0PnGYQ7kNvwEkxQn6&_nc_sid=ebae6b&_nc_ss=7b289&_nc_zt=23&ccb=1-7&oe=6A94DCC2&oh=00_AQG-clX1NIBZ8W1ZJwRdoBPbZTkevFfSSMas41vJL8UHBQ&stp=dst-jpg_p843x403_tt6"
+      ],
+      "official_evidence_url": null,
+      "official_campaign_page_url": null,
+      "primary_official_source_url": "https://m.facebook.com/stcbank/posts/pfbid0HAQqzMjzqcqFv8cBsxnzsiVq9S4Kc4Gb2XQgxCEtDZzDKdVvnvNnb3ZjfjexEnExl",
+      "social_link_count": 1,
+      "published_at": "2026-08-26T12:57:28+00:00",
+      "active": true,
+      "direct_link": true,
+      "verified": true,
+      "review_required": false,
+      "review_reasons": [
+        "linked_campaign_deleted"
+      ],
+      "current_status": "Needs Review",
+      "post_role": "promotion_or_content",
+      "mechanic_tags": [
+        "other"
+      ],
+      "theme_tags": [
+        "other"
+      ],
+      "media": {
+        "url": "https://scontent-waw2-2.xx.fbcdn.net/v/t51.82787-15/786433737_18392023234201961_7426576045685473402_n.jpg?_nc_cat=105&_nc_gid=AAPV7goKFVykx4nFr0w2FQ&_nc_ht=scontent-waw2-2.xx&_nc_oc=AdoxaIv5ktNEfoKSRX0BMZZIe_4n-WLaK8s7lsLxsiZVAPSaN0HjLexoW4QPFKZERJs&_nc_ohc=m1tOlQ0PnGYQ7kNvwEkxQn6&_nc_sid=ebae6b&_nc_ss=7b289&_nc_zt=23&ccb=1-7&oe=6A94DCC2&oh=00_AQG-clX1NIBZ8W1ZJwRdoBPbZTkevFfSSMas41vJL8UHBQ&stp=dst-jpg_p843x403_tt6",
+        "type": "image",
+        "thumbnail_url": "https://scontent-waw2-2.xx.fbcdn.net/v/t51.82787-15/786433737_18392023234201961_7426576045685473402_n.jpg?_nc_cat=105&_nc_gid=AAPV7goKFVykx4nFr0w2FQ&_nc_ht=scontent-waw2-2.xx&_nc_oc=AdoxaIv5ktNEfoKSRX0BMZZIe_4n-WLaK8s7lsLxsiZVAPSaN0HjLexoW4QPFKZERJs&_nc_ohc=m1tOlQ0PnGYQ7kNvwEkxQn6&_nc_sid=ebae6b&_nc_ss=7b289&_nc_zt=23&ccb=1-7&oe=6A94DCC2&oh=00_AQG-clX1NIBZ8W1ZJwRdoBPbZTkevFfSSMas41vJL8UHBQ&stp=dst-jpg_p843x403_tt6"
+      },
+      "first_seen": "2026-08-27T03:51:56.195769+00:00",
+      "last_seen": "2026-08-27T03:51:56.195769+00:00",
+      "last_changed": "2026-08-27T03:51:56.195769+00:00",
+      "version": 1,
+      "change_history": [
+        {
+          "at": "2026-08-27T03:51:56.195769+00:00",
+          "type": "detected",
+          "version": 1
+        }
+      ],
+      "manual_override": true,
+      "corridors": [],
+      "suggested_campaign_id": "campaign:stc-bank:16",
+      "review_priority": 3,
+      "review_decision": "group_campaign",
+      "reviewed_by": "admin",
+      "reviewed_at": "2026-08-27T04:44:49.998803+00:00",
+      "review_request_id": "b4e4cfae-a604-4687-acc9-1be2a22d74c7",
+      "campaign_id": "manual:review:stc-bank:b4e4cfae-a604-4687-acc9-1be2a22d74c7",
+      "linked_campaign_id": null,
+      "record_role": "campaign_evidence",
+      "match_method": "manual"
+    },
+    {
+      "id": "post:stc-bank:instagram:6f02732588a09df24931",
+      "competitor_id": "stc-bank",
+      "source_key": "social:stc-bank:instagram",
+      "source_type": "social",
+      "platform": "instagram",
+      "content_type": "social_post",
+      "campaign_category": "card",
+      "primary_category": "card",
+      "categories": [
+        "card"
+      ],
+      "title": "هللتين تجيب لك شاورمتين من فروع نجم الشاورما مع بطاقات STC Bank الرقمية 🌯🌯 تُطبّق الشروط والأحكام.",
+      "snippet": "هللتين تجيب لك شاورمتين من فروع نجم الشاورما مع بطاقات STC Bank الرقمية 🌯🌯 تُطبّق الشروط والأحكام.",
+      "link": "https://www.instagram.com/p/DcgQ2S7sqjC",
+      "social_links": {
+        "instagram": "https://www.instagram.com/p/DcgQ2S7sqjC"
+      },
+      "outbound_links": [
+        "https://scontent-ams2-1.cdninstagram.com/v/t51.82787-15/786433737_18392023234201961_7426576045685473402_n.jpg?_nc_ad=z-m&_nc_cat=105&_nc_cid=0&_nc_gid=yWAzbUWF2qVECwWRtdC01A&_nc_ht=scontent-ams2-1.cdninstagram.com&_nc_oc=AdqKUW2Onh6s42skRo6HLzmbl6SmgAKYjFQbmxggGYqXoVn_3dO26xlvwy-3EGgCcHFBMomlpgxChqbFAfEXcPDh&_nc_ohc=m1tOlQ0PnGYQ7kNvwFTw9Rq&_nc_sid=58cdad&_nc_ss=7a22e&_nc_zt=23&ccb=7-5&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMjgxNi5zZHIucmVndWxhcl9waG90by5DMyJ9&ig_cache_key=Mzk3MjI0ODk3MTI2NTYxNjA2Ng%3D%3D.3-ccb7-5&oe=6A958582&oh=00_AQFEPoriwy1cwV4eIjPpdPCg8PxcZ5nptqjmlriUle5zZg&stp=dst-jpg_e35_tt6"
+      ],
+      "official_evidence_url": null,
+      "official_campaign_page_url": null,
+      "primary_official_source_url": "https://www.instagram.com/p/DcgQ2S7sqjC",
+      "social_link_count": 1,
+      "published_at": "2026-08-26T12:57:20+00:00",
+      "active": true,
+      "direct_link": true,
+      "verified": true,
+      "review_required": false,
+      "review_reasons": [
+        "linked_campaign_deleted"
+      ],
+      "current_status": "Needs Review",
+      "post_role": "promotion_or_content",
+      "mechanic_tags": [
+        "other"
+      ],
+      "theme_tags": [
+        "other"
+      ],
+      "media": {
+        "url": "https://scontent-ams2-1.cdninstagram.com/v/t51.82787-15/786433737_18392023234201961_7426576045685473402_n.jpg?_nc_ad=z-m&_nc_cat=105&_nc_cid=0&_nc_gid=yWAzbUWF2qVECwWRtdC01A&_nc_ht=scontent-ams2-1.cdninstagram.com&_nc_oc=AdqKUW2Onh6s42skRo6HLzmbl6SmgAKYjFQbmxggGYqXoVn_3dO26xlvwy-3EGgCcHFBMomlpgxChqbFAfEXcPDh&_nc_ohc=m1tOlQ0PnGYQ7kNvwFTw9Rq&_nc_sid=58cdad&_nc_ss=7a22e&_nc_zt=23&ccb=7-5&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMjgxNi5zZHIucmVndWxhcl9waG90by5DMyJ9&ig_cache_key=Mzk3MjI0ODk3MTI2NTYxNjA2Ng%3D%3D.3-ccb7-5&oe=6A958582&oh=00_AQFEPoriwy1cwV4eIjPpdPCg8PxcZ5nptqjmlriUle5zZg&stp=dst-jpg_e35_tt6",
+        "type": "image",
+        "thumbnail_url": "https://scontent-ams2-1.cdninstagram.com/v/t51.82787-15/786433737_18392023234201961_7426576045685473402_n.jpg?_nc_ad=z-m&_nc_cat=105&_nc_cid=0&_nc_gid=yWAzbUWF2qVECwWRtdC01A&_nc_ht=scontent-ams2-1.cdninstagram.com&_nc_oc=AdqKUW2Onh6s42skRo6HLzmbl6SmgAKYjFQbmxggGYqXoVn_3dO26xlvwy-3EGgCcHFBMomlpgxChqbFAfEXcPDh&_nc_ohc=m1tOlQ0PnGYQ7kNvwFTw9Rq&_nc_sid=58cdad&_nc_ss=7a22e&_nc_zt=23&ccb=7-5&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMjgxNi5zZHIucmVndWxhcl9waG90by5DMyJ9&ig_cache_key=Mzk3MjI0ODk3MTI2NTYxNjA2Ng%3D%3D.3-ccb7-5&oe=6A958582&oh=00_AQFEPoriwy1cwV4eIjPpdPCg8PxcZ5nptqjmlriUle5zZg&stp=dst-jpg_e35_tt6"
+      },
+      "first_seen": "2026-08-27T03:51:56.195769+00:00",
+      "last_seen": "2026-08-27T03:51:56.195769+00:00",
+      "last_changed": "2026-08-27T03:51:56.195769+00:00",
+      "version": 1,
+      "change_history": [
+        {
+          "at": "2026-08-27T03:51:56.195769+00:00",
+          "type": "detected",
+          "version": 1
+        }
+      ],
+      "manual_override": true,
+      "corridors": [],
+      "suggested_campaign_id": "campaign:stc-bank:16",
+      "review_priority": 3,
+      "review_decision": "group_campaign",
+      "reviewed_by": "admin",
+      "reviewed_at": "2026-08-27T04:44:49.998803+00:00",
+      "review_request_id": "b4e4cfae-a604-4687-acc9-1be2a22d74c7",
+      "campaign_id": "manual:review:stc-bank:b4e4cfae-a604-4687-acc9-1be2a22d74c7",
+      "linked_campaign_id": null,
+      "record_role": "campaign_evidence",
+      "match_method": "manual"
+    },
+    {
+      "id": "post:stc-bank:x:ec0258621183dfd52421",
+      "competitor_id": "stc-bank",
+      "source_key": "social:stc-bank:x",
+      "source_type": "social",
+      "platform": "x",
+      "content_type": "social_post",
+      "campaign_category": "card",
+      "primary_category": "card",
+      "categories": [
+        "card"
+      ],
+      "title": "هللتين تجيب لك شاورمتين من فروع نجم الشاورما مع بطاقات STC Bank الرقمية 🌯🌯 تُطبّق الشروط والأحكام.",
+      "snippet": "هللتين تجيب لك شاورمتين من فروع نجم الشاورما مع بطاقات STC Bank الرقمية 🌯🌯 تُطبّق الشروط والأحكام. — STC Bank (@stcbank_ksa) Aug 26, 2026",
+      "link": "https://x.com/stcbank_ksa/status/2092597344306925975",
+      "social_links": {
+        "x": "https://x.com/stcbank_ksa/status/2092597344306925975"
+      },
+      "outbound_links": [
+        "https://twitter.com/stcbank_ksa/status/2092597344306925975",
+        "https://platform.twitter.com/widgets.js"
+      ],
+      "official_evidence_url": null,
+      "official_campaign_page_url": null,
+      "primary_official_source_url": "https://x.com/stcbank_ksa/status/2092597344306925975",
+      "social_link_count": 1,
+      "published_at": "2026-08-26T12:57:00+00:00",
+      "active": true,
+      "direct_link": true,
+      "verified": true,
+      "review_required": false,
+      "review_reasons": [
+        "linked_campaign_deleted"
+      ],
+      "current_status": "Needs Review",
+      "post_role": "promotion_or_content",
+      "mechanic_tags": [
+        "other"
+      ],
+      "theme_tags": [
+        "other"
+      ],
+      "media": null,
+      "first_seen": "2026-08-27T03:51:56.195769+00:00",
+      "last_seen": "2026-08-27T03:51:56.195769+00:00",
+      "last_changed": "2026-08-27T03:51:56.195769+00:00",
+      "version": 1,
+      "change_history": [
+        {
+          "at": "2026-08-27T03:51:56.195769+00:00",
+          "type": "detected",
+          "version": 1
+        }
+      ],
+      "manual_override": true,
+      "corridors": [],
+      "suggested_campaign_id": "campaign:stc-bank:16",
+      "review_priority": 3,
+      "review_decision": "group_campaign",
+      "reviewed_by": "admin",
+      "reviewed_at": "2026-08-27T04:44:49.998803+00:00",
+      "review_request_id": "b4e4cfae-a604-4687-acc9-1be2a22d74c7",
+      "campaign_id": "manual:review:stc-bank:b4e4cfae-a604-4687-acc9-1be2a22d74c7",
+      "linked_campaign_id": null,
+      "record_role": "campaign_evidence",
+      "match_method": "manual"
     },
     {
       "id": "post:tiqmo:instagram:46ac138722050a7db17b",
@@ -86964,7 +87218,7 @@
       "source_verification": {
         "status": "verified_social",
         "verification_method": "official_social_rss_or_inventory",
-        "checked_at": "2026-08-27T04:42:28.839730+00:00",
+        "checked_at": "2026-08-27T04:44:50.632839+00:00",
         "source_url": "https://www.instagram.com/reel/DYxvJOWiZY5/",
         "source_changed": false,
         "conflicts": [],
@@ -87074,7 +87328,7 @@
       "source_verification": {
         "status": "verified_social",
         "verification_method": "official_social_rss_or_inventory",
-        "checked_at": "2026-08-27T04:42:28.839730+00:00",
+        "checked_at": "2026-08-27T04:44:50.632839+00:00",
         "source_url": "https://www.facebook.com/usebarq/posts/update-your-barq-app-and-join-the-prediction-game-win-your-share-of-prizes-worth/122197690844385166/",
         "source_changed": false,
         "conflicts": [],
@@ -87175,7 +87429,7 @@
       "source_verification": {
         "status": "verified_social",
         "verification_method": "official_social_rss_or_inventory",
-        "checked_at": "2026-08-27T04:42:28.839730+00:00",
+        "checked_at": "2026-08-27T04:44:50.632839+00:00",
         "source_url": "https://www.facebook.com/usebarq/posts/planning-a-trip-%EF%B8%8Fbook-through-almatarapp-with-your-barq-visa-and-get-up-to-10-of/122178668528385166/",
         "source_changed": false,
         "conflicts": [],
@@ -87280,7 +87534,7 @@
       "source_verification": {
         "status": "verified_social",
         "verification_method": "official_social_rss_or_inventory",
-        "checked_at": "2026-08-27T04:42:28.839730+00:00",
+        "checked_at": "2026-08-27T04:44:50.632839+00:00",
         "source_url": "https://www.instagram.com/p/DbAtiuQNGlf/",
         "source_changed": false,
         "conflicts": [],
@@ -88225,7 +88479,7 @@
       "source_verification": {
         "status": "verified_social",
         "verification_method": "official_social_rss_or_inventory",
-        "checked_at": "2026-08-27T04:42:28.839730+00:00",
+        "checked_at": "2026-08-27T04:44:50.632839+00:00",
         "source_url": "https://x.com/urpay_sa/status/2074433249682845889",
         "source_changed": false,
         "conflicts": [],
@@ -88328,7 +88582,7 @@
       "source_verification": {
         "status": "verified_social",
         "verification_method": "official_social_rss_or_inventory",
-        "checked_at": "2026-08-27T04:42:28.839730+00:00",
+        "checked_at": "2026-08-27T04:44:50.632839+00:00",
         "source_url": "https://www.facebook.com/AlinmaPaySA/posts/%EF%B8%8F-fees-gonetravel-anywhere-and-use-your-alinmapay-cashback-cards-without-worryin/1619335260194305/",
         "source_changed": false,
         "conflicts": [],
@@ -89454,7 +89708,7 @@
       "source_verification": {
         "status": "verified_social",
         "verification_method": "official_social_rss_or_inventory",
-        "checked_at": "2026-08-27T04:42:28.839730+00:00",
+        "checked_at": "2026-08-27T04:44:50.632839+00:00",
         "source_url": "https://www.instagram.com/alinmapay/p/DbqaY05mm9E/",
         "source_changed": false,
         "conflicts": [],
@@ -93561,7 +93815,7 @@
       "source_verification": {
         "status": "verified_social",
         "verification_method": "official_social_rss_or_inventory",
-        "checked_at": "2026-08-27T04:42:28.839730+00:00",
+        "checked_at": "2026-08-27T04:44:50.632839+00:00",
         "source_url": "https://www.instagram.com/tiqmoksa/p/DbLZ9Yfj6dy/",
         "source_changed": false,
         "conflicts": [],
@@ -94819,7 +95073,7 @@
       "source_verification": {
         "status": "verified_social",
         "verification_method": "official_social_rss_or_inventory",
-        "checked_at": "2026-08-27T04:42:28.839730+00:00",
+        "checked_at": "2026-08-27T04:44:50.632839+00:00",
         "source_url": "https://www.instagram.com/reel/DWots29j8fx/?hl=en",
         "source_changed": false,
         "conflicts": [],
@@ -106235,82 +106489,6 @@
       "review_priority": 0
     },
     {
-      "id": "detected:stc-bank:fdbfc5834dbfb13ad3e0",
-      "competitor_id": "stc-bank",
-      "source_key": "website:stc-bank:offers",
-      "source_type": "website",
-      "platform": "website",
-      "content_type": "review",
-      "suggested_record_type": null,
-      "campaign_category": "remittance",
-      "primary_category": "remittance",
-      "categories": [
-        "remittance"
-      ],
-      "title": "2 Shawarmas for 2 Halals only from Najm Alshawarma!",
-      "snippet": "Enjoy 2 shawarmas for 2 Halals at Najm Alshawarma branches when using all STC Bank cards.",
-      "link": "https://stcbank.com.sa/en/web/guest/w/najm-alshawrma-1",
-      "official_campaign_page_url": "https://stcbank.com.sa/en/web/guest/w/najm-alshawrma-1",
-      "primary_official_source_url": "https://stcbank.com.sa/en/web/guest/w/najm-alshawrma-1",
-      "social_links": {},
-      "social_link_count": 0,
-      "published_at": null,
-      "start_date": null,
-      "end_date": "2026-08-26T00:00:00+00:00",
-      "date_evidence": {
-        "start": null,
-        "end": null
-      },
-      "current_status": "Expired",
-      "active": false,
-      "direct_link": true,
-      "verified": true,
-      "official_discovery": true,
-      "discovery_section": "current",
-      "review_required": true,
-      "review_reasons": [
-        "new_official_item_not_in_excel_inventory"
-      ],
-      "mechanic_tags": [
-        "discount",
-        "prize_draw"
-      ],
-      "theme_tags": [
-        "international_transfer",
-        "cards"
-      ],
-      "detail_timeout_seconds": 18,
-      "first_seen": "2026-08-26T12:01:59.476231+00:00",
-      "last_seen": "2026-08-26T12:01:59.476231+00:00",
-      "last_changed": "2026-08-26T12:01:59.476231+00:00",
-      "version": 1,
-      "change_history": [
-        {
-          "at": "2026-08-26T12:01:59.476231+00:00",
-          "type": "detected",
-          "version": 1
-        }
-      ],
-      "manual_override": true,
-      "summary": "Enjoy 2 shawarmas for 2 Halals at Najm Alshawarma branches when using all STC Bank cards.",
-      "corridors": [],
-      "offer_values": [],
-      "evidence_snapshot": "Enjoy 2 shawarmas for 2 Halals at Najm Alshawarma branches when using all STC Bank cards.",
-      "date_extraction_method": "not_found",
-      "source_verification": {
-        "status": "verified_website",
-        "verification_method": "official_website_page",
-        "checked_at": "2026-08-26T12:04:37.584346+00:00",
-        "source_url": "https://stcbank.com.sa/en/web/guest/w/najm-alshawrma-1",
-        "source_changed": false,
-        "conflicts": [],
-        "error": null
-      },
-      "last_live_verified_at": "2026-08-26T12:04:37.584346+00:00",
-      "last_reviewed": "2026-08-26T12:04:37.584346+00:00",
-      "review_priority": 33
-    },
-    {
       "id": "detected:barq:8cfb4ce0f61d78b1338f",
       "competitor_id": "barq",
       "source_key": "website:barq:offers",
@@ -113170,6 +113348,87 @@
       "social_posts_30d": 0
     },
     {
+      "id": "detected:stc-bank:fdbfc5834dbfb13ad3e0",
+      "competitor_id": "stc-bank",
+      "source_key": "website:stc-bank:offers",
+      "source_type": "website",
+      "platform": "website",
+      "content_type": "awareness",
+      "suggested_record_type": null,
+      "campaign_category": "remittance",
+      "primary_category": "remittance",
+      "categories": [
+        "remittance"
+      ],
+      "title": "2 Shawarmas for 2 Halals only from Najm Alshawarma!",
+      "snippet": "Enjoy 2 shawarmas for 2 Halals at Najm Alshawarma branches when using all STC Bank cards.",
+      "link": "https://stcbank.com.sa/en/web/guest/w/najm-alshawrma-1",
+      "official_campaign_page_url": "https://stcbank.com.sa/en/web/guest/w/najm-alshawrma-1",
+      "primary_official_source_url": "https://stcbank.com.sa/en/web/guest/w/najm-alshawrma-1",
+      "social_links": {},
+      "social_link_count": 0,
+      "published_at": null,
+      "start_date": null,
+      "end_date": "2026-08-26T00:00:00+00:00",
+      "date_evidence": {
+        "start": null,
+        "end": null
+      },
+      "current_status": "Linked",
+      "active": false,
+      "direct_link": true,
+      "verified": true,
+      "official_discovery": true,
+      "discovery_section": "current",
+      "review_required": false,
+      "review_reasons": [],
+      "mechanic_tags": [
+        "discount",
+        "prize_draw"
+      ],
+      "theme_tags": [
+        "international_transfer",
+        "cards"
+      ],
+      "detail_timeout_seconds": 18,
+      "first_seen": "2026-08-26T12:01:59.476231+00:00",
+      "last_seen": "2026-08-26T12:01:59.476231+00:00",
+      "last_changed": "2026-08-26T12:01:59.476231+00:00",
+      "version": 1,
+      "change_history": [
+        {
+          "at": "2026-08-26T12:01:59.476231+00:00",
+          "type": "detected",
+          "version": 1
+        }
+      ],
+      "manual_override": true,
+      "summary": "Enjoy 2 shawarmas for 2 Halals at Najm Alshawarma branches when using all STC Bank cards.",
+      "corridors": [],
+      "offer_values": [],
+      "evidence_snapshot": "Enjoy 2 shawarmas for 2 Halals at Najm Alshawarma branches when using all STC Bank cards.",
+      "date_extraction_method": "not_found",
+      "source_verification": {
+        "status": "verified_website",
+        "verification_method": "official_website_page",
+        "checked_at": "2026-08-26T12:04:37.584346+00:00",
+        "source_url": "https://stcbank.com.sa/en/web/guest/w/najm-alshawrma-1",
+        "source_changed": false,
+        "conflicts": [],
+        "error": null
+      },
+      "last_live_verified_at": "2026-08-26T12:04:37.584346+00:00",
+      "last_reviewed": "2026-08-26T12:04:37.584346+00:00",
+      "review_priority": 13,
+      "review_decision": "group_campaign",
+      "reviewed_by": "admin",
+      "reviewed_at": "2026-08-27T04:44:49.998803+00:00",
+      "review_request_id": "b4e4cfae-a604-4687-acc9-1be2a22d74c7",
+      "campaign_id": null,
+      "linked_campaign_id": null,
+      "record_role": "campaign_evidence"
+    },
+    {
       "id": "campaign:mobily-pay:1",
       "record_id": "1",
       "competitor_id": "mobily-pay",
@@ -114852,37 +115111,37 @@
   "detail_verification_stats": {
     "network_checks": 0,
     "elapsed_seconds": 0.1,
-    "completed_at": "2026-08-27T04:42:28.933087+00:00"
+    "completed_at": "2026-08-27T04:44:50.751651+00:00"
   },
   "mobily_deterministic_classification": {
     "changed": 0,
-    "at": "2026-08-27T04:42:30.701514+00:00"
+    "at": "2026-08-27T04:44:52.705488+00:00"
   },
   "verified_official_classification": {
     "changed": 0,
-    "at": "2026-08-27T04:42:30.704369+00:00",
+    "at": "2026-08-27T04:44:52.711420+00:00",
     "version": "classifier-v5-merchant-candidates"
   },
   "record_integrity": {
     "quarantined_or_demoted": 0,
-    "at": "2026-08-27T04:42:30.001168+00:00"
+    "at": "2026-08-27T04:44:51.925147+00:00"
   },
   "winner_announcement_integrity": {
     "normalized": 0,
-    "at": "2026-08-27T04:42:30.000291+00:00"
+    "at": "2026-08-27T04:44:51.924277+00:00"
   },
   "deduplication": {
     "removed": 0,
-    "at": "2026-08-27T04:42:30.653816+00:00"
+    "at": "2026-08-27T04:44:52.654060+00:00"
   },
   "final_status_normalization": {
     "changed": 0,
-    "at": "2026-08-27T04:42:30.729735+00:00"
+    "at": "2026-08-27T04:44:52.754891+00:00"
   },
-  "social_analytics_rebuilt_at": "2026-08-27T04:42:30.744598+00:00",
+  "social_analytics_rebuilt_at": "2026-08-27T04:44:52.781382+00:00",
   "media_sanitization": {
     "removed": 0,
-    "at": "2026-08-27T04:42:30.765392+00:00"
+    "at": "2026-08-27T04:44:52.813715+00:00"
   },
   "ai_summary": {
     "what_changed": [
@@ -115344,6 +115603,24 @@
         "post:stc-bank:instagram:fbf1ea9ad4b517f59065"
       ],
       "campaign_id": "detected:stc-bank:1971eae04c5a15cc8860",
+      "record_ids": []
+    },
+    {
+      "request_id": "b4e4cfae-a604-4687-acc9-1be2a22d74c7",
+      "reviewed_at": "2026-08-27T04:44:49.998803+00:00",
+      "reviewed_by": "admin",
+      "action": "group_campaign",
+      "item_ids": [
+        "detected:stc-bank:fdbfc5834dbfb13ad3e0",
+        "post:stc-bank:tiktok:f583a599a8e5c8e9f255",
+        "post:stc-bank:x:0192a38926bf8a7dd2be",
+        "post:stc-bank:facebook:dbc973428da2d7e5c3b9",
+        "post:stc-bank:x:ac6ed1d6d2bec1fd6eb0",
+        "post:stc-bank:facebook:357b1e5b21a1dc276c97",
+        "post:stc-bank:instagram:6f02732588a09df24931",
+        "post:stc-bank:x:ec0258621183dfd52421"
+      ],
+      "campaign_id": "manual:review:stc-bank:b4e4cfae-a604-4687-acc9-1be2a22d74c7",
       "record_ids": []
     }
   ]
