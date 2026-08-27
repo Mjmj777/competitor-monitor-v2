@@ -12,7 +12,14 @@ BASE=Path(__file__).resolve().parent
 TEMPLATE=BASE/"competitor_campaigns_template.xlsx"
 DATA=BASE/"data.json";OUTPUT=BASE/"competitor_campaigns_latest.xlsx"
 NS="http://schemas.openxmlformats.org/spreadsheetml/2006/main";XML="http://www.w3.org/XML/1998/namespace"
+CHART_NS="http://schemas.openxmlformats.org/drawingml/2006/chart"
+DRAWING_NS="http://schemas.openxmlformats.org/drawingml/2006/main"
+OFFICE_REL_NS="http://schemas.openxmlformats.org/officeDocument/2006/relationships"
+PACKAGE_REL_NS="http://schemas.openxmlformats.org/package/2006/relationships"
+CONTENT_TYPES_NS="http://schemas.openxmlformats.org/package/2006/content-types"
 ET.register_namespace("x",NS)
+ET.register_namespace("c",CHART_NS)
+ET.register_namespace("a",DRAWING_NS)
 SHEETS={
     "stc-bank":("xl/worksheets/sheet2.xml","xl/tables/table1.xml",9),
     "barq":("xl/worksheets/sheet3.xml","xl/tables/table2.xml",9),
@@ -24,7 +31,6 @@ SHEETS={
 CATEGORY={"remittance":"Remittance","musaned":"Musaned","sadad":"SADAD","card":"Card","engagement":"Engagement","other":"Other","merchant":"Merchant"}
 PLATFORMS=("instagram","x","facebook","tiktok")
 PLATFORM_LABELS={"instagram":"Instagram","x":"X","facebook":"Facebook","tiktok":"TikTok"}
-COMPETITOR_ROWS={"stc-bank":54,"barq":55,"mobily-pay":56,"tiqmo":57,"urpay":58,"alinma-pay":59}
 COMPETITOR_LABELS={"stc-bank":"STC Bank","barq":"barq","mobily-pay":"Mobily Pay","tiqmo":"tiqmo","urpay":"urpay","alinma-pay":"alinma pay"}
 
 def parse_date(v):
@@ -215,49 +221,56 @@ def update_table(xml_bytes,last_row):
     if auto_filter is not None:auto_filter.set("ref",ref)
     return ET.tostring(root,encoding="utf-8",xml_declaration=True)
 
-def update_dashboard(xml_bytes,data,as_of,research_cutoff,social_counts,campaigns):
+def update_dashboard(xml_bytes,as_of,research_cutoff,social_counts,campaigns):
     root=ET.fromstring(xml_bytes);sheet_data=root.find(f"{{{NS}}}sheetData");rows={int(r.attrib["r"]):r for r in sheet_data.findall(f"{{{NS}}}row")}
-    number(cell(rows[3],"B"),serial(research_cutoff));cached(cell(rows[3],"E"),serial(as_of))
-    for cid,row_number in COMPETITOR_ROWS.items():
-        row=rows[row_number]
-        for offset,platform in enumerate(PLATFORMS,start=2):number(cell(row,chr(64+offset)),social_counts[cid][platform])
-        cached(cell(row,"F"),sum(social_counts[cid].values()))
-    totals={cid:len(items) for cid,items in campaigns.items()};largest=max(totals,key=totals.get);total_campaigns=sum(totals.values())
+    number(cell(rows[3],"B"),serial(research_cutoff));number(cell(rows[3],"K"),serial(as_of))
+    totals={cid:len(items) for cid,items in campaigns.items()};total_campaigns=sum(totals.values())
     remittance={cid:sum(1 for i in items if str(i.get("campaign_category") or "").lower()=="remittance") for cid,items in campaigns.items()}
-    remittance_total=sum(remittance.values());remittance_leader=max(remittance,key=remittance.get);social_total=sum(sum(v.values()) for v in social_counts.values());social_leader=max(social_counts,key=lambda cid:sum(social_counts[cid].values()))
+    remittance_total=sum(remittance.values());social_total=sum(sum(v.values()) for v in social_counts.values())
     expiring=sum(1 for items in campaigns.values() for i in items if (end:=parse_date(i.get("end_date"))) and as_of.date()<=end.date()<=(as_of+timedelta(days=30)).date())
     categories=("remittance","musaned","sadad","card","engagement","other")
-    category_counts={cid:{category:sum(1 for i in campaigns[cid] if str(i.get("campaign_category") or "other").lower()==category) for category in categories} for cid in campaigns}
-    status_counts={cid:{
-        "active":sum(1 for i in campaigns[cid] if campaign_status(i,as_of)=="Active"),
-        "undated":sum(1 for i in campaigns[cid] if campaign_status(i,as_of)=="End Date Not Stated"),
-        "seven":sum(1 for i in campaigns[cid] if campaign_status(i,as_of)=="Expiring ≤7 Days"),
-        "thirty":sum(1 for i in campaigns[cid] if campaign_status(i,as_of)=="Expiring 8–30 Days"),
-    } for cid in campaigns}
-    dashboard_rows={"stc-bank":10,"barq":11,"mobily-pay":12,"tiqmo":13,"urpay":14,"alinma-pay":15}
-    for cid,row_number in dashboard_rows.items():
-        row=rows[row_number];values=[totals[cid],status_counts[cid]["active"],status_counts[cid]["undated"],status_counts[cid]["seven"],status_counts[cid]["thirty"]]
-        values.extend(category_counts[cid][category] for category in categories);values.append(sum(social_counts[cid].values()))
-        for offset,value in enumerate(values,start=2):cached(cell(row,chr(64+offset)),value)
-        category_row=rows[21+(row_number-10)]
-        for offset,category in enumerate(categories,start=2):cached(cell(category_row,chr(64+offset)),category_counts[cid][category])
-        remittance_row=rows[33+(row_number-10)];cached(cell(remittance_row,"B"),remittance[cid]);cached(cell(remittance_row,"C"),(remittance[cid]/totals[cid] if totals[cid] else 0))
-        helper_row=rows[31+(row_number-10)];cached(cell(helper_row,"Y"),remittance[cid])
-    category_totals={category:sum(category_counts[cid][category] for cid in campaigns) for category in categories}
-    for offset,category in enumerate(categories,start=2):
-        cached(cell(rows[27],chr(64+offset)),category_totals[category]);cached(cell(rows[18+offset-1],"Y"),category_totals[category])
-    cached(cell(rows[39],"B"),remittance_total);cached(cell(rows[39],"C"),(remittance_total/total_campaigns if total_campaigns else 0))
-    for offset,platform in enumerate(PLATFORMS,start=2):cached(cell(rows[60],chr(64+offset)),sum(social_counts[cid][platform] for cid in social_counts))
-    cached(cell(rows[60],"F"),social_total)
-    cached(cell(rows[6],"A"),total_campaigns);cached(cell(rows[6],"C"),remittance_total);cached(cell(rows[6],"E"),social_total);cached(cell(rows[6],"G"),expiring);cached(cell(rows[6],"I"),len(campaigns))
-    signals=[
-        f"Largest active campaign portfolio: {COMPETITOR_LABELS[largest]} ({totals[largest]} campaigns).",
-        f"Active remittance campaigns: {remittance_total}; market leader: {COMPETITOR_LABELS[remittance_leader]} ({remittance[remittance_leader]}).",
-        f"Remittance share of active campaigns: {(remittance_total/total_campaigns if total_campaigns else 0):.0%}.",
-        f"Social posts in the latest 14 days: {social_total}; most active: {COMPETITOR_LABELS[social_leader]} ({sum(social_counts[social_leader].values())}).",
-        f"Campaigns expiring within 30 days: {expiring}.",
-    ]
-    for row_number,value in zip(range(43,48),signals):text(cell(rows[row_number],"A"),value)
+    category_totals={category:0 for category in categories}
+    for items in campaigns.values():
+        for item in items:
+            category=str(item.get("campaign_category") or "other").lower()
+            category_totals[category if category in categories[:-1] else "other"]+=1
+    for index,cid in enumerate(SHEETS,start=2):
+        label=COMPETITOR_LABELS[cid]
+        text(cell(rows[index],"X"),label);number(cell(rows[index],"Y"),totals[cid])
+        text(cell(rows[index],"AA"),label);number(cell(rows[index],"AB"),remittance[cid])
+        social_row=rows[index+10];text(cell(social_row,"X"),label)
+        for column,platform in zip(("Y","Z","AA","AB"),PLATFORMS):number(cell(social_row,column),social_counts[cid][platform])
+    for row_number,category in enumerate(categories,start=2):
+        text(cell(rows[row_number],"AD"),CATEGORY[category]);number(cell(rows[row_number],"AE"),category_totals[category])
+    text(cell(rows[12],"AD"),"Expiring ≤30 Days");number(cell(rows[12],"AE"),expiring)
+    cached(cell(rows[6],"A"),total_campaigns);cached(cell(rows[6],"D"),remittance_total);cached(cell(rows[6],"G"),social_total);cached(cell(rows[6],"J"),expiring);cached(cell(rows[6],"M"),len(campaigns))
+    chart_data={
+        "xl/drawings/charts/chart1.xml":([COMPETITOR_LABELS[cid] for cid in SHEETS],[[totals[cid] for cid in SHEETS]]),
+        "xl/drawings/charts/chart2.xml":([CATEGORY[category] for category in categories],[[category_totals[category] for category in categories]]),
+        "xl/drawings/charts/chart3.xml":([COMPETITOR_LABELS[cid] for cid in SHEETS],[[remittance[cid] for cid in SHEETS]]),
+        "xl/drawings/charts/chart4.xml":([COMPETITOR_LABELS[cid] for cid in SHEETS],[[social_counts[cid][platform] for cid in SHEETS] for platform in PLATFORMS]),
+    }
+    return ET.tostring(root,encoding="utf-8",xml_declaration=True),chart_data
+
+def set_chart_cache(cache,values):
+    for point in list(cache.findall(f"{{{CHART_NS}}}pt")):cache.remove(point)
+    point_count=cache.find(f"{{{CHART_NS}}}ptCount")
+    if point_count is None:point_count=ET.SubElement(cache,f"{{{CHART_NS}}}ptCount")
+    point_count.set("val",str(len(values)))
+    insert_at=list(cache).index(point_count)+1
+    for index,value in enumerate(values):
+        point=ET.Element(f"{{{CHART_NS}}}pt",{"idx":str(index)})
+        ET.SubElement(point,f"{{{CHART_NS}}}v").text=str(value)
+        cache.insert(insert_at+index,point)
+
+def update_chart(xml_bytes,labels,series_values):
+    root=ET.fromstring(xml_bytes);series=root.findall(f".//{{{CHART_NS}}}ser")
+    if len(series)!=len(series_values):raise SystemExit(f"Excel chart series mismatch: expected {len(series_values)}, found {len(series)}")
+    for node,values in zip(series,series_values):
+        category_cache=node.find(f".//{{{CHART_NS}}}cat/{{{CHART_NS}}}strRef/{{{CHART_NS}}}strCache")
+        value_cache=node.find(f".//{{{CHART_NS}}}val/{{{CHART_NS}}}numRef/{{{CHART_NS}}}numCache")
+        if category_cache is None or value_cache is None:raise SystemExit("Excel chart cache is missing")
+        set_chart_cache(category_cache,labels);set_chart_cache(value_cache,values)
     return ET.tostring(root,encoding="utf-8",xml_declaration=True)
 
 def update_workbook(xml_bytes):
@@ -266,19 +279,62 @@ def update_workbook(xml_bytes):
     calc.set("calcMode","auto");calc.set("fullCalcOnLoad","1");calc.set("forceFullCalc","1")
     return ET.tostring(root,encoding="utf-8",xml_declaration=True)
 
+def remove_worksheet(parts,name):
+    workbook=ET.fromstring(parts["xl/workbook.xml"]);sheets=workbook.find(f"{{{NS}}}sheets")
+    target=next((sheet for sheet in sheets.findall(f"{{{NS}}}sheet") if sheet.attrib.get("name")==name),None)
+    if target is None:return
+    relationship_id=target.attrib.get(f"{{{OFFICE_REL_NS}}}id");sheets.remove(target)
+    relationships=ET.fromstring(parts["xl/_rels/workbook.xml.rels"])
+    relationship=next((rel for rel in relationships.findall(f"{{{PACKAGE_REL_NS}}}Relationship") if rel.attrib.get("Id")==relationship_id),None)
+    if relationship is None:raise SystemExit(f"Excel worksheet relationship is missing: {name}")
+    worksheet_path=relationship.attrib["Target"].lstrip("/")
+    if not worksheet_path.startswith("xl/"):worksheet_path=f"xl/{worksheet_path}"
+    relationships.remove(relationship)
+    content_types=ET.fromstring(parts["[Content_Types].xml"])
+    for override in list(content_types.findall(f"{{{CONTENT_TYPES_NS}}}Override")):
+        if override.attrib.get("PartName","").lstrip("/")==worksheet_path:content_types.remove(override)
+    parts["xl/workbook.xml"]=ET.tostring(workbook,encoding="utf-8",xml_declaration=True)
+    ET.register_namespace("",PACKAGE_REL_NS)
+    parts["xl/_rels/workbook.xml.rels"]=ET.tostring(relationships,encoding="utf-8",xml_declaration=True)
+    ET.register_namespace("",CONTENT_TYPES_NS)
+    parts["[Content_Types].xml"]=ET.tostring(content_types,encoding="utf-8",xml_declaration=True)
+    parts.pop(worksheet_path,None)
+    sheet_rel_path=f"{worksheet_path.rsplit('/',1)[0]}/_rels/{worksheet_path.rsplit('/',1)[1]}.rels"
+    parts.pop(sheet_rel_path,None)
+
+def validate_output(path):
+    expected_sheets=["Executive Dashboard","STC Bank","barq","Mobily Pay","tiqmo","urpay","alinma pay"]
+    with zipfile.ZipFile(path,"r") as workbook:
+        damaged=workbook.testzip()
+        if damaged:raise SystemExit(f"Generated Excel file is damaged: {damaged}")
+        root=ET.fromstring(workbook.read("xl/workbook.xml"))
+        sheet_names=[sheet.attrib.get("name") for sheet in root.findall(f".//{{{NS}}}sheet")]
+        if sheet_names!=expected_sheets:raise SystemExit(f"Generated Excel sheets do not match the approved report: {sheet_names}")
+        if "xl/worksheets/sheet8.xml" in workbook.namelist():raise SystemExit("Update Guide was not removed from the generated report")
+        for index in range(1,5):
+            chart=ET.fromstring(workbook.read(f"xl/drawings/charts/chart{index}.xml"))
+            caches=chart.findall(f".//{{{CHART_NS}}}strCache")+chart.findall(f".//{{{CHART_NS}}}numCache")
+            if not caches or any(cache.find(f"{{{CHART_NS}}}ptCount") is None or cache.find(f"{{{CHART_NS}}}ptCount").attrib.get("val")!="6" for cache in caches):
+                raise SystemExit(f"Dashboard chart {index} does not contain the current six-competitor data cache")
+
 def main():
     if not TEMPLATE.exists():raise SystemExit(f"Missing Excel template: {TEMPLATE.name}")
-    data=json.loads(DATA.read_text(encoding="utf-8"));replace={};as_of=datetime.now(timezone.utc);research_cutoff=parse_date(data.get("generated_at")) or as_of
+    data=json.loads(DATA.read_text(encoding="utf-8"));as_of=datetime.now(timezone.utc);research_cutoff=parse_date(data.get("generated_at")) or as_of
     social_index=campaign_social_index(data);social_counts=social_activity(data,as_of)
     campaigns={cid:eligible(data,cid,as_of) for cid in SHEETS}
     with zipfile.ZipFile(TEMPLATE,"r") as zin:
-        replace["xl/worksheets/sheet1.xml"]=update_dashboard(zin.read("xl/worksheets/sheet1.xml"),data,as_of,research_cutoff,social_counts,campaigns)
+        infos=zin.infolist();parts={info.filename:zin.read(info.filename) for info in infos}
+        dashboard,chart_data=update_dashboard(parts["xl/worksheets/sheet1.xml"],as_of,research_cutoff,social_counts,campaigns)
+        parts["xl/worksheets/sheet1.xml"]=dashboard
+        for path,(labels,series_values) in chart_data.items():parts[path]=update_chart(parts[path],labels,series_values)
         for cid,(path,table_path,start) in SHEETS.items():
-            updated,last_row=update_sheet(zin.read(path),campaigns[cid],start,merchant_offer_count(data,cid,as_of),social_index,as_of)
-            replace[path]=updated;replace[table_path]=update_table(zin.read(table_path),last_row)
-        replace["xl/workbook.xml"]=update_workbook(zin.read("xl/workbook.xml"))
+            updated,last_row=update_sheet(parts[path],campaigns[cid],start,merchant_offer_count(data,cid,as_of),social_index,as_of)
+            parts[path]=updated;parts[table_path]=update_table(parts[table_path],last_row)
+        parts["xl/workbook.xml"]=update_workbook(parts["xl/workbook.xml"]);remove_worksheet(parts,"Update Guide")
         with zipfile.ZipFile(OUTPUT,"w",compression=zipfile.ZIP_DEFLATED) as zout:
-            for info in zin.infolist():zout.writestr(info,replace.get(info.filename,zin.read(info.filename)))
+            for info in infos:
+                if info.filename in parts:zout.writestr(info,parts[info.filename])
+    validate_output(OUTPUT)
     print(f"Generated {OUTPUT.name}")
 
 if __name__=="__main__":main()

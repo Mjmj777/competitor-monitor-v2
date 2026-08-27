@@ -169,9 +169,19 @@ try:
                 if name.startswith('xl/worksheets/sheet') and name.endswith('.xml'):
                     formulas += len(ET.fromstring(z.read(name)).findall('.//m:f',ns))
             tables=len([name for name in z.namelist() if name.startswith('xl/tables/table') and name.endswith('.xml')])
+            charts=[name for name in z.namelist() if name.startswith('xl/drawings/charts/chart') and name.endswith('.xml')]
             if sheets!=8: fail(f'Excel template structure changed: expected 8 sheets, found {sheets}')
             if tables!=6: fail(f'Excel template structure changed: expected 6 tables, found {tables}')
-            if formulas!=1306: fail(f'Excel template formulas changed: expected 1306, found {formulas}')
+            if formulas<1100: fail(f'Excel template lost campaign formulas: found {formulas}')
+            if len(charts)!=4: fail(f'Excel dashboard must contain 4 charts, found {len(charts)}')
+            dashboard=ET.fromstring(z.read('xl/worksheets/sheet1.xml'))
+            formulas_by_cell={cell.attrib.get('r'):cell.find('m:f',ns).text for cell in dashboard.findall('.//m:c',ns) if cell.find('m:f',ns) is not None}
+            expected_dashboard_formulas={'A6':'SUM($Y$2:$Y$7)','D6':'SUM($AB$2:$AB$7)','G6':'SUM($Y$12:$AB$17)','J6':'$AE$12','M6':'COUNTA($X$2:$X$7)'}
+            if any(formulas_by_cell.get(ref)!=formula for ref,formula in expected_dashboard_formulas.items()):
+                fail('Excel dashboard KPI formulas do not match the compact dashboard layout')
+            chart_text=' '.join(ET.fromstring(z.read(name)).findtext('.//{http://schemas.openxmlformats.org/drawingml/2006/main}t','') for name in charts)
+            for title in ('Active Campaigns by Competitor','Active Campaign Mix','Remittance Campaigns by Competitor','Social Media Activity — Last 14 Days'):
+                if title not in chart_text: fail(f'Excel dashboard chart missing: {title}')
 except Exception as exc: fail(f'Excel template invalid: {exc}')
 
 # The deployed workflow must run semantic validation after enrichment and before Excel/deploy.
