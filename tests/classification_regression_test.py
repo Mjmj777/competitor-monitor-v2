@@ -4,6 +4,7 @@ from __future__ import annotations
 import copy
 import json
 import sys
+import time
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -294,5 +295,52 @@ generic_card_cashback = social_post(
     platform="tiktok",
 )
 assert enhance.campaign_record_match(generic_card_cashback, [musaned_campaign], include_inactive=True) == (None, None)
+
+# Detail verification must stop starting new network calls when its wall-clock budget is
+# exhausted. Unchecked records remain in the dataset and keep their last-known-good fields.
+budget_config = copy.deepcopy(config)
+budget_config["settings"].update({
+    "detail_verification_time_budget_seconds": 0.055,
+    "detail_verification_max_timeout_seconds": 5,
+    "detail_verification_retries": 0,
+    "max_detail_checks_per_run": 24,
+})
+budget_items = [
+    official_item(
+        id=f"campaign:budget:{index}",
+        content_type="campaign",
+        link=f"https://example.com/offer-{index}",
+        official_campaign_page_url=f"https://example.com/offer-{index}",
+        source_verification={"status": "verified_website"},
+        review_required=False,
+        review_reasons=[],
+    )
+    for index in range(8)
+]
+
+
+class SlowFailingSession:
+    def __init__(self):
+        self.headers = {}
+
+    def mount(self, *_args, **_kwargs):
+        return None
+
+    def get(self, *_args, **_kwargs):
+        time.sleep(0.035)
+        raise TimeoutError("simulated slow source")
+
+
+original_session = enhance.requests.Session
+try:
+    enhance.requests.Session = SlowFailingSession
+    budget_data = {"items": budget_items, "source_status": []}
+    enhance.verify_details(budget_data, {}, budget_config, {"items": {}})
+finally:
+    enhance.requests.Session = original_session
+
+assert 1 <= budget_data["detail_verification_stats"]["network_checks"] < len(budget_items)
+assert budget_data["detail_verification_stats"]["elapsed_seconds"] < 0.5
+assert len(budget_data["items"]) == len(budget_items)
 
 print("Source-aware classification regression tests passed")
