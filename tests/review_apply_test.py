@@ -72,4 +72,28 @@ with tempfile.TemporaryDirectory() as folder:
     except ValueError as exc:
         assert "one competitor" in str(exc)
 
+    # Merge is reversible: the duplicate is archived, its evidence moves to the
+    # primary campaign, and Undo restores the previous relationship.
+    merge_data = json.loads(apply_review.DATA_PATH.read_text(encoding="utf-8"))
+    merge_data["items"].extend([
+        {"id": "campaign:alinma:primary", "competitor_id": "alinma-pay", "content_type": "campaign", "title": "Musaned", "active": True, "current_status": "Active", "social_links": {}},
+        {"id": "campaign:alinma:duplicate", "competitor_id": "alinma-pay", "content_type": "campaign", "title": "Musaned campaign", "active": True, "current_status": "Active", "social_links": {"instagram": "https://instagram.com/p/MUSANED"}},
+        {"id": "post:alinma:musaned", "competitor_id": "alinma-pay", "source_type": "social", "content_type": "social_post", "campaign_id": "campaign:alinma:duplicate", "linked_campaign_id": "campaign:alinma:duplicate", "link": "https://instagram.com/p/MUSANED"},
+    ])
+    apply_review.DATA_PATH.write_text(json.dumps(merge_data), encoding="utf-8")
+    apply_review.apply({"action": "merge_campaigns", "item_ids": ["campaign:alinma:duplicate"], "target_campaign_id": "campaign:alinma:primary"}, "admin", "merge-request-123456")
+    merged = json.loads(apply_review.DATA_PATH.read_text(encoding="utf-8"))
+    merged_by_id = {row["id"]: row for row in merged["items"]}
+    assert merged_by_id["campaign:alinma:duplicate"]["active"] is False
+    assert merged_by_id["campaign:alinma:duplicate"]["current_status"] == "Merged"
+    assert merged_by_id["campaign:alinma:duplicate"]["merged_into"] == "campaign:alinma:primary"
+    assert merged_by_id["post:alinma:musaned"]["campaign_id"] == "campaign:alinma:primary"
+    assert merged_by_id["post:alinma:musaned"]["merge_origin_campaign_id"] == "campaign:alinma:duplicate"
+    apply_review.apply({"action": "undo_merge", "item_ids": ["campaign:alinma:duplicate"]}, "admin", "undo-request-123456")
+    restored = json.loads(apply_review.DATA_PATH.read_text(encoding="utf-8"))
+    restored_by_id = {row["id"]: row for row in restored["items"]}
+    assert restored_by_id["campaign:alinma:duplicate"]["active"] is True
+    assert restored_by_id["campaign:alinma:duplicate"]["merged_into"] is None
+    assert restored_by_id["post:alinma:musaned"]["campaign_id"] == "campaign:alinma:duplicate"
+
 print("Admin review persistence tests passed")

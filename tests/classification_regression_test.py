@@ -526,7 +526,8 @@ chart_source = (ROOT / "assets" / "index.js").read_text(encoding="utf-8")
 chart_logic = chart_source.split("function campaignChangeValues", 1)[1].split("function renderSocialChart", 1)[0]
 assert "market_launch_date" in chart_logic and "market_last_changed" in chart_logic and "market_expiry_date" in chart_logic
 assert "item.first_seen" not in chart_logic and "item.last_changed" not in chart_logic
-assert "state.campaignChangePeriod" in chart_logic
+assert "inCampaignChangePeriod" in chart_logic
+assert "campaignChangeCustom" in chart_source and "state.campaignChangePeriod" in chart_source
 assert "item.market_expiry_date || item.end_date" in chart_logic
 index_html = (ROOT / "index.html").read_text(encoding="utf-8")
 assert 'id="campaign-change-period-filter"' in index_html

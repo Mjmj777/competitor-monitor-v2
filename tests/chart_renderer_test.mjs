@@ -160,10 +160,18 @@ assert.match(indexSource, /C\.renderDonutChart\(/, "Campaign categories must use
 assert.match(indexSource, /C\.renderColumnChart\(/, "Remittance comparison must use a column chart");
 assert.match(indexSource, /upcomingExpiries7d/, "Seven-day expiry signal is missing");
 assert.match(indexSource, /recent-market-changes/, "Recent verified market changes are missing");
+assert.match(indexSource, /inCampaignChangePeriod/, "Campaign change custom-period filtering is missing");
+assert.match(indexSource, /campaignChangeCustom/, "Custom campaign change state is missing");
+assert.match(indexSource, /C\.competitorLogo\(competitor\.id\)/, "Competitor cards must render logo assets");
 
 const indexHtml = fs.readFileSync(new URL("../index.html", import.meta.url), "utf8");
 assert.match(indexHtml, /id="data-freshness"/, "Viewer data freshness indicator is missing");
 assert.match(indexHtml, /id="upcoming-expiries"/, "Upcoming expiry section is missing");
 assert.match(indexHtml, /id="recent-market-changes"/, "Recent market changes section is missing");
+assert.match(indexHtml, /value="custom"/, "Campaign changes chart is missing its custom-period option");
+assert.match(indexHtml, /class="section-nav"/, "Main-page scroll navigation is missing");
+for (const id of ["stc-bank", "barq", "mobily-pay", "tiqmo", "urpay", "alinma-pay"]) {
+  assert.ok(fs.existsSync(new URL(`../assets/logos/${id}.webp`, import.meta.url)), `Missing logo asset for ${id}`);
+}
 
 console.log("Chart renderer tests passed");
