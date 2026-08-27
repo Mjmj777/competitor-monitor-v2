@@ -179,4 +179,120 @@ assert aliexpress_post["review_required"] is False
 assert aliexpress["end_date"].startswith("2026-08-31")
 assert aliexpress["date_extraction_method"] == "linked_official_social_post"
 
+# Winner mechanics stay eligible for campaign matching; only actual result announcements
+# are quarantined as winner posts.
+assert not enhance.is_winner_announcement({"title": "Spend SAR 100 and enter to win — one winner every week"})
+assert not enhance.is_winner_announcement({"title": "Spend SAR 100 and enter to win — one winner every week", "post_role": "winner_announcement"})
+assert enhance.is_winner_announcement({"title": "Congratulations to our winner, who received the prize"})
+
+# Full review reconciliation scans the existing backlog, links safe matches, clears ordinary
+# awareness posts and leaves genuinely new promotions as Potential Campaign/Merchant Offer.
+canonical_campaign = official_item(
+    id="campaign:stc-bank:zero-fee-india",
+    content_type="campaign",
+    title="Zero-fee international transfers to India",
+    snippet="Transfer internationally to India with zero fees through STC Bank.",
+    evidence_snapshot="Valid from 19 August 2026 to 19 October 2026.",
+    review_required=False,
+    review_reasons=[],
+    verified=True,
+)
+campaign_post = social_post(
+    "post:stc-bank:instagram:zero-fee-india",
+    "Transfer internationally to India with zero fees until 19 October 2026",
+    competitor_id="stc-bank",
+    campaign_category="remittance",
+)
+awareness_post = social_post(
+    "post:stc-bank:x:security",
+    "Protect your account and never share your password",
+    competitor_id="stc-bank",
+    campaign_category="other",
+    platform="x",
+    link="https://x.com/stcbank/status/900",
+)
+potential_merchant = social_post(
+    "post:stc-bank:instagram:blue-cafe",
+    "Get 25% discount at Blue Cafe with your card",
+    competitor_id="stc-bank",
+    campaign_category="merchant",
+)
+website_duplicate = official_item(
+    id="detected:stc-bank:zero-fee-india-copy",
+    title="صفر رسوم على التحويل الدولي إلى الهند",
+    snippet="حوّل دوليًا إلى الهند بدون رسوم.",
+    link=canonical_campaign["official_campaign_page_url"],
+    official_campaign_page_url=canonical_campaign["official_campaign_page_url"],
+)
+manual_review = social_post(
+    "post:stc-bank:x:manual",
+    "A manually approved review decision",
+    competitor_id="stc-bank",
+    platform="x",
+    link="https://x.com/stcbank/status/901",
+    review_approved=True,
+)
+review_payload = {"items": [canonical_campaign, campaign_post, awareness_post, potential_merchant, website_duplicate, manual_review]}
+scan = enhance.rescan_needs_review(review_payload, config)
+assert scan["linked_social"] == 1
+assert campaign_post["campaign_id"] == canonical_campaign["id"]
+assert campaign_post["review_required"] is False
+assert awareness_post["content_type"] == "awareness" and awareness_post["review_required"] is False
+assert potential_merchant["suggested_record_type"] == "merchant_offer" and potential_merchant["review_required"] is True
+assert website_duplicate["duplicate_candidate_id"] == canonical_campaign["id"]
+assert manual_review["review_required"] is True
+assert enhance.consolidate_duplicates(review_payload) == 1
+assert website_duplicate["id"] not in {row["id"] for row in review_payload["items"]}
+
+# A lower-confidence review URL is retained as alternate evidence and never replaces the
+# canonical verified website URL during deduplication.
+canonical_url = "https://stcbank.com.sa/en/w/canonical-offer"
+target = official_item(id="campaign:canonical", content_type="campaign", official_campaign_page_url=canonical_url, primary_official_source_url=canonical_url, link=canonical_url, review_required=False, verified=True)
+source = official_item(id="detected:copy", official_campaign_page_url="https://stcbank.com.sa/en/w/unverified-copy", primary_official_source_url="https://stcbank.com.sa/en/w/unverified-copy", link="https://stcbank.com.sa/en/w/unverified-copy", source_verification={"status": "needs_review"})
+enhance.merge_into_campaign(target, source)
+assert target["official_campaign_page_url"] == canonical_url
+assert source["official_campaign_page_url"] in target["alternate_official_source_urls"]
+
+# Generic card mechanics are not enough to link a different promotion. Prize amounts and
+# specialised products must agree before the full scan auto-links them.
+zero_fee_card = official_item(
+    id="campaign:tiqmo:zero-fees",
+    competitor_id="tiqmo",
+    content_type="campaign",
+    campaign_category="card",
+    title="Zero International Card Transaction Fees",
+    snippet="Use the Platinum card with 0% international transaction fees.",
+    review_required=False,
+    review_reasons=[],
+    verified=True,
+)
+new_spend_campaign = social_post(
+    "post:tiqmo:facebook:new-spend",
+    "Spend More, Win More! Every riyal spent gets you closer to win SAR 100,000",
+    competitor_id="tiqmo",
+    campaign_category="card",
+    platform="facebook",
+)
+assert enhance.campaign_record_match(new_spend_campaign, [zero_fee_card], include_inactive=True) == (None, None)
+
+musaned_campaign = official_item(
+    id="campaign:alinma-pay:musaned",
+    competitor_id="alinma-pay",
+    content_type="campaign",
+    campaign_category="musaned",
+    title="Musaned Salary Transfer – 100% Cashback Draw",
+    snippet="Transfer a domestic worker salary through Musaned for a chance at 100% cashback.",
+    review_required=False,
+    review_reasons=[],
+    verified=True,
+)
+generic_card_cashback = social_post(
+    "post:alinma-pay:tiktok:new-customer",
+    "New customers get 100% cashback when shopping online with the card",
+    competitor_id="alinma-pay",
+    campaign_category="card",
+    platform="tiktok",
+)
+assert enhance.campaign_record_match(generic_card_cashback, [musaned_campaign], include_inactive=True) == (None, None)
+
 print("Source-aware classification regression tests passed")
