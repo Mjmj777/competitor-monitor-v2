@@ -215,9 +215,9 @@ def update_table(xml_bytes,last_row):
     if auto_filter is not None:auto_filter.set("ref",ref)
     return ET.tostring(root,encoding="utf-8",xml_declaration=True)
 
-def update_dashboard(xml_bytes,data,as_of,social_counts,campaigns):
+def update_dashboard(xml_bytes,data,as_of,research_cutoff,social_counts,campaigns):
     root=ET.fromstring(xml_bytes);sheet_data=root.find(f"{{{NS}}}sheetData");rows={int(r.attrib["r"]):r for r in sheet_data.findall(f"{{{NS}}}row")}
-    number(cell(rows[3],"B"),serial(as_of));cached(cell(rows[3],"E"),serial(as_of))
+    number(cell(rows[3],"B"),serial(research_cutoff));cached(cell(rows[3],"E"),serial(as_of))
     for cid,row_number in COMPETITOR_ROWS.items():
         row=rows[row_number]
         for offset,platform in enumerate(PLATFORMS,start=2):number(cell(row,chr(64+offset)),social_counts[cid][platform])
@@ -268,11 +268,11 @@ def update_workbook(xml_bytes):
 
 def main():
     if not TEMPLATE.exists():raise SystemExit(f"Missing Excel template: {TEMPLATE.name}")
-    data=json.loads(DATA.read_text(encoding="utf-8"));replace={};as_of=parse_date(data.get("generated_at")) or datetime.now(timezone.utc)
+    data=json.loads(DATA.read_text(encoding="utf-8"));replace={};as_of=datetime.now(timezone.utc);research_cutoff=parse_date(data.get("generated_at")) or as_of
     social_index=campaign_social_index(data);social_counts=social_activity(data,as_of)
     campaigns={cid:eligible(data,cid,as_of) for cid in SHEETS}
     with zipfile.ZipFile(TEMPLATE,"r") as zin:
-        replace["xl/worksheets/sheet1.xml"]=update_dashboard(zin.read("xl/worksheets/sheet1.xml"),data,as_of,social_counts,campaigns)
+        replace["xl/worksheets/sheet1.xml"]=update_dashboard(zin.read("xl/worksheets/sheet1.xml"),data,as_of,research_cutoff,social_counts,campaigns)
         for cid,(path,table_path,start) in SHEETS.items():
             updated,last_row=update_sheet(zin.read(path),campaigns[cid],start,merchant_offer_count(data,cid,as_of),social_index,as_of)
             replace[path]=updated;replace[table_path]=update_table(zin.read(table_path),last_row)

@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width,initial-scale=1.0">
   <title>Campaign Review Center</title>
-  <link rel="stylesheet" href="assets/styles.css?v=5.9.1">
+  <link rel="stylesheet" href="assets/styles.css?v=5.10.0">
 </head>
 <body>
   <header class="site-header">
@@ -20,7 +20,11 @@
       <nav class="breadcrumb"><a href="index.html">← <span data-i18n="back"></span></a></nav>
       <section class="review-hero">
         <div><span class="eyebrow" data-i18n="adminTools"></span><h1 data-i18n="reviewCenter"></h1><p data-i18n="reviewCenterHint"></p></div>
-        <strong id="review-total" class="review-total"></strong>
+        <div class="review-hero__actions">
+          <strong id="review-total" class="review-total"></strong>
+          <button id="review-full-scan" class="button button--secondary" type="button" data-refresh-control data-i18n="fullReviewScan"></button>
+          <small id="review-scan-summary" class="review-scan-summary"></small>
+        </div>
       </section>
       <section class="section review-controls">
         <div class="filter-grid">
@@ -52,7 +56,7 @@
     </div>
   </main>
   <footer class="footer"><span>Competitor Intelligence Dashboard</span><a class="footer-signout" href="/__logout" data-i18n="signOut"></a></footer>
-  <script src="assets/common.js?v=5.9.1" defer></script>
-  <script src="assets/review.js?v=5.9.1" defer></script>
+  <script src="assets/common.js?v=5.10.0" defer></script>
+  <script src="assets/review.js?v=5.10.0" defer></script>
 </body>
 </html>

@@ -276,6 +276,11 @@ try:
         fail('Persistent review audit/evidence model is missing')
     if 'id="review-confirm-merchants"' not in review_html or 'id="review-suggested"' not in review_html:
         fail('Potential Merchant Offer filter or separate bulk action is missing from review.html')
+    if 'id="review-full-scan"' not in review_html or 'C.triggerRefresh("all"' not in review_js:
+        fail('Full Needs Review reconciliation control is missing from the Admin review page')
+    enhance_source=(BASE/'enhance.py').read_text(encoding='utf-8')
+    if 'def rescan_needs_review(' not in enhance_source or 'data["full_review_scan"]' not in enhance_source:
+        fail('Full Needs Review reconciliation is not persisted by enhance.py')
     if 'confirm_merchant_offers_bulk' not in review_js or 'separateMerchantEligible' not in review_js:
         fail('Review UI does not persist selected Merchant Offers as separate records')
     if 'confirm_merchant_offers_bulk' not in worker or 'confirm_merchant_offers_bulk' not in apply_review:
@@ -291,6 +296,22 @@ try:
     if 'review.html' not in review_wf or 'review.html' not in monitor_wf:
         fail('Review page is not included in both deployment paths')
 except Exception as exc: fail(f'v5.9.1 Admin review guard failed: {exc}')
+
+# The report link must always fetch the current generated workbook and use the user's
+# download date in the visible filename. The generated workbook itself remains a stable
+# Pages artifact so GitHub Actions can replace it atomically.
+try:
+    idx=(BASE/'index.html').read_text(encoding='utf-8')
+    item=(BASE/'item.html').read_text(encoding='utf-8')
+    common=(BASE/'assets/common.js').read_text(encoding='utf-8')
+    exporter=(BASE/'export_excel.py').read_text(encoding='utf-8')
+    if 'data-report-download' not in idx or 'data-report-download' not in item:
+        fail('Current-report download hook is missing from index.html or item.html')
+    if 'Competitor-Analysis-${stamp}.xlsx' not in common or 'searchParams.set("download"' not in common:
+        fail('Dated, cache-busted report download naming is incomplete')
+    for marker in ('timedelta(days=14)','content_type")!="campaign"','merchant_offer_count','return sorted(rows','as_of=datetime.now(timezone.utc)'):
+        if marker not in exporter: fail(f'Latest Excel exporter rule is missing: {marker}')
+except Exception as exc: fail(f'v5.10.0 report download/export guard failed: {exc}')
 
 # v5.8.0 chart controls, interactivity and motion must stay wired to the UI.
 try:

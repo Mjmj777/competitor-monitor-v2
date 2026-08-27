@@ -4,7 +4,7 @@ from collections import Counter, defaultdict
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import Any
-from urllib.parse import parse_qsl, urlencode, urljoin, urlsplit
+from urllib.parse import parse_qsl, unquote, urlencode, urljoin, urlsplit
 
 import requests
 from bs4 import BeautifulSoup
@@ -30,7 +30,12 @@ MECHANICS = {
     "prize_draw":["win","winner","draw","prize","اربح","فائز","سحب","جائزة"],"reward":["reward","points","miles","مكافأة","نقاط","أميال"],"preferred_rate":["preferred rate","special rate","exchange rate","fx rate","سعر صرف","سعر تفضيلي"]
 }
 
-WINNER_ANNOUNCEMENT_WORDS=["winner","winners","congratulations","congrats","winner announcement","فائز","فائزة","فائزين","فائزينا","الفائز","الفائزة","الفائزين","مبروك","نبارك","تهانينا"]
+WINNER_ANNOUNCEMENT_PHRASES=(
+    "winner announcement", "announcing our winner", "meet our winner", "congratulations", "congrats",
+    "the winner is", "the winners are", "prize handover", "received the prize",
+    "مبروك", "نبارك", "تهانينا", "الفائز هو", "الفائزة هي", "الفائزون هم", "الفائزين هم",
+    "إعلان الفائز", "اعلان الفائز", "تسليم الجائزة", "استلم الجائزة", "استلمت الجائزة",
+)
 SOCIAL_HOSTS=("instagram.com","facebook.com","m.facebook.com","x.com","twitter.com","tiktok.com")
 AI_DATE_CALLS_THIS_RUN=0
 DETAIL_EXTRACTOR_VERSION="focused-detail-v3-mobily-en"
@@ -39,7 +44,19 @@ SOCIAL_MATCHER_VERSION="social-merchant-offer-v1"
 
 def is_winner_announcement(item):
     text=f"{item.get('title','')} {item.get('snippet','')}".casefold()
-    return item.get("post_role")=="winner_announcement" or any(w.casefold() in text for w in WINNER_ANNOUNCEMENT_WORDS)
+    # Re-evaluate legacy automatic role labels from the text. Older builds labelled any
+    # occurrence of "winner" (including campaign mechanics) as a result announcement.
+    if item.get("post_role")=="winner_announcement" and item.get("post_role_source")=="manual":return True
+    if any(phrase.casefold() in text for phrase in WINNER_ANNOUNCEMENT_PHRASES):return True
+    # "One winner every week" and "enter to win" describe campaign mechanics; they are
+    # not result announcements. Require a past/result verb before quarantining the post.
+    return bool(
+        re.search(r"\b(?:winner|winners)\b.{0,45}\b(?:announced|selected|received|won)\b",text,re.I)
+        or re.search(r"\b(?:announced|selected)\b.{0,45}\b(?:winner|winners)\b",text,re.I)
+        or re.search(r"(?:فاز|فازت|تم اختيار|تم إعلان|تم اعلان|استلم|استلمت).{0,45}(?:الفائز|الفائزة|الجائزة)",text,re.I)
+        or re.search(r"(?:الفائز(?:ون|ين)?|فائز(?:ون|ين)?).{0,45}(?:@|اليوم|هذا الأسبوع|هذا الاسبوع|تواصلوا|استلام)",text,re.I)
+        or re.search(r"(?:اليوم|هذا الأسبوع|هذا الاسبوع).{0,35}(?:الفائز(?:ون|ين)?|فائز(?:ون|ين)?)",text,re.I)
+    )
 
 def social_url(value):
     if not value:return False
@@ -1218,11 +1235,19 @@ _MERCHANT_MATCH_STOP = {
     "use", "using", "valid", "with", "your", "discount", "cashback", "cash", "back", "promo",
     "code", "card", "cards", "visa", "store", "restaurant", "hotel", "cafe", "shop",
     "barq", "stc", "bank", "mobily", "pay", "urpay", "tiqmo", "alinma",
+    "international", "transfer", "transfers", "transaction", "transactions", "send", "money",
+    "fee", "fees", "free", "platinum", "spend", "win", "winner", "winners", "draw", "prize",
+    "reward", "rewards", "purchase", "purchases", "products", "school", "back", "more", "sar",
+    "jan", "january", "feb", "february", "mar", "march", "apr", "april", "may", "jun", "june",
+    "jul", "july", "aug", "august", "sep", "sept", "september", "oct", "october", "nov", "november", "dec", "december",
     "استمتع", "استمتعوا", "احصل", "احصلوا", "استخدم", "استخدموا", "عرض", "عروض", "خصم",
     "بخصم", "كاش", "باك", "كود", "رمز", "القسيمة", "في", "من", "مع", "لدى", "على",
     "عند", "الدفع", "باستخدام", "بطاقة", "بطاقات", "فيزا", "حتى", "رائعة", "أجواء",
     "بأجواء", "اجواء", "باجواء", "متجر", "مطعم", "فندق", "كافيه", "مقهى", "تسوق",
     "برق", "تكمو", "يورباي", "موبايلي", "الانماء", "الإنماء", "باي",
+    "تحويل", "حوالة", "حوالات", "دولي", "دولية", "الدولية", "رسوم", "مجاني", "مجانية",
+    "اربح", "فائز", "فائزين", "سحب", "جائزة", "جوائز", "مكافأة", "مكافآت", "مشتريات",
+    "منتجات", "العودة", "مدارس", "المدارس", "ريال",
 }
 
 _SOCIAL_LINK_REVIEW_REASONS = {
@@ -1247,17 +1272,23 @@ def _merchant_match_tokens(value):
     ]
 
 
+def _item_url_tokens(item):
+    tokens=set()
+    for value in (item.get("official_campaign_page_url"),item.get("primary_official_source_url"),item.get("link")):
+        if not value or social_url(value):continue
+        try:
+            parts=urlsplit(str(value));segments=[unquote(segment) for segment in parts.path.split("/") if segment]
+            for segment in segments[-2:]:
+                tokens.update(_merchant_match_tokens(re.sub(r"[_-]+"," ",segment)))
+        except Exception:
+            continue
+    return tokens
+
+
 def _merchant_anchor_tokens(item):
-    tokens=_merchant_match_tokens(item.get("title"))
-    # A useful slug can rescue generic titles such as "Offer 49". Numeric/generic slugs do not.
-    try:
-        slug=(urlsplit(item.get("official_campaign_page_url") or item.get("link") or "").path.rstrip("/").split("/")[-1])
-    except Exception:
-        slug=""
-    slug_tokens=_merchant_match_tokens(re.sub(r"[_-]+"," ",slug))
-    if len(tokens)<1 and slug_tokens:
-        tokens=slug_tokens
-    return set(tokens)
+    # Include the official slug even when the visible title is Arabic. This safely joins
+    # bilingual versions such as "ميموزا" / "Mimosa" without a merchant-by-merchant taxonomy.
+    return set(_merchant_match_tokens(item.get("title"))) | _item_url_tokens(item)
 
 
 def _offer_match_values(value):
@@ -1270,6 +1301,14 @@ def _offer_match_values(value):
     )
     for pattern in code_patterns:
         found.update(f"code:{match.casefold()}" for match in re.findall(pattern,text,re.I))
+    # Prize/cashback amounts distinguish otherwise similar spend-and-win campaigns. Only
+    # capture an SAR amount when nearby wording says it is a prize/reward, not a spend floor.
+    amount_pattern=r"(?:\bsar\s*([\d,]{2,})|([\d,]{2,})\s*(?:sar\b|ريال))"
+    for match in re.finditer(amount_pattern,text,re.I):
+        context=text[max(0,match.start()-70):match.end()+70]
+        if not re.search(r"\b(?:win|winner|prize|cashback|reward)\b|(?:اربح|ربح|فائز|جائزة|كاش\s*باك|مكافأة)",context,re.I):continue
+        amount=(match.group(1) or match.group(2) or "").replace(",","").lstrip("0") or "0"
+        found.add(f"prize_sar:{amount}")
     return found
 
 
@@ -1311,14 +1350,14 @@ def _extract_social_offer_dates(post):
         post["date_extraction_method"]="official_social_explicit_text"
 
 
-def merchant_offer_match(post,candidates):
+def merchant_offer_match(post,candidates,include_inactive=False):
     """Match an official social poster to one existing website-backed Merchant Offer.
 
     A unique merchant name is required. Benefit values and validity dates disambiguate
     repeated offers from the same merchant. Conflicts never auto-link.
     """
     if is_winner_announcement(post):return None,None
-    offers=[row for row in candidates if row.get("active") is not False and _website_backed_merchant(row)]
+    offers=[row for row in candidates if (include_inactive or row.get("active") is not False) and _website_backed_merchant(row)]
     if not offers:return None,None
 
     # A direct outbound link to one specific website offer is conclusive. Shared modal/index
@@ -1334,21 +1373,26 @@ def merchant_offer_match(post,candidates):
         if evidence_ids & offer_ids:exact.append(offer)
     if len(exact)==1:return exact[0]["id"],"merchant_offer_exact_evidence"
 
-    post_tokens=set(_merchant_match_tokens(f"{post.get('title','')} {post.get('snippet','')}"))
+    post_tokens=set(_merchant_match_tokens(f"{post.get('title','')} {post.get('snippet','')}")) | _item_url_tokens(post)
     post_values=_offer_match_values(f"{post.get('title','')} {post.get('snippet','')}")
     scored=[];conflicted=[]
     for offer in offers:
-        anchor=_merchant_anchor_tokens(offer)
-        if not anchor:continue
-        overlap=anchor&post_tokens
-        if len(anchor)==1:
-            token=next(iter(anchor));name_score=.76 if len(token)>=4 and token in post_tokens else 0.0
-        elif anchor<=post_tokens:
-            name_score=.80
-        elif len(overlap)>=2 and len(overlap)/len(anchor)>=.67:
-            name_score=.62
-        else:
-            name_score=0.0
+        # Score the visible merchant name and official URL slug as alternative anchors.
+        # Joining them into one required token set would make an Arabic title + English slug
+        # impossible to match to either language on social media.
+        anchors=[set(_merchant_match_tokens(offer.get("title"))),_item_url_tokens(offer)]
+        name_score=0.0
+        for anchor in [value for value in anchors if value]:
+            overlap=anchor&post_tokens
+            if len(anchor)==1:
+                token=next(iter(anchor));score=.76 if len(token)>=4 and token in post_tokens else 0.0
+            elif anchor<=post_tokens:
+                score=.80
+            elif len(overlap)>=2 and len(overlap)/len(anchor)>=.67:
+                score=.62
+            else:
+                score=0.0
+            name_score=max(name_score,score)
         if not name_score:continue
 
         offer_values=_offer_match_values(f"{offer.get('title','')} {offer.get('summary','')} {offer.get('snippet','')} {offer.get('mechanic','')}")
@@ -1409,6 +1453,227 @@ def social_classification_content_key(post,candidates):
         json.dumps(row.get("offer_values") or [],ensure_ascii=False,sort_keys=True),
     ) for row in candidates)
     return hash_text(SOCIAL_MATCHER_VERSION,classification_content_key(post),*target_keys)
+
+
+_CAMPAIGN_MATCH_STOP={
+    "a","an","and","at","by","for","from","in","of","on","or","the","to","up","with","your",
+    "offer","offers","campaign","campaigns","promotion","promotions","exclusive","use","using","valid",
+    "barq","stc","bank","mobily","pay","urpay","tiqmo","alinma",
+    "عرض","عروض","حملة","حملات","استخدم","استخدموا","ساري","حتى","في","من","مع","على","لدى","عند",
+    "برق","تكمو","يورباي","موبايلي","الانماء","الإنماء","باي",
+}
+_CONCRETE_MECHANIC_TAGS={"discount","cashback","fee_waiver","prize_draw","reward","preferred_rate","spend_reward","referral"}
+_PRODUCT_TAGS={"remittance","musaned","sadad","card","salary","travel","bill_payment","wallet"}
+_AUTO_SOCIAL_REVIEW_REASONS={
+    "social_campaign_match_uncertain","social_post_cannot_create_campaign","ai_needs_review",
+    "new_social_campaign_needs_review","potential_merchant_offer_unmatched","invalid_cross_competitor_match",
+}
+
+
+def _campaign_match_tokens(item):
+    value=" ".join(str(item.get(field) or "") for field in ("title","summary","snippet","mechanic","eligibility","terms_note"))
+    value=unicodedata.normalize("NFKC",html_lib.unescape(value)).casefold().replace("ـ","")
+    value=ARABIC_DIACRITICS.sub("",value)
+    return {
+        token for token in re.findall(r"[\w%]+",value,re.UNICODE)
+        if len(token)>=2 and token not in _CAMPAIGN_MATCH_STOP and not token.isdigit()
+    }
+
+
+def _semantic_campaign_tags(item):
+    text=clean(" ".join(str(item.get(field) or "") for field in (
+        "title","summary","snippet","mechanic","eligibility","terms_note","evidence_snapshot",
+    )),12000).casefold()
+    tags=set(str(value).casefold() for value in (item.get("mechanic_tags") or []) if value)
+    for tag,markers in MECHANICS.items():
+        if any(marker.casefold() in text for marker in markers):tags.add(tag)
+    patterns={
+        "remittance":r"international\s+transfer|remittance|تحويل(?:ات)?\s+دولي|حوال(?:ة|ات)\s+دولي|الحوالات الدولية",
+        "musaned":r"\bmusaned\b|مساند|عمالة منزلية|domestic worker",
+        "sadad":r"\bsadad\b|سداد",
+        "card":r"\bcard\b|\bcards\b|visa|mastercard|بطاقة|بطاقات|فيزا",
+        "salary":r"\bsalary\b|\bpayroll\b|راتب|رواتب",
+        "travel":r"\btravel\b|\btrip\b|سفر|سافر|رحلة",
+        "bill_payment":r"\bbill(?:s)?\b|دفع الفواتير|فواتير",
+        "wallet":r"\bwallet\b|محفظة",
+        "referral":r"refer\s+(?:a\s+)?friend|referral|invite\s+friend|دعوة صديق|إحالة",
+        "spend_reward":r"spend\s+more|get\s+more|every\s+riyal\s+spent|كل\s+ريال|أنفق|انفق",
+    }
+    for tag,pattern in patterns.items():
+        if re.search(pattern,text,re.I):tags.add(tag)
+    category=str(item.get("campaign_category") or item.get("primary_category") or "").casefold()
+    if category and category!="merchant":tags.add(category)
+    tags.update(f"corridor:{value.casefold()}" for value in (item.get("corridors") or corridors(text)))
+    tags.update(_offer_match_values(text))
+    return tags
+
+
+def campaign_record_match(item,candidates,include_inactive=False):
+    """Find one existing campaign using official URLs, mechanics, values, corridors and dates."""
+    targets=[row for row in candidates if row.get("content_type")=="campaign" and (include_inactive or row.get("active") is not False)]
+    if not targets:return None,None
+    evidence=[item.get("official_evidence_url"),item.get("official_campaign_page_url"),item.get("primary_official_source_url")]
+    evidence.extend(item.get("outbound_links") or [])
+    evidence_ids={detail_url_identity(value) for value in evidence if value and not social_url(value)}
+    exact=[]
+    post_identity=social_identity(item.get("link")) if item.get("link") and social_url(item.get("link")) else ""
+    for target in targets:
+        target_urls={detail_url_identity(value) for value in (
+            target.get("official_campaign_page_url"),target.get("primary_official_source_url"),target.get("link"),
+        ) if value and not social_url(value)}
+        social_ids={social_identity(value) for value in (target.get("social_links") or {}).values() if value}
+        if (evidence_ids and evidence_ids&target_urls) or (post_identity and post_identity in social_ids):exact.append(target)
+    if len(exact)==1:return exact[0]["id"],"campaign_exact_evidence"
+
+    source_tokens=_campaign_match_tokens(item);source_tags=_semantic_campaign_tags(item)
+    source_values={value for value in source_tags if value.startswith(("pct:","code:","prize_sar:"))}
+    source_corridors={value for value in source_tags if value.startswith("corridor:")}
+    source_mechanics=source_tags&_CONCRETE_MECHANIC_TAGS
+    source_products=source_tags&_PRODUCT_TAGS
+    scored=[]
+    for target in targets:
+        target_tokens=_campaign_match_tokens(target);target_tags=_semantic_campaign_tags(target)
+        target_values={value for value in target_tags if value.startswith(("pct:","code:","prize_sar:"))}
+        target_corridors={value for value in target_tags if value.startswith("corridor:")}
+        target_mechanics=target_tags&_CONCRETE_MECHANIC_TAGS
+        target_products=target_tags&_PRODUCT_TAGS
+        source_title=campaign_title_key(item.get("title"));target_title=campaign_title_key(target.get("title"))
+        exact_title=bool(source_title and source_title==target_title and not generic_campaign_title(item.get("title")))
+        if source_values and not (source_values&target_values) and not exact_title:continue
+        if source_corridors and target_corridors and not (source_corridors&target_corridors):continue
+        compatible,date_bonus=_merchant_date_compatibility(item,target)
+        if not compatible:continue
+        overlap=source_tokens&target_tokens
+        lexical=len(overlap)/(min(len(source_tokens),len(target_tokens)) or 1)
+        shared_mechanics=source_mechanics&target_mechanics
+        shared_products=source_products&target_products
+        shared_values=source_values&target_values
+        shared_corridors=source_corridors&target_corridors
+        source_specific=source_products-{"card","travel","wallet"};target_specific=target_products-{"card","travel","wallet"}
+        # Never infer a specialised campaign (Musaned, SADAD, remittance, salary, etc.)
+        # from a generic card/cashback post that does not mention that product.
+        if target_specific and not (source_specific&target_specific) and lexical<.55 and not exact_title:continue
+        distinctive=(
+            exact_title or lexical>=.55 or bool(shared_values or shared_corridors or source_specific&target_specific)
+            or bool(shared_mechanics&{"spend_reward","referral"}) or len(shared_mechanics)>=2
+        )
+        if not distinctive:continue
+        score=.82 if exact_title else min(.46,lexical*.56)
+        if shared_mechanics:score+=.30+min(.08,.04*(len(shared_mechanics)-1))
+        if shared_products:score+=.16
+        if shared_values:score+=.22
+        if shared_corridors:score+=.18
+        if item.get("campaign_category") and item.get("campaign_category")==target.get("campaign_category"):score+=.08
+        score+=date_bonus
+        scored.append((score,target))
+    if not scored:return None,None
+    scored.sort(key=lambda row:(row[0],row[1].get("start_date") or "",row[1].get("id") or ""),reverse=True)
+    best_score,best=scored[0];second_score=scored[1][0] if len(scored)>1 else 0.0
+    if best_score>=.64 and (len(scored)==1 or best_score-second_score>=.12):return best["id"],"campaign_semantic_strong"
+    if best_score>=.46:return best["id"],"campaign_semantic_suggested"
+    return None,None
+
+
+def social_promotion_type(item):
+    """Return a safe potential record type, or None for ordinary non-promotional content."""
+    text=clean(f"{item.get('title','')} {item.get('snippet','')}",12000).casefold()
+    tags=_semantic_campaign_tags(item);values=_offer_match_values(text);mechanics=tags&_CONCRETE_MECHANIC_TAGS
+    concrete=bool(mechanics or values or re.search(r"(?:\bpromo\s*code\b|كود\s+الخصم|رمز\s+الخصم)",text,re.I))
+    if not concrete:return None
+    merchant_tokens=set(_merchant_match_tokens(text)) | _item_url_tokens(item)
+    explicit_partner=bool(
+        item.get("campaign_category")=="merchant"
+        or re.search(r"(?:discount\s+(?:at|with|from)|promo\s*code|خصم\s+(?:لدى|في|مع)|كود\s+الخصم|رمز\s+الخصم)",text,re.I)
+        or (values and merchant_tokens and not (tags&{"remittance","musaned","sadad","salary"}))
+    )
+    return "merchant_offer" if explicit_partner and merchant_tokens else "campaign"
+
+
+def _specific_official_identities(item,config):
+    identities=set()
+    for value in (item.get("official_campaign_page_url"),item.get("primary_official_source_url"),item.get("official_evidence_url"),item.get("link")):
+        if not value or social_url(value) or generic_offers_url(value,config,item.get("competitor_id")):continue
+        identity=detail_url_identity(value)
+        if identity:identities.add(identity)
+    return identities
+
+
+def rescan_needs_review(data,config):
+    """Reconcile every Needs Review row with all known records, then clear routine content.
+
+    The scan never creates a counted campaign from social media. High-confidence matches link
+    to an existing record; unmatched promotional posts remain Potential Campaign/Merchant Offer;
+    ordinary non-promotional posts leave the review queue as Awareness.
+    """
+    rows=data.get("items",[]);before=sum(i.get("active") is not False and i.get("review_required") for i in rows)
+    targets=[i for i in rows if i.get("content_type") in {"campaign","merchant_offer"} and i.get("source_type")!="social" and not i.get("deleted")]
+    byid={i.get("id"):i for i in targets if i.get("id")}
+    url_targets=defaultdict(list)
+    for target in targets:
+        for identity in _specific_official_identities(target,config):url_targets[(target.get("competitor_id"),identity)].append(target)
+    summary={"review_before":before,"linked_social":0,"matched_website_duplicates":0,"awareness_cleared":0,"potential_campaigns":0,"potential_merchant_offers":0,"stale_reasons_cleared":0}
+
+    for item in [row for row in rows if row.get("review_required")]:
+        if item.get("review_approved") or item.get("review_decision") in {"confirm_campaign","confirm_merchant_offer","confirm_merchant_offers_bulk","group_campaign","link_existing"}:continue
+        competitor=item.get("competitor_id");candidates=[target for target in targets if target.get("competitor_id")==competitor]
+        if item.get("source_type")=="website":
+            hint=verified_official_hint(item) or item.get("suggested_record_type")
+            exact=[]
+            for identity in _specific_official_identities(item,config):exact.extend(url_targets.get((competitor,identity),[]))
+            exact=list({row.get("id"):row for row in exact if row.get("id")!=item.get("id")}.values())
+            if hint in {"campaign","merchant_offer"}:
+                typed=[row for row in exact if row.get("content_type")==hint]
+                if typed:exact=typed
+            target=sorted(exact,key=campaign_rank,reverse=True)[0] if exact else None
+            if not target:
+                if hint=="merchant_offer":
+                    match,method=merchant_offer_match(item,candidates,include_inactive=True)
+                    if method in {"merchant_offer_exact_evidence","merchant_name_value_date"}:target=byid.get(match)
+                    elif match:item["suggested_campaign_id"]=match
+                elif hint=="campaign":
+                    match,method=campaign_record_match(item,candidates,include_inactive=True)
+                    if method in {"campaign_exact_evidence","campaign_semantic_strong"}:target=byid.get(match)
+                    elif match:item["suggested_campaign_id"]=match
+            if target:
+                item["duplicate_candidate_id"]=target["id"]
+                item["review_reasons"]=["possible_duplicate_existing_record"]
+                summary["matched_website_duplicates"]+=1
+            continue
+
+        if item.get("source_type")!="social":continue
+        winner_post=is_winner_announcement(item)
+        if not winner_post and item.get("post_role")=="winner_announcement" and item.get("post_role_source")!="manual":item.pop("post_role",None)
+        if not winner_post and "winner_announcement_unlinked" in (item.get("review_reasons") or []):
+            item["review_reasons"]=[reason for reason in item.get("review_reasons",[]) if reason!="winner_announcement_unlinked"]
+            summary["stale_reasons_cleared"]+=1
+        existing=byid.get(item.get("campaign_id"))
+        if existing and existing.get("competitor_id")==competitor:
+            _link_social_post(item,existing,item.get("match_method") or "full_review_existing_link");summary["linked_social"]+=1;continue
+        merchant_match,merchant_method=merchant_offer_match(item,candidates,include_inactive=True)
+        if merchant_method in {"merchant_offer_exact_evidence","merchant_name_value_date"} and merchant_match in byid:
+            _link_social_post(item,byid[merchant_match],f"full_review_{merchant_method}");summary["linked_social"]+=1;continue
+        campaign_match,campaign_method=campaign_record_match(item,candidates,include_inactive=True)
+        if campaign_method in {"campaign_exact_evidence","campaign_semantic_strong"} and campaign_match in byid:
+            _link_social_post(item,byid[campaign_match],f"full_review_{campaign_method}");summary["linked_social"]+=1;continue
+        if merchant_match:item["suggested_campaign_id"]=merchant_match
+        elif campaign_match:item["suggested_campaign_id"]=campaign_match
+        potential=social_promotion_type(item)
+        if not potential and not winner_post:
+            remaining=[reason for reason in (item.get("review_reasons") or []) if reason not in _AUTO_SOCIAL_REVIEW_REASONS and reason!="winner_announcement_unlinked"]
+            item["content_type"]="awareness";item["review_reasons"]=remaining;item["review_required"]=bool(remaining)
+            item.pop("suggested_record_type",None);item.pop("suggested_campaign_id",None)
+            if not remaining and item.get("current_status")=="Needs Review":item.pop("current_status",None)
+            item["review_resolution_method"]="full_review_non_promotional"
+            summary["awareness_cleared"]+=1
+            continue
+        potential=potential or "campaign"
+        item["content_type"]="review";item["suggested_record_type"]=potential;item["review_required"]=True;item["current_status"]="Needs Review"
+        keep=[reason for reason in (item.get("review_reasons") or []) if reason not in _AUTO_SOCIAL_REVIEW_REASONS]
+        reason="potential_merchant_offer_unmatched" if potential=="merchant_offer" else "new_social_campaign_needs_review"
+        item["review_reasons"]=list(dict.fromkeys(keep+[reason]))
+        summary["potential_merchant_offers" if potential=="merchant_offer" else "potential_campaigns"]+=1
+    summary["completed_at"]=iso(now())
+    return summary
 
 def openai_client():
     if not os.environ.get("OPENAI_API_KEY"): return None
@@ -1719,10 +1984,20 @@ def title_similarity(a,b):
     return len(aa&bb)/(len(aa|bb) or 1)
 
 def merge_into_campaign(target, source):
-    if source.get("official_campaign_page_url"):
-        target["official_campaign_page_url"]=source["official_campaign_page_url"]
-        target["primary_official_source_url"]=source["official_campaign_page_url"]
-        target["link"]=source["official_campaign_page_url"]
+    source_url=source.get("official_campaign_page_url") or source.get("primary_official_source_url")
+    target_url=target.get("official_campaign_page_url") or target.get("primary_official_source_url")
+    source_verified=(source.get("source_verification") or {}).get("status")=="verified_website"
+    target_verified=(target.get("source_verification") or {}).get("status")=="verified_website"
+    # A stale Needs Review row must never replace a proven canonical URL. Preserve it as
+    # supporting evidence unless it is the first URL or carries stronger verification.
+    if source_url and (not target_url or (source_verified and not target_verified)):
+        if target_url and detail_url_identity(target_url)!=detail_url_identity(source_url):
+            target["alternate_official_source_urls"]=list(dict.fromkeys((target.get("alternate_official_source_urls") or [])+[target_url]))
+        target["official_campaign_page_url"]=source_url
+        target["primary_official_source_url"]=source_url
+        target["link"]=source_url
+    elif source_url and detail_url_identity(source_url)!=detail_url_identity(target_url):
+        target["alternate_official_source_urls"]=list(dict.fromkeys((target.get("alternate_official_source_urls") or [])+[source_url]))
     links=dict(target.get("social_links") or {}); links.update({k:v for k,v in (source.get("social_links") or {}).items() if v})
     target["social_links"]=links; target["social_link_count"]=len(links)
     for f in ["summary","snippet","start_date","end_date","published_at","mechanic","eligibility","terms_note","evidence_snapshot"]:
@@ -1791,8 +2066,13 @@ def consolidate_duplicates(data):
     # Explicit AI/heuristic link to an existing authoritative campaign.
     for row in items:
         target_id=row.get("duplicate_candidate_id")
-        if target_id in byid and row.get("id")!=target_id:
-            merge_into_campaign(byid[target_id],row);remove.add(row.get("id"));redirect[row.get("id")]=target_id
+        target=byid.get(target_id)
+        if (
+            target and row.get("id")!=target_id
+            and target.get("competitor_id")==row.get("competitor_id")
+            and target.get("content_type") in {"campaign","merchant_offer"}
+        ):
+            merge_into_campaign(target,row);remove.add(row.get("id"));redirect[row.get("id")]=target_id
 
     campaigns=[i for i in items if i.get("id") not in remove and i.get("content_type") in {"campaign","merchant_offer"}]
     campaigns.sort(key=campaign_rank,reverse=True)
@@ -1831,6 +2111,44 @@ def consolidate_duplicates(data):
             sid=p.get("suggested_campaign_id")
             if sid in redirect:p["suggested_campaign_id"]=redirect[sid]
     data["deduplication"]={"removed":len(remove),"at":iso(now())}
+    return len(remove)
+
+
+def consolidate_review_duplicates(data,config):
+    """Remove only exact official-URL duplicates that remain inside Needs Review.
+
+    This intentionally avoids fuzzy title merging. Two genuine promotions can have similar
+    wording, while a normalized official detail URL is safe enough to represent one record.
+    """
+    items=data.get("items",[]);groups=defaultdict(list)
+    for item in items:
+        if not item.get("review_required") or item.get("source_type")!="website":continue
+        identities=_specific_official_identities(item,config)
+        for identity in identities:groups[(item.get("competitor_id"),identity)].append(item)
+    remove=set();redirect={}
+    for rows in groups.values():
+        remaining=[row for row in rows if row.get("id") not in remove]
+        if len(remaining)<2:continue
+        def review_rank(row):
+            sv=row.get("source_verification") or {}
+            return (
+                sv.get("status")=="verified_website",
+                bool(row.get("verified")),
+                bool(row.get("end_date"))+bool(row.get("start_date")),
+                len(clean(row.get("summary") or row.get("snippet"),5000)),
+                dt(row.get("last_changed")) or datetime.min.replace(tzinfo=timezone.utc),
+            )
+        keeper=max(remaining,key=review_rank)
+        for row in remaining:
+            if row is keeper:continue
+            merge_into_campaign(keeper,row)
+            keeper["review_reasons"]=list(dict.fromkeys((keeper.get("review_reasons") or [])+(row.get("review_reasons") or [])))
+            remove.add(row.get("id"));redirect[row.get("id")]=keeper.get("id")
+    if remove:
+        data["items"]=[item for item in items if item.get("id") not in remove]
+        for item in data["items"]:
+            for field in ("campaign_id","suggested_campaign_id","duplicate_candidate_id"):
+                if item.get(field) in redirect:item[field]=redirect[item[field]]
     return len(remove)
 
 def detect_duplicates_replacements(data):
@@ -2034,8 +2352,39 @@ def main():
     cli=cli_args();target=clean(cli.competitor or "all")
     data=load(DATA_PATH,{});state=load(STATE_PATH,{"schema_version":5,"items":{}});config=load(CONFIG_PATH,{});overrides=load(OVERRIDES_PATH,{"items":{},"new_items":[]})
     if not data.get("items"):print("No data items");return 0
+    initial_review_count=sum(item.get("active") is not False and item.get("review_required") for item in data.get("items",[]))
     if target.casefold() not in {"", "all", "*"}:print(f"[TARGET] detail verification for {target}")
-    repair_legacy_mobily_text(data);apply_manual_deletions(data,overrides);add_manual_new_items(data,overrides);verify_details(data,state,config,overrides,target);apply_mobily_deterministic_classification(data);apply_verified_official_classification(data,config);enforce_record_integrity(data,config);enrich_social(data,state,config,overrides);apply_mobily_deterministic_classification(data);apply_verified_official_classification(data,config);normalize_winner_announcements(data);enforce_record_integrity(data,config);consolidate_duplicates(data);apply_manual_deletions(data,overrides);apply_mobily_deterministic_classification(data);apply_verified_official_classification(data,config);finalize_counted_statuses(data,overrides,config);recompute_social_analytics(data);sanitize_campaign_media(data);detect_duplicates_replacements(data)
+    repair_legacy_mobily_text(data)
+    apply_manual_deletions(data,overrides)
+    add_manual_new_items(data,overrides)
+    verify_details(data,state,config,overrides,target)
+    apply_mobily_deterministic_classification(data)
+    apply_verified_official_classification(data,config)
+    enforce_record_integrity(data,config)
+    enrich_social(data,state,config,overrides)
+    apply_mobily_deterministic_classification(data)
+    apply_verified_official_classification(data,config)
+
+    # Every run now reconciles the complete Needs Review backlog with all canonical
+    # campaigns and merchant offers, instead of looking only at newly fetched rows.
+    scan_summary=rescan_needs_review(data,config)
+    normalize_winner_announcements(data)
+    enforce_record_integrity(data,config)
+    scan_summary["counted_duplicates_removed"]=consolidate_duplicates(data)
+    scan_summary["review_duplicates_removed"]=consolidate_review_duplicates(data,config)
+
+    apply_manual_deletions(data,overrides)
+    apply_mobily_deterministic_classification(data)
+    apply_verified_official_classification(data,config)
+    finalize_counted_statuses(data,overrides,config)
+    recompute_social_analytics(data)
+    sanitize_campaign_media(data)
+    detect_duplicates_replacements(data)
+    scan_summary["review_after"]=sum(item.get("active") is not False and item.get("review_required") for item in data.get("items",[]))
+    scan_summary["reconciliation_review_before"]=scan_summary["review_before"]
+    scan_summary["review_before"]=initial_review_count
+    scan_summary["cleaned"]=max(0,scan_summary["review_before"]-scan_summary["review_after"])
+    data["full_review_scan"]=scan_summary
     for item in data.get("items",[]):
         item["review_priority"]=review_priority(item);item.pop("confidence",None) # confidence stays internal, never a displayed score
     snap=snapshot_campaigns(data["items"]);delta=material_delta(state.get("summary_snapshot",{}),snap);summary=ai_summary(data["items"],delta,state,config)

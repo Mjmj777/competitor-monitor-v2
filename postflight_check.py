@@ -70,6 +70,15 @@ except Exception as exc:
     print('POST-FLIGHT FAILED\n - Cannot load data/config:',exc);raise SystemExit(1)
 
 items=data.get('items',[]);byid={i.get('id'):i for i in items};valid_comp={c.get('id') for c in config.get('competitors',[])}
+scan=data.get('full_review_scan') or {}
+actual_review=sum(i.get('active') is not False and i.get('review_required') for i in items)
+if not scan.get('completed_at'):fail('Full Needs Review reconciliation summary is missing')
+if int(scan.get('review_after',-1))!=actual_review:fail(f'Full review summary reports {scan.get("review_after")}, actual queue is {actual_review}')
+if int(scan.get('review_before',0))<actual_review:fail('Full review reconciliation increased the Needs Review queue unexpectedly')
+routine_reasons={'social_campaign_match_uncertain','social_post_cannot_create_campaign','ai_needs_review','new_social_campaign_needs_review','potential_merchant_offer_unmatched'}
+for row in items:
+    if row.get('content_type')=='awareness' and routine_reasons&set(row.get('review_reasons') or []):
+        fail(f"{row.get('id')}: awareness content retained a promotional review reason")
 # Every configured discovery source should have a status row after monitor execution.
 generated_at=datetime.fromisoformat(str(data.get('generated_at') or '1970-01-01T00:00:00+00:00').replace('Z','+00:00'))
 if generated_at.tzinfo is None:generated_at=generated_at.replace(tzinfo=timezone.utc)
