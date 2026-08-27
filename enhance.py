@@ -39,8 +39,8 @@ WINNER_ANNOUNCEMENT_PHRASES=(
 SOCIAL_HOSTS=("instagram.com","facebook.com","m.facebook.com","x.com","twitter.com","tiktok.com")
 AI_DATE_CALLS_THIS_RUN=0
 DETAIL_EXTRACTOR_VERSION="focused-detail-v3-mobily-en"
-CLASSIFIER_VERSION="classifier-v5-merchant-candidates"
-SOCIAL_MATCHER_VERSION="social-merchant-offer-v1"
+CLASSIFIER_VERSION="classifier-v6-merchant-review-cleanup"
+SOCIAL_MATCHER_VERSION="social-merchant-offer-v2"
 
 def is_winner_announcement(item):
     text=f"{item.get('title','')} {item.get('snippet','')}".casefold()
@@ -192,7 +192,8 @@ def enforce_record_integrity(data, config):
             # was successfully fetched and verified. A stale AI cache can never bypass this.
             if item.get("source_type")=="website" and item.get("official_discovery") and not item.get("review_approved"):
                 sv=(item.get("source_verification") or {}).get("status")
-                if sv!="verified_website":
+                listing_merchant=item.get("content_type")=="merchant_offer" and trusted_barq_listing_merchant(item,config)
+                if sv!="verified_website" and not listing_merchant:
                     suggested=item.get("content_type")
                     item["content_type"]="review"
                     item["suggested_record_type"]=suggested
@@ -369,6 +370,27 @@ def likely_named_merchant_offer(item, text):
     )
 
 
+def trusted_barq_listing_merchant(item, config):
+    """Accept a current named Barq partner card when its detail URL rejects direct fetches.
+
+    Barq's official offers index is browser-rendered and some current partner links return 404
+    to the verification client. A freshly rediscovered named `merchant × barq` card with dated
+    offer evidence is still first-party evidence; this exception never applies to campaigns.
+    """
+    if item.get("competitor_id")!="barq" or item.get("source_type")!="website" or not item.get("official_discovery"):
+        return False
+    if not item.get("verified") or item.get("active") is False or not accepted_direct_source(item,config):
+        return False
+    seen=dt(item.get("last_seen"))
+    if not seen or seen<now()-timedelta(days=3):
+        return False
+    title=clean(item.get("title"),500).casefold()
+    evidence=clean(" ".join(str(item.get(k) or "") for k in ("summary","snippet","evidence_snapshot")),6000).casefold()
+    named_pattern=bool(re.search(r"(?:^|\s)[x×](?:\s|$)",title,re.I) and re.search(r"\bbarq\b|برق",title,re.I))
+    partner_evidence=bool(re.search(r"visa|فيزا|partner|شراك",evidence,re.I) and re.search(r"offer|عرض",f"{title} {evidence}",re.I))
+    return bool(named_pattern and partner_evidence and item.get("start_date"))
+
+
 def verified_official_hint(item):
     """Conservatively classify a verified first-party offer detail page.
 
@@ -443,7 +465,8 @@ def apply_verified_official_classification(data, config):
             item["active"] = False
             item["current_status"] = "Expired"
             continue
-        verified = (item.get("source_verification") or {}).get("status") == "verified_website"
+        listing_verified=hint=="merchant_offer" and trusted_barq_listing_merchant(item,config)
+        verified = (item.get("source_verification") or {}).get("status") == "verified_website" or listing_verified
         if not verified or not accepted_direct_source(item, config):
             item["content_type"] = "review"
             item["suggested_record_type"] = hint
@@ -470,7 +493,7 @@ def apply_verified_official_classification(data, config):
         item["active"] = active
         item["review_required"] = False
         item["review_reasons"] = [r for r in (item.get("review_reasons") or []) if r not in _CLASSIFICATION_REVIEW_REASONS]
-        item["classification_method"] = "verified_official_rules_v5"
+        item["classification_method"] = "verified_official_listing_merchant_v1" if listing_verified else "verified_official_rules_v6"
         if previous != hint:
             changed += 1
     data["verified_official_classification"] = {"changed": changed, "at": iso(current), "version": CLASSIFIER_VERSION}
@@ -1264,6 +1287,7 @@ _MERCHANT_MATCH_STOP = {
 _SOCIAL_LINK_REVIEW_REASONS = {
     "social_campaign_match_uncertain", "social_post_cannot_create_campaign", "ai_needs_review",
     "new_social_campaign_needs_review", "invalid_cross_competitor_match", "merchant_offer_match_conflict",
+    "potential_merchant_offer_unmatched",
 }
 
 
@@ -1718,13 +1742,92 @@ def ai_classify(posts,campaigns,state,config):
     allowed_campaigns=[{"id":c["id"],"competitor_id":c.get("competitor_id"),"record_type":c.get("content_type"),"title":clean(c.get("title"),300),"category":c.get("campaign_category"),"mechanic":clean(c.get("mechanic"),600),"corridors":c.get("corridors",[]),"offer_values":c.get("offer_values",[]),"start_date":c.get("start_date"),"end_date":c.get("end_date")} for c in campaigns if c.get("active") is not False and c.get("competitor_id") in relevant_competitors]
     rows=[{"id":p["id"],"competitor_id":p.get("competitor_id"),"source_type":p.get("source_type"),"title":clean(p.get("title"),300),"text":clean(p.get("snippet"),1600),"platform":p.get("platform"),"published_at":p.get("published_at"),"start_date":p.get("start_date"),"end_date":p.get("end_date"),"official_url":p.get("official_campaign_page_url") or p.get("link")} for p in posts]
     categories=["remittance","musaned","sadad","card","engagement","merchant","other"]
-    schema={"type":"object","additionalProperties":False,"properties":{"items":{"type":"array","items":{"type":"object","additionalProperties":False,"properties":{"id":{"type":"string"},"decision":{"type":"string","enum":["link","review","standalone"]},"record_type":{"type":"string","enum":["campaign","merchant_offer","social_post","awareness","review"]},"category":{"type":"string","enum":categories},"matched_campaign_id":{"type":["string","null"]}},"required":["id","decision","record_type","category","matched_campaign_id"]}}},"required":["items"]}
-    instructions="""Classify official competitor intelligence items for a Saudi fintech monitor. Respect source_type. For source_type=social, a post NEVER creates a counted campaign by itself: winner announcements, congratulations, reminders, result/follow-up posts should link to an existing same-competitor campaign when clearly supported, otherwise decision=review. When a social poster clearly names the same retailer/restaurant/hotel/merchant as an existing merchant_offer and its discount, promo code or validity dates are compatible, decision=link to that merchant_offer; obvious Arabic/English transliterations of the same merchant name are valid evidence. If the same merchant has multiple offers, require compatible benefit values or dates. For source_type=website, a specific detail page discovered from the competitor's configured official offers page may be classified as campaign or merchant_offer. A merchant/partner discount at a named retailer, restaurant, hotel, clinic, store or partner using a card/promo code is merchant_offer and must NOT be a campaign KPI. A campaign is the competitor's own promotional mechanic such as remittance pricing/cashback/prizes, card-spend campaign, SADAD/Musaned promotion, or engagement competition. NEVER link across competitors. Link only when meaning, product/corridor and mechanic support the match. Product awareness without a concrete mechanic is awareness/review. If uncertain use decision=review. Return only the schema. Do not invent dates, values or campaigns."""
+    schema={"type":"object","additionalProperties":False,"properties":{"items":{"type":"array","items":{"type":"object","additionalProperties":False,"properties":{"id":{"type":"string"},"decision":{"type":"string","enum":["link","review","standalone"]},"record_type":{"type":"string","enum":["campaign","merchant_offer","social_post","awareness","review"]},"category":{"type":"string","enum":categories},"matched_campaign_id":{"type":["string","null"]},"confidence":{"type":"number","minimum":0,"maximum":1},"merchant_name":{"type":["string","null"]}},"required":["id","decision","record_type","category","matched_campaign_id","confidence","merchant_name"]}}},"required":["items"]}
+    instructions="""Classify official competitor intelligence items for a Saudi fintech monitor. Respect source_type. For source_type=social, a post NEVER creates a counted campaign by itself: winner announcements, congratulations, reminders, result/follow-up posts should link to an existing same-competitor campaign when clearly supported, otherwise decision=review. A social post MAY be decision=standalone, record_type=merchant_offer only when it clearly names a retailer/restaurant/hotel/merchant and states a concrete benefit such as a discount, cashback, promo code or dated partner offer; use confidence>=0.90 only when this is explicit. Return the normalized merchant_name for Merchant Offers. When a social poster clearly names the same merchant as an existing merchant_offer and its discount, promo code or validity dates are compatible, decision=link to that merchant_offer; obvious Arabic/English transliterations are valid evidence. If the same merchant has multiple offers, require compatible benefit values, codes or dates. For source_type=website, a specific detail page discovered from the competitor's configured official offers page may be classified as campaign or merchant_offer. A merchant/partner discount at a named retailer, restaurant, hotel, clinic, store or partner using a card/promo code is merchant_offer and must NOT be a campaign KPI. A campaign is the competitor's own promotional mechanic such as remittance pricing/cashback/prizes, card-spend campaign, SADAD/Musaned promotion, or engagement competition. NEVER link across competitors. Link only when meaning, product/corridor and mechanic support the match. Product awareness without a concrete mechanic is awareness. If uncertain use decision=review. Return only the schema. Do not invent dates, values, merchants or campaigns."""
     try:
         r=client.responses.create(model=model,reasoning={"effort":config.get("ai",{}).get("classification_reasoning","low")},text={"format":{"type":"json_schema","name":"post_classification","schema":schema,"strict":True}},input=[{"role":"system","content":instructions},{"role":"user","content":json.dumps({"campaigns":allowed_campaigns,"posts":rows},ensure_ascii=False)}])
         result=json.loads(r.output_text); inp,out=usage_numbers(r); add_usage(state,"classification",model,inp,out,config); return {x["id"]:x for x in result.get("items",[])}
     except Exception as exc:
         print(f"[AI classification] {type(exc).__name__}: {exc}");return {}
+
+
+def ai_classify_batched(posts,campaigns,state,config):
+    """Classify a large review backlog in bounded cached API calls."""
+    batch_size=max(1,min(50,int(config.get("ai",{}).get("classification_batch_size",40))))
+    decisions={}
+    for offset in range(0,len(posts),batch_size):
+        decisions.update(ai_classify(posts[offset:offset+batch_size],campaigns,state,config))
+    return decisions
+
+
+def _social_merchant_group_key(post):
+    if post.get("source_type")!="social" or post.get("campaign_id") or post.get("active") is False:
+        return None
+    if is_winner_announcement(post) or social_promotion_type(post)!="merchant_offer":
+        return None
+    published=dt(post.get("published_at"))
+    title_key=campaign_title_key(post.get("title") or post.get("snippet"))
+    if not published or len(title_key)<5:
+        return None
+    return post.get("competitor_id"),published.date().isoformat(),title_key
+
+
+def _create_social_merchant_offer(data,posts,method,merchant_name=None):
+    """Create one canonical Merchant Offer and attach its official social evidence."""
+    posts=[post for post in posts if post.get("source_type")=="social" and post.get("link")]
+    if not posts:return None
+    posts.sort(key=lambda post:dt(post.get("published_at")) or datetime.max.replace(tzinfo=timezone.utc))
+    first=posts[0];competitor=first.get("competitor_id")
+    signature=campaign_title_key(first.get("title") or first.get("snippet"))
+    offer_id=f"social-merchant:{competitor}:{hash_text(signature,first.get('published_at','')[:10])}"
+    existing=next((row for row in data.get("items",[]) if row.get("id")==offer_id),None)
+    if existing:
+        for post in posts:_link_social_post(post,existing,method)
+        return existing
+    start=dt(first.get("published_at")) or now()
+    ends=[dt(post.get("end_date")) for post in posts if dt(post.get("end_date"))]
+    end=max(ends) if ends else None
+    title=clean(first.get("title") or first.get("snippet") or merchant_name or "Merchant offer",300)
+    links={}
+    for post in posts:
+        if post.get("platform") and post.get("link"):links.setdefault(post["platform"],post["link"])
+    status,active=status_for({"start_date":iso(start),"end_date":iso(end)})
+    offer={
+        "id":offer_id,"competitor_id":competitor,"source_type":"official_social_group",
+        "content_type":"merchant_offer","suggested_record_type":"merchant_offer",
+        "campaign_category":"merchant","primary_category":"merchant","categories":["merchant"],
+        "title":title,"merchant_name":clean(merchant_name,200) or None,"summary":clean(first.get("snippet") or first.get("title"),1600),
+        "snippet":clean(first.get("snippet") or first.get("title"),1600),
+        "link":first.get("link"),"primary_official_source_url":first.get("link"),
+        "official_evidence_url":first.get("link"),"social_links":links,
+        "start_date":iso(start),"end_date":iso(end),"start_date_basis":"first_verified_social_post",
+        "start_date_evidence_type":"first_verified_social_post","start_date_estimated":True,
+        "start_date_source_url":first.get("link"),"current_status":status,"active":active,
+        "verified":True,"review_required":False,"review_reasons":[],
+        "source_verification":{"status":"verified_social","verification_method":method,"source_url":first.get("link"),"checked_at":iso(now())},
+        "classification_method":method,"offer_values":sorted(set().union(*(_offer_match_values(f"{post.get('title','')} {post.get('snippet','')}") for post in posts))),
+        "mechanic_tags":sorted(set().union(*(_semantic_campaign_tags(post)&_CONCRETE_MECHANIC_TAGS for post in posts))),
+        "corridors":sorted(set().union(*(set(post.get("corridors") or []) for post in posts))),
+        "first_seen":iso(start),"last_seen":iso(max((dt(post.get("published_at")) or start for post in posts))),
+        "last_changed":iso(start),"change_history":[{"at":iso(start),"type":"detected_from_official_social","version":1}],
+    }
+    data.setdefault("items",[]).append(offer)
+    for post in posts:_link_social_post(post,offer,method)
+    return offer
+
+
+def promote_repeated_social_merchant_offers(data):
+    """Collapse the same offer posted on multiple official platforms into one record."""
+    groups=defaultdict(list)
+    for post in data.get("items",[]):
+        key=_social_merchant_group_key(post)
+        if key:groups[key].append(post)
+    created=[]
+    for posts in groups.values():
+        if len({post.get("platform") for post in posts if post.get("platform")})<2:continue
+        offer=_create_social_merchant_offer(data,posts,"official_social_cross_platform_match")
+        if offer and offer not in created:created.append(offer)
+    return created
 
 def enrich_social(data,state,config,overrides):
     items=data.get("items",[]); campaigns=[i for i in items if i.get("content_type") in {"campaign","merchant_offer"} and i.get("source_type")!="social"]; byid={i["id"]:i for i in campaigns}
@@ -1748,6 +1851,11 @@ def enrich_social(data,state,config,overrides):
         match,method=heuristic_match(post,cand)
         if method in {"exact_url","exact_official_evidence","heuristic"}:_link_social_post(post,byid[match],method)
         elif method=="suggested":post["suggested_campaign_id"]=match;post["review_required"]=True;post["review_reasons"]=list(dict.fromkeys((post.get("review_reasons") or [])+["social_campaign_match_uncertain"]))
+    repeated_offers=promote_repeated_social_merchant_offers(data)
+    cleanup_stats={"cross_platform_merchant_offers_created":len(repeated_offers),"ai_social_items_processed":0,"ai_social_merchant_offers_created":0,"ai_website_items_processed":0}
+    for offer in repeated_offers:
+        if offer.get("id") not in byid:
+            campaigns.append(offer);byid[offer["id"]]=offer
     cache=state.setdefault("ai_classification_cache",{}); maxn=int(config.get("ai",{}).get("classification_max_items_per_run",20)); recent=now()-timedelta(days=int(config.get("ai",{}).get("classification_recent_days",14))); ambiguous=[]
     for p in [i for i in items if i.get("source_type")=="social" and not i.get("campaign_id")]:
         d=dt(p.get("published_at")) or dt(p.get("last_changed")) or datetime.min.replace(tzinfo=timezone.utc)
@@ -1767,7 +1875,12 @@ def enrich_social(data,state,config,overrides):
             if cid in byid and dec.get("content_type")=="social_post":_link_social_post(p,byid[cid],dec.get("match_method") or "ai_cached")
             continue
         ambiguous.append(p)
-    decisions=ai_classify(ambiguous[:maxn],campaigns,state,config)
+    ambiguous.sort(key=lambda post:(
+        bool(post.get("review_required")),post.get("suggested_record_type")=="merchant_offer",
+        dt(post.get("published_at")) or dt(post.get("last_changed")) or datetime.min.replace(tzinfo=timezone.utc),
+    ),reverse=True)
+    decisions=ai_classify_batched(ambiguous[:maxn],campaigns,state,config)
+    cleanup_stats["ai_social_items_processed"]=len(decisions)
     for p in ambiguous[:maxn]:
         d=decisions.get(p["id"])
         if not d:continue
@@ -1777,6 +1890,12 @@ def enrich_social(data,state,config,overrides):
         if d["decision"]=="link" and match in byid:
             # The campaign remains the authoritative record; the social item remains a post.
             patch.update(content_type="social_post",campaign_id=match,match_method="ai",review_required=False,review_reasons=[])
+        elif d["decision"]=="standalone" and d["record_type"]=="merchant_offer" and float(d.get("confidence") or 0)>=.90 and social_promotion_type(p)=="merchant_offer":
+            offer=_create_social_merchant_offer(data,[p],"ai_verified_official_social_merchant",d.get("merchant_name"))
+            if offer:
+                cleanup_stats["ai_social_merchant_offers_created"]+=1
+                if offer.get("id") not in byid:campaigns.append(offer);byid[offer["id"]]=offer
+                patch.update(content_type="social_post",campaign_id=offer["id"],match_method="ai_verified_official_social_merchant",review_required=False,review_reasons=[])
         elif d["record_type"] in {"campaign","merchant_offer"}:
             # Never promote a social post into a counted campaign automatically.
             patch.update(content_type="review",suggested_record_type=d["record_type"],review_required=True,review_reasons=list(dict.fromkeys((p.get("review_reasons") or [])+["social_post_cannot_create_campaign"])),suggested_campaign_id=match if match in byid else p.get("suggested_campaign_id"))
@@ -1796,7 +1915,8 @@ def enrich_social(data,state,config,overrides):
         if cached.get("content_key")==key and cached.get("decision"):
             decision=dict(cached["decision"])
             # Never let a stale cached classification promote an unverified official discovery.
-            if decision.get("content_type") in {"campaign","merchant_offer"} and (row.get("source_verification") or {}).get("status")!="verified_website":
+            listing_merchant=decision.get("content_type")=="merchant_offer" and trusted_barq_listing_merchant(row,config)
+            if decision.get("content_type") in {"campaign","merchant_offer"} and (row.get("source_verification") or {}).get("status")!="verified_website" and not listing_merchant:
                 decision["suggested_record_type"]=decision.get("content_type")
                 decision["content_type"]="review"
                 decision["review_required"]=True
@@ -1804,7 +1924,8 @@ def enrich_social(data,state,config,overrides):
             row.update(decision); continue
         extra.append(row)
     website_maxn=int(config.get("ai",{}).get("classification_website_max_items_per_run",0))
-    extra_decisions=ai_classify(extra[:website_maxn],campaigns,state,config) if website_maxn>0 else {}
+    extra_decisions=ai_classify_batched(extra[:website_maxn],campaigns,state,config) if website_maxn>0 else {}
+    cleanup_stats["ai_website_items_processed"]=len(extra_decisions)
     for row in extra[:website_maxn]:
         d=extra_decisions.get(row["id"]);
         if not d: continue
@@ -1821,7 +1942,7 @@ def enrich_social(data,state,config,overrides):
             # A verified, current detail page discovered directly from the configured official
             # offers index is strong enough to register automatically. Deduplication still runs
             # afterwards, so an existing Excel/master campaign remains authoritative.
-            verified=(row.get("source_verification") or {}).get("status")=="verified_website"
+            verified=(row.get("source_verification") or {}).get("status")=="verified_website" or trusted_barq_listing_merchant(row,config)
             if verified and row.get("official_discovery") and row.get("active") is not False and accepted_direct_source(row,config):
                 patch.update(content_type="campaign",review_required=False,review_reasons=[])
             else:
@@ -1836,6 +1957,8 @@ def enrich_social(data,state,config,overrides):
             else:
                 patch.update(content_type=d["record_type"],review_required=False,review_reasons=[])
         row.update(patch); cache[row["id"]]={"content_key":classification_content_key(row),"decision":patch,"at":iso(now())}
+
+    data["merchant_review_cleanup"]=cleanup_stats
 
     # Build campaign social analytics from BOTH approved/master direct links and RSS-linked posts.
     # A URL is counted once even if it appears in Excel and again in RSS with tracking parameters.
@@ -2254,7 +2377,8 @@ def finalize_counted_statuses(data, overrides, config):
     for item in data.get("items",[]):
         if item.get("content_type") not in {"campaign","merchant_offer"}:
             continue
-        if item.get("source_type")=="website" and item.get("official_discovery") and not item.get("review_approved") and (item.get("source_verification") or {}).get("status")!="verified_website":
+        listing_merchant=item.get("content_type")=="merchant_offer" and trusted_barq_listing_merchant(item,config)
+        if item.get("source_type")=="website" and item.get("official_discovery") and not item.get("review_approved") and (item.get("source_verification") or {}).get("status")!="verified_website" and not listing_merchant:
             suggested=item.get("content_type")
             item["content_type"]="review"
             item["suggested_record_type"]=suggested
@@ -2328,6 +2452,11 @@ def annotate_market_timing(items):
             item["market_launch_date"]=value;item["market_date_basis"]=basis
         else:
             item.pop("market_launch_date",None);item.pop("market_date_basis",None)
+        source_changed=_latest_change_at(item,{"source_content_changed"})
+        if source_changed:item["market_last_changed"]=iso(source_changed)
+        end=dt(item.get("end_date"))
+        if item.get("active") is False and end:item["market_expiry_date"]=iso(end)
+        elif item.get("active") is not False:item.pop("market_expiry_date",None)
 
 def snapshot_campaigns(items):
     return {

@@ -1,7 +1,7 @@
 """Semantic validation of generated competitor-monitor data after monitor.py + enhance.py."""
 from __future__ import annotations
 import json, re, sys, unicodedata
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from urllib.parse import urlsplit, parse_qsl, urlencode
 
@@ -120,7 +120,18 @@ for i in items:
     if ctype in {'campaign','merchant_offer'}:
         if i.get('source_type')=='website' and i.get('official_discovery') and not i.get('review_approved'):
             sv=(i.get('source_verification') or {}).get('status')
-            if sv!='verified_website':fail(f'{iid}: auto-registered official website item is not verified')
+            seen=None
+            try:seen=datetime.fromisoformat(str(i.get('last_seen') or '').replace('Z','+00:00'))
+            except Exception:pass
+            if seen is not None and seen.tzinfo is None:seen=seen.replace(tzinfo=timezone.utc)
+            listing_merchant=(
+                comp=='barq' and ctype=='merchant_offer' and i.get('verified') is True
+                and i.get('classification_method')=='verified_official_listing_merchant_v1'
+                and seen is not None and seen>=datetime.now(timezone.utc)-timedelta(days=3)
+                and bool(i.get('start_date')) and bool(re.search(r'(?:^|\s)[x×](?:\s|$)',str(i.get('title') or ''),re.I))
+                and bool(re.search(r'\bbarq\b|برق',str(i.get('title') or ''),re.I))
+            )
+            if sv!='verified_website' and not listing_merchant:fail(f'{iid}: auto-registered official website item is not verified')
             if (i.get('source_verification') or {}).get('verification_method')=='official_website_modal' and not i.get('source_locator'):
                 fail(f'{iid}: modal-verified item is missing its source locator')
         if i.get('review_approved') and not all(i.get(field) for field in ('reviewed_by','reviewed_at','review_request_id')):
