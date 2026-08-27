@@ -6,6 +6,7 @@
     data: null,
     tab: "campaign",
     visible: 40,
+    campaignChangePeriod: 30,
     socialPeriod: 7,
     socialPlatform: "",
     filters: { q: "", competitor: "", category: "", source: "", reviewReason: "" },
@@ -123,10 +124,11 @@
 
   function campaignChangeValues(competitorId) {
     const records = state.data.items.filter((item) => item.content_type === "campaign" && item.competitor_id === competitorId);
+    const period = state.campaignChangePeriod;
     return {
-      new: records.filter((item) => !item.review_required && inAgeRange(item.market_launch_date, 0, 30)).length,
-      updated: records.filter((item) => inAgeRange(item.market_last_changed, 0, 30)).length,
-      expired: records.filter((item) => inAgeRange(item.market_expiry_date, 0, 30)).length,
+      new: records.filter((item) => !item.review_required && inAgeRange(item.market_launch_date, 0, period)).length,
+      updated: records.filter((item) => inAgeRange(item.market_last_changed, 0, period)).length,
+      expired: records.filter((item) => item.active === false && inAgeRange(item.market_expiry_date || item.end_date, 0, period)).length,
     };
   }
 
@@ -179,6 +181,10 @@
     const activeMerchants = merchants();
     const categories = state.data.categories.filter((item) => item.id !== "merchant");
     const campaignCounts = C.countBy(activeCampaigns, (item) => item.competitor_id);
+    const changeTitle = document.getElementById("campaign-changes-title");
+    const changeNote = document.getElementById("campaign-changes-note");
+    if (changeTitle) changeTitle.textContent = C.t("campaignChanges");
+    if (changeNote) changeNote.textContent = C.t("campaignChangesNote").replace("{days}", String(state.campaignChangePeriod));
 
     C.renderBarChart(
       document.getElementById("campaigns-chart"),
@@ -471,6 +477,11 @@
     document.getElementById("social-period-filter").onchange = (event) => {
       state.socialPeriod = Number(event.target.value) === 30 ? 30 : 7;
       renderSocialChart();
+    };
+    document.getElementById("campaign-change-period-filter").onchange = (event) => {
+      const value = Number(event.target.value);
+      state.campaignChangePeriod = [7, 14, 30].includes(value) ? value : 30;
+      renderCharts();
     };
     document.getElementById("social-platform-filter").onchange = (event) => {
       state.socialPlatform = event.target.value;
