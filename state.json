@@ -108677,7 +108677,7 @@
     }
   },
   "ai_cache": {},
-  "updated_at": "2026-08-27T05:28:11.137459+00:00",
+  "updated_at": "2026-08-27T05:30:37.753843+00:00",
   "ai_classification_cache": {
     "post:alinma-pay:facebook:342fb820cfeedf68ae83": {
       "content_key": "b7909a066e1ce27745e0337d",
@@ -115821,6 +115821,96 @@
       "end_date": null,
       "active": true
     },
+    "detected:mobily-pay:f3ba1937a63159024b5b": {
+      "title": "INTERNATIONAL TRANSFER TO PAKISTAN IS FREE",
+      "campaign_category": "remittance",
+      "mechanic": null,
+      "current_status": "End Date Not Stated",
+      "start_date": "2023-11-08T00:00:00+00:00",
+      "end_date": null,
+      "active": true
+    },
+    "campaign:barq:4": {
+      "title": "Zero-Fee International Transfers",
+      "campaign_category": "remittance",
+      "mechanic": "Zero transfer fees on eligible transfers",
+      "current_status": "End Date Not Stated",
+      "start_date": null,
+      "end_date": null,
+      "active": true
+    },
+    "campaign:barq:6": {
+      "title": "FX Rate Awareness Campaign",
+      "campaign_category": "remittance",
+      "mechanic": "All barq customers using international transfers",
+      "current_status": "End Date Not Stated",
+      "start_date": null,
+      "end_date": null,
+      "active": true
+    },
+    "campaign:mobily-pay:2": {
+      "title": "Zero-Fee International Transfers – Aug–Oct 2026",
+      "campaign_category": "remittance",
+      "mechanic": "Zero transfer fees on qualifying transfers; standard SAR 9 fees apply below certain corridor/amount thresholds",
+      "current_status": "Active",
+      "start_date": "2026-08-01T00:00:00+00:00",
+      "end_date": "2026-10-31T00:00:00+00:00",
+      "active": true
+    },
+    "campaign:mobily-pay:3": {
+      "title": "Weekly International Transfer Prizes – Up to SAR 20,000",
+      "campaign_category": "remittance",
+      "mechanic": "Weekly prizes up to SAR 20,000; no minimum transfer stated in the post",
+      "current_status": "End Date Not Stated",
+      "start_date": null,
+      "end_date": null,
+      "active": true
+    },
+    "campaign:tiqmo:4": {
+      "title": "Monthly International Transfer Streak Cashback",
+      "campaign_category": "remittance",
+      "mechanic": "SAR 1,500+ monthly transfer threshold, increasing monthly cashback, and zero transfer fees",
+      "current_status": "End Date Not Stated",
+      "start_date": null,
+      "end_date": null,
+      "active": true
+    },
+    "campaign:urpay:9": {
+      "title": "International Transfer Scratch & Win – Up to SAR 10,000",
+      "campaign_category": "remittance",
+      "mechanic": "Scratch-and-win cash prizes up to SAR 10,000",
+      "current_status": "End Date Not Stated",
+      "start_date": null,
+      "end_date": null,
+      "active": true
+    },
+    "campaign:alinma-pay:3": {
+      "title": "International Transfers for SAR 5",
+      "campaign_category": "remittance",
+      "mechanic": "Flat SAR 5 transfer fee",
+      "current_status": "End Date Not Stated",
+      "start_date": null,
+      "end_date": null,
+      "active": true
+    },
+    "campaign:alinma-pay:4": {
+      "title": "Zero-Fee Transfers to India from SAR 700",
+      "campaign_category": "remittance",
+      "mechanic": "Zero transfer fee for transfers of SAR 700 or more",
+      "current_status": "End Date Not Stated",
+      "start_date": null,
+      "end_date": null,
+      "active": true
+    },
+    "manual:review:tiqmo:7744d3d2-2bfd-4c7f-a7e5-a7307e7d8a52": {
+      "title": "Spend More, Win More!",
+      "campaign_category": "card",
+      "mechanic": "",
+      "current_status": "Expiring ≤7 Days",
+      "start_date": "2026-08-01",
+      "end_date": "2026-08-31",
+      "active": true
+    },
     "detected:tiqmo:89908f62d5f010cd07ea": {
       "title": "Play and Earn",
       "campaign_category": "engagement",
@@ -115855,15 +115945,6 @@
       "current_status": "Expiring ≤7 Days",
       "start_date": "2026-01-05T00:00:00+00:00",
       "end_date": "2026-08-30T00:00:00+00:00",
-      "active": true
-    },
-    "detected:mobily-pay:f3ba1937a63159024b5b": {
-      "title": "INTERNATIONAL TRANSFER TO PAKISTAN IS FREE",
-      "campaign_category": "remittance",
-      "mechanic": null,
-      "current_status": "End Date Not Stated",
-      "start_date": "2023-11-08T00:00:00+00:00",
-      "end_date": null,
       "active": true
     },
     "detected:alinma-pay:e185f47787fe476946bf": {
@@ -115947,55 +116028,10 @@
       "end_date": null,
       "active": true
     },
-    "campaign:barq:4": {
-      "title": "Zero-Fee International Transfers",
-      "campaign_category": "remittance",
-      "mechanic": "Zero transfer fees on eligible transfers",
-      "current_status": "End Date Not Stated",
-      "start_date": null,
-      "end_date": null,
-      "active": true
-    },
     "campaign:barq:5": {
       "title": "Zero Travel Fees with barq Visa",
       "campaign_category": "card",
       "mechanic": "",
-      "current_status": "End Date Not Stated",
-      "start_date": null,
-      "end_date": null,
-      "active": true
-    },
-    "campaign:barq:6": {
-      "title": "FX Rate Awareness Campaign",
-      "campaign_category": "remittance",
-      "mechanic": "All barq customers using international transfers",
-      "current_status": "End Date Not Stated",
-      "start_date": null,
-      "end_date": null,
-      "active": true
-    },
-    "campaign:mobily-pay:2": {
-      "title": "Zero-Fee International Transfers – Aug–Oct 2026",
-      "campaign_category": "remittance",
-      "mechanic": "Zero transfer fees on qualifying transfers; standard SAR 9 fees apply below certain corridor/amount thresholds",
-      "current_status": "Active",
-      "start_date": "2026-08-01T00:00:00+00:00",
-      "end_date": "2026-10-31T00:00:00+00:00",
-      "active": true
-    },
-    "campaign:mobily-pay:3": {
-      "title": "Weekly International Transfer Prizes – Up to SAR 20,000",
-      "campaign_category": "remittance",
-      "mechanic": "Weekly prizes up to SAR 20,000; no minimum transfer stated in the post",
-      "current_status": "End Date Not Stated",
-      "start_date": null,
-      "end_date": null,
-      "active": true
-    },
-    "campaign:tiqmo:4": {
-      "title": "Monthly International Transfer Streak Cashback",
-      "campaign_category": "remittance",
-      "mechanic": "SAR 1,500+ monthly transfer threshold, increasing monthly cashback, and zero transfer fees",
       "current_status": "End Date Not Stated",
       "start_date": null,
       "end_date": null,
@@ -116028,28 +116064,10 @@
       "end_date": null,
       "active": true
     },
-    "campaign:urpay:9": {
-      "title": "International Transfer Scratch & Win – Up to SAR 10,000",
-      "campaign_category": "remittance",
-      "mechanic": "Scratch-and-win cash prizes up to SAR 10,000",
-      "current_status": "End Date Not Stated",
-      "start_date": null,
-      "end_date": null,
-      "active": true
-    },
     "campaign:alinma-pay:2": {
       "title": "Zero International Transaction Fees on Cashback Cards",
       "campaign_category": "card",
       "mechanic": "Zero international transaction fees, first two international cash withdrawals free, plus cashback on eligible purchases",
-      "current_status": "End Date Not Stated",
-      "start_date": null,
-      "end_date": null,
-      "active": true
-    },
-    "campaign:alinma-pay:3": {
-      "title": "International Transfers for SAR 5",
-      "campaign_category": "remittance",
-      "mechanic": "Flat SAR 5 transfer fee",
       "current_status": "End Date Not Stated",
       "start_date": null,
       "end_date": null,
@@ -116082,14 +116100,23 @@
       "end_date": null,
       "active": true
     },
-    "campaign:alinma-pay:4": {
-      "title": "Zero-Fee Transfers to India from SAR 700",
+    "campaign:mobily-pay:1": {
+      "title": "International Transfer Prize Draw – SAR 110,000",
       "campaign_category": "remittance",
-      "mechanic": "Zero transfer fee for transfers of SAR 700 or more",
-      "current_status": "End Date Not Stated",
+      "mechanic": "Five daily winners; SAR 1,000 per winner; 110 total winners and SAR 110,000 total prize pool",
+      "current_status": "Expired",
+      "start_date": "2026-06-15T00:00:00+00:00",
+      "end_date": "2026-07-06T00:00:00+00:00",
+      "active": false
+    },
+    "campaign:tiqmo:3": {
+      "title": "100% Cashback on International Transfers – May Edition",
+      "campaign_category": "remittance",
+      "mechanic": "100% cashback on the transfer amount; 10 daily winners; no minimum stated",
+      "current_status": "Expired",
       "start_date": null,
-      "end_date": null,
-      "active": true
+      "end_date": "2026-05-31T00:00:00+00:00",
+      "active": false
     },
     "detected:tiqmo:62f452efb0655e36f2bb": {
       "title": "Every riyal you spend is a chance to win 250,000 SAR",
@@ -116118,15 +116145,6 @@
       "end_date": "2026-07-19T00:00:00+00:00",
       "active": false
     },
-    "campaign:mobily-pay:1": {
-      "title": "International Transfer Prize Draw – SAR 110,000",
-      "campaign_category": "remittance",
-      "mechanic": "Five daily winners; SAR 1,000 per winner; 110 total winners and SAR 110,000 total prize pool",
-      "current_status": "Expired",
-      "start_date": "2026-06-15T00:00:00+00:00",
-      "end_date": "2026-07-06T00:00:00+00:00",
-      "active": false
-    },
     "campaign:mobily-pay:5": {
       "title": "Summer Card Offers – Fees on Us & Up to 2% Cashback",
       "campaign_category": "card",
@@ -116143,15 +116161,6 @@
       "current_status": "Expired",
       "start_date": "2026-07-15T00:00:00+00:00",
       "end_date": "2026-07-31T00:00:00+00:00",
-      "active": false
-    },
-    "campaign:tiqmo:3": {
-      "title": "100% Cashback on International Transfers – May Edition",
-      "campaign_category": "remittance",
-      "mechanic": "100% cashback on the transfer amount; 10 daily winners; no minimum stated",
-      "current_status": "Expired",
-      "start_date": null,
-      "end_date": "2026-05-31T00:00:00+00:00",
       "active": false
     },
     "campaign:tiqmo:6": {
@@ -116171,15 +116180,6 @@
       "start_date": "2026-07-07T00:00:00+00:00",
       "end_date": "2026-08-07T00:00:00+00:00",
       "active": false
-    },
-    "manual:review:tiqmo:7744d3d2-2bfd-4c7f-a7e5-a7307e7d8a52": {
-      "title": "Spend More, Win More!",
-      "campaign_category": "card",
-      "mechanic": "",
-      "current_status": "Expiring ≤7 Days",
-      "start_date": "2026-08-01",
-      "end_date": "2026-08-31",
-      "active": true
     }
   },
   "ai_summary": {
