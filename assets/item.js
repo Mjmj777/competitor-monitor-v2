@@ -305,7 +305,7 @@
     C.clear(meta);
     [
       [C.t("recordId"), i.record_id],
-      [C.t("published"), C.formatDate(i.published_at)],
+      ...(i.source_type === "social" ? [[C.t("published"), C.formatDate(i.published_at)]] : []),
       [C.t("startDate"), C.formatDate(i.start_date)],
       [C.t("endDate"), C.formatDate(i.end_date)],
       [C.t("currentStatus"), i.current_status],
