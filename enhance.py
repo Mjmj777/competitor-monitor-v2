@@ -2233,23 +2233,206 @@ def review_priority(item):
     if item.get("suggested_campaign_id"):n+=3
     return n
 
-def snapshot_campaigns(items):
-    return {i["id"]:{k:i.get(k) for k in ["title","campaign_category","mechanic","current_status","start_date","end_date","active"]} for i in items if i.get("content_type")=="campaign"}
+MANAGEMENT_WINDOW_DAYS=7
+MANAGEMENT_EXPIRY_DAYS=30
+MARKET_UPDATE_FIELDS=("mechanic","eligibility","terms_note","start_date","end_date","offer_values","corridors")
+SNAPSHOT_FIELDS=(
+    "competitor_id","title","campaign_category","mechanic","eligibility","terms_note",
+    "published_at","start_date","end_date","offer_values","corridors","current_status","active",
+    "market_launch_date","market_date_basis","market_last_changed","market_expiry_date",
+)
+COMPETITOR_LABELS={
+    "stc-bank":"STC Bank","barq":"barq","mobily-pay":"Mobily Pay","tiqmo":"tiqmo",
+    "urpay":"urpay","alinma-pay":"AlinmaPay",
+}
 
-def material_delta(previous,current):
+def competitor_label(value):
+    return COMPETITOR_LABELS.get(clean(value,100),clean(value,100).replace("-"," ").title())
+
+def _snapshot_value(value):
+    if isinstance(value,list):return sorted((_snapshot_value(v) for v in value),key=lambda v:json.dumps(v,ensure_ascii=False,sort_keys=True))
+    if isinstance(value,dict):return {k:_snapshot_value(value[k]) for k in sorted(value)}
+    return value
+
+def campaign_market_date(item):
+    """Return a source-side market date, never an Admin review or ingestion timestamp."""
+    for field,basis in (("start_date","official_start_date"),("published_at","official_published_date"),("social_first_post","first_official_campaign_post")):
+        value=dt(item.get(field))
+        if not value:continue
+        # A newly linked social post is not enough to re-label a baseline campaign as a new launch.
+        if field=="social_first_post" and item.get("baseline_import"):continue
+        return iso(value),basis
+    return None,None
+
+def annotate_market_timing(items):
+    for item in items:
+        if item.get("content_type")!="campaign":continue
+        value,basis=campaign_market_date(item)
+        if value:
+            item["market_launch_date"]=value;item["market_date_basis"]=basis
+        else:
+            item.pop("market_launch_date",None);item.pop("market_date_basis",None)
+
+def snapshot_campaigns(items):
+    return {
+        i["id"]:{k:_snapshot_value(i.get(k)) for k in SNAPSHOT_FIELDS}
+        for i in items if i.get("content_type")=="campaign" and i.get("id")
+    }
+
+def _has_value(value):
+    return value not in (None,"",[],{})
+
+def _in_past_window(value,days,current=None):
+    parsed=dt(value);current=current or now()
+    return bool(parsed and current-timedelta(days=days)<=parsed<=current)
+
+def _verified_campaign(item):
+    status=(item.get("source_verification") or {}).get("status")
+    return bool(item.get("verified") or item.get("review_approved") or status in {"verified_website","verified_social"})
+
+def _latest_change_at(item,types,after=None):
+    values=[]
+    for row in item.get("change_history") or []:
+        if row.get("type") not in types:continue
+        stamp=dt(row.get("at"))
+        if stamp and (not after or stamp>after):values.append(stamp)
+    return max(values) if values else None
+
+def material_delta(previous,current,items=None,previous_at=None):
+    """Separate verified market events from Admin review and data-enrichment changes."""
+    items_by_id={i.get("id"):i for i in (items or []) if i.get("id")}
+    current_time=now();previous_time=dt(previous_at)
     added=[k for k in current if k not in previous];removed=[k for k in previous if k not in current];changed=[]
-    for k in current.keys()&previous.keys():
-        fields=[f for f in current[k] if current[k].get(f)!=previous[k].get(f)]
-        if fields:changed.append({"id":k,"fields":fields,"before":previous[k],"after":current[k]})
-    return {"added":added,"removed":removed,"changed":changed,"initial":not bool(previous),"material":bool(added or removed or changed)}
+    inventory_adjustments=[];new_market_updates=[];new_market_expiries=[]
+    for key in current.keys()&previous.keys():
+        before=previous[key];after=current[key]
+        # A code deployment can add fields to the snapshot schema. Missing legacy keys are not
+        # inventory corrections and must not create a one-off management message for every record.
+        fields=[field for field in SNAPSHOT_FIELDS if field in before and before.get(field)!=after.get(field)]
+        if not fields:continue
+        changed.append({"id":key,"fields":fields,"before":before,"after":after})
+        item=items_by_id.get(key) or {}
+        substantive=[field for field in fields if field in MARKET_UPDATE_FIELDS and _has_value(before.get(field)) and _has_value(after.get(field))]
+        source_changed_at=_latest_change_at(item,{"source_content_changed"},previous_time)
+        if substantive and source_changed_at and _verified_campaign(item):
+            item["market_last_changed"]=iso(source_changed_at)
+            item["market_last_change_fields"]=substantive
+            new_market_updates.append({"id":key,"at":iso(source_changed_at),"fields":substantive})
+        else:
+            inventory_adjustments.append({"id":key,"fields":fields})
+
+        end_date=dt(after.get("end_date"))
+        if (
+            before.get("active") is not False and after.get("active") is False
+            and before.get("end_date")==after.get("end_date") and end_date
+            and current_time-timedelta(days=MANAGEMENT_WINDOW_DAYS)<=end_date<=current_time
+        ):
+            item["market_expiry_date"]=iso(end_date)
+            new_market_expiries.append({"id":key,"at":iso(end_date)})
+        elif after.get("active") is not False and item.get("market_expiry_date"):
+            item.pop("market_expiry_date",None)
+
+    for key in added:
+        item=items_by_id.get(key) or {}
+        if not (_verified_campaign(item) and _in_past_window(item.get("market_launch_date"),MANAGEMENT_WINDOW_DAYS,current_time)):
+            inventory_adjustments.append({"id":key,"fields":["record_added"]})
+    inventory_adjustments.extend({"id":key,"fields":["record_removed"]} for key in removed)
+
+    # Launches are based on the real campaign date, so a recent launch remains visible for the
+    # whole management window while a late Admin approval of an old campaign never becomes new.
+    market_launches=[]
+    for key,item in items_by_id.items():
+        if item.get("content_type")!="campaign" or item.get("active") is False or item.get("review_required"):continue
+        if _verified_campaign(item) and _in_past_window(item.get("market_launch_date"),MANAGEMENT_WINDOW_DAYS,current_time):
+            market_launches.append({"id":key,"at":item.get("market_launch_date"),"basis":item.get("market_date_basis")})
+    market_updates=[];market_expiries=[]
+    for key,item in items_by_id.items():
+        if _in_past_window(item.get("market_last_changed"),MANAGEMENT_WINDOW_DAYS,current_time):
+            market_updates.append({"id":key,"at":item.get("market_last_changed"),"fields":item.get("market_last_change_fields") or []})
+        if _in_past_window(item.get("market_expiry_date"),MANAGEMENT_WINDOW_DAYS,current_time):
+            market_expiries.append({"id":key,"at":item.get("market_expiry_date")})
+    return {
+        "added":added,"removed":removed,"changed":changed,"initial":not bool(previous),
+        "market_launches":market_launches,"market_updates":market_updates,"market_expiries":market_expiries,
+        "new_market_updates":new_market_updates,"new_market_expiries":new_market_expiries,
+        "inventory_adjustments":inventory_adjustments,"inventory_adjustment_count":len(inventory_adjustments),
+        "new_event_detected":bool(new_market_updates or new_market_expiries or any(row["id"] in added for row in market_launches)),
+        "material":bool(market_launches or market_updates or market_expiries),
+        "window_days":MANAGEMENT_WINDOW_DAYS,
+    }
+
+def _management_date(value):
+    parsed=dt(value)
+    return parsed.strftime("%d %b %Y") if parsed else "date unconfirmed"
+
+def _event_rows(items,delta):
+    byid={i.get("id"):i for i in items if i.get("id")}
+    rows=[];seen=set()
+    for kind,label in (("market_launches","launched"),("market_updates","material terms changed"),("market_expiries","expired")):
+        for event in delta.get(kind,[]):
+            item=byid.get(event.get("id")) or {};key=(event.get("id"),kind)
+            if key in seen:continue
+            seen.add(key);rows.append({
+                "kind":kind,"label":label,"at":event.get("at"),"competitor":competitor_label(item.get("competitor_id")),
+                "title":clean(item.get("title"),180) or "Untitled campaign","fields":event.get("fields") or [],"basis":event.get("basis"),
+                "text":" ".join(clean(item.get(k),800) for k in ("title","summary","snippet","mechanic","terms_note")),
+            })
+    return sorted(rows,key=lambda row:dt(row.get("at")) or datetime.min.replace(tzinfo=timezone.utc),reverse=True)
 
 def deterministic_summary(items,delta):
-    campaigns=[i for i in items if i.get("content_type")=="campaign" and i.get("active") is not False];counts=Counter(i.get("campaign_category") for i in campaigns)
-    if delta.get("initial"):what=["Initial baseline generated; no previous snapshot is available for comparison."]
-    elif delta.get("material"):what=[f"{len(delta['added'])} added · {len(delta['removed'])} removed · {len(delta['changed'])} updated"]
-    else:what=["No material campaign change confirmed since the previous snapshot."]
-    cats=[{"category":CATEGORY_LABELS[k],"summary":f"{counts[k]} active campaign(s) in the current verified inventory."} for k in CATEGORY_LABELS if counts.get(k)]
-    return {"what_changed":what,"why_it_matters":["Current campaign totals and expiry status are calculated from the full active inventory."],"management_takeaway":"Continue monitoring current campaign mechanics and upcoming expiries; social activity is supporting context rather than market performance.","category_snapshot":cats,"generated_by":"rules","generated_at":iso(now())}
+    campaigns=[i for i in items if i.get("content_type")=="campaign" and i.get("active") is not False and not i.get("review_required") and _verified_campaign(i)]
+    counts=Counter(i.get("campaign_category") for i in campaigns);competitors={i.get("competitor_id") for i in campaigns if i.get("competitor_id")}
+    total=len(campaigns);category_rank=counts.most_common();events=_event_rows(items,delta)
+    executive=f"{total} verified active campaigns are tracked across {len(competitors)} competitors."
+    if delta.get("inventory_adjustment_count") and not delta.get("initial"):
+        executive+=" Inventory coverage was corrected after source verification; that administrative adjustment is excluded from recent market developments."
+
+    developments=[]
+    for row in events[:4]:
+        if row["kind"]=="market_updates" and row["fields"]:
+            fields=", ".join(str(v).replace("_"," ") for v in row["fields"][:3])
+            developments.append(f"{row['competitor']} — {row['title']}: {fields} changed on the verified source ({_management_date(row['at'])}).")
+        elif row["kind"]=="market_launches" and row.get("basis")=="first_official_campaign_post":
+            developments.append(f"{row['competitor']} — {row['title']}: the first verified official campaign post was published on {_management_date(row['at'])}.")
+        elif row["kind"]=="market_launches" and row.get("basis")=="official_published_date":
+            developments.append(f"{row['competitor']} — {row['title']} was published on the verified official source on {_management_date(row['at'])}.")
+        else:
+            developments.append(f"{row['competitor']} — {row['title']} {row['label']} on {_management_date(row['at'])}.")
+    if not developments:
+        developments=[f"No verified market launch, material campaign change or confirmed expiry was identified in the last {MANAGEMENT_WINDOW_DAYS} days."]
+
+    current_time=now();expiring=sorted(
+        (i for i in campaigns if dt(i.get("end_date")) and current_time<dt(i.get("end_date"))<=current_time+timedelta(days=MANAGEMENT_EXPIRY_DAYS)),
+        key=lambda i:dt(i.get("end_date")),
+    )
+    attention=[]
+    if expiring:
+        names=", ".join(f"{competitor_label(i.get('competitor_id'))} — {clean(i.get('title'),90)}" for i in expiring[:3])
+        noun="campaign" if len(expiring)==1 else "campaigns"
+        attention.append(f"{len(expiring)} {noun} are scheduled to expire within 30 days: {names}{'…' if len(expiring)>3 else '.'}")
+    pressure=[row for row in events if any(term in row["text"].casefold() for term in ("zero fee","0 fee","fee-free","no fee","cashback","صفر رسوم","بدون رسوم","استرداد نقدي"))]
+    if pressure:
+        attention.append(f"Recent verified activity includes a fee or cashback mechanic from {pressure[0]['competitor']}; assess potential pricing pressure before treating it as a broader market trend.")
+    if not attention:attention=["No immediate verified launch, pricing signal or near-term campaign expiry requires escalation."]
+
+    actions=[]
+    launches=[row for row in events if row["kind"]=="market_launches"]
+    updates=[row for row in events if row["kind"]=="market_updates"]
+    if launches:actions.append(f"Benchmark the mechanic and eligibility of {launches[0]['competitor']} — {launches[0]['title']} against the current campaign plan.")
+    if updates:actions.append(f"Review the commercial impact of the verified change to {updates[0]['competitor']} — {updates[0]['title']} before the next pricing or campaign decision.")
+    if expiring:actions.append("Monitor the listed expiries for an extension or replacement campaign and refresh the response plan only when an official change is verified.")
+    if not actions:actions=["No immediate management action is required; continue routine monitoring for verified market events."]
+
+    if category_rank and total:
+        top=category_rank[:2];top_total=sum(value for _,value in top);share=round(top_total*100/total)
+        details=" and ".join(f"{CATEGORY_LABELS.get(category,category.title())} ({value})" for category,value in top)
+        portfolio=f"{details} account for {share}% of the verified active campaign portfolio."
+    else:portfolio="No verified active campaign portfolio is available for category analysis."
+    return {
+        "executive_view":executive,"key_developments":developments,"management_attention":attention,
+        "recommended_actions":actions,"portfolio_insight":portfolio,"market_window_days":MANAGEMENT_WINDOW_DAYS,
+        "generated_by":"management-rules-v2","generated_at":iso(now()),
+    }
 
 def _summary_contains_internal_ids(summary):
     if not summary:
@@ -2257,68 +2440,28 @@ def _summary_contains_internal_ids(summary):
     text=json.dumps(summary,ensure_ascii=False).lower()
     return any(token in text for token in ["detected:","campaign:","post:","merchant:","manual:"])
 
-def management_delta(items,delta,state):
-    """Create an AI-facing delta with human labels only; internal record IDs never leave this layer."""
-    current={i.get("id"):i for i in items if i.get("content_type")=="campaign"}
-    previous=state.get("summary_snapshot",{}) or {}
-
-    def label_from_current(record_id):
-        row=current.get(record_id) or {}
-        title=(row.get("title") or "").strip()
-        competitor=(row.get("competitor_id") or "").replace("-"," ").strip()
-        return {"competitor":competitor,"title":title or None}
-
-    def label_from_previous(record_id):
-        row=previous.get(record_id) or {}
-        title=(row.get("title") or "").strip()
-        return {"title":title or None}
-
-    added=[label_from_current(k) for k in delta.get("added",[])]
-    removed=[label_from_previous(k) for k in delta.get("removed",[])]
-    changed=[]
-    for row in delta.get("changed",[]):
-        after=row.get("after") or {}
-        before=row.get("before") or {}
-        changed.append({
-            "title":(after.get("title") or before.get("title") or "").strip() or None,
-            "fields":row.get("fields",[]),
-            "before":{k:before.get(k) for k in row.get("fields",[]) if k != "title"},
-            "after":{k:after.get(k) for k in row.get("fields",[]) if k != "title"}
-        })
-    return {
-        "initial":bool(delta.get("initial")),
-        "material":bool(delta.get("material")),
-        "added":added,
-        "removed":removed,
-        "changed":changed
-    }
-
 def ai_summary(items,delta,state,config):
-    prior=state.get("ai_summary")
-    prior_bad=_summary_contains_internal_ids(prior)
-    # Reuse a prior summary only when it is clean. Old summaries that leaked internal IDs are regenerated.
-    if prior and not delta.get("material") and not prior_bad:return prior
-    # If the last published summary leaked IDs, reuse the last material delta once so the corrected
-    # summary can describe the same change with campaign titles instead of losing that event.
-    effective_delta=delta
-    previous_delta=state.get("authoritative_delta") or {}
-    if prior_bad and not delta.get("material") and previous_delta.get("material"):
-        effective_delta=previous_delta
-    fallback=deterministic_summary(items,effective_delta);client=openai_client(config)
+    fallback=deterministic_summary(items,delta)
+    # Most runs contain no newly verified market event. Returning the grounded rules summary here
+    # avoids an unnecessary AI call and prevents generic prose from replacing factual management insight.
+    if not delta.get("new_event_detected"):return fallback
+    client=openai_client(config)
     if not client or not config.get("ai",{}).get("summary_enabled",True):return fallback
-    model=config.get("ai",{}).get("summary_model","gpt-5.6-sol");campaigns=[i for i in items if i.get("content_type")=="campaign" and i.get("active") is not False]
-    compact=[{"competitor":(i.get("competitor_id") or "").replace("-"," "),"title":i.get("title"),"category":i.get("campaign_category"),"mechanic":i.get("mechanic"),"start_date":i.get("start_date"),"end_date":i.get("end_date"),"status":i.get("current_status"),"corridors":i.get("corridors",[]),"offer_values":i.get("offer_values",[]),"social_posts_total":i.get("social_posts_total",0)} for i in campaigns]
-    schema={"type":"object","additionalProperties":False,"properties":{"what_changed":{"type":"array","items":{"type":"string"},"maxItems":4},"why_it_matters":{"type":"array","items":{"type":"string"},"minItems":1,"maxItems":4},"management_takeaway":{"type":"string"},"category_snapshot":{"type":"array","items":{"type":"object","additionalProperties":False,"properties":{"category":{"type":"string"},"summary":{"type":"string"}},"required":["category","summary"]}}},"required":["what_changed","why_it_matters","management_takeaway","category_snapshot"]}
-    prompt="""Produce a concise management summary for a Saudi fintech competitor monitor. Use the full current active campaign inventory. What Changed contains only confirmed campaign additions/removals/mechanic/date/status changes from delta; on initial baseline say no previous snapshot exists in one sentence. Always refer to campaigns by their human-readable title and competitor name. Never expose internal record IDs, hashes, database keys, or strings such as detected:, campaign:, post:, merchant:, or manual:. If a new/removed record has no reliable human-readable title, summarize it generically by competitor and count, e.g. 'Two new Alinma Pay campaign candidates were detected and require review.' Why It Matters: 2-4 concise implications. Management Takeaway: one short paragraph. Category Snapshot: factual active categories only. Do not produce a 7-day brief, opportunities/gaps, competitive gap recommendations, watchlists, strength/activity scores, or performance claims. Merchant offers are excluded from campaign KPIs. Social post counts are context only."""
+    model=config.get("ai",{}).get("summary_model","gpt-5.6-sol")
+    schema={"type":"object","additionalProperties":False,"properties":{
+        "executive_view":{"type":"string"},"key_developments":{"type":"array","items":{"type":"string"},"minItems":1,"maxItems":4},
+        "management_attention":{"type":"array","items":{"type":"string"},"minItems":1,"maxItems":3},
+        "recommended_actions":{"type":"array","items":{"type":"string"},"minItems":1,"maxItems":3},"portfolio_insight":{"type":"string"},
+    },"required":["executive_view","key_developments","management_attention","recommended_actions","portfolio_insight"]}
+    prompt="""Refine a grounded management summary for a Saudi fintech competitor monitor. Use only the supplied draft facts. Never add a market event, performance claim, causal claim, or recommendation unsupported by the draft. An Admin approval, reclassification, missing-date backfill, source-link correction, or historical record addition is not a market event. Merchant offers are excluded. Social activity is context only. Preserve exact campaign and competitor names, dates, counts and percentages. Keep the result concise, decision-oriented and suitable for senior management. Never expose internal IDs, hashes or technical workflow terminology."""
     try:
-        friendly_delta=management_delta(items,effective_delta,state)
-        r=client.responses.create(model=model,reasoning={"effort":config.get("ai",{}).get("summary_reasoning","xhigh")},text={"format":{"type":"json_schema","name":"management_summary","schema":schema,"strict":True}},input=[{"role":"system","content":prompt},{"role":"user","content":json.dumps({"delta":friendly_delta,"active_campaigns":compact},ensure_ascii=False)}])
+        r=client.responses.create(model=model,reasoning={"effort":config.get("ai",{}).get("summary_reasoning","xhigh")},text={"format":{"type":"json_schema","name":"management_summary","schema":schema,"strict":True}},input=[{"role":"system","content":prompt},{"role":"user","content":json.dumps(fallback,ensure_ascii=False)}])
         result=json.loads(r.output_text)
         # Final guardrail: never publish a management summary containing internal IDs.
         if _summary_contains_internal_ids(result):
             print("[AI summary] blocked output containing internal IDs; using rules fallback")
             return fallback
-        result["generated_by"]=model;result["generated_at"]=iso(now());inp,out=usage_numbers(r);add_usage(state,"summary",model,inp,out,config);return result
+        result["market_window_days"]=MANAGEMENT_WINDOW_DAYS;result["generated_by"]=model;result["generated_at"]=iso(now());inp,out=usage_numbers(r);add_usage(state,"summary",model,inp,out,config);return result
     except Exception as exc:
         print(f"[AI summary] {type(exc).__name__}: {exc}");return fallback
 
@@ -2411,8 +2554,14 @@ def main():
     print(f"[STAGE 4/5] Review reconciliation complete · {scan_summary['review_before']} → {scan_summary['review_after']} · workflow input={initial_review_count}",flush=True)
     for item in data.get("items",[]):
         item["review_priority"]=review_priority(item);item.pop("confidence",None) # confidence stays internal, never a displayed score
-    snap=snapshot_campaigns(data["items"]);delta=material_delta(state.get("summary_snapshot",{}),snap);summary=ai_summary(data["items"],delta,state,config)
-    state.update(summary_snapshot=snap,ai_summary=summary,authoritative_delta=delta,schema_version=5,updated_at=iso(now()))
+    annotate_market_timing(data["items"])
+    snap=snapshot_campaigns(data["items"])
+    delta=material_delta(state.get("summary_snapshot",{}),snap,data["items"],state.get("summary_snapshot_at"))
+    # material_delta can persist a verified source-side update/expiry timestamp on the campaign.
+    snap=snapshot_campaigns(data["items"])
+    summary=ai_summary(data["items"],delta,state,config)
+    snapshot_at=iso(now())
+    state.update(summary_snapshot=snap,summary_snapshot_at=snapshot_at,ai_summary=summary,authoritative_delta=delta,schema_version=5,updated_at=snapshot_at)
     print("[STAGE 5/5] Save generated data",flush=True)
     data.update(schema_version=5,ai_summary=summary,authoritative_delta=delta,ai_usage=state.get("ai_usage",{}));recompute_stats(data);finalize_refresh_metadata(data)
     data["items"].sort(key=lambda i:(i.get("active") is not False,i.get("review_priority",0),dt(i.get("published_at")) or dt(i.get("last_changed")) or datetime.min.replace(tzinfo=timezone.utc)),reverse=True)
