@@ -296,6 +296,100 @@ generic_card_cashback = social_post(
 )
 assert enhance.campaign_record_match(generic_card_cashback, [musaned_campaign], include_inactive=True) == (None, None)
 
+# Management reporting must use the market event date, never the time of Admin review,
+# record ingestion, reclassification or missing-field completion.
+fixed_now = enhance.dt("2026-08-27T12:00:00+00:00")
+original_now = enhance.now
+enhance.now = lambda: fixed_now
+
+
+def management_campaign(record_id, start_date="2025-01-01T00:00:00+00:00", **values):
+    row = {
+        "id": record_id,
+        "competitor_id": "tiqmo",
+        "content_type": "campaign",
+        "campaign_category": "card",
+        "title": "Spend More, Win More!",
+        "summary": "Spend with the card for a chance to win.",
+        "start_date": start_date,
+        "end_date": "2026-09-30T00:00:00+00:00",
+        "active": True,
+        "current_status": "Active",
+        "verified": True,
+        "review_required": False,
+        "source_verification": {"status": "verified_website"},
+        "change_history": [],
+    }
+    row.update(values)
+    return row
+
+
+control = management_campaign("campaign:control")
+enhance.annotate_market_timing([control])
+control_snapshot = enhance.snapshot_campaigns([control])
+
+# A historical campaign reviewed today is an inventory correction, not a market launch.
+late_review = management_campaign(
+    "manual:review:late",
+    start_date="2026-08-01T00:00:00+00:00",
+    source_type="manual",
+    review_approved=True,
+    reviewed_at="2026-08-27T11:30:00+00:00",
+    first_seen="2026-08-27T11:30:00+00:00",
+)
+late_rows = [copy.deepcopy(control), late_review]
+enhance.annotate_market_timing(late_rows)
+late_delta = enhance.material_delta(control_snapshot, enhance.snapshot_campaigns(late_rows), late_rows, "2026-08-27T08:00:00+00:00")
+assert not late_delta["market_launches"]
+assert late_delta["inventory_adjustment_count"] >= 1
+
+# Filling a previously missing end date is data enrichment, even when completed today.
+before_backfill = management_campaign("campaign:backfill", end_date=None)
+enhance.annotate_market_timing([before_backfill])
+after_backfill = copy.deepcopy(before_backfill)
+after_backfill["end_date"] = "2026-09-30T00:00:00+00:00"
+after_backfill["change_history"] = [{"at": "2026-08-27T11:00:00+00:00", "type": "end_date_updated"}]
+enhance.annotate_market_timing([after_backfill])
+backfill_delta = enhance.material_delta(enhance.snapshot_campaigns([before_backfill]), enhance.snapshot_campaigns([after_backfill]), [after_backfill], "2026-08-27T08:00:00+00:00")
+assert not backfill_delta["market_updates"]
+assert backfill_delta["inventory_adjustment_count"] == 1
+
+# A verified source-side change from one known value to another is a genuine market update.
+before_extension = management_campaign("campaign:extension", end_date="2026-09-01T00:00:00+00:00")
+enhance.annotate_market_timing([before_extension])
+after_extension = copy.deepcopy(before_extension)
+after_extension["end_date"] = "2026-10-01T00:00:00+00:00"
+after_extension["change_history"] = [{"at": "2026-08-27T11:00:00+00:00", "type": "source_content_changed"}]
+enhance.annotate_market_timing([after_extension])
+extension_delta = enhance.material_delta(enhance.snapshot_campaigns([before_extension]), enhance.snapshot_campaigns([after_extension]), [after_extension], "2026-08-27T08:00:00+00:00")
+assert extension_delta["market_updates"][0]["fields"] == ["end_date"]
+assert after_extension["market_last_changed"] == "2026-08-27T11:00:00+00:00"
+
+# A campaign with a verified recent start date is a real launch, even if discovered later.
+recent_launch = management_campaign("campaign:recent", start_date="2026-08-26T00:00:00+00:00")
+recent_rows = [copy.deepcopy(control), recent_launch]
+enhance.annotate_market_timing(recent_rows)
+recent_delta = enhance.material_delta(control_snapshot, enhance.snapshot_campaigns(recent_rows), recent_rows, "2026-08-27T08:00:00+00:00")
+assert [row["id"] for row in recent_delta["market_launches"]] == ["campaign:recent"]
+
+# A new social post attached to an older campaign is context, not a relaunch.
+old_with_new_post = management_campaign("campaign:old-social", start_date="2026-08-01T00:00:00+00:00", social_first_post="2026-08-27T10:00:00+00:00")
+social_rows = [copy.deepcopy(control), old_with_new_post]
+enhance.annotate_market_timing(social_rows)
+social_delta = enhance.material_delta(control_snapshot, enhance.snapshot_campaigns(social_rows), social_rows, "2026-08-27T08:00:00+00:00")
+assert not social_delta["market_launches"]
+
+summary = enhance.deterministic_summary(late_rows, late_delta)
+assert "executive_view" in summary and "recommended_actions" in summary
+assert "No verified market launch" in summary["key_developments"][0]
+assert "1 added" not in json.dumps(summary)
+
+chart_source = (ROOT / "assets" / "index.js").read_text(encoding="utf-8")
+chart_logic = chart_source.split("function campaignChangeValues", 1)[1].split("function renderSocialChart", 1)[0]
+assert "market_launch_date" in chart_logic and "market_last_changed" in chart_logic and "market_expiry_date" in chart_logic
+assert "item.first_seen" not in chart_logic and "item.last_changed" not in chart_logic
+enhance.now = original_now
+
 # Detail verification must stop starting new network calls when its wall-clock budget is
 # exhausted. Unchecked records remain in the dataset and keep their last-known-good fields.
 budget_config = copy.deepcopy(config)
