@@ -104,7 +104,7 @@ def campaign_status(item,as_of):
     return "Active"
 
 def sort_date(item):
-    for field in ("start_date","published_at","first_seen","last_changed"):
+    for field in ("start_date","first_seen","last_changed"):
         value=parse_date(item.get(field))
         if value:return value
     return datetime(1900,1,1,tzinfo=timezone.utc)
@@ -197,7 +197,8 @@ def update_sheet(xml_bytes,items,start,merchant_count,social_index,as_of):
         official_link=i.get("official_campaign_page_url") or i.get("primary_official_source_url") or i.get("link")
         vals={"B":CATEGORY.get(i.get("campaign_category"),i.get("campaign_category") or "Other"),"C":i.get("title"),"D":brief(i.get("summary") or i.get("snippet")),"J":i.get("operation_type"),"K":i.get("mechanic"),"L":i.get("eligibility"),"N":official_link,"O":links.get("instagram"),"P":links.get("x"),"Q":links.get("facebook"),"R":links.get("tiktok"),"S":i.get("terms_note"),"U":platforms}
         for letter,v in vals.items():text(cell(row,letter),v)
-        for letter,field in [("E","published_at"),("F","start_date"),("G","end_date")]:number(cell(row,letter),serial(parse_date(i.get(field))))
+        clear(cell(row,"E"))
+        for letter,field in [("F","start_date"),("G","end_date")]:number(cell(row,letter),serial(parse_date(i.get(field))))
         cached(cell(row,"A"),idx+1)
         end=parse_date(i.get("end_date"));cached(cell(row,"H"),(end.date()-as_of.date()).days if end else None)
         cached(cell(row,"I"),campaign_status(i,as_of));cached(cell(row,"M"),official_link)

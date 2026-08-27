@@ -1965,6 +1965,61 @@ def recompute_social_analytics(data):
     data["social_analytics_rebuilt_at"]=iso(current)
     return len(campaigns)
 
+def ensure_campaign_start_dates(data):
+    """Guarantee every approved campaign has a start date without fabricating a market launch.
+
+    Priority: explicit official start date, earliest verified campaign publication/post, then
+    first observed date as a clearly marked estimate. Suggested social links never qualify.
+    """
+    current=now();stats=Counter()
+    for item in data.get("items",[]):
+        if item.get("content_type")!="campaign" or item.get("review_required"):continue
+        if dt(item.get("start_date")):
+            item.setdefault("start_date_basis","official_start_date")
+            item.setdefault("start_date_estimated",False)
+            stats["official"]+=1
+            continue
+
+        evidence=[]
+        published=dt(item.get("published_at"))
+        if published:evidence.append((published,"record_publication",item.get("primary_official_source_url") or item.get("link")))
+        social_first=dt(item.get("social_first_post"))
+        if social_first:
+            source_url=None
+            for post in item.get("linked_posts") or []:
+                if dt(post.get("published_at"))==social_first:
+                    source_url=post.get("link");break
+            evidence.append((social_first,"first_verified_social_post",source_url))
+
+        if evidence:
+            chosen,basis,source_url=min(evidence,key=lambda row:row[0])
+            item["start_date"]=iso(chosen)
+            item["start_date_basis"]="first_verified_social_post"
+            item["start_date_estimated"]=True
+            item["start_date_evidence_type"]=basis
+            if source_url:item["start_date_source_url"]=source_url
+            append_change(item,"start_date_inferred",{"basis":basis,"source":source_url})
+            stats["verified_post"]+=1
+            continue
+
+        observed=dt(item.get("first_seen")) or dt(item.get("last_changed")) or current
+        item["start_date"]=iso(observed)
+        item["start_date_basis"]="first_observed"
+        item["start_date_estimated"]=True
+        item["start_date_evidence_type"]="first_observed"
+        append_change(item,"start_date_estimated",{"basis":"first_observed"})
+        stats["first_observed"]+=1
+
+    remaining=sum(
+        i.get("content_type")=="campaign" and not i.get("review_required") and not dt(i.get("start_date"))
+        for i in data.get("items",[])
+    )
+    data["campaign_start_date_fill"]={
+        "official":stats["official"],"from_verified_post":stats["verified_post"],
+        "from_first_observed":stats["first_observed"],"remaining_missing":remaining,"at":iso(current),
+    }
+    return data["campaign_start_date_fill"]
+
 ARABIC_DIACRITICS=re.compile(r"[\u0610-\u061a\u064b-\u065f\u0670\u06d6-\u06ed]")
 TITLE_STOP={"offer","offers","campaign","campaigns","promotion","promotions","promo","deal","deals","عرض","عروض","حملة","حملات","ترويج","ترويجي"}
 GENERIC_TITLE_KEYS={"read more","learn more","details","view details","more","explore more","view offer","اعرف المزيد","استكشف المزيد","المزيد","التفاصيل","تفاصيل العرض","عرض التفاصيل"}
@@ -2238,7 +2293,7 @@ MANAGEMENT_EXPIRY_DAYS=7
 MARKET_UPDATE_FIELDS=("mechanic","eligibility","terms_note","start_date","end_date","offer_values","corridors")
 SNAPSHOT_FIELDS=(
     "competitor_id","title","campaign_category","mechanic","eligibility","terms_note",
-    "published_at","start_date","end_date","offer_values","corridors","current_status","active",
+    "start_date","end_date","offer_values","corridors","current_status","active",
     "market_launch_date","market_date_basis","market_last_changed","market_expiry_date",
 )
 COMPETITOR_LABELS={
@@ -2256,12 +2311,13 @@ def _snapshot_value(value):
 
 def campaign_market_date(item):
     """Return a source-side market date, never an Admin review or ingestion timestamp."""
-    for field,basis in (("start_date","official_start_date"),("published_at","official_published_date"),("social_first_post","first_official_campaign_post")):
-        value=dt(item.get(field))
-        if not value:continue
-        # A newly linked social post is not enough to re-label a baseline campaign as a new launch.
-        if field=="social_first_post" and item.get("baseline_import"):continue
-        return iso(value),basis
+    start=dt(item.get("start_date"));basis=item.get("start_date_basis")
+    if start:
+        if basis=="first_observed":return None,None
+        if basis=="first_verified_social_post":
+            event_basis="official_published_date" if item.get("start_date_evidence_type")=="record_publication" else "first_official_campaign_post"
+            return iso(start),event_basis
+        return iso(start),"official_start_date"
     return None,None
 
 def annotate_market_timing(items):
@@ -2541,6 +2597,7 @@ def main():
     apply_verified_official_classification(data,config)
     finalize_counted_statuses(data,overrides,config)
     recompute_social_analytics(data)
+    ensure_campaign_start_dates(data)
     sanitize_campaign_media(data)
     detect_duplicates_replacements(data)
     scan_summary["review_after"]=sum(item.get("active") is not False and item.get("review_required") for item in data.get("items",[]))
