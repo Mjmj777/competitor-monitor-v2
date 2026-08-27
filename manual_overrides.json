@@ -1,6 +1,6 @@
 {
   "schema_version": 3,
-  "updated_at": "2026-08-26T12:33:17.486754+00:00",
+  "updated_at": "2026-08-27T04:33:27.422914+00:00",
   "items": {
     "detected:stc-bank:fbee4408c8f62cd77d91": {
       "content_type": "merchant_offer",
@@ -79,9 +79,65 @@
       "reviewed_by": "admin",
       "reviewed_at": "2026-08-26T12:33:17.486754+00:00",
       "review_request_id": "93d070ca-6835-4f86-b4b7-15373c5ba6a4"
+    },
+    "post:tiqmo:facebook:746038f199a04bcda389": {
+      "review_required": false,
+      "review_reasons": [],
+      "review_decision": "group_campaign",
+      "reviewed_by": "admin",
+      "reviewed_at": "2026-08-27T04:33:27.422914+00:00",
+      "review_request_id": "7744d3d2-2bfd-4c7f-a7e5-a7307e7d8a52",
+      "campaign_id": "manual:review:tiqmo:7744d3d2-2bfd-4c7f-a7e5-a7307e7d8a52",
+      "linked_campaign_id": "manual:review:tiqmo:7744d3d2-2bfd-4c7f-a7e5-a7307e7d8a52",
+      "record_role": "campaign_evidence",
+      "content_type": "social_post",
+      "current_status": "Linked"
+    },
+    "post:tiqmo:x:d451a888b8b64980d91a": {
+      "review_required": false,
+      "review_reasons": [],
+      "review_decision": "group_campaign",
+      "reviewed_by": "admin",
+      "reviewed_at": "2026-08-27T04:33:27.422914+00:00",
+      "review_request_id": "7744d3d2-2bfd-4c7f-a7e5-a7307e7d8a52",
+      "campaign_id": "manual:review:tiqmo:7744d3d2-2bfd-4c7f-a7e5-a7307e7d8a52",
+      "linked_campaign_id": "manual:review:tiqmo:7744d3d2-2bfd-4c7f-a7e5-a7307e7d8a52",
+      "record_role": "campaign_evidence",
+      "content_type": "social_post",
+      "current_status": "Linked"
     }
   },
-  "new_items": [],
+  "new_items": [
+    {
+      "id": "manual:review:tiqmo:7744d3d2-2bfd-4c7f-a7e5-a7307e7d8a52",
+      "competitor_id": "tiqmo",
+      "content_type": "campaign",
+      "campaign_category": "card",
+      "title": "Spend More, Win More!",
+      "summary": "Spend More, Win More! Every riyal spent with #tiqmo free Platinum card gets you closer to win SAR 100,000 and many more valuable prizes. Don't wait, shop today with your #tiqmo Card! صرفك معنا يخليك كسبان! كل ريال تصرفه مع بطاقة #تكمو البلاتينية المجانية يقرّبك اكثر لربح 100,000 ريال, وغيرها الكثير من الجوائز. لا تفوّت فرصتك… وخل مشترياتك مع بطاقة #تكمو! https://tiqmo.go.link/JXFRO",
+      "official_campaign_page_url": "https://m.facebook.com/Tiqmoksa/posts/pfbid02c7PJipWJA9SNNWsSqsG1H72VTzeqYR6PVsHx4Y3NagD5vLYJbDzgy7cc93XhXQT6l",
+      "primary_official_source_url": "https://m.facebook.com/Tiqmoksa/posts/pfbid02c7PJipWJA9SNNWsSqsG1H72VTzeqYR6PVsHx4Y3NagD5vLYJbDzgy7cc93XhXQT6l",
+      "link": "https://m.facebook.com/Tiqmoksa/posts/pfbid02c7PJipWJA9SNNWsSqsG1H72VTzeqYR6PVsHx4Y3NagD5vLYJbDzgy7cc93XhXQT6l",
+      "social_links": {
+        "facebook": "https://m.facebook.com/Tiqmoksa/posts/pfbid02c7PJipWJA9SNNWsSqsG1H72VTzeqYR6PVsHx4Y3NagD5vLYJbDzgy7cc93XhXQT6l",
+        "x": "https://x.com/tiqmo/status/2088219298057892270"
+      },
+      "start_date": "2026-08-01",
+      "end_date": "2026-08-31",
+      "active": true,
+      "review_approved": true,
+      "review_decision": "group_campaign",
+      "review_required": false,
+      "reviewed_by": "admin",
+      "reviewed_at": "2026-08-27T04:33:27.422914+00:00",
+      "review_request_id": "7744d3d2-2bfd-4c7f-a7e5-a7307e7d8a52",
+      "evidence_ids": [
+        "post:tiqmo:facebook:746038f199a04bcda389",
+        "post:tiqmo:x:d451a888b8b64980d91a"
+      ],
+      "created_at": "2026-08-27T04:33:27.422914+00:00"
+    }
+  ],
   "review_history": [
     {
       "request_id": "f031c312-bf79-4583-9b18-d59a29951519",
@@ -142,6 +198,18 @@
         "detected:stc-bank:f7eead73e108aea96188"
       ],
       "campaign_id": "detected:stc-bank:f7eead73e108aea96188"
+    },
+    {
+      "request_id": "7744d3d2-2bfd-4c7f-a7e5-a7307e7d8a52",
+      "reviewed_at": "2026-08-27T04:33:27.422914+00:00",
+      "reviewed_by": "admin",
+      "action": "group_campaign",
+      "item_ids": [
+        "post:tiqmo:facebook:746038f199a04bcda389",
+        "post:tiqmo:x:d451a888b8b64980d91a"
+      ],
+      "campaign_id": "manual:review:tiqmo:7744d3d2-2bfd-4c7f-a7e5-a7307e7d8a52",
+      "record_ids": []
     }
   ]
 }
