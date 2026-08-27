@@ -13,6 +13,10 @@
     return item?.suggested_record_type === "merchant_offer";
   }
 
+  function potentialCampaign(item) {
+    return item?.suggested_record_type === "campaign";
+  }
+
   function separateMerchantEligible(item) {
     return potentialMerchant(item) && item?.source_type === "website" && item?.official_discovery === true && Boolean(officialEvidence(item));
   }
@@ -26,7 +30,7 @@
       if (state.filters.suggested === "none" && item.suggested_record_type) return false;
       if (state.filters.suggested && state.filters.suggested !== "none" && item.suggested_record_type !== state.filters.suggested) return false;
       return !query || `${item.title || ""} ${item.snippet || ""}`.toLowerCase().includes(query);
-    }).sort((a, b) => Number(potentialMerchant(b)) - Number(potentialMerchant(a)) || Number(b.review_priority || 0) - Number(a.review_priority || 0));
+    }).sort((a, b) => (Number(potentialCampaign(b)) * 2 + Number(potentialMerchant(b))) - (Number(potentialCampaign(a)) * 2 + Number(potentialMerchant(a))) || Number(b.review_priority || 0) - Number(a.review_priority || 0));
   }
 
   function option(value, label) { return C.el("option", { value }, label); }
@@ -39,7 +43,9 @@
     C.clear(source); source.append(option("", C.t("allSources")), ...[...new Set(items.map((i) => i.source_type).filter(Boolean))].sort().map((value) => option(value, C.t(value === "social" ? "posts" : value))));
     C.clear(suggested); suggested.append(option("", C.t("all")), option("merchant_offer", C.t("merchantCandidates")), option("campaign", C.t("suggestedCampaign")), option("none", C.t("suggestedUnclassified")));
     competitor.value = state.filters.competitor; reason.value = state.filters.reason; source.value = state.filters.source; suggested.value = state.filters.suggested;
-    const merchantCount = items.filter(separateMerchantEligible).length;
+    const campaignCount = items.filter(potentialCampaign).length;
+    const merchantCount = items.filter(potentialMerchant).length;
+    $("review-filter-campaigns").textContent = `${C.t("suggestedCampaign")} (${campaignCount})`;
     $("review-filter-merchants").textContent = `${C.t("merchantCandidates")} (${merchantCount})`;
   }
 
@@ -168,7 +174,8 @@
     $("review-search").addEventListener("input", (event) => { state.filters.search = event.target.value; render(); });
     for (const [id, key] of [["review-competitor", "competitor"], ["review-reason", "reason"], ["review-source", "source"], ["review-suggested", "suggested"]]) $(id).addEventListener("change", (event) => { state.filters[key] = event.target.value; render(); });
     $("review-clear-filters").onclick = () => { state.filters = { search: "", competitor: "", reason: "", source: "", suggested: "" }; $("review-search").value = ""; fillFilters(); render(); };
-    $("review-filter-merchants").onclick = () => { state.selected.clear(); state.filters.suggested = "merchant_offer"; state.filters.source = "website"; $("review-suggested").value = "merchant_offer"; $("review-source").value = "website"; render(); };
+    $("review-filter-campaigns").onclick = () => { state.selected.clear(); state.filters.suggested = "campaign"; state.filters.source = ""; $("review-suggested").value = "campaign"; $("review-source").value = ""; render(); };
+    $("review-filter-merchants").onclick = () => { state.selected.clear(); state.filters.suggested = "merchant_offer"; state.filters.source = ""; $("review-suggested").value = "merchant_offer"; $("review-source").value = ""; render(); };
     $("review-select-all").onchange = (event) => { visibleItems().forEach((item) => event.target.checked ? state.selected.add(item.id) : state.selected.delete(item.id)); render(); };
     $("review-group").onclick = () => openGroupDialog([...state.selected]); $("review-link").onclick = () => openLinkDialog([...state.selected]);
     $("review-confirm-merchants").onclick = () => confirmSeparateMerchants([...state.selected]);
