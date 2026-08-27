@@ -1,6 +1,6 @@
 {
   "schema_version": 3,
-  "updated_at": "2026-08-27T04:39:16.674519+00:00",
+  "updated_at": "2026-08-27T04:42:28.381955+00:00",
   "items": {
     "detected:stc-bank:fbee4408c8f62cd77d91": {
       "content_type": "merchant_offer",
@@ -2530,6 +2530,84 @@
       "reviewed_by": "admin",
       "reviewed_at": "2026-08-27T04:39:16.674519+00:00",
       "review_request_id": "fb40b44a-5d1c-49e7-951d-4e87fd94850d"
+    },
+    "post:stc-bank:facebook:1fdb737b0bd0c1413711": {
+      "review_required": false,
+      "review_reasons": [],
+      "review_decision": "link_existing",
+      "reviewed_by": "admin",
+      "reviewed_at": "2026-08-27T04:42:28.381955+00:00",
+      "review_request_id": "e10bd3f1-d197-492e-b6ab-6a60cbfb896b",
+      "campaign_id": "detected:stc-bank:1971eae04c5a15cc8860",
+      "linked_campaign_id": "detected:stc-bank:1971eae04c5a15cc8860",
+      "record_role": "campaign_evidence",
+      "content_type": "social_post",
+      "current_status": "Linked"
+    },
+    "post:stc-bank:instagram:2afd4c9eadca30c26b76": {
+      "review_required": false,
+      "review_reasons": [],
+      "review_decision": "link_existing",
+      "reviewed_by": "admin",
+      "reviewed_at": "2026-08-27T04:42:28.381955+00:00",
+      "review_request_id": "e10bd3f1-d197-492e-b6ab-6a60cbfb896b",
+      "campaign_id": "detected:stc-bank:1971eae04c5a15cc8860",
+      "linked_campaign_id": "detected:stc-bank:1971eae04c5a15cc8860",
+      "record_role": "campaign_evidence",
+      "content_type": "social_post",
+      "current_status": "Linked"
+    },
+    "post:stc-bank:x:ff078c3f356e820a8098": {
+      "review_required": false,
+      "review_reasons": [],
+      "review_decision": "link_existing",
+      "reviewed_by": "admin",
+      "reviewed_at": "2026-08-27T04:42:28.381955+00:00",
+      "review_request_id": "e10bd3f1-d197-492e-b6ab-6a60cbfb896b",
+      "campaign_id": "detected:stc-bank:1971eae04c5a15cc8860",
+      "linked_campaign_id": "detected:stc-bank:1971eae04c5a15cc8860",
+      "record_role": "campaign_evidence",
+      "content_type": "social_post",
+      "current_status": "Linked"
+    },
+    "post:stc-bank:facebook:6b9b9caf80f2f4c2c1cc": {
+      "review_required": false,
+      "review_reasons": [],
+      "review_decision": "link_existing",
+      "reviewed_by": "admin",
+      "reviewed_at": "2026-08-27T04:42:28.381955+00:00",
+      "review_request_id": "e10bd3f1-d197-492e-b6ab-6a60cbfb896b",
+      "campaign_id": "detected:stc-bank:1971eae04c5a15cc8860",
+      "linked_campaign_id": "detected:stc-bank:1971eae04c5a15cc8860",
+      "record_role": "campaign_evidence",
+      "content_type": "social_post",
+      "current_status": "Linked"
+    },
+    "post:stc-bank:x:37931084a754be1701a6": {
+      "review_required": false,
+      "review_reasons": [],
+      "review_decision": "link_existing",
+      "reviewed_by": "admin",
+      "reviewed_at": "2026-08-27T04:42:28.381955+00:00",
+      "review_request_id": "e10bd3f1-d197-492e-b6ab-6a60cbfb896b",
+      "campaign_id": "detected:stc-bank:1971eae04c5a15cc8860",
+      "linked_campaign_id": "detected:stc-bank:1971eae04c5a15cc8860",
+      "record_role": "campaign_evidence",
+      "content_type": "social_post",
+      "current_status": "Linked"
+    },
+    "post:stc-bank:instagram:fbf1ea9ad4b517f59065": {
+      "review_required": false,
+      "review_reasons": [],
+      "review_decision": "link_existing",
+      "reviewed_by": "admin",
+      "reviewed_at": "2026-08-27T04:42:28.381955+00:00",
+      "review_request_id": "e10bd3f1-d197-492e-b6ab-6a60cbfb896b",
+      "campaign_id": "detected:stc-bank:1971eae04c5a15cc8860",
+      "linked_campaign_id": "detected:stc-bank:1971eae04c5a15cc8860",
+      "record_role": "campaign_evidence",
+      "content_type": "social_post",
+      "current_status": "Linked"
     }
   },
   "new_items": [
@@ -2938,6 +3016,22 @@
       "record_ids": [
         "detected:stc-bank:c060b1d79a252a32e7cc"
       ]
+    },
+    {
+      "request_id": "e10bd3f1-d197-492e-b6ab-6a60cbfb896b",
+      "reviewed_at": "2026-08-27T04:42:28.381955+00:00",
+      "reviewed_by": "admin",
+      "action": "link_existing",
+      "item_ids": [
+        "post:stc-bank:facebook:1fdb737b0bd0c1413711",
+        "post:stc-bank:instagram:2afd4c9eadca30c26b76",
+        "post:stc-bank:x:ff078c3f356e820a8098",
+        "post:stc-bank:facebook:6b9b9caf80f2f4c2c1cc",
+        "post:stc-bank:x:37931084a754be1701a6",
+        "post:stc-bank:instagram:fbf1ea9ad4b517f59065"
+      ],
+      "campaign_id": "detected:stc-bank:1971eae04c5a15cc8860",
+      "record_ids": []
     }
   ]
 }

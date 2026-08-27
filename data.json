@@ -3919,7 +3919,7 @@
     "remittance_campaigns": 11,
     "expiring_30d": 6,
     "social_posts_7d": 225,
-    "review_required": 507,
+    "review_required": 501,
     "healthy_sources": 31,
     "failed_sources": 0,
     "total_sources": 31
@@ -3927,12 +3927,12 @@
   "refresh_summary": {
     "request_id": "33037601934",
     "competitor": "all",
-    "completed_at": "2026-08-27T04:39:19.127369+00:00",
+    "completed_at": "2026-08-27T04:42:30.810924+00:00",
     "new_offers": 1,
     "updated_offers": 216,
     "unchanged_offers": 129,
     "new_posts": 36,
-    "needs_review": 507,
+    "needs_review": 501,
     "failed_sources": 0,
     "zero_item_sources": 0,
     "preserved_last_known_good": 0
@@ -4058,12 +4058,12 @@
     {
       "request_id": "33037601934",
       "competitor": "all",
-      "completed_at": "2026-08-27T04:39:19.127369+00:00",
+      "completed_at": "2026-08-27T04:42:30.810924+00:00",
       "new_offers": 1,
       "updated_offers": 216,
       "unchanged_offers": 129,
       "new_posts": 36,
-      "needs_review": 507,
+      "needs_review": 501,
       "failed_sources": 0,
       "zero_item_sources": 0,
       "preserved_last_known_good": 0
@@ -4238,379 +4238,6 @@
       "last_live_verified_at": "2026-08-26T12:04:37.584346+00:00",
       "last_reviewed": "2026-08-26T12:04:37.584346+00:00",
       "review_priority": 33
-    },
-    {
-      "id": "post:stc-bank:facebook:1fdb737b0bd0c1413711",
-      "competitor_id": "stc-bank",
-      "source_key": "social:stc-bank:facebook",
-      "source_type": "social",
-      "platform": "facebook",
-      "content_type": "social_post",
-      "campaign_category": "remittance",
-      "primary_category": "remittance",
-      "categories": [
-        "remittance"
-      ],
-      "title": "Bawat international transfer ay maaaring magpanalo sa iyo ng kotse kada linggo o SAR 1,000 araw-araw 🚗 Mag-internationa...",
-      "snippet": "Bawat international transfer ay maaaring magpanalo sa iyo ng kotse kada linggo o SAR 1,000 araw-araw 🚗 Mag-international transfer at sumali sa draw.",
-      "link": "https://m.facebook.com/stcbank/posts/pfbid02SkwmrhLEYCNkX6pxvxrCNNwu1ss21nq39SBoC8Yco63iGzDGTfdzuTYWF39Km99Zl",
-      "social_links": {
-        "facebook": "https://m.facebook.com/stcbank/posts/pfbid02SkwmrhLEYCNkX6pxvxrCNNwu1ss21nq39SBoC8Yco63iGzDGTfdzuTYWF39Km99Zl"
-      },
-      "social_link_count": 1,
-      "published_at": "2026-08-25T17:36:24+00:00",
-      "active": true,
-      "direct_link": true,
-      "verified": true,
-      "review_required": true,
-      "review_reasons": [
-        "social_campaign_match_uncertain"
-      ],
-      "current_status": null,
-      "post_role": "promotion_or_content",
-      "mechanic_tags": [
-        "prize_draw"
-      ],
-      "theme_tags": [
-        "international_transfer"
-      ],
-      "media": {
-        "url": "https://scontent-fra5-1.xx.fbcdn.net/v/t39.30808-6/785600675_1396920162564851_5881708073075199996_n.jpg?_nc_cat=102&_nc_gid=FO0Sd43GeKvZ3KeZW_tnEg&_nc_ht=scontent-fra5-1.xx&_nc_oc=AdrHbGmytEUjec2ezkU7R41vwPT3d6S9SBl_bwa86GphThqZCi3vKSEFroYQK48oMpQ&_nc_ohc=kCEDV945e4MQ7kNvwHsCVt_&_nc_sid=ebae6b&_nc_ss=7b289&_nc_zt=23&ccb=1-7&oe=6A94974B&oh=00_AQEAUMvremFb3h_2zfbC7ReLubRwAM0F5dtlgaK4W49clw&stp=dst-jpg_s1080x2048_tt6",
-        "type": "image",
-        "thumbnail_url": "https://scontent-fra5-1.xx.fbcdn.net/v/t39.30808-6/785600675_1396920162564851_5881708073075199996_n.jpg?_nc_cat=102&_nc_gid=FO0Sd43GeKvZ3KeZW_tnEg&_nc_ht=scontent-fra5-1.xx&_nc_oc=AdrHbGmytEUjec2ezkU7R41vwPT3d6S9SBl_bwa86GphThqZCi3vKSEFroYQK48oMpQ&_nc_ohc=kCEDV945e4MQ7kNvwHsCVt_&_nc_sid=ebae6b&_nc_ss=7b289&_nc_zt=23&ccb=1-7&oe=6A94974B&oh=00_AQEAUMvremFb3h_2zfbC7ReLubRwAM0F5dtlgaK4W49clw&stp=dst-jpg_s1080x2048_tt6"
-      },
-      "first_seen": "2026-08-25T17:46:24.988362+00:00",
-      "last_seen": "2026-08-27T03:51:56.195769+00:00",
-      "last_changed": "2026-08-26T10:55:22.261463+00:00",
-      "version": 13,
-      "change_history": [
-        {
-          "at": "2026-08-25T17:46:24.988362+00:00",
-          "type": "detected",
-          "version": 1
-        },
-        {
-          "at": "2026-08-25T19:46:19.617312+00:00",
-          "type": "updated",
-          "version": 2
-        },
-        {
-          "at": "2026-08-25T21:00:37.547296+00:00",
-          "type": "updated",
-          "version": 3
-        },
-        {
-          "at": "2026-08-25T23:00:33.317989+00:00",
-          "type": "updated",
-          "version": 4
-        },
-        {
-          "at": "2026-08-25T23:55:43.533377+00:00",
-          "type": "updated",
-          "version": 5
-        },
-        {
-          "at": "2026-08-26T01:56:07.999714+00:00",
-          "type": "updated",
-          "version": 6
-        },
-        {
-          "at": "2026-08-26T02:23:13.858683+00:00",
-          "type": "updated",
-          "version": 7
-        },
-        {
-          "at": "2026-08-26T04:50:28.536146+00:00",
-          "type": "updated",
-          "version": 8
-        },
-        {
-          "at": "2026-08-26T05:05:29.025352+00:00",
-          "type": "updated",
-          "version": 9
-        },
-        {
-          "at": "2026-08-26T05:54:46.417367+00:00",
-          "type": "updated",
-          "version": 10
-        },
-        {
-          "at": "2026-08-26T07:10:45.580101+00:00",
-          "type": "updated",
-          "version": 11
-        },
-        {
-          "at": "2026-08-26T08:10:12.492153+00:00",
-          "type": "updated",
-          "version": 12
-        },
-        {
-          "at": "2026-08-26T10:55:22.261463+00:00",
-          "type": "updated",
-          "version": 13
-        }
-      ],
-      "outbound_links": [
-        "https://scontent-fra5-1.xx.fbcdn.net/v/t39.30808-6/785600675_1396920162564851_5881708073075199996_n.jpg?_nc_cat=102&_nc_gid=FO0Sd43GeKvZ3KeZW_tnEg&_nc_ht=scontent-fra5-1.xx&_nc_oc=AdrHbGmytEUjec2ezkU7R41vwPT3d6S9SBl_bwa86GphThqZCi3vKSEFroYQK48oMpQ&_nc_ohc=kCEDV945e4MQ7kNvwHsCVt_&_nc_sid=ebae6b&_nc_ss=7b289&_nc_zt=23&ccb=1-7&oe=6A94974B&oh=00_AQEAUMvremFb3h_2zfbC7ReLubRwAM0F5dtlgaK4W49clw&stp=dst-jpg_s1080x2048_tt6"
-      ],
-      "official_evidence_url": null,
-      "official_campaign_page_url": null,
-      "primary_official_source_url": "https://m.facebook.com/stcbank/posts/pfbid02SkwmrhLEYCNkX6pxvxrCNNwu1ss21nq39SBoC8Yco63iGzDGTfdzuTYWF39Km99Zl",
-      "manual_override": true,
-      "corridors": [],
-      "suggested_campaign_id": "detected:stc-bank:1971eae04c5a15cc8860",
-      "review_priority": 31
-    },
-    {
-      "id": "post:stc-bank:instagram:2afd4c9eadca30c26b76",
-      "competitor_id": "stc-bank",
-      "source_key": "social:stc-bank:instagram",
-      "source_type": "social",
-      "platform": "instagram",
-      "content_type": "review",
-      "campaign_category": "remittance",
-      "primary_category": "remittance",
-      "categories": [
-        "remittance"
-      ],
-      "title": "‏كل حوالة دولية = فرصة فوز جديدة ‏فائز أسبوعي بسيارة 🚗 ، و10 فائزين يوميًا بـ1,000 ريال ‏حوّل الآن عبر التطبيق",
-      "snippet": "‏كل حوالة دولية = فرصة فوز جديدة ‏فائز أسبوعي بسيارة 🚗 ، و10 فائزين يوميًا بـ1,000 ريال ‏حوّل الآن عبر التطبيق",
-      "link": "https://www.instagram.com/p/DcRJCmIjOCs",
-      "social_links": {
-        "instagram": "https://www.instagram.com/p/DcRJCmIjOCs"
-      },
-      "social_link_count": 1,
-      "published_at": "2026-08-20T15:59:49+00:00",
-      "active": true,
-      "direct_link": true,
-      "verified": true,
-      "review_required": true,
-      "review_reasons": [
-        "winner_announcement_unlinked",
-        "social_campaign_match_uncertain"
-      ],
-      "current_status": "Needs Review",
-      "post_role": "winner_announcement",
-      "mechanic_tags": [
-        "other"
-      ],
-      "theme_tags": [
-        "international_transfer"
-      ],
-      "media": {
-        "url": "https://scontent-lga3-1.cdninstagram.com/v/t51.82787-15/782362294_18391092268201961_7852311260151097889_n.jpg?_nc_ad=z-m&_nc_cat=110&_nc_cid=0&_nc_gid=aBJO3bzIRAi6Np2msPsa-A&_nc_ht=scontent-lga3-1.cdninstagram.com&_nc_oc=Adr6PJvN1LomFDR-hY9H1PZs0C5e9tr8UPXae4RebC_k9lYaEvcfmdGUn-ZPGw8bKlQ&_nc_ohc=61yDQiGlxPsQ7kNvwEpkzDx&_nc_sid=58cdad&_nc_ss=7a22e&_nc_zt=23&ccb=7-5&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuMjI1MC5zZHIucmVndWxhcl9waG90by5DMyJ9&ig_cache_key=Mzk2Nzk5MjIzNjQzNDc2MjI1Ng%3D%3D.3-ccb7-5&oe=6A94A0C3&oh=00_AQFJPwpobpsMa4vNNN7rLmxqc5ltttpIo0Xpl3YqRg0YOA&stp=dst-jpg_e35_tt6",
-        "type": "image",
-        "thumbnail_url": "https://scontent-lga3-1.cdninstagram.com/v/t51.82787-15/782362294_18391092268201961_7852311260151097889_n.jpg?_nc_ad=z-m&_nc_cat=110&_nc_cid=0&_nc_gid=aBJO3bzIRAi6Np2msPsa-A&_nc_ht=scontent-lga3-1.cdninstagram.com&_nc_oc=Adr6PJvN1LomFDR-hY9H1PZs0C5e9tr8UPXae4RebC_k9lYaEvcfmdGUn-ZPGw8bKlQ&_nc_ohc=61yDQiGlxPsQ7kNvwEpkzDx&_nc_sid=58cdad&_nc_ss=7a22e&_nc_zt=23&ccb=7-5&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuMjI1MC5zZHIucmVndWxhcl9waG90by5DMyJ9&ig_cache_key=Mzk2Nzk5MjIzNjQzNDc2MjI1Ng%3D%3D.3-ccb7-5&oe=6A94A0C3&oh=00_AQFJPwpobpsMa4vNNN7rLmxqc5ltttpIo0Xpl3YqRg0YOA&stp=dst-jpg_e35_tt6"
-      },
-      "first_seen": "2026-08-25T15:44:42.097858+00:00",
-      "last_seen": "2026-08-27T03:51:56.195769+00:00",
-      "last_changed": "2026-08-27T03:51:56.195769+00:00",
-      "version": 13,
-      "change_history": [
-        {
-          "at": "2026-08-25T15:44:42.097858+00:00",
-          "type": "detected",
-          "version": 1
-        },
-        {
-          "at": "2026-08-25T17:46:24.988362+00:00",
-          "type": "updated",
-          "version": 2
-        },
-        {
-          "at": "2026-08-25T19:46:19.617312+00:00",
-          "type": "updated",
-          "version": 3
-        },
-        {
-          "at": "2026-08-25T21:00:37.547296+00:00",
-          "type": "updated",
-          "version": 4
-        },
-        {
-          "at": "2026-08-25T23:00:33.317989+00:00",
-          "type": "updated",
-          "version": 5
-        },
-        {
-          "at": "2026-08-26T01:56:07.999714+00:00",
-          "type": "updated",
-          "version": 6
-        },
-        {
-          "at": "2026-08-26T04:50:28.536146+00:00",
-          "type": "updated",
-          "version": 7
-        },
-        {
-          "at": "2026-08-26T05:54:46.417367+00:00",
-          "type": "updated",
-          "version": 8
-        },
-        {
-          "at": "2026-08-26T07:10:45.580101+00:00",
-          "type": "updated",
-          "version": 9
-        },
-        {
-          "at": "2026-08-26T08:10:12.492153+00:00",
-          "type": "updated",
-          "version": 10
-        },
-        {
-          "at": "2026-08-26T10:55:22.261463+00:00",
-          "type": "updated",
-          "version": 11
-        },
-        {
-          "at": "2026-08-26T12:01:59.476231+00:00",
-          "type": "updated",
-          "version": 12
-        },
-        {
-          "at": "2026-08-27T03:51:56.195769+00:00",
-          "type": "updated",
-          "version": 13
-        }
-      ],
-      "outbound_links": [
-        "https://scontent-lga3-1.cdninstagram.com/v/t51.82787-15/782362294_18391092268201961_7852311260151097889_n.jpg?_nc_ad=z-m&_nc_cat=110&_nc_cid=0&_nc_gid=aBJO3bzIRAi6Np2msPsa-A&_nc_ht=scontent-lga3-1.cdninstagram.com&_nc_oc=Adr6PJvN1LomFDR-hY9H1PZs0C5e9tr8UPXae4RebC_k9lYaEvcfmdGUn-ZPGw8bKlQ&_nc_ohc=61yDQiGlxPsQ7kNvwEpkzDx&_nc_sid=58cdad&_nc_ss=7a22e&_nc_zt=23&ccb=7-5&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuMjI1MC5zZHIucmVndWxhcl9waG90by5DMyJ9&ig_cache_key=Mzk2Nzk5MjIzNjQzNDc2MjI1Ng%3D%3D.3-ccb7-5&oe=6A94A0C3&oh=00_AQFJPwpobpsMa4vNNN7rLmxqc5ltttpIo0Xpl3YqRg0YOA&stp=dst-jpg_e35_tt6"
-      ],
-      "official_evidence_url": null,
-      "official_campaign_page_url": null,
-      "primary_official_source_url": "https://www.instagram.com/p/DcRJCmIjOCs",
-      "manual_override": true,
-      "corridors": [],
-      "suggested_campaign_id": "detected:stc-bank:1971eae04c5a15cc8860",
-      "review_priority": 31
-    },
-    {
-      "id": "post:stc-bank:x:ff078c3f356e820a8098",
-      "competitor_id": "stc-bank",
-      "source_key": "social:stc-bank:x",
-      "source_type": "social",
-      "platform": "x",
-      "content_type": "review",
-      "campaign_category": "remittance",
-      "primary_category": "remittance",
-      "categories": [
-        "remittance"
-      ],
-      "title": "كل حوالة دولية = فرصة فوز جديدة فائز أسبوعي بسيارة 🚗 ، و10 فائزين يوميًا بـ1,000 ريال حوّل الآن عبر التطبيق",
-      "snippet": "كل حوالة دولية = فرصة فوز جديدة فائز أسبوعي بسيارة 🚗 ، و10 فائزين يوميًا بـ1,000 ريال حوّل الآن عبر التطبيق — STC Bank (@stcbank_ksa) Aug 20, 2026",
-      "link": "https://x.com/stcbank_ksa/status/2090397181563875448",
-      "social_links": {
-        "x": "https://x.com/stcbank_ksa/status/2090397181563875448"
-      },
-      "social_link_count": 1,
-      "published_at": "2026-08-20T11:15:00+00:00",
-      "active": true,
-      "direct_link": true,
-      "verified": true,
-      "review_required": true,
-      "review_reasons": [
-        "winner_announcement_unlinked",
-        "social_campaign_match_uncertain"
-      ],
-      "current_status": "Needs Review",
-      "post_role": "winner_announcement",
-      "mechanic_tags": [
-        "other"
-      ],
-      "theme_tags": [
-        "international_transfer"
-      ],
-      "media": {
-        "url": "https://pbs.twimg.com/pbs.twimg.com/media/HQKH1uGXgAAsc6c.jpg",
-        "type": "image",
-        "thumbnail_url": "https://pbs.twimg.com/pbs.twimg.com/media/HQKH1uGXgAAsc6c.jpg"
-      },
-      "first_seen": "2026-08-25T15:44:42.097858+00:00",
-      "last_seen": "2026-08-27T03:51:56.195769+00:00",
-      "last_changed": "2026-08-25T15:44:42.097858+00:00",
-      "version": 1,
-      "change_history": [
-        {
-          "at": "2026-08-25T15:44:42.097858+00:00",
-          "type": "detected",
-          "version": 1
-        }
-      ],
-      "outbound_links": [
-        "https://twitter.com/stcbank_ksa/status/2090397181563875448",
-        "https://platform.twitter.com/widgets.js"
-      ],
-      "official_evidence_url": null,
-      "official_campaign_page_url": null,
-      "primary_official_source_url": "https://x.com/stcbank_ksa/status/2090397181563875448",
-      "manual_override": true,
-      "corridors": [],
-      "suggested_campaign_id": "detected:stc-bank:1971eae04c5a15cc8860",
-      "review_priority": 31
-    },
-    {
-      "id": "post:stc-bank:facebook:6b9b9caf80f2f4c2c1cc",
-      "competitor_id": "stc-bank",
-      "source_key": "social:stc-bank:facebook",
-      "source_type": "social",
-      "platform": "facebook",
-      "content_type": "review",
-      "campaign_category": "remittance",
-      "primary_category": "remittance",
-      "categories": [
-        "remittance"
-      ],
-      "title": "Bawat international transfer = panibagong pagkakataong manalo 💜 Isang winner bawat linggo ang mananalo ng kotse 🚗, at...",
-      "snippet": "Bawat international transfer = panibagong pagkakataong manalo 💜 Isang winner bawat linggo ang mananalo ng kotse 🚗, at 10 winners araw-araw ang makakatanggap ng SAR 1,000 bawat isa. Mag-transfer ngayon gamit ang STC Bank app. https://stcbank.com.sa/…/transfer-internationally-and-enter…",
-      "link": "https://m.facebook.com/stcbank/posts/pfbid0GpRSavEEZ2X3H2ZdcjQU5bzGiUQbeceRD4Mf77SagduYLCRcCZj5sjLY3TYh4Dx7l",
-      "social_links": {
-        "facebook": "https://m.facebook.com/stcbank/posts/pfbid0GpRSavEEZ2X3H2ZdcjQU5bzGiUQbeceRD4Mf77SagduYLCRcCZj5sjLY3TYh4Dx7l"
-      },
-      "social_link_count": 1,
-      "published_at": "2026-08-19T16:57:32+00:00",
-      "active": true,
-      "direct_link": true,
-      "verified": true,
-      "review_required": true,
-      "review_reasons": [
-        "winner_announcement_unlinked",
-        "social_campaign_match_uncertain"
-      ],
-      "current_status": "Needs Review",
-      "post_role": "winner_announcement",
-      "mechanic_tags": [
-        "prize_draw"
-      ],
-      "theme_tags": [
-        "international_transfer"
-      ],
-      "media": {
-        "url": "https://scontent-lga3-3.xx.fbcdn.net/v/t39.30808-6/777904406_1391610266429174_3234414729753357484_n.jpg?_nc_cat=102&_nc_gid=LfqDd7vf2XKrd9ZJLNJTiQ&_nc_ht=scontent-lga3-3.xx&_nc_oc=Ado9gjrm1yygmq_nQgmkdvi_lrNG-9_rBMR4axJJs5WAAKsDbZpGaKhmqJzEiHSXZWk&_nc_ohc=S9gB5sfHbWAQ7kNvwGJTKZm&_nc_sid=ebae6b&_nc_ss=7b289&_nc_zt=23&ccb=1-7&oe=6A8D2EDE&oh=00_AQGHnt6Rt4U7ouk46PFh6YUNscP2c8YmuuCdGn2_s4w2lA&stp=dst-jpg_s1080x2048_tt6",
-        "type": "image",
-        "thumbnail_url": "https://scontent-lga3-3.xx.fbcdn.net/v/t39.30808-6/777904406_1391610266429174_3234414729753357484_n.jpg?_nc_cat=102&_nc_gid=LfqDd7vf2XKrd9ZJLNJTiQ&_nc_ht=scontent-lga3-3.xx&_nc_oc=Ado9gjrm1yygmq_nQgmkdvi_lrNG-9_rBMR4axJJs5WAAKsDbZpGaKhmqJzEiHSXZWk&_nc_ohc=S9gB5sfHbWAQ7kNvwGJTKZm&_nc_sid=ebae6b&_nc_ss=7b289&_nc_zt=23&ccb=1-7&oe=6A8D2EDE&oh=00_AQGHnt6Rt4U7ouk46PFh6YUNscP2c8YmuuCdGn2_s4w2lA&stp=dst-jpg_s1080x2048_tt6"
-      },
-      "first_seen": "2026-08-25T15:44:42.097858+00:00",
-      "last_seen": "2026-08-27T03:51:56.195769+00:00",
-      "last_changed": "2026-08-25T15:44:42.097858+00:00",
-      "version": 1,
-      "change_history": [
-        {
-          "at": "2026-08-25T15:44:42.097858+00:00",
-          "type": "detected",
-          "version": 1
-        }
-      ],
-      "outbound_links": [
-        "https://scontent-lga3-3.xx.fbcdn.net/v/t39.30808-6/777904406_1391610266429174_3234414729753357484_n.jpg?_nc_cat=102&_nc_gid=LfqDd7vf2XKrd9ZJLNJTiQ&_nc_ht=scontent-lga3-3.xx&_nc_oc=Ado9gjrm1yygmq_nQgmkdvi_lrNG-9_rBMR4axJJs5WAAKsDbZpGaKhmqJzEiHSXZWk&_nc_ohc=S9gB5sfHbWAQ7kNvwGJTKZm&_nc_sid=ebae6b&_nc_ss=7b289&_nc_zt=23&ccb=1-7&oe=6A8D2EDE&oh=00_AQGHnt6Rt4U7ouk46PFh6YUNscP2c8YmuuCdGn2_s4w2lA&stp=dst-jpg_s1080x2048_tt6",
-        "https://stcbank.com.sa/…/transfer-internationally-and-enter…"
-      ],
-      "official_evidence_url": null,
-      "official_campaign_page_url": null,
-      "primary_official_source_url": "https://m.facebook.com/stcbank/posts/pfbid0GpRSavEEZ2X3H2ZdcjQU5bzGiUQbeceRD4Mf77SagduYLCRcCZj5sjLY3TYh4Dx7l",
-      "manual_override": true,
-      "corridors": [],
-      "suggested_campaign_id": "detected:stc-bank:1971eae04c5a15cc8860",
-      "review_priority": 31
     },
     {
       "id": "post:tiqmo:instagram:37eb7ab34ad8d3932174",
@@ -5509,69 +5136,6 @@
       "corridors": [],
       "suggested_campaign_id": "campaign:barq:6",
       "review_priority": 31
-    },
-    {
-      "id": "post:stc-bank:x:37931084a754be1701a6",
-      "competitor_id": "stc-bank",
-      "source_key": "social:stc-bank:x",
-      "source_type": "social",
-      "platform": "x",
-      "content_type": "review",
-      "campaign_category": "remittance",
-      "primary_category": "remittance",
-      "categories": [
-        "remittance"
-      ],
-      "title": "حوّلت دوليًا؟ ترى الحوالة يمكن تجيب لك سيارة 👀 لو حوّلت اليوم، لأي دولة بتكون حوالتك؟ 👇🏻",
-      "snippet": "حوّلت دوليًا؟ ترى الحوالة يمكن تجيب لك سيارة 👀 لو حوّلت اليوم، لأي دولة بتكون حوالتك؟ 👇🏻STC Bank (@stcbank_ksa)كل حوالة دولية = فرصة فوز جديدة فائز أسبوعي بسيارة 🚗 ، و10 فائزين يوميًا بـ1,000 ريال حوّل الآن عبر التطبيق— https://x.com/stcbank_ksa/status/2090397181563875448 — STC Bank (@stcbank_ksa) Aug 21, 2026",
-      "link": "https://x.com/stcbank_ksa/status/2090846398103142438",
-      "social_links": {
-        "x": "https://x.com/stcbank_ksa/status/2090846398103142438"
-      },
-      "social_link_count": 1,
-      "published_at": "2026-08-21T17:00:00+00:00",
-      "active": true,
-      "direct_link": true,
-      "verified": true,
-      "review_required": true,
-      "review_reasons": [
-        "winner_announcement_unlinked"
-      ],
-      "current_status": "Needs Review",
-      "post_role": "winner_announcement",
-      "mechanic_tags": [
-        "other"
-      ],
-      "theme_tags": [
-        "international_transfer"
-      ],
-      "media": {
-        "url": "https://pbs.twimg.com/pbs.twimg.com/media/HQKH1uGXgAAsc6c.jpg",
-        "type": "image",
-        "thumbnail_url": "https://pbs.twimg.com/pbs.twimg.com/media/HQKH1uGXgAAsc6c.jpg"
-      },
-      "first_seen": "2026-08-25T15:44:42.097858+00:00",
-      "last_seen": "2026-08-27T03:51:56.195769+00:00",
-      "last_changed": "2026-08-25T15:44:42.097858+00:00",
-      "version": 1,
-      "change_history": [
-        {
-          "at": "2026-08-25T15:44:42.097858+00:00",
-          "type": "detected",
-          "version": 1
-        }
-      ],
-      "outbound_links": [
-        "https://x.com/stcbank_ksa/status/2090397181563875448",
-        "https://twitter.com/stcbank_ksa/status/2090846398103142438",
-        "https://platform.twitter.com/widgets.js"
-      ],
-      "official_evidence_url": null,
-      "official_campaign_page_url": null,
-      "primary_official_source_url": "https://x.com/stcbank_ksa/status/2090846398103142438",
-      "manual_override": true,
-      "corridors": [],
-      "review_priority": 28
     },
     {
       "id": "detected:urpay:d5bb9e4e4cbdb4917a9d",
@@ -12604,133 +12168,6 @@
       "manual_override": true,
       "corridors": [],
       "suggested_campaign_id": "detected:barq:22c761ca658d2d3fc9fd",
-      "review_priority": 23
-    },
-    {
-      "id": "post:stc-bank:instagram:fbf1ea9ad4b517f59065",
-      "competitor_id": "stc-bank",
-      "source_key": "social:stc-bank:instagram",
-      "source_type": "social",
-      "platform": "instagram",
-      "content_type": "social_post",
-      "campaign_category": "other",
-      "primary_category": "other",
-      "categories": [
-        "other"
-      ],
-      "title": "Transfer internationally and enter the draw to win a car 🚗",
-      "snippet": "Transfer internationally and enter the draw to win a car 🚗",
-      "link": "https://www.instagram.com/p/DcWtdEUkmCk",
-      "social_links": {
-        "instagram": "https://www.instagram.com/p/DcWtdEUkmCk"
-      },
-      "social_link_count": 1,
-      "published_at": "2026-08-22T19:54:33+00:00",
-      "active": true,
-      "direct_link": true,
-      "verified": true,
-      "review_required": true,
-      "review_reasons": [
-        "social_campaign_match_uncertain"
-      ],
-      "current_status": null,
-      "post_role": "promotion_or_content",
-      "mechanic_tags": [
-        "prize_draw"
-      ],
-      "theme_tags": [
-        "other"
-      ],
-      "media": {
-        "url": "https://scontent-ams2-1.cdninstagram.com/v/t51.82787-15/780949518_18391439668201961_9029750090029718228_n.jpg?_nc_ad=z-m&_nc_cat=101&_nc_cid=0&_nc_gid=yWAzbUWF2qVECwWRtdC01A&_nc_ht=scontent-ams2-1.cdninstagram.com&_nc_oc=AdpWkHCV9MKlKWxL3lA3EebkxsfayIQXpKSJP-RLkcQ8tpDPXpS9d4FBqanjLRhLsLa7L611RWpSyydZsRiWrVh4&_nc_ohc=ITk9Z3F-CBQQ7kNvwHD_pwz&_nc_sid=58cdad&_nc_ss=7a22e&_nc_zt=23&ccb=7-5&efg=eyJ2ZW5jb2RlX3RhZyI6IkNMSVBTLnhwaWRzLjEwODAuc2RyLnZpZGVvX2RlZmF1bHRfY292ZXJfZnJhbWUuQzMifQ%3D%3D&ig_cache_key=Mzk2OTU2MDAzMTE3MTYwMDU0ODE4MzkxNDM5NjY1MjAxOTYx.3-ccb7-5&oe=6A959BEC&oh=00_AQG_VGg2P8D3NLv2XpA096h0R8RylZyWuWhT9Ih-7xgvHw&stp=dst-jpg_e15_tt6",
-        "type": "image",
-        "thumbnail_url": "https://scontent-ams2-1.cdninstagram.com/v/t51.82787-15/780949518_18391439668201961_9029750090029718228_n.jpg?_nc_ad=z-m&_nc_cat=101&_nc_cid=0&_nc_gid=yWAzbUWF2qVECwWRtdC01A&_nc_ht=scontent-ams2-1.cdninstagram.com&_nc_oc=AdpWkHCV9MKlKWxL3lA3EebkxsfayIQXpKSJP-RLkcQ8tpDPXpS9d4FBqanjLRhLsLa7L611RWpSyydZsRiWrVh4&_nc_ohc=ITk9Z3F-CBQQ7kNvwHD_pwz&_nc_sid=58cdad&_nc_ss=7a22e&_nc_zt=23&ccb=7-5&efg=eyJ2ZW5jb2RlX3RhZyI6IkNMSVBTLnhwaWRzLjEwODAuc2RyLnZpZGVvX2RlZmF1bHRfY292ZXJfZnJhbWUuQzMifQ%3D%3D&ig_cache_key=Mzk2OTU2MDAzMTE3MTYwMDU0ODE4MzkxNDM5NjY1MjAxOTYx.3-ccb7-5&oe=6A959BEC&oh=00_AQG_VGg2P8D3NLv2XpA096h0R8RylZyWuWhT9Ih-7xgvHw&stp=dst-jpg_e15_tt6"
-      },
-      "first_seen": "2026-08-25T15:44:42.097858+00:00",
-      "last_seen": "2026-08-27T03:51:56.195769+00:00",
-      "last_changed": "2026-08-27T03:51:56.195769+00:00",
-      "version": 14,
-      "change_history": [
-        {
-          "at": "2026-08-25T15:44:42.097858+00:00",
-          "type": "detected",
-          "version": 1
-        },
-        {
-          "at": "2026-08-25T17:46:24.988362+00:00",
-          "type": "updated",
-          "version": 2
-        },
-        {
-          "at": "2026-08-25T19:46:19.617312+00:00",
-          "type": "updated",
-          "version": 3
-        },
-        {
-          "at": "2026-08-25T21:00:37.547296+00:00",
-          "type": "updated",
-          "version": 4
-        },
-        {
-          "at": "2026-08-25T23:00:33.317989+00:00",
-          "type": "updated",
-          "version": 5
-        },
-        {
-          "at": "2026-08-25T23:55:43.533377+00:00",
-          "type": "updated",
-          "version": 6
-        },
-        {
-          "at": "2026-08-26T01:56:07.999714+00:00",
-          "type": "updated",
-          "version": 7
-        },
-        {
-          "at": "2026-08-26T04:50:28.536146+00:00",
-          "type": "updated",
-          "version": 8
-        },
-        {
-          "at": "2026-08-26T05:54:46.417367+00:00",
-          "type": "updated",
-          "version": 9
-        },
-        {
-          "at": "2026-08-26T07:10:45.580101+00:00",
-          "type": "updated",
-          "version": 10
-        },
-        {
-          "at": "2026-08-26T08:10:12.492153+00:00",
-          "type": "updated",
-          "version": 11
-        },
-        {
-          "at": "2026-08-26T10:55:22.261463+00:00",
-          "type": "updated",
-          "version": 12
-        },
-        {
-          "at": "2026-08-26T12:01:59.476231+00:00",
-          "type": "updated",
-          "version": 13
-        },
-        {
-          "at": "2026-08-27T03:51:56.195769+00:00",
-          "type": "updated",
-          "version": 14
-        }
-      ],
-      "outbound_links": [
-        "https://scontent-ams2-1.cdninstagram.com/v/t51.82787-15/780949518_18391439668201961_9029750090029718228_n.jpg?_nc_ad=z-m&_nc_cat=101&_nc_cid=0&_nc_gid=yWAzbUWF2qVECwWRtdC01A&_nc_ht=scontent-ams2-1.cdninstagram.com&_nc_oc=AdpWkHCV9MKlKWxL3lA3EebkxsfayIQXpKSJP-RLkcQ8tpDPXpS9d4FBqanjLRhLsLa7L611RWpSyydZsRiWrVh4&_nc_ohc=ITk9Z3F-CBQQ7kNvwHD_pwz&_nc_sid=58cdad&_nc_ss=7a22e&_nc_zt=23&ccb=7-5&efg=eyJ2ZW5jb2RlX3RhZyI6IkNMSVBTLnhwaWRzLjEwODAuc2RyLnZpZGVvX2RlZmF1bHRfY292ZXJfZnJhbWUuQzMifQ%3D%3D&ig_cache_key=Mzk2OTU2MDAzMTE3MTYwMDU0ODE4MzkxNDM5NjY1MjAxOTYx.3-ccb7-5&oe=6A959BEC&oh=00_AQG_VGg2P8D3NLv2XpA096h0R8RylZyWuWhT9Ih-7xgvHw&stp=dst-jpg_e15_tt6"
-      ],
-      "official_evidence_url": null,
-      "official_campaign_page_url": null,
-      "primary_official_source_url": "https://www.instagram.com/p/DcWtdEUkmCk",
-      "manual_override": true,
-      "corridors": [],
-      "suggested_campaign_id": "detected:stc-bank:1971eae04c5a15cc8860",
       "review_priority": 23
     },
     {
@@ -61747,9 +61184,11 @@
       "official_campaign_page_url": "https://stcbank.com.sa/en/web/guest/w/transfer-internationally-and-enter-the-draw",
       "primary_official_source_url": "https://stcbank.com.sa/en/web/guest/w/transfer-internationally-and-enter-the-draw",
       "social_links": {
-        "facebook": "https://m.facebook.com/stcbank/posts/pfbid0A7CQGcMTqxF47NMhKYT4TXgNUycHgbn27me4FwmVPMf8EU6wCZ922d62Pnq19ZYrl"
+        "facebook": "https://m.facebook.com/stcbank/posts/pfbid0A7CQGcMTqxF47NMhKYT4TXgNUycHgbn27me4FwmVPMf8EU6wCZ922d62Pnq19ZYrl",
+        "x": "https://x.com/stcbank_ksa/status/2090397181563875448",
+        "instagram": "https://www.instagram.com/p/DcRJCmIjOCs"
       },
-      "social_link_count": 1,
+      "social_link_count": 3,
       "published_at": null,
       "start_date": null,
       "end_date": "2026-10-19T00:00:00+00:00",
@@ -61829,6 +61268,90 @@
           "source_origin": "master+rss"
         },
         {
+          "id": "post:stc-bank:facebook:6b9b9caf80f2f4c2c1cc",
+          "platform": "facebook",
+          "title": "Bawat international transfer = panibagong pagkakataong manalo 💜 Isang winner bawat linggo ang mananalo ng kotse 🚗, at...",
+          "link": "https://m.facebook.com/stcbank/posts/pfbid0GpRSavEEZ2X3H2ZdcjQU5bzGiUQbeceRD4Mf77SagduYLCRcCZj5sjLY3TYh4Dx7l",
+          "published_at": "2026-08-19T16:57:32+00:00",
+          "media": {
+            "url": "https://scontent-lga3-3.xx.fbcdn.net/v/t39.30808-6/777904406_1391610266429174_3234414729753357484_n.jpg?_nc_cat=102&_nc_gid=LfqDd7vf2XKrd9ZJLNJTiQ&_nc_ht=scontent-lga3-3.xx&_nc_oc=Ado9gjrm1yygmq_nQgmkdvi_lrNG-9_rBMR4axJJs5WAAKsDbZpGaKhmqJzEiHSXZWk&_nc_ohc=S9gB5sfHbWAQ7kNvwGJTKZm&_nc_sid=ebae6b&_nc_ss=7b289&_nc_zt=23&ccb=1-7&oe=6A8D2EDE&oh=00_AQGHnt6Rt4U7ouk46PFh6YUNscP2c8YmuuCdGn2_s4w2lA&stp=dst-jpg_s1080x2048_tt6",
+            "type": "image",
+            "thumbnail_url": "https://scontent-lga3-3.xx.fbcdn.net/v/t39.30808-6/777904406_1391610266429174_3234414729753357484_n.jpg?_nc_cat=102&_nc_gid=LfqDd7vf2XKrd9ZJLNJTiQ&_nc_ht=scontent-lga3-3.xx&_nc_oc=Ado9gjrm1yygmq_nQgmkdvi_lrNG-9_rBMR4axJJs5WAAKsDbZpGaKhmqJzEiHSXZWk&_nc_ohc=S9gB5sfHbWAQ7kNvwGJTKZm&_nc_sid=ebae6b&_nc_ss=7b289&_nc_zt=23&ccb=1-7&oe=6A8D2EDE&oh=00_AQGHnt6Rt4U7ouk46PFh6YUNscP2c8YmuuCdGn2_s4w2lA&stp=dst-jpg_s1080x2048_tt6"
+          },
+          "match_method": "manual",
+          "source_origin": "rss"
+        },
+        {
+          "id": "post:stc-bank:x:ff078c3f356e820a8098",
+          "platform": "x",
+          "title": "كل حوالة دولية = فرصة فوز جديدة فائز أسبوعي بسيارة 🚗 ، و10 فائزين يوميًا بـ1,000 ريال حوّل الآن عبر التطبيق",
+          "link": "https://x.com/stcbank_ksa/status/2090397181563875448",
+          "published_at": "2026-08-20T11:15:00+00:00",
+          "media": {
+            "url": "https://pbs.twimg.com/pbs.twimg.com/media/HQKH1uGXgAAsc6c.jpg",
+            "type": "image",
+            "thumbnail_url": "https://pbs.twimg.com/pbs.twimg.com/media/HQKH1uGXgAAsc6c.jpg"
+          },
+          "match_method": "manual",
+          "source_origin": "master+rss"
+        },
+        {
+          "id": "post:stc-bank:instagram:2afd4c9eadca30c26b76",
+          "platform": "instagram",
+          "title": "‏كل حوالة دولية = فرصة فوز جديدة ‏فائز أسبوعي بسيارة 🚗 ، و10 فائزين يوميًا بـ1,000 ريال ‏حوّل الآن عبر التطبيق",
+          "link": "https://www.instagram.com/p/DcRJCmIjOCs",
+          "published_at": "2026-08-20T15:59:49+00:00",
+          "media": {
+            "url": "https://scontent-lga3-1.cdninstagram.com/v/t51.82787-15/782362294_18391092268201961_7852311260151097889_n.jpg?_nc_ad=z-m&_nc_cat=110&_nc_cid=0&_nc_gid=aBJO3bzIRAi6Np2msPsa-A&_nc_ht=scontent-lga3-1.cdninstagram.com&_nc_oc=Adr6PJvN1LomFDR-hY9H1PZs0C5e9tr8UPXae4RebC_k9lYaEvcfmdGUn-ZPGw8bKlQ&_nc_ohc=61yDQiGlxPsQ7kNvwEpkzDx&_nc_sid=58cdad&_nc_ss=7a22e&_nc_zt=23&ccb=7-5&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuMjI1MC5zZHIucmVndWxhcl9waG90by5DMyJ9&ig_cache_key=Mzk2Nzk5MjIzNjQzNDc2MjI1Ng%3D%3D.3-ccb7-5&oe=6A94A0C3&oh=00_AQFJPwpobpsMa4vNNN7rLmxqc5ltttpIo0Xpl3YqRg0YOA&stp=dst-jpg_e35_tt6",
+            "type": "image",
+            "thumbnail_url": "https://scontent-lga3-1.cdninstagram.com/v/t51.82787-15/782362294_18391092268201961_7852311260151097889_n.jpg?_nc_ad=z-m&_nc_cat=110&_nc_cid=0&_nc_gid=aBJO3bzIRAi6Np2msPsa-A&_nc_ht=scontent-lga3-1.cdninstagram.com&_nc_oc=Adr6PJvN1LomFDR-hY9H1PZs0C5e9tr8UPXae4RebC_k9lYaEvcfmdGUn-ZPGw8bKlQ&_nc_ohc=61yDQiGlxPsQ7kNvwEpkzDx&_nc_sid=58cdad&_nc_ss=7a22e&_nc_zt=23&ccb=7-5&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuMjI1MC5zZHIucmVndWxhcl9waG90by5DMyJ9&ig_cache_key=Mzk2Nzk5MjIzNjQzNDc2MjI1Ng%3D%3D.3-ccb7-5&oe=6A94A0C3&oh=00_AQFJPwpobpsMa4vNNN7rLmxqc5ltttpIo0Xpl3YqRg0YOA&stp=dst-jpg_e35_tt6"
+          },
+          "match_method": "manual",
+          "source_origin": "master+rss"
+        },
+        {
+          "id": "post:stc-bank:x:37931084a754be1701a6",
+          "platform": "x",
+          "title": "حوّلت دوليًا؟ ترى الحوالة يمكن تجيب لك سيارة 👀 لو حوّلت اليوم، لأي دولة بتكون حوالتك؟ 👇🏻",
+          "link": "https://x.com/stcbank_ksa/status/2090846398103142438",
+          "published_at": "2026-08-21T17:00:00+00:00",
+          "media": {
+            "url": "https://pbs.twimg.com/pbs.twimg.com/media/HQKH1uGXgAAsc6c.jpg",
+            "type": "image",
+            "thumbnail_url": "https://pbs.twimg.com/pbs.twimg.com/media/HQKH1uGXgAAsc6c.jpg"
+          },
+          "match_method": "manual",
+          "source_origin": "rss"
+        },
+        {
+          "id": "post:stc-bank:instagram:fbf1ea9ad4b517f59065",
+          "platform": "instagram",
+          "title": "Transfer internationally and enter the draw to win a car 🚗",
+          "link": "https://www.instagram.com/p/DcWtdEUkmCk",
+          "published_at": "2026-08-22T19:54:33+00:00",
+          "media": {
+            "url": "https://scontent-ams2-1.cdninstagram.com/v/t51.82787-15/780949518_18391439668201961_9029750090029718228_n.jpg?_nc_ad=z-m&_nc_cat=101&_nc_cid=0&_nc_gid=yWAzbUWF2qVECwWRtdC01A&_nc_ht=scontent-ams2-1.cdninstagram.com&_nc_oc=AdpWkHCV9MKlKWxL3lA3EebkxsfayIQXpKSJP-RLkcQ8tpDPXpS9d4FBqanjLRhLsLa7L611RWpSyydZsRiWrVh4&_nc_ohc=ITk9Z3F-CBQQ7kNvwHD_pwz&_nc_sid=58cdad&_nc_ss=7a22e&_nc_zt=23&ccb=7-5&efg=eyJ2ZW5jb2RlX3RhZyI6IkNMSVBTLnhwaWRzLjEwODAuc2RyLnZpZGVvX2RlZmF1bHRfY292ZXJfZnJhbWUuQzMifQ%3D%3D&ig_cache_key=Mzk2OTU2MDAzMTE3MTYwMDU0ODE4MzkxNDM5NjY1MjAxOTYx.3-ccb7-5&oe=6A959BEC&oh=00_AQG_VGg2P8D3NLv2XpA096h0R8RylZyWuWhT9Ih-7xgvHw&stp=dst-jpg_e15_tt6",
+            "type": "image",
+            "thumbnail_url": "https://scontent-ams2-1.cdninstagram.com/v/t51.82787-15/780949518_18391439668201961_9029750090029718228_n.jpg?_nc_ad=z-m&_nc_cat=101&_nc_cid=0&_nc_gid=yWAzbUWF2qVECwWRtdC01A&_nc_ht=scontent-ams2-1.cdninstagram.com&_nc_oc=AdpWkHCV9MKlKWxL3lA3EebkxsfayIQXpKSJP-RLkcQ8tpDPXpS9d4FBqanjLRhLsLa7L611RWpSyydZsRiWrVh4&_nc_ohc=ITk9Z3F-CBQQ7kNvwHD_pwz&_nc_sid=58cdad&_nc_ss=7a22e&_nc_zt=23&ccb=7-5&efg=eyJ2ZW5jb2RlX3RhZyI6IkNMSVBTLnhwaWRzLjEwODAuc2RyLnZpZGVvX2RlZmF1bHRfY292ZXJfZnJhbWUuQzMifQ%3D%3D&ig_cache_key=Mzk2OTU2MDAzMTE3MTYwMDU0ODE4MzkxNDM5NjY1MjAxOTYx.3-ccb7-5&oe=6A959BEC&oh=00_AQG_VGg2P8D3NLv2XpA096h0R8RylZyWuWhT9Ih-7xgvHw&stp=dst-jpg_e15_tt6"
+          },
+          "match_method": "manual",
+          "source_origin": "rss"
+        },
+        {
+          "id": "post:stc-bank:facebook:1fdb737b0bd0c1413711",
+          "platform": "facebook",
+          "title": "Bawat international transfer ay maaaring magpanalo sa iyo ng kotse kada linggo o SAR 1,000 araw-araw 🚗 Mag-internationa...",
+          "link": "https://m.facebook.com/stcbank/posts/pfbid02SkwmrhLEYCNkX6pxvxrCNNwu1ss21nq39SBoC8Yco63iGzDGTfdzuTYWF39Km99Zl",
+          "published_at": "2026-08-25T17:36:24+00:00",
+          "media": {
+            "url": "https://scontent-fra5-1.xx.fbcdn.net/v/t39.30808-6/785600675_1396920162564851_5881708073075199996_n.jpg?_nc_cat=102&_nc_gid=FO0Sd43GeKvZ3KeZW_tnEg&_nc_ht=scontent-fra5-1.xx&_nc_oc=AdrHbGmytEUjec2ezkU7R41vwPT3d6S9SBl_bwa86GphThqZCi3vKSEFroYQK48oMpQ&_nc_ohc=kCEDV945e4MQ7kNvwHsCVt_&_nc_sid=ebae6b&_nc_ss=7b289&_nc_zt=23&ccb=1-7&oe=6A94974B&oh=00_AQEAUMvremFb3h_2zfbC7ReLubRwAM0F5dtlgaK4W49clw&stp=dst-jpg_s1080x2048_tt6",
+            "type": "image",
+            "thumbnail_url": "https://scontent-fra5-1.xx.fbcdn.net/v/t39.30808-6/785600675_1396920162564851_5881708073075199996_n.jpg?_nc_cat=102&_nc_gid=FO0Sd43GeKvZ3KeZW_tnEg&_nc_ht=scontent-fra5-1.xx&_nc_oc=AdrHbGmytEUjec2ezkU7R41vwPT3d6S9SBl_bwa86GphThqZCi3vKSEFroYQK48oMpQ&_nc_ohc=kCEDV945e4MQ7kNvwHsCVt_&_nc_sid=ebae6b&_nc_ss=7b289&_nc_zt=23&ccb=1-7&oe=6A94974B&oh=00_AQEAUMvremFb3h_2zfbC7ReLubRwAM0F5dtlgaK4W49clw&stp=dst-jpg_s1080x2048_tt6"
+          },
+          "match_method": "manual",
+          "source_origin": "rss"
+        },
+        {
           "id": "post:stc-bank:facebook:5c5dbfffb96f2723b483",
           "platform": "facebook",
           "title": "2 Days Left Only 2 days left until the first car draw! 🚗⏳ Transfer internationally through the STC Bank app and enter t...",
@@ -61858,17 +61381,17 @@
         }
       ],
       "social_post_counts": {
-        "instagram": 0,
-        "x": 0,
-        "facebook": 3,
+        "instagram": 2,
+        "x": 2,
+        "facebook": 5,
         "tiktok": 0
       },
-      "social_posts_total": 3,
-      "social_platform_count": 1,
+      "social_posts_total": 9,
+      "social_platform_count": 3,
       "social_first_post": "2026-08-19T16:54:29+00:00",
       "social_latest_post": "2026-08-26T16:07:18+00:00",
-      "social_posts_7d": 2,
-      "social_posts_30d": 3,
+      "social_posts_7d": 7,
+      "social_posts_30d": 9,
       "review_priority": 13
     },
     {
@@ -62068,6 +61591,400 @@
       "social_posts_7d": 0,
       "social_posts_30d": 0,
       "review_priority": 13
+    },
+    {
+      "id": "post:stc-bank:facebook:1fdb737b0bd0c1413711",
+      "competitor_id": "stc-bank",
+      "source_key": "social:stc-bank:facebook",
+      "source_type": "social",
+      "platform": "facebook",
+      "content_type": "social_post",
+      "campaign_category": "remittance",
+      "primary_category": "remittance",
+      "categories": [
+        "remittance"
+      ],
+      "title": "Bawat international transfer ay maaaring magpanalo sa iyo ng kotse kada linggo o SAR 1,000 araw-araw 🚗 Mag-internationa...",
+      "snippet": "Bawat international transfer ay maaaring magpanalo sa iyo ng kotse kada linggo o SAR 1,000 araw-araw 🚗 Mag-international transfer at sumali sa draw.",
+      "link": "https://m.facebook.com/stcbank/posts/pfbid02SkwmrhLEYCNkX6pxvxrCNNwu1ss21nq39SBoC8Yco63iGzDGTfdzuTYWF39Km99Zl",
+      "social_links": {
+        "facebook": "https://m.facebook.com/stcbank/posts/pfbid02SkwmrhLEYCNkX6pxvxrCNNwu1ss21nq39SBoC8Yco63iGzDGTfdzuTYWF39Km99Zl"
+      },
+      "social_link_count": 1,
+      "published_at": "2026-08-25T17:36:24+00:00",
+      "active": true,
+      "direct_link": true,
+      "verified": true,
+      "review_required": false,
+      "review_reasons": [],
+      "current_status": "Linked",
+      "post_role": "promotion_or_content",
+      "mechanic_tags": [
+        "prize_draw"
+      ],
+      "theme_tags": [
+        "international_transfer"
+      ],
+      "media": {
+        "url": "https://scontent-fra5-1.xx.fbcdn.net/v/t39.30808-6/785600675_1396920162564851_5881708073075199996_n.jpg?_nc_cat=102&_nc_gid=FO0Sd43GeKvZ3KeZW_tnEg&_nc_ht=scontent-fra5-1.xx&_nc_oc=AdrHbGmytEUjec2ezkU7R41vwPT3d6S9SBl_bwa86GphThqZCi3vKSEFroYQK48oMpQ&_nc_ohc=kCEDV945e4MQ7kNvwHsCVt_&_nc_sid=ebae6b&_nc_ss=7b289&_nc_zt=23&ccb=1-7&oe=6A94974B&oh=00_AQEAUMvremFb3h_2zfbC7ReLubRwAM0F5dtlgaK4W49clw&stp=dst-jpg_s1080x2048_tt6",
+        "type": "image",
+        "thumbnail_url": "https://scontent-fra5-1.xx.fbcdn.net/v/t39.30808-6/785600675_1396920162564851_5881708073075199996_n.jpg?_nc_cat=102&_nc_gid=FO0Sd43GeKvZ3KeZW_tnEg&_nc_ht=scontent-fra5-1.xx&_nc_oc=AdrHbGmytEUjec2ezkU7R41vwPT3d6S9SBl_bwa86GphThqZCi3vKSEFroYQK48oMpQ&_nc_ohc=kCEDV945e4MQ7kNvwHsCVt_&_nc_sid=ebae6b&_nc_ss=7b289&_nc_zt=23&ccb=1-7&oe=6A94974B&oh=00_AQEAUMvremFb3h_2zfbC7ReLubRwAM0F5dtlgaK4W49clw&stp=dst-jpg_s1080x2048_tt6"
+      },
+      "first_seen": "2026-08-25T17:46:24.988362+00:00",
+      "last_seen": "2026-08-27T03:51:56.195769+00:00",
+      "last_changed": "2026-08-26T10:55:22.261463+00:00",
+      "version": 13,
+      "change_history": [
+        {
+          "at": "2026-08-25T17:46:24.988362+00:00",
+          "type": "detected",
+          "version": 1
+        },
+        {
+          "at": "2026-08-25T19:46:19.617312+00:00",
+          "type": "updated",
+          "version": 2
+        },
+        {
+          "at": "2026-08-25T21:00:37.547296+00:00",
+          "type": "updated",
+          "version": 3
+        },
+        {
+          "at": "2026-08-25T23:00:33.317989+00:00",
+          "type": "updated",
+          "version": 4
+        },
+        {
+          "at": "2026-08-25T23:55:43.533377+00:00",
+          "type": "updated",
+          "version": 5
+        },
+        {
+          "at": "2026-08-26T01:56:07.999714+00:00",
+          "type": "updated",
+          "version": 6
+        },
+        {
+          "at": "2026-08-26T02:23:13.858683+00:00",
+          "type": "updated",
+          "version": 7
+        },
+        {
+          "at": "2026-08-26T04:50:28.536146+00:00",
+          "type": "updated",
+          "version": 8
+        },
+        {
+          "at": "2026-08-26T05:05:29.025352+00:00",
+          "type": "updated",
+          "version": 9
+        },
+        {
+          "at": "2026-08-26T05:54:46.417367+00:00",
+          "type": "updated",
+          "version": 10
+        },
+        {
+          "at": "2026-08-26T07:10:45.580101+00:00",
+          "type": "updated",
+          "version": 11
+        },
+        {
+          "at": "2026-08-26T08:10:12.492153+00:00",
+          "type": "updated",
+          "version": 12
+        },
+        {
+          "at": "2026-08-26T10:55:22.261463+00:00",
+          "type": "updated",
+          "version": 13
+        }
+      ],
+      "outbound_links": [
+        "https://scontent-fra5-1.xx.fbcdn.net/v/t39.30808-6/785600675_1396920162564851_5881708073075199996_n.jpg?_nc_cat=102&_nc_gid=FO0Sd43GeKvZ3KeZW_tnEg&_nc_ht=scontent-fra5-1.xx&_nc_oc=AdrHbGmytEUjec2ezkU7R41vwPT3d6S9SBl_bwa86GphThqZCi3vKSEFroYQK48oMpQ&_nc_ohc=kCEDV945e4MQ7kNvwHsCVt_&_nc_sid=ebae6b&_nc_ss=7b289&_nc_zt=23&ccb=1-7&oe=6A94974B&oh=00_AQEAUMvremFb3h_2zfbC7ReLubRwAM0F5dtlgaK4W49clw&stp=dst-jpg_s1080x2048_tt6"
+      ],
+      "official_evidence_url": null,
+      "official_campaign_page_url": null,
+      "primary_official_source_url": "https://m.facebook.com/stcbank/posts/pfbid02SkwmrhLEYCNkX6pxvxrCNNwu1ss21nq39SBoC8Yco63iGzDGTfdzuTYWF39Km99Zl",
+      "manual_override": true,
+      "corridors": [],
+      "suggested_campaign_id": "detected:stc-bank:1971eae04c5a15cc8860",
+      "review_priority": 11,
+      "review_decision": "link_existing",
+      "reviewed_by": "admin",
+      "reviewed_at": "2026-08-27T04:42:28.381955+00:00",
+      "review_request_id": "e10bd3f1-d197-492e-b6ab-6a60cbfb896b",
+      "campaign_id": "detected:stc-bank:1971eae04c5a15cc8860",
+      "linked_campaign_id": "detected:stc-bank:1971eae04c5a15cc8860",
+      "record_role": "campaign_evidence",
+      "match_method": "manual"
+    },
+    {
+      "id": "post:stc-bank:instagram:2afd4c9eadca30c26b76",
+      "competitor_id": "stc-bank",
+      "source_key": "social:stc-bank:instagram",
+      "source_type": "social",
+      "platform": "instagram",
+      "content_type": "social_post",
+      "campaign_category": "remittance",
+      "primary_category": "remittance",
+      "categories": [
+        "remittance"
+      ],
+      "title": "‏كل حوالة دولية = فرصة فوز جديدة ‏فائز أسبوعي بسيارة 🚗 ، و10 فائزين يوميًا بـ1,000 ريال ‏حوّل الآن عبر التطبيق",
+      "snippet": "‏كل حوالة دولية = فرصة فوز جديدة ‏فائز أسبوعي بسيارة 🚗 ، و10 فائزين يوميًا بـ1,000 ريال ‏حوّل الآن عبر التطبيق",
+      "link": "https://www.instagram.com/p/DcRJCmIjOCs",
+      "social_links": {
+        "instagram": "https://www.instagram.com/p/DcRJCmIjOCs"
+      },
+      "social_link_count": 1,
+      "published_at": "2026-08-20T15:59:49+00:00",
+      "active": true,
+      "direct_link": true,
+      "verified": true,
+      "review_required": false,
+      "review_reasons": [],
+      "current_status": "Linked",
+      "post_role": "winner_announcement",
+      "mechanic_tags": [
+        "other"
+      ],
+      "theme_tags": [
+        "international_transfer"
+      ],
+      "media": {
+        "url": "https://scontent-lga3-1.cdninstagram.com/v/t51.82787-15/782362294_18391092268201961_7852311260151097889_n.jpg?_nc_ad=z-m&_nc_cat=110&_nc_cid=0&_nc_gid=aBJO3bzIRAi6Np2msPsa-A&_nc_ht=scontent-lga3-1.cdninstagram.com&_nc_oc=Adr6PJvN1LomFDR-hY9H1PZs0C5e9tr8UPXae4RebC_k9lYaEvcfmdGUn-ZPGw8bKlQ&_nc_ohc=61yDQiGlxPsQ7kNvwEpkzDx&_nc_sid=58cdad&_nc_ss=7a22e&_nc_zt=23&ccb=7-5&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuMjI1MC5zZHIucmVndWxhcl9waG90by5DMyJ9&ig_cache_key=Mzk2Nzk5MjIzNjQzNDc2MjI1Ng%3D%3D.3-ccb7-5&oe=6A94A0C3&oh=00_AQFJPwpobpsMa4vNNN7rLmxqc5ltttpIo0Xpl3YqRg0YOA&stp=dst-jpg_e35_tt6",
+        "type": "image",
+        "thumbnail_url": "https://scontent-lga3-1.cdninstagram.com/v/t51.82787-15/782362294_18391092268201961_7852311260151097889_n.jpg?_nc_ad=z-m&_nc_cat=110&_nc_cid=0&_nc_gid=aBJO3bzIRAi6Np2msPsa-A&_nc_ht=scontent-lga3-1.cdninstagram.com&_nc_oc=Adr6PJvN1LomFDR-hY9H1PZs0C5e9tr8UPXae4RebC_k9lYaEvcfmdGUn-ZPGw8bKlQ&_nc_ohc=61yDQiGlxPsQ7kNvwEpkzDx&_nc_sid=58cdad&_nc_ss=7a22e&_nc_zt=23&ccb=7-5&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuMjI1MC5zZHIucmVndWxhcl9waG90by5DMyJ9&ig_cache_key=Mzk2Nzk5MjIzNjQzNDc2MjI1Ng%3D%3D.3-ccb7-5&oe=6A94A0C3&oh=00_AQFJPwpobpsMa4vNNN7rLmxqc5ltttpIo0Xpl3YqRg0YOA&stp=dst-jpg_e35_tt6"
+      },
+      "first_seen": "2026-08-25T15:44:42.097858+00:00",
+      "last_seen": "2026-08-27T03:51:56.195769+00:00",
+      "last_changed": "2026-08-27T03:51:56.195769+00:00",
+      "version": 13,
+      "change_history": [
+        {
+          "at": "2026-08-25T15:44:42.097858+00:00",
+          "type": "detected",
+          "version": 1
+        },
+        {
+          "at": "2026-08-25T17:46:24.988362+00:00",
+          "type": "updated",
+          "version": 2
+        },
+        {
+          "at": "2026-08-25T19:46:19.617312+00:00",
+          "type": "updated",
+          "version": 3
+        },
+        {
+          "at": "2026-08-25T21:00:37.547296+00:00",
+          "type": "updated",
+          "version": 4
+        },
+        {
+          "at": "2026-08-25T23:00:33.317989+00:00",
+          "type": "updated",
+          "version": 5
+        },
+        {
+          "at": "2026-08-26T01:56:07.999714+00:00",
+          "type": "updated",
+          "version": 6
+        },
+        {
+          "at": "2026-08-26T04:50:28.536146+00:00",
+          "type": "updated",
+          "version": 7
+        },
+        {
+          "at": "2026-08-26T05:54:46.417367+00:00",
+          "type": "updated",
+          "version": 8
+        },
+        {
+          "at": "2026-08-26T07:10:45.580101+00:00",
+          "type": "updated",
+          "version": 9
+        },
+        {
+          "at": "2026-08-26T08:10:12.492153+00:00",
+          "type": "updated",
+          "version": 10
+        },
+        {
+          "at": "2026-08-26T10:55:22.261463+00:00",
+          "type": "updated",
+          "version": 11
+        },
+        {
+          "at": "2026-08-26T12:01:59.476231+00:00",
+          "type": "updated",
+          "version": 12
+        },
+        {
+          "at": "2026-08-27T03:51:56.195769+00:00",
+          "type": "updated",
+          "version": 13
+        }
+      ],
+      "outbound_links": [
+        "https://scontent-lga3-1.cdninstagram.com/v/t51.82787-15/782362294_18391092268201961_7852311260151097889_n.jpg?_nc_ad=z-m&_nc_cat=110&_nc_cid=0&_nc_gid=aBJO3bzIRAi6Np2msPsa-A&_nc_ht=scontent-lga3-1.cdninstagram.com&_nc_oc=Adr6PJvN1LomFDR-hY9H1PZs0C5e9tr8UPXae4RebC_k9lYaEvcfmdGUn-ZPGw8bKlQ&_nc_ohc=61yDQiGlxPsQ7kNvwEpkzDx&_nc_sid=58cdad&_nc_ss=7a22e&_nc_zt=23&ccb=7-5&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuMjI1MC5zZHIucmVndWxhcl9waG90by5DMyJ9&ig_cache_key=Mzk2Nzk5MjIzNjQzNDc2MjI1Ng%3D%3D.3-ccb7-5&oe=6A94A0C3&oh=00_AQFJPwpobpsMa4vNNN7rLmxqc5ltttpIo0Xpl3YqRg0YOA&stp=dst-jpg_e35_tt6"
+      ],
+      "official_evidence_url": null,
+      "official_campaign_page_url": null,
+      "primary_official_source_url": "https://www.instagram.com/p/DcRJCmIjOCs",
+      "manual_override": true,
+      "corridors": [],
+      "suggested_campaign_id": "detected:stc-bank:1971eae04c5a15cc8860",
+      "review_priority": 11,
+      "review_decision": "link_existing",
+      "reviewed_by": "admin",
+      "reviewed_at": "2026-08-27T04:42:28.381955+00:00",
+      "review_request_id": "e10bd3f1-d197-492e-b6ab-6a60cbfb896b",
+      "campaign_id": "detected:stc-bank:1971eae04c5a15cc8860",
+      "linked_campaign_id": "detected:stc-bank:1971eae04c5a15cc8860",
+      "record_role": "campaign_evidence",
+      "match_method": "manual"
+    },
+    {
+      "id": "post:stc-bank:x:ff078c3f356e820a8098",
+      "competitor_id": "stc-bank",
+      "source_key": "social:stc-bank:x",
+      "source_type": "social",
+      "platform": "x",
+      "content_type": "social_post",
+      "campaign_category": "remittance",
+      "primary_category": "remittance",
+      "categories": [
+        "remittance"
+      ],
+      "title": "كل حوالة دولية = فرصة فوز جديدة فائز أسبوعي بسيارة 🚗 ، و10 فائزين يوميًا بـ1,000 ريال حوّل الآن عبر التطبيق",
+      "snippet": "كل حوالة دولية = فرصة فوز جديدة فائز أسبوعي بسيارة 🚗 ، و10 فائزين يوميًا بـ1,000 ريال حوّل الآن عبر التطبيق — STC Bank (@stcbank_ksa) Aug 20, 2026",
+      "link": "https://x.com/stcbank_ksa/status/2090397181563875448",
+      "social_links": {
+        "x": "https://x.com/stcbank_ksa/status/2090397181563875448"
+      },
+      "social_link_count": 1,
+      "published_at": "2026-08-20T11:15:00+00:00",
+      "active": true,
+      "direct_link": true,
+      "verified": true,
+      "review_required": false,
+      "review_reasons": [],
+      "current_status": "Linked",
+      "post_role": "winner_announcement",
+      "mechanic_tags": [
+        "other"
+      ],
+      "theme_tags": [
+        "international_transfer"
+      ],
+      "media": {
+        "url": "https://pbs.twimg.com/pbs.twimg.com/media/HQKH1uGXgAAsc6c.jpg",
+        "type": "image",
+        "thumbnail_url": "https://pbs.twimg.com/pbs.twimg.com/media/HQKH1uGXgAAsc6c.jpg"
+      },
+      "first_seen": "2026-08-25T15:44:42.097858+00:00",
+      "last_seen": "2026-08-27T03:51:56.195769+00:00",
+      "last_changed": "2026-08-25T15:44:42.097858+00:00",
+      "version": 1,
+      "change_history": [
+        {
+          "at": "2026-08-25T15:44:42.097858+00:00",
+          "type": "detected",
+          "version": 1
+        }
+      ],
+      "outbound_links": [
+        "https://twitter.com/stcbank_ksa/status/2090397181563875448",
+        "https://platform.twitter.com/widgets.js"
+      ],
+      "official_evidence_url": null,
+      "official_campaign_page_url": null,
+      "primary_official_source_url": "https://x.com/stcbank_ksa/status/2090397181563875448",
+      "manual_override": true,
+      "corridors": [],
+      "suggested_campaign_id": "detected:stc-bank:1971eae04c5a15cc8860",
+      "review_priority": 11,
+      "review_decision": "link_existing",
+      "reviewed_by": "admin",
+      "reviewed_at": "2026-08-27T04:42:28.381955+00:00",
+      "review_request_id": "e10bd3f1-d197-492e-b6ab-6a60cbfb896b",
+      "campaign_id": "detected:stc-bank:1971eae04c5a15cc8860",
+      "linked_campaign_id": "detected:stc-bank:1971eae04c5a15cc8860",
+      "record_role": "campaign_evidence",
+      "match_method": "manual"
+    },
+    {
+      "id": "post:stc-bank:facebook:6b9b9caf80f2f4c2c1cc",
+      "competitor_id": "stc-bank",
+      "source_key": "social:stc-bank:facebook",
+      "source_type": "social",
+      "platform": "facebook",
+      "content_type": "social_post",
+      "campaign_category": "remittance",
+      "primary_category": "remittance",
+      "categories": [
+        "remittance"
+      ],
+      "title": "Bawat international transfer = panibagong pagkakataong manalo 💜 Isang winner bawat linggo ang mananalo ng kotse 🚗, at...",
+      "snippet": "Bawat international transfer = panibagong pagkakataong manalo 💜 Isang winner bawat linggo ang mananalo ng kotse 🚗, at 10 winners araw-araw ang makakatanggap ng SAR 1,000 bawat isa. Mag-transfer ngayon gamit ang STC Bank app. https://stcbank.com.sa/…/transfer-internationally-and-enter…",
+      "link": "https://m.facebook.com/stcbank/posts/pfbid0GpRSavEEZ2X3H2ZdcjQU5bzGiUQbeceRD4Mf77SagduYLCRcCZj5sjLY3TYh4Dx7l",
+      "social_links": {
+        "facebook": "https://m.facebook.com/stcbank/posts/pfbid0GpRSavEEZ2X3H2ZdcjQU5bzGiUQbeceRD4Mf77SagduYLCRcCZj5sjLY3TYh4Dx7l"
+      },
+      "social_link_count": 1,
+      "published_at": "2026-08-19T16:57:32+00:00",
+      "active": true,
+      "direct_link": true,
+      "verified": true,
+      "review_required": false,
+      "review_reasons": [],
+      "current_status": "Linked",
+      "post_role": "winner_announcement",
+      "mechanic_tags": [
+        "prize_draw"
+      ],
+      "theme_tags": [
+        "international_transfer"
+      ],
+      "media": {
+        "url": "https://scontent-lga3-3.xx.fbcdn.net/v/t39.30808-6/777904406_1391610266429174_3234414729753357484_n.jpg?_nc_cat=102&_nc_gid=LfqDd7vf2XKrd9ZJLNJTiQ&_nc_ht=scontent-lga3-3.xx&_nc_oc=Ado9gjrm1yygmq_nQgmkdvi_lrNG-9_rBMR4axJJs5WAAKsDbZpGaKhmqJzEiHSXZWk&_nc_ohc=S9gB5sfHbWAQ7kNvwGJTKZm&_nc_sid=ebae6b&_nc_ss=7b289&_nc_zt=23&ccb=1-7&oe=6A8D2EDE&oh=00_AQGHnt6Rt4U7ouk46PFh6YUNscP2c8YmuuCdGn2_s4w2lA&stp=dst-jpg_s1080x2048_tt6",
+        "type": "image",
+        "thumbnail_url": "https://scontent-lga3-3.xx.fbcdn.net/v/t39.30808-6/777904406_1391610266429174_3234414729753357484_n.jpg?_nc_cat=102&_nc_gid=LfqDd7vf2XKrd9ZJLNJTiQ&_nc_ht=scontent-lga3-3.xx&_nc_oc=Ado9gjrm1yygmq_nQgmkdvi_lrNG-9_rBMR4axJJs5WAAKsDbZpGaKhmqJzEiHSXZWk&_nc_ohc=S9gB5sfHbWAQ7kNvwGJTKZm&_nc_sid=ebae6b&_nc_ss=7b289&_nc_zt=23&ccb=1-7&oe=6A8D2EDE&oh=00_AQGHnt6Rt4U7ouk46PFh6YUNscP2c8YmuuCdGn2_s4w2lA&stp=dst-jpg_s1080x2048_tt6"
+      },
+      "first_seen": "2026-08-25T15:44:42.097858+00:00",
+      "last_seen": "2026-08-27T03:51:56.195769+00:00",
+      "last_changed": "2026-08-25T15:44:42.097858+00:00",
+      "version": 1,
+      "change_history": [
+        {
+          "at": "2026-08-25T15:44:42.097858+00:00",
+          "type": "detected",
+          "version": 1
+        }
+      ],
+      "outbound_links": [
+        "https://scontent-lga3-3.xx.fbcdn.net/v/t39.30808-6/777904406_1391610266429174_3234414729753357484_n.jpg?_nc_cat=102&_nc_gid=LfqDd7vf2XKrd9ZJLNJTiQ&_nc_ht=scontent-lga3-3.xx&_nc_oc=Ado9gjrm1yygmq_nQgmkdvi_lrNG-9_rBMR4axJJs5WAAKsDbZpGaKhmqJzEiHSXZWk&_nc_ohc=S9gB5sfHbWAQ7kNvwGJTKZm&_nc_sid=ebae6b&_nc_ss=7b289&_nc_zt=23&ccb=1-7&oe=6A8D2EDE&oh=00_AQGHnt6Rt4U7ouk46PFh6YUNscP2c8YmuuCdGn2_s4w2lA&stp=dst-jpg_s1080x2048_tt6",
+        "https://stcbank.com.sa/…/transfer-internationally-and-enter…"
+      ],
+      "official_evidence_url": null,
+      "official_campaign_page_url": null,
+      "primary_official_source_url": "https://m.facebook.com/stcbank/posts/pfbid0GpRSavEEZ2X3H2ZdcjQU5bzGiUQbeceRD4Mf77SagduYLCRcCZj5sjLY3TYh4Dx7l",
+      "manual_override": true,
+      "corridors": [],
+      "suggested_campaign_id": "detected:stc-bank:1971eae04c5a15cc8860",
+      "review_priority": 11,
+      "review_decision": "link_existing",
+      "reviewed_by": "admin",
+      "reviewed_at": "2026-08-27T04:42:28.381955+00:00",
+      "review_request_id": "e10bd3f1-d197-492e-b6ab-6a60cbfb896b",
+      "campaign_id": "detected:stc-bank:1971eae04c5a15cc8860",
+      "linked_campaign_id": "detected:stc-bank:1971eae04c5a15cc8860",
+      "record_role": "campaign_evidence",
+      "match_method": "manual"
     },
     {
       "id": "post:stc-bank:facebook:a417e7820ba14affb93d",
@@ -62464,6 +62381,75 @@
       "review_priority": 8
     },
     {
+      "id": "post:stc-bank:x:37931084a754be1701a6",
+      "competitor_id": "stc-bank",
+      "source_key": "social:stc-bank:x",
+      "source_type": "social",
+      "platform": "x",
+      "content_type": "social_post",
+      "campaign_category": "remittance",
+      "primary_category": "remittance",
+      "categories": [
+        "remittance"
+      ],
+      "title": "حوّلت دوليًا؟ ترى الحوالة يمكن تجيب لك سيارة 👀 لو حوّلت اليوم، لأي دولة بتكون حوالتك؟ 👇🏻",
+      "snippet": "حوّلت دوليًا؟ ترى الحوالة يمكن تجيب لك سيارة 👀 لو حوّلت اليوم، لأي دولة بتكون حوالتك؟ 👇🏻STC Bank (@stcbank_ksa)كل حوالة دولية = فرصة فوز جديدة فائز أسبوعي بسيارة 🚗 ، و10 فائزين يوميًا بـ1,000 ريال حوّل الآن عبر التطبيق— https://x.com/stcbank_ksa/status/2090397181563875448 — STC Bank (@stcbank_ksa) Aug 21, 2026",
+      "link": "https://x.com/stcbank_ksa/status/2090846398103142438",
+      "social_links": {
+        "x": "https://x.com/stcbank_ksa/status/2090846398103142438"
+      },
+      "social_link_count": 1,
+      "published_at": "2026-08-21T17:00:00+00:00",
+      "active": true,
+      "direct_link": true,
+      "verified": true,
+      "review_required": false,
+      "review_reasons": [],
+      "current_status": "Linked",
+      "post_role": "winner_announcement",
+      "mechanic_tags": [
+        "other"
+      ],
+      "theme_tags": [
+        "international_transfer"
+      ],
+      "media": {
+        "url": "https://pbs.twimg.com/pbs.twimg.com/media/HQKH1uGXgAAsc6c.jpg",
+        "type": "image",
+        "thumbnail_url": "https://pbs.twimg.com/pbs.twimg.com/media/HQKH1uGXgAAsc6c.jpg"
+      },
+      "first_seen": "2026-08-25T15:44:42.097858+00:00",
+      "last_seen": "2026-08-27T03:51:56.195769+00:00",
+      "last_changed": "2026-08-25T15:44:42.097858+00:00",
+      "version": 1,
+      "change_history": [
+        {
+          "at": "2026-08-25T15:44:42.097858+00:00",
+          "type": "detected",
+          "version": 1
+        }
+      ],
+      "outbound_links": [
+        "https://x.com/stcbank_ksa/status/2090397181563875448",
+        "https://twitter.com/stcbank_ksa/status/2090846398103142438",
+        "https://platform.twitter.com/widgets.js"
+      ],
+      "official_evidence_url": null,
+      "official_campaign_page_url": null,
+      "primary_official_source_url": "https://x.com/stcbank_ksa/status/2090846398103142438",
+      "manual_override": true,
+      "corridors": [],
+      "review_priority": 8,
+      "review_decision": "link_existing",
+      "reviewed_by": "admin",
+      "reviewed_at": "2026-08-27T04:42:28.381955+00:00",
+      "review_request_id": "e10bd3f1-d197-492e-b6ab-6a60cbfb896b",
+      "campaign_id": "detected:stc-bank:1971eae04c5a15cc8860",
+      "linked_campaign_id": "detected:stc-bank:1971eae04c5a15cc8860",
+      "record_role": "campaign_evidence",
+      "match_method": "manual"
+    },
+    {
       "id": "post:stc-bank:facebook:2c3c479b426f6e7b9a7a",
       "competitor_id": "stc-bank",
       "source_key": "social:stc-bank:facebook",
@@ -62654,7 +62640,7 @@
       "source_verification": {
         "status": "verified_social",
         "verification_method": "official_social_rss_or_inventory",
-        "checked_at": "2026-08-27T04:39:17.140963+00:00",
+        "checked_at": "2026-08-27T04:42:28.839730+00:00",
         "source_url": "https://www.instagram.com/p/Dazzjtdt1Jt/?utm_source=ig_web_button_share_sheet&igsh=MzRlODBiNWFlZA==",
         "source_changed": false,
         "conflicts": [],
@@ -62764,7 +62750,7 @@
       "source_verification": {
         "status": "verified_social",
         "verification_method": "official_social_rss_or_inventory",
-        "checked_at": "2026-08-27T04:39:17.140963+00:00",
+        "checked_at": "2026-08-27T04:42:28.839730+00:00",
         "source_url": "https://www.instagram.com/reel/DaaydiADUvg/?utm_source=ig_web_button_share_sheet&igsh=MzRlODBiNWFlZA==",
         "source_changed": false,
         "conflicts": [],
@@ -62989,7 +62975,7 @@
       "source_verification": {
         "status": "verified_social",
         "verification_method": "official_social_rss_or_inventory",
-        "checked_at": "2026-08-27T04:39:17.140963+00:00",
+        "checked_at": "2026-08-27T04:42:28.839730+00:00",
         "source_url": "https://www.facebook.com/mobilypay/videos/sar-20000-is-waiting-for-you-make-an-international-transfer-with-mobilypay-and-i/4300117560266135/",
         "source_changed": false,
         "conflicts": [],
@@ -63093,7 +63079,7 @@
       "source_verification": {
         "status": "verified_social",
         "verification_method": "official_social_rss_or_inventory",
-        "checked_at": "2026-08-27T04:39:17.140963+00:00",
+        "checked_at": "2026-08-27T04:42:28.839730+00:00",
         "source_url": "https://www.instagram.com/p/DbBUcjiIHS1/",
         "source_changed": false,
         "conflicts": [],
@@ -63246,7 +63232,7 @@
       "source_verification": {
         "status": "verified_social",
         "verification_method": "official_social_rss_or_inventory",
-        "checked_at": "2026-08-27T04:39:17.140963+00:00",
+        "checked_at": "2026-08-27T04:42:28.839730+00:00",
         "source_url": "https://www.facebook.com/urpay.sa/posts/scratch-win-with-every-international-transfer-via-urpay-and-you-could-win-up-to-/1079237764323076/",
         "source_changed": false,
         "conflicts": [],
@@ -63348,7 +63334,7 @@
       "source_verification": {
         "status": "verified_social",
         "verification_method": "official_social_rss_or_inventory",
-        "checked_at": "2026-08-27T04:39:17.140963+00:00",
+        "checked_at": "2026-08-27T04:42:28.839730+00:00",
         "source_url": "https://www.instagram.com/alinmapay/p/CC_U-JDB6yh/",
         "source_changed": false,
         "conflicts": [],
@@ -63530,7 +63516,7 @@
       "source_verification": {
         "status": "verified_social",
         "verification_method": "official_social_rss_or_inventory",
-        "checked_at": "2026-08-27T04:39:17.140963+00:00",
+        "checked_at": "2026-08-27T04:42:28.839730+00:00",
         "source_url": "https://www.facebook.com/AlinmaPaySA/videos/zero-fees-fast-transfers-to-india/873682655502395/",
         "source_changed": false,
         "conflicts": [],
@@ -63758,6 +63744,14 @@
             "source": "https://m.facebook.com/Tiqmoksa/posts/pfbid02c7PJipWJA9SNNWsSqsG1H72VTzeqYR6PVsHx4Y3NagD5vLYJbDzgy7cc93XhXQT6l",
             "method": "official_social"
           }
+        },
+        {
+          "at": "2026-08-27T04:42:28.931901+00:00",
+          "type": "manual_source_verified",
+          "details": {
+            "source": "https://m.facebook.com/Tiqmoksa/posts/pfbid02c7PJipWJA9SNNWsSqsG1H72VTzeqYR6PVsHx4Y3NagD5vLYJbDzgy7cc93XhXQT6l",
+            "method": "official_social"
+          }
         }
       ],
       "review_approved": true,
@@ -63773,7 +63767,7 @@
       "source_verification": {
         "status": "verified_social",
         "verification_method": "official_social_rss_or_inventory",
-        "checked_at": "2026-08-27T04:39:17.140963+00:00",
+        "checked_at": "2026-08-27T04:42:28.839730+00:00",
         "source_url": "https://m.facebook.com/Tiqmoksa/posts/pfbid02c7PJipWJA9SNNWsSqsG1H72VTzeqYR6PVsHx4Y3NagD5vLYJbDzgy7cc93XhXQT6l",
         "source_changed": false,
         "conflicts": [],
@@ -65369,6 +65363,139 @@
       "review_priority": 3,
       "campaign_id": "manual:review:tiqmo:7744d3d2-2bfd-4c7f-a7e5-a7307e7d8a52",
       "match_method": "heuristic"
+    },
+    {
+      "id": "post:stc-bank:instagram:fbf1ea9ad4b517f59065",
+      "competitor_id": "stc-bank",
+      "source_key": "social:stc-bank:instagram",
+      "source_type": "social",
+      "platform": "instagram",
+      "content_type": "social_post",
+      "campaign_category": "other",
+      "primary_category": "other",
+      "categories": [
+        "other"
+      ],
+      "title": "Transfer internationally and enter the draw to win a car 🚗",
+      "snippet": "Transfer internationally and enter the draw to win a car 🚗",
+      "link": "https://www.instagram.com/p/DcWtdEUkmCk",
+      "social_links": {
+        "instagram": "https://www.instagram.com/p/DcWtdEUkmCk"
+      },
+      "social_link_count": 1,
+      "published_at": "2026-08-22T19:54:33+00:00",
+      "active": true,
+      "direct_link": true,
+      "verified": true,
+      "review_required": false,
+      "review_reasons": [],
+      "current_status": "Linked",
+      "post_role": "promotion_or_content",
+      "mechanic_tags": [
+        "prize_draw"
+      ],
+      "theme_tags": [
+        "other"
+      ],
+      "media": {
+        "url": "https://scontent-ams2-1.cdninstagram.com/v/t51.82787-15/780949518_18391439668201961_9029750090029718228_n.jpg?_nc_ad=z-m&_nc_cat=101&_nc_cid=0&_nc_gid=yWAzbUWF2qVECwWRtdC01A&_nc_ht=scontent-ams2-1.cdninstagram.com&_nc_oc=AdpWkHCV9MKlKWxL3lA3EebkxsfayIQXpKSJP-RLkcQ8tpDPXpS9d4FBqanjLRhLsLa7L611RWpSyydZsRiWrVh4&_nc_ohc=ITk9Z3F-CBQQ7kNvwHD_pwz&_nc_sid=58cdad&_nc_ss=7a22e&_nc_zt=23&ccb=7-5&efg=eyJ2ZW5jb2RlX3RhZyI6IkNMSVBTLnhwaWRzLjEwODAuc2RyLnZpZGVvX2RlZmF1bHRfY292ZXJfZnJhbWUuQzMifQ%3D%3D&ig_cache_key=Mzk2OTU2MDAzMTE3MTYwMDU0ODE4MzkxNDM5NjY1MjAxOTYx.3-ccb7-5&oe=6A959BEC&oh=00_AQG_VGg2P8D3NLv2XpA096h0R8RylZyWuWhT9Ih-7xgvHw&stp=dst-jpg_e15_tt6",
+        "type": "image",
+        "thumbnail_url": "https://scontent-ams2-1.cdninstagram.com/v/t51.82787-15/780949518_18391439668201961_9029750090029718228_n.jpg?_nc_ad=z-m&_nc_cat=101&_nc_cid=0&_nc_gid=yWAzbUWF2qVECwWRtdC01A&_nc_ht=scontent-ams2-1.cdninstagram.com&_nc_oc=AdpWkHCV9MKlKWxL3lA3EebkxsfayIQXpKSJP-RLkcQ8tpDPXpS9d4FBqanjLRhLsLa7L611RWpSyydZsRiWrVh4&_nc_ohc=ITk9Z3F-CBQQ7kNvwHD_pwz&_nc_sid=58cdad&_nc_ss=7a22e&_nc_zt=23&ccb=7-5&efg=eyJ2ZW5jb2RlX3RhZyI6IkNMSVBTLnhwaWRzLjEwODAuc2RyLnZpZGVvX2RlZmF1bHRfY292ZXJfZnJhbWUuQzMifQ%3D%3D&ig_cache_key=Mzk2OTU2MDAzMTE3MTYwMDU0ODE4MzkxNDM5NjY1MjAxOTYx.3-ccb7-5&oe=6A959BEC&oh=00_AQG_VGg2P8D3NLv2XpA096h0R8RylZyWuWhT9Ih-7xgvHw&stp=dst-jpg_e15_tt6"
+      },
+      "first_seen": "2026-08-25T15:44:42.097858+00:00",
+      "last_seen": "2026-08-27T03:51:56.195769+00:00",
+      "last_changed": "2026-08-27T03:51:56.195769+00:00",
+      "version": 14,
+      "change_history": [
+        {
+          "at": "2026-08-25T15:44:42.097858+00:00",
+          "type": "detected",
+          "version": 1
+        },
+        {
+          "at": "2026-08-25T17:46:24.988362+00:00",
+          "type": "updated",
+          "version": 2
+        },
+        {
+          "at": "2026-08-25T19:46:19.617312+00:00",
+          "type": "updated",
+          "version": 3
+        },
+        {
+          "at": "2026-08-25T21:00:37.547296+00:00",
+          "type": "updated",
+          "version": 4
+        },
+        {
+          "at": "2026-08-25T23:00:33.317989+00:00",
+          "type": "updated",
+          "version": 5
+        },
+        {
+          "at": "2026-08-25T23:55:43.533377+00:00",
+          "type": "updated",
+          "version": 6
+        },
+        {
+          "at": "2026-08-26T01:56:07.999714+00:00",
+          "type": "updated",
+          "version": 7
+        },
+        {
+          "at": "2026-08-26T04:50:28.536146+00:00",
+          "type": "updated",
+          "version": 8
+        },
+        {
+          "at": "2026-08-26T05:54:46.417367+00:00",
+          "type": "updated",
+          "version": 9
+        },
+        {
+          "at": "2026-08-26T07:10:45.580101+00:00",
+          "type": "updated",
+          "version": 10
+        },
+        {
+          "at": "2026-08-26T08:10:12.492153+00:00",
+          "type": "updated",
+          "version": 11
+        },
+        {
+          "at": "2026-08-26T10:55:22.261463+00:00",
+          "type": "updated",
+          "version": 12
+        },
+        {
+          "at": "2026-08-26T12:01:59.476231+00:00",
+          "type": "updated",
+          "version": 13
+        },
+        {
+          "at": "2026-08-27T03:51:56.195769+00:00",
+          "type": "updated",
+          "version": 14
+        }
+      ],
+      "outbound_links": [
+        "https://scontent-ams2-1.cdninstagram.com/v/t51.82787-15/780949518_18391439668201961_9029750090029718228_n.jpg?_nc_ad=z-m&_nc_cat=101&_nc_cid=0&_nc_gid=yWAzbUWF2qVECwWRtdC01A&_nc_ht=scontent-ams2-1.cdninstagram.com&_nc_oc=AdpWkHCV9MKlKWxL3lA3EebkxsfayIQXpKSJP-RLkcQ8tpDPXpS9d4FBqanjLRhLsLa7L611RWpSyydZsRiWrVh4&_nc_ohc=ITk9Z3F-CBQQ7kNvwHD_pwz&_nc_sid=58cdad&_nc_ss=7a22e&_nc_zt=23&ccb=7-5&efg=eyJ2ZW5jb2RlX3RhZyI6IkNMSVBTLnhwaWRzLjEwODAuc2RyLnZpZGVvX2RlZmF1bHRfY292ZXJfZnJhbWUuQzMifQ%3D%3D&ig_cache_key=Mzk2OTU2MDAzMTE3MTYwMDU0ODE4MzkxNDM5NjY1MjAxOTYx.3-ccb7-5&oe=6A959BEC&oh=00_AQG_VGg2P8D3NLv2XpA096h0R8RylZyWuWhT9Ih-7xgvHw&stp=dst-jpg_e15_tt6"
+      ],
+      "official_evidence_url": null,
+      "official_campaign_page_url": null,
+      "primary_official_source_url": "https://www.instagram.com/p/DcWtdEUkmCk",
+      "manual_override": true,
+      "corridors": [],
+      "suggested_campaign_id": "detected:stc-bank:1971eae04c5a15cc8860",
+      "review_priority": 3,
+      "review_decision": "link_existing",
+      "reviewed_by": "admin",
+      "reviewed_at": "2026-08-27T04:42:28.381955+00:00",
+      "review_request_id": "e10bd3f1-d197-492e-b6ab-6a60cbfb896b",
+      "campaign_id": "detected:stc-bank:1971eae04c5a15cc8860",
+      "linked_campaign_id": "detected:stc-bank:1971eae04c5a15cc8860",
+      "record_role": "campaign_evidence",
+      "match_method": "manual"
     },
     {
       "id": "post:tiqmo:facebook:f1abd6897cbb744e8fbe",
@@ -86837,7 +86964,7 @@
       "source_verification": {
         "status": "verified_social",
         "verification_method": "official_social_rss_or_inventory",
-        "checked_at": "2026-08-27T04:39:17.140963+00:00",
+        "checked_at": "2026-08-27T04:42:28.839730+00:00",
         "source_url": "https://www.instagram.com/reel/DYxvJOWiZY5/",
         "source_changed": false,
         "conflicts": [],
@@ -86947,7 +87074,7 @@
       "source_verification": {
         "status": "verified_social",
         "verification_method": "official_social_rss_or_inventory",
-        "checked_at": "2026-08-27T04:39:17.140963+00:00",
+        "checked_at": "2026-08-27T04:42:28.839730+00:00",
         "source_url": "https://www.facebook.com/usebarq/posts/update-your-barq-app-and-join-the-prediction-game-win-your-share-of-prizes-worth/122197690844385166/",
         "source_changed": false,
         "conflicts": [],
@@ -87048,7 +87175,7 @@
       "source_verification": {
         "status": "verified_social",
         "verification_method": "official_social_rss_or_inventory",
-        "checked_at": "2026-08-27T04:39:17.140963+00:00",
+        "checked_at": "2026-08-27T04:42:28.839730+00:00",
         "source_url": "https://www.facebook.com/usebarq/posts/planning-a-trip-%EF%B8%8Fbook-through-almatarapp-with-your-barq-visa-and-get-up-to-10-of/122178668528385166/",
         "source_changed": false,
         "conflicts": [],
@@ -87153,7 +87280,7 @@
       "source_verification": {
         "status": "verified_social",
         "verification_method": "official_social_rss_or_inventory",
-        "checked_at": "2026-08-27T04:39:17.140963+00:00",
+        "checked_at": "2026-08-27T04:42:28.839730+00:00",
         "source_url": "https://www.instagram.com/p/DbAtiuQNGlf/",
         "source_changed": false,
         "conflicts": [],
@@ -88098,7 +88225,7 @@
       "source_verification": {
         "status": "verified_social",
         "verification_method": "official_social_rss_or_inventory",
-        "checked_at": "2026-08-27T04:39:17.140963+00:00",
+        "checked_at": "2026-08-27T04:42:28.839730+00:00",
         "source_url": "https://x.com/urpay_sa/status/2074433249682845889",
         "source_changed": false,
         "conflicts": [],
@@ -88201,7 +88328,7 @@
       "source_verification": {
         "status": "verified_social",
         "verification_method": "official_social_rss_or_inventory",
-        "checked_at": "2026-08-27T04:39:17.140963+00:00",
+        "checked_at": "2026-08-27T04:42:28.839730+00:00",
         "source_url": "https://www.facebook.com/AlinmaPaySA/posts/%EF%B8%8F-fees-gonetravel-anywhere-and-use-your-alinmapay-cashback-cards-without-worryin/1619335260194305/",
         "source_changed": false,
         "conflicts": [],
@@ -89327,7 +89454,7 @@
       "source_verification": {
         "status": "verified_social",
         "verification_method": "official_social_rss_or_inventory",
-        "checked_at": "2026-08-27T04:39:17.140963+00:00",
+        "checked_at": "2026-08-27T04:42:28.839730+00:00",
         "source_url": "https://www.instagram.com/alinmapay/p/DbqaY05mm9E/",
         "source_changed": false,
         "conflicts": [],
@@ -93434,7 +93561,7 @@
       "source_verification": {
         "status": "verified_social",
         "verification_method": "official_social_rss_or_inventory",
-        "checked_at": "2026-08-27T04:39:17.140963+00:00",
+        "checked_at": "2026-08-27T04:42:28.839730+00:00",
         "source_url": "https://www.instagram.com/tiqmoksa/p/DbLZ9Yfj6dy/",
         "source_changed": false,
         "conflicts": [],
@@ -94692,7 +94819,7 @@
       "source_verification": {
         "status": "verified_social",
         "verification_method": "official_social_rss_or_inventory",
-        "checked_at": "2026-08-27T04:39:17.140963+00:00",
+        "checked_at": "2026-08-27T04:42:28.839730+00:00",
         "source_url": "https://www.instagram.com/reel/DWots29j8fx/?hl=en",
         "source_changed": false,
         "conflicts": [],
@@ -114725,37 +114852,37 @@
   "detail_verification_stats": {
     "network_checks": 0,
     "elapsed_seconds": 0.1,
-    "completed_at": "2026-08-27T04:39:17.233358+00:00"
+    "completed_at": "2026-08-27T04:42:28.933087+00:00"
   },
   "mobily_deterministic_classification": {
     "changed": 0,
-    "at": "2026-08-27T04:39:19.017617+00:00"
+    "at": "2026-08-27T04:42:30.701514+00:00"
   },
   "verified_official_classification": {
     "changed": 0,
-    "at": "2026-08-27T04:39:19.020547+00:00",
+    "at": "2026-08-27T04:42:30.704369+00:00",
     "version": "classifier-v5-merchant-candidates"
   },
   "record_integrity": {
     "quarantined_or_demoted": 0,
-    "at": "2026-08-27T04:39:18.309805+00:00"
+    "at": "2026-08-27T04:42:30.001168+00:00"
   },
   "winner_announcement_integrity": {
     "normalized": 0,
-    "at": "2026-08-27T04:39:18.308892+00:00"
+    "at": "2026-08-27T04:42:30.000291+00:00"
   },
   "deduplication": {
     "removed": 0,
-    "at": "2026-08-27T04:39:18.970452+00:00"
+    "at": "2026-08-27T04:42:30.653816+00:00"
   },
   "final_status_normalization": {
     "changed": 0,
-    "at": "2026-08-27T04:39:19.046264+00:00"
+    "at": "2026-08-27T04:42:30.729735+00:00"
   },
-  "social_analytics_rebuilt_at": "2026-08-27T04:39:19.061534+00:00",
+  "social_analytics_rebuilt_at": "2026-08-27T04:42:30.744598+00:00",
   "media_sanitization": {
     "removed": 0,
-    "at": "2026-08-27T04:39:19.081099+00:00"
+    "at": "2026-08-27T04:42:30.765392+00:00"
   },
   "ai_summary": {
     "what_changed": [
@@ -115202,6 +115329,22 @@
       "record_ids": [
         "detected:stc-bank:c060b1d79a252a32e7cc"
       ]
+    },
+    {
+      "request_id": "e10bd3f1-d197-492e-b6ab-6a60cbfb896b",
+      "reviewed_at": "2026-08-27T04:42:28.381955+00:00",
+      "reviewed_by": "admin",
+      "action": "link_existing",
+      "item_ids": [
+        "post:stc-bank:facebook:1fdb737b0bd0c1413711",
+        "post:stc-bank:instagram:2afd4c9eadca30c26b76",
+        "post:stc-bank:x:ff078c3f356e820a8098",
+        "post:stc-bank:facebook:6b9b9caf80f2f4c2c1cc",
+        "post:stc-bank:x:37931084a754be1701a6",
+        "post:stc-bank:instagram:fbf1ea9ad4b517f59065"
+      ],
+      "campaign_id": "detected:stc-bank:1971eae04c5a15cc8860",
+      "record_ids": []
     }
   ]
 }
