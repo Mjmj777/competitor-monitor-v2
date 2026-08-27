@@ -177,7 +177,7 @@
     mergeCampaign:"دمج الحملة",mergeCampaignTitle:"دمج حملات متداخلة",mergeCampaignHint:"اختر الحملة الأساسية. سيتم نقل الأدلة والمنشورات إليها وأرشفة الحملة الحالية مع حفظ سجل القرار.",
     mergeInto:"الدمج مع",mergeConfirm:"دمج الحملة الحالية في الحملة المحددة؟ يمكن استعادتها من سجل الدمج.",mergeQueued:"تم إرسال طلب الدمج…",mergeCompleted:"تم دمج الحملتين وتحديث الموقع.",
     mergedCampaign:"حملة مدمجة",undoMerge:"استعادة الدمج",undoMergeConfirm:"استعادة الحملة المدمجة وإعادة الروابط السابقة؟",noMergeTargets:"لا توجد حملة أخرى مناسبة للدمج.",
-    overviewNav:"الملخص",competitorsNav:"المنافسون",analyticsNav:"التحليلات",inventoryNav:"السجل"
+    overviewNav:"نظرة عامة",competitorsNav:"المنافسون",summaryNav:"ملخص الإدارة",analyticsNav:"التحليلات",inventoryNav:"سجل الحملات"
   });
   Object.assign(I18N.en,{
     exploreCompetitors:"Explore competitors",exploreCompetitorsHint:"Select a competitor to open its dedicated campaigns and analysis page.",
@@ -185,7 +185,7 @@
     mergeCampaign:"Merge campaign",mergeCampaignTitle:"Merge overlapping campaigns",mergeCampaignHint:"Choose the primary campaign. Evidence and social posts will move to it, while this campaign is safely archived with an audit record.",
     mergeInto:"Merge into",mergeConfirm:"Merge this campaign into the selected primary campaign? It can be restored from the merge history.",mergeQueued:"Merge request queued…",mergeCompleted:"Campaigns merged and the site was updated.",
     mergedCampaign:"Merged campaign",undoMerge:"Undo merge",undoMergeConfirm:"Restore the merged campaign and its previous links?",noMergeTargets:"No other suitable campaign is available for merging.",
-    overviewNav:"Overview",competitorsNav:"Competitors",analyticsNav:"Analytics",inventoryNav:"Inventory"
+    overviewNav:"Overview",competitorsNav:"Competitors",summaryNav:"Management Summary",analyticsNav:"Analytics",inventoryNav:"Inventory"
   });
   let AUTH={authenticated:false,role:"viewer",user:""};
   async function loadAuth(){try{const r=await fetch("/__session",{cache:"no-store",credentials:"same-origin"});if(r.ok){const v=await r.json();AUTH={authenticated:!!v.authenticated,role:v.role||"viewer",user:v.username||v.user||""};}}catch{}return AUTH;}
