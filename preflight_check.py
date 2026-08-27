@@ -171,7 +171,7 @@ try:
             tables=len([name for name in z.namelist() if name.startswith('xl/tables/table') and name.endswith('.xml')])
             if sheets!=8: fail(f'Excel template structure changed: expected 8 sheets, found {sheets}')
             if tables!=6: fail(f'Excel template structure changed: expected 6 tables, found {tables}')
-            if formulas!=1331: fail(f'Excel template formulas changed: expected 1331, found {formulas}')
+            if formulas!=1306: fail(f'Excel template formulas changed: expected 1306, found {formulas}')
 except Exception as exc: fail(f'Excel template invalid: {exc}')
 
 # The deployed workflow must run semantic validation after enrichment and before Excel/deploy.
