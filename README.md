@@ -1,4 +1,4 @@
-# Competitor Intelligence Monitor v5.9.1
+# Competitor Intelligence Monitor v5.12.0
 
 This hotfix improves Merchant Offer classification and adds safe separate-record bulk approval while preserving the v5.9 Admin review center.
 
@@ -37,4 +37,4 @@ The fine-grained GitHub token needs repository access to `Mjmj777/competitor-mon
 
 Use the final package's `UPLOAD_TO_GITHUB` directory only. It intentionally excludes existing generated/business data (`data.json`, `state.json`, `inventory.json`, `manual_overrides.json` and Excel files), so uploading the update cannot overwrite current monitoring history or manual decisions.
 
-After GitHub Actions succeeds, copy the complete `cloudflare-worker.js` from the repository update into the Cloudflare Worker editor and Deploy. `/__session` should then report `worker_build: "5.9.1"`.
+After GitHub Actions succeeds, copy the complete `cloudflare-worker.js` from the repository update into the Cloudflare Worker editor and Deploy. `/__session` should then report `worker_build: "5.12.0"`.

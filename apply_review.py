@@ -20,7 +20,7 @@ DATA_PATH = BASE / "data.json"
 OVERRIDES_PATH = BASE / "manual_overrides.json"
 ALLOWED_ACTIONS = {
     "confirm_campaign", "confirm_merchant_offer", "confirm_merchant_offers_bulk", "group_campaign",
-    "link_existing", "mark_not_campaign", "mark_awareness",
+    "link_existing", "mark_not_campaign", "mark_awareness", "merge_campaigns", "undo_merge",
 }
 ALLOWED_CATEGORIES = {"remittance", "musaned", "sadad", "card", "engagement", "other", "merchant"}
 MAX_REVIEW_ITEMS = 50
@@ -169,7 +169,7 @@ def apply(payload, reviewer, request_id):
     competitors = {item.get("competitor_id") for item in items}
     if None in competitors:
         raise ValueError("Every review item must belong to a competitor")
-    grouped_actions = {"link_existing", "group_campaign", "confirm_campaign", "confirm_merchant_offer"}
+    grouped_actions = {"link_existing", "group_campaign", "confirm_campaign", "confirm_merchant_offer", "merge_campaigns", "undo_merge"}
     if action in grouped_actions and len(competitors) != 1:
         raise ValueError("Grouped review items must belong to one competitor")
 
@@ -215,6 +215,107 @@ def apply(payload, reviewer, request_id):
             }
             item.update(patch)
             approved_record_ids.append(item["id"])
+    elif action == "merge_campaigns":
+        campaign_id = clean(payload.get("target_campaign_id"), 240)
+        target = by_id.get(campaign_id)
+        if not target or target.get("content_type") != "campaign" or target.get("active") is False:
+            raise ValueError("The primary campaign does not exist or is inactive")
+        if target.get("competitor_id") not in competitors:
+            raise ValueError("Cannot merge campaigns across competitors")
+        if campaign_id in item_ids:
+            raise ValueError("The primary campaign cannot also be a source campaign")
+        if any(item.get("content_type") != "campaign" for item in items):
+            raise ValueError("Only campaign records can be merged")
+
+        target_patch = {
+            "manual_override": True,
+            "reviewed_by": reviewer,
+            "reviewed_at": reviewed_at,
+            "review_request_id": request_id,
+        }
+        combined_evidence = list(dict.fromkeys([
+            *(target.get("evidence_ids") or []),
+            *item_ids,
+            *[evidence_id for item in items for evidence_id in (item.get("evidence_ids") or [])],
+        ]))
+        if combined_evidence:
+            target_patch["evidence_ids"] = combined_evidence
+        combined_social = dict(target.get("social_links") or {})
+        for source_item in items:
+            for platform, raw in (source_item.get("social_links") or {}).items():
+                values = [value for value in (raw if isinstance(raw, list) else [raw]) if value]
+                existing = combined_social.get(platform)
+                merged = [value for value in (existing if isinstance(existing, list) else [existing]) if value]
+                merged.extend(value for value in values if value not in merged)
+                if merged:
+                    combined_social[platform] = merged[0] if len(merged) == 1 else merged
+        target_patch["social_links"] = combined_social
+        overrides.setdefault("items", {})[campaign_id] = {**overrides.get("items", {}).get(campaign_id, {}), **target_patch}
+        target.update(target_patch)
+
+        for source_item in items:
+            source_id = source_item["id"]
+            source_patch = {
+                "merged_into": campaign_id,
+                "merge_previous_active": source_item.get("active", True),
+                "merge_previous_status": source_item.get("current_status") or "Active",
+                "active": False,
+                "current_status": "Merged",
+                "review_required": False,
+                "review_reasons": [],
+                "manual_override": True,
+                "review_decision": action,
+                "reviewed_by": reviewer,
+                "reviewed_at": reviewed_at,
+                "review_request_id": request_id,
+            }
+            overrides.setdefault("items", {})[source_id] = {**overrides.get("items", {}).get(source_id, {}), **source_patch}
+            source_item.update(source_patch)
+            for evidence in by_id.values():
+                if evidence.get("campaign_id") == source_id or evidence.get("linked_campaign_id") == source_id:
+                    evidence_patch = {
+                        "campaign_id": campaign_id,
+                        "linked_campaign_id": campaign_id,
+                        "merge_origin_campaign_id": source_id,
+                        "reviewed_by": reviewer,
+                        "reviewed_at": reviewed_at,
+                        "review_request_id": request_id,
+                    }
+                    overrides.setdefault("items", {})[evidence["id"]] = {**overrides.get("items", {}).get(evidence["id"], {}), **evidence_patch}
+                    evidence.update(evidence_patch)
+    elif action == "undo_merge":
+        if len(items) != 1:
+            raise ValueError("Undo merge accepts one archived campaign at a time")
+        source = items[0]
+        campaign_id = clean(source.get("merged_into"), 240)
+        if not campaign_id:
+            raise ValueError("This campaign is not archived by a merge")
+        source_patch = {
+            "merged_into": None,
+            "active": bool(source.get("merge_previous_active", True)),
+            "current_status": clean(source.get("merge_previous_status") or "Active", 80),
+            "merge_previous_active": None,
+            "merge_previous_status": None,
+            "manual_override": True,
+            "review_decision": action,
+            "reviewed_by": reviewer,
+            "reviewed_at": reviewed_at,
+            "review_request_id": request_id,
+        }
+        overrides.setdefault("items", {})[source["id"]] = {**overrides.get("items", {}).get(source["id"], {}), **source_patch}
+        source.update(source_patch)
+        for evidence in by_id.values():
+            if evidence.get("merge_origin_campaign_id") == source["id"]:
+                evidence_patch = {
+                    "campaign_id": source["id"],
+                    "linked_campaign_id": source["id"],
+                    "merge_origin_campaign_id": None,
+                    "reviewed_by": reviewer,
+                    "reviewed_at": reviewed_at,
+                    "review_request_id": request_id,
+                }
+                overrides.setdefault("items", {})[evidence["id"]] = {**overrides.get("items", {}).get(evidence["id"], {}), **evidence_patch}
+                evidence.update(evidence_patch)
     elif action == "link_existing":
         campaign_id = clean(payload.get("target_campaign_id"), 240)
         target = by_id.get(campaign_id)
@@ -258,7 +359,7 @@ def apply(payload, reviewer, request_id):
             patch["current_status"] = "Reviewed"
             overrides.setdefault("items", {})[item["id"]] = {**overrides.get("items", {}).get(item["id"], {}), **patch}
             item.update(patch)
-    elif campaign_id:
+    elif campaign_id and action not in {"merge_campaigns", "undo_merge"}:
         for item in items:
             patch = patch_for(item, action, campaign_id, reviewer, reviewed_at, request_id)
             overrides.setdefault("items", {})[item["id"]] = {**overrides.get("items", {}).get(item["id"], {}), **patch}

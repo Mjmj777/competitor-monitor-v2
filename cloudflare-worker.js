@@ -2,7 +2,7 @@ const ORIGIN = "https://mjmj777.github.io/competitor-monitor-v2";
 const GITHUB_REPOSITORY = "Mjmj777/competitor-monitor-v2";
 const GITHUB_WORKFLOW = "monitor.yml";
 const GITHUB_REVIEW_WORKFLOW = "review.yml";
-const WORKER_BUILD = "5.9.1";
+const WORKER_BUILD = "5.12.0";
 const REFRESH_TARGETS = new Set([
   "all",
   "stc-bank",
@@ -547,6 +547,8 @@ const REVIEW_ACTIONS = new Set([
   "link_existing",
   "mark_not_campaign",
   "mark_awareness",
+  "merge_campaigns",
+  "undo_merge",
 ]);
 
 function validateAdminJsonRequest(request, session) {
@@ -566,7 +568,7 @@ function validReviewPayload(payload) {
   const maxItems = payload.action === "confirm_merchant_offers_bulk" ? 200 : 50;
   if (!Array.isArray(payload.item_ids) || payload.item_ids.length < 1 || payload.item_ids.length > maxItems) return `Select between 1 and ${maxItems} items`;
   if (payload.item_ids.some((value) => typeof value !== "string" || !/^[A-Za-z0-9:._-]{4,240}$/.test(value))) return "Invalid item ID";
-  if (payload.action === "link_existing" && !/^[A-Za-z0-9:._-]{4,240}$/.test(String(payload.target_campaign_id || ""))) return "A target campaign is required";
+  if (new Set(["link_existing", "merge_campaigns"]).has(payload.action) && !/^[A-Za-z0-9:._-]{4,240}$/.test(String(payload.target_campaign_id || ""))) return "A target campaign is required";
   for (const field of ["title", "summary", "campaign_category", "record_type", "start_date", "end_date", "official_source_url"]) {
     if (payload[field] != null && typeof payload[field] !== "string") return `Invalid ${field}`;
   }

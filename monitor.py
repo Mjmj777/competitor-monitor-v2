@@ -1329,7 +1329,7 @@ def stale_no_end_note(value: Any) -> bool:
 
 
 def apply_override(item: dict[str, Any], override: dict[str, Any]) -> dict[str, Any]:
-    allowed = {"title", "snippet", "summary", "content_type", "suggested_record_type", "campaign_category", "primary_category", "categories", "current_status", "active", "published_at", "start_date", "end_date", "official_campaign_page_url", "primary_official_source_url", "official_evidence_url", "link", "social_links", "review_required", "review_reasons", "mechanic_tags", "theme_tags", "operation_type", "mechanic", "eligibility", "terms_note", "campaign_id", "linked_campaign_id", "suggested_campaign_id", "record_role", "review_decision", "review_approved", "reviewed_by", "reviewed_at", "review_request_id", "deleted", "deleted_at", "deleted_title", "deleted_competitor_id", "deleted_url"}
+    allowed = {"title", "snippet", "summary", "content_type", "suggested_record_type", "campaign_category", "primary_category", "categories", "current_status", "active", "published_at", "start_date", "end_date", "official_campaign_page_url", "primary_official_source_url", "official_evidence_url", "link", "social_links", "review_required", "review_reasons", "mechanic_tags", "theme_tags", "operation_type", "mechanic", "eligibility", "terms_note", "campaign_id", "linked_campaign_id", "suggested_campaign_id", "record_role", "review_decision", "review_approved", "reviewed_by", "reviewed_at", "review_request_id", "merged_into", "merge_previous_active", "merge_previous_status", "merge_origin_campaign_id", "evidence_ids", "deleted", "deleted_at", "deleted_title", "deleted_competitor_id", "deleted_url"}
     result = dict(item)
     for key, value in override.items():
         if key in allowed:
@@ -1341,7 +1341,7 @@ def apply_override(item: dict[str, Any], override: dict[str, Any]) -> dict[str, 
     result["social_link_count"] = len(result["social_links"])
     # Lifecycle is always derived from dates. A stale manual status/active flag must never
     # contradict a newly entered Start/End Date.
-    if result.get("content_type") in {"campaign", "merchant_offer"}:
+    if result.get("content_type") in {"campaign", "merchant_offer"} and not result.get("merged_into"):
         status, active = lifecycle_status(result)
         result["current_status"] = status
         result["active"] = active
@@ -1553,7 +1553,8 @@ def deduplicate_campaign_records(items: list[dict[str, Any]], config: dict[str, 
     Identity is resolved by official detail URL first, exact normalized title second, then a
     conservative near-title match within the same category. Different competitors are never merged.
     """
-    records=[row for row in items if row.get("content_type") in {"campaign", "merchant_offer"}]
+    merged=[row for row in items if row.get("content_type")=="campaign" and row.get("merged_into")]
+    records=[row for row in items if row.get("content_type") in {"campaign", "merchant_offer"} and not row.get("merged_into")]
     others=[row for row in items if row.get("content_type") not in {"campaign", "merchant_offer"}]
     # Process authoritative rows first so live discoveries enrich the Excel/manual record.
     records.sort(key=lambda r: campaign_rank(r), reverse=True)
@@ -1602,7 +1603,7 @@ def deduplicate_campaign_records(items: list[dict[str, Any]], config: dict[str, 
         # Register every identity from the duplicate against the retained record.
         if title_key and not generic_title(row.get("title")): by_title[(comp,record_type,title_key)]=target
         for u in urls: by_url[(comp,record_type,u)]=target
-    result = kept + others
+    result = kept + merged + others
 
     # Resolve redirect chains and repair references on social/review rows after a real dedup merge.
     def resolve(value: str | None) -> str | None:

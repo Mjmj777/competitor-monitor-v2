@@ -2260,6 +2260,7 @@ def consolidate_duplicates(data):
     items=data.get("items",[]);byid={i.get("id"):i for i in items};remove=set();redirect={}
     # Explicit AI/heuristic link to an existing authoritative campaign.
     for row in items:
+        if row.get("merged_into"):continue
         target_id=row.get("duplicate_candidate_id")
         target=byid.get(target_id)
         if (
@@ -2269,7 +2270,7 @@ def consolidate_duplicates(data):
         ):
             merge_into_campaign(target,row);remove.add(row.get("id"));redirect[row.get("id")]=target_id
 
-    campaigns=[i for i in items if i.get("id") not in remove and i.get("content_type") in {"campaign","merchant_offer"}]
+    campaigns=[i for i in items if i.get("id") not in remove and i.get("content_type") in {"campaign","merchant_offer"} and not i.get("merged_into")]
     campaigns.sort(key=campaign_rank,reverse=True)
     kept=[];by_title={};by_url={}
     for row in campaigns:
@@ -2348,7 +2349,7 @@ def consolidate_review_duplicates(data,config):
 
 def detect_duplicates_replacements(data):
     # Duplicate campaigns are consolidated before this point. Keep only replacement hints.
-    items=[i for i in data.get("items",[]) if i.get("content_type")=="campaign"]
+    items=[i for i in data.get("items",[]) if i.get("content_type")=="campaign" and not i.get("merged_into")]
     for i in items:i.pop("duplicate_candidate_id",None);i.pop("replacement_candidate_id",None)
     for idx,a in enumerate(items):
         at=tokenize(f"{a.get('title','')} {a.get('mechanic','')}")
@@ -2376,6 +2377,11 @@ def finalize_counted_statuses(data, overrides, config):
     current=now(); changed=0
     for item in data.get("items",[]):
         if item.get("content_type") not in {"campaign","merchant_offer"}:
+            continue
+        if item.get("merged_into"):
+            item["active"]=False
+            item["current_status"]="Merged"
+            item["review_required"]=False
             continue
         listing_merchant=item.get("content_type")=="merchant_offer" and trusted_barq_listing_merchant(item,config)
         if item.get("source_type")=="website" and item.get("official_discovery") and not item.get("review_approved") and (item.get("source_verification") or {}).get("status")!="verified_website" and not listing_merchant:
@@ -2447,6 +2453,13 @@ def campaign_market_date(item):
 def annotate_market_timing(items):
     for item in items:
         if item.get("content_type")!="campaign":continue
+        # An Admin merge is inventory maintenance, not a market launch, update or expiry.
+        # Clear any inherited market-event dates so the Management Summary never reports
+        # a human deduplication action as competitor activity.
+        if item.get("merged_into"):
+            for field in ("market_launch_date","market_date_basis","market_last_changed","market_expiry_date"):
+                item.pop(field,None)
+            continue
         value,basis=campaign_market_date(item)
         if value:
             item["market_launch_date"]=value;item["market_date_basis"]=basis
@@ -2461,7 +2474,7 @@ def annotate_market_timing(items):
 def snapshot_campaigns(items):
     return {
         i["id"]:{k:_snapshot_value(i.get(k)) for k in SNAPSHOT_FIELDS}
-        for i in items if i.get("content_type")=="campaign" and i.get("id")
+        for i in items if i.get("content_type")=="campaign" and i.get("id") and not i.get("merged_into")
     }
 
 def _has_value(value):
