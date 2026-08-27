@@ -3915,11 +3915,11 @@
   ],
   "stats": {
     "active_campaigns": 33,
-    "merchant_offers": 143,
+    "merchant_offers": 163,
     "remittance_campaigns": 11,
     "expiring_30d": 6,
     "social_posts_7d": 225,
-    "review_required": 553,
+    "review_required": 531,
     "healthy_sources": 31,
     "failed_sources": 0,
     "total_sources": 31
@@ -3927,12 +3927,12 @@
   "refresh_summary": {
     "request_id": "33037601934",
     "competitor": "all",
-    "completed_at": "2026-08-27T04:33:28.678975+00:00",
+    "completed_at": "2026-08-27T04:36:08.462915+00:00",
     "new_offers": 1,
     "updated_offers": 216,
     "unchanged_offers": 129,
     "new_posts": 36,
-    "needs_review": 553,
+    "needs_review": 531,
     "failed_sources": 0,
     "zero_item_sources": 0,
     "preserved_last_known_good": 0
@@ -4058,12 +4058,12 @@
     {
       "request_id": "33037601934",
       "competitor": "all",
-      "completed_at": "2026-08-27T04:33:28.678975+00:00",
+      "completed_at": "2026-08-27T04:36:08.462915+00:00",
       "new_offers": 1,
       "updated_offers": 216,
       "unchanged_offers": 129,
       "new_posts": 36,
-      "needs_review": 553,
+      "needs_review": 531,
       "failed_sources": 0,
       "zero_item_sources": 0,
       "preserved_last_known_good": 0
@@ -4074,1547 +4074,6 @@
     "policy": "last_known_good"
   },
   "items": [
-    {
-      "id": "detected:stc-bank:7b46d3c2cae682f75e4e",
-      "competitor_id": "stc-bank",
-      "source_key": "website:stc-bank:offers",
-      "source_type": "website",
-      "platform": "website",
-      "content_type": "review",
-      "suggested_record_type": "merchant_offer",
-      "campaign_category": "remittance",
-      "primary_category": "remittance",
-      "categories": [
-        "remittance"
-      ],
-      "title": "10% off on perfumes from Golden Scent",
-      "snippet": "Valid until 19 Oct 2026 Transfer internationally and enter the draw Make an international transfer of any amount to any country through the app and get a chance to enter the draw to win a car every week and ⃁ 1,000 for 10 winners daily. Valid until 2 Oct 2026 Earn cash amount on international purchases! Exclusively for selected customers, earn a cash amount on international purchases using Visa payment cards from STC Bank. Valid until 30 Sep 2026 15% discount from Madame Tussauds Walk around Madame Tussauds London using STC Bank Visa cards. Valid until 30 Sep 2026 15% off on London Eye tickets! Enjoy a London Eye visit with 15% off on tickets using Visa payment cards and Credit cards from STC Bank. Valid until 27 Dec 2027 10% off from GrintaHub Enjoy an exclusive 10% off offer on the GrintaHub website and app with all STC Bank cards. Valid until 31 Dec 2027 15% discount from Legoland Make enjoyable memories with Legoland in the UK using STC Bank Visa cards. Valid until 31 Dec 2027 10% discount on The Bicester Collection Luxurious shopping in The Bicester Collection in the UK using STC Bank Visa cards. Valid until 31 Dec 2027 A Unique Shopping Experience at La Vallée Village! Enjoy…",
-      "link": "https://stcbank.com.sa/en/web/guest/w/goldenscent",
-      "official_campaign_page_url": "https://stcbank.com.sa/en/web/guest/w/goldenscent",
-      "primary_official_source_url": "https://stcbank.com.sa/en/web/guest/w/goldenscent",
-      "social_links": {},
-      "social_link_count": 0,
-      "published_at": null,
-      "start_date": null,
-      "end_date": "2026-10-19T00:00:00+00:00",
-      "date_evidence": {
-        "listing": "Valid until 19 Oct 2026"
-      },
-      "current_status": "Needs Review",
-      "active": true,
-      "direct_link": true,
-      "verified": true,
-      "official_discovery": true,
-      "discovery_section": "current",
-      "review_required": true,
-      "review_reasons": [
-        "new_official_item_not_in_excel_inventory",
-        "official_detail_not_verified"
-      ],
-      "mechanic_tags": [
-        "discount",
-        "prize_draw"
-      ],
-      "theme_tags": [
-        "international_transfer",
-        "cards"
-      ],
-      "media": {
-        "url": "https://www.stcbank.com.sa/documents/d/guest/remittance",
-        "type": "image",
-        "thumbnail_url": "https://www.stcbank.com.sa/documents/d/guest/remittance"
-      },
-      "first_seen": "2026-08-25T15:44:42.097858+00:00",
-      "last_seen": "2026-08-27T03:51:56.195769+00:00",
-      "last_changed": "2026-08-27T03:51:56.195769+00:00",
-      "version": 3,
-      "change_history": [
-        {
-          "at": "2026-08-25T15:44:42.097858+00:00",
-          "type": "detected",
-          "version": 1
-        },
-        {
-          "at": "2026-08-26T12:01:59.476231+00:00",
-          "type": "updated",
-          "version": 2
-        },
-        {
-          "at": "2026-08-27T03:51:56.195769+00:00",
-          "type": "updated",
-          "version": 3
-        }
-      ],
-      "detail_timeout_seconds": 18,
-      "manual_override": true,
-      "source_verification": {
-        "status": "failed",
-        "verification_method": "official_website_page",
-        "checked_at": "2026-08-26T08:10:25.539430+00:00",
-        "source_url": "https://stcbank.com.sa/en/web/guest/w/goldenscent",
-        "source_changed": false,
-        "conflicts": [],
-        "error": "ConnectionError: HTTPSConnectionPool(host='liferay-bank-web-prod.apps.dmz46-oc-int-1.ad.stcpay.com.sa', port=443): Max retries exceeded with url: /en/web/guest/w/golden-scent-1 (Caused by NameResolutionError(\"HTTPSConnection(host='liferay-bank-web-prod.apps.dmz46-oc-int-1.ad.stcpay.com.sa', port=443): Failed to resolve 'liferay-bank-web-prod.apps.dmz46-oc-int-1.ad.stcpay.com.sa' ([Errno -2] Name or service not known)\"))"
-      },
-      "review_priority": 45
-    },
-    {
-      "id": "detected:barq:533ae691fafb686aee38",
-      "competitor_id": "barq",
-      "source_key": "website:barq:offers",
-      "source_type": "website",
-      "platform": "website",
-      "content_type": "review",
-      "suggested_record_type": "merchant_offer",
-      "campaign_category": "other",
-      "primary_category": "other",
-      "categories": [
-        "other"
-      ],
-      "title": "عرض SLS × برق",
-      "snippet": "عرض SLS × برق",
-      "link": "https://barq.com/ar/offers/%d8%b9%d8%b1%d8%b6-sls-x-%d8%a8%d8%b1%d9%82/",
-      "official_campaign_page_url": "https://barq.com/ar/offers/%d8%b9%d8%b1%d8%b6-sls-x-%d8%a8%d8%b1%d9%82/",
-      "primary_official_source_url": "https://barq.com/ar/offers/%d8%b9%d8%b1%d8%b6-sls-x-%d8%a8%d8%b1%d9%82/",
-      "social_links": {},
-      "social_link_count": 0,
-      "published_at": null,
-      "start_date": null,
-      "end_date": null,
-      "date_evidence": {},
-      "current_status": "Needs Review",
-      "active": true,
-      "direct_link": true,
-      "verified": true,
-      "official_discovery": true,
-      "discovery_section": "current",
-      "review_required": true,
-      "review_reasons": [
-        "new_official_item_not_in_excel_inventory",
-        "official_detail_not_verified"
-      ],
-      "mechanic_tags": [
-        "other"
-      ],
-      "theme_tags": [
-        "other"
-      ],
-      "media": null,
-      "first_seen": "2026-08-25T15:44:42.097858+00:00",
-      "last_seen": "2026-08-27T03:51:56.195769+00:00",
-      "last_changed": "2026-08-25T15:44:42.097858+00:00",
-      "version": 1,
-      "change_history": [
-        {
-          "at": "2026-08-25T15:44:42.097858+00:00",
-          "type": "detected",
-          "version": 1
-        }
-      ],
-      "detail_timeout_seconds": 35,
-      "manual_override": true,
-      "source_verification": {
-        "status": "failed",
-        "verification_method": "official_website_page",
-        "checked_at": "2026-08-27T03:52:26.320634+00:00",
-        "source_url": "https://barq.com/ar/offers/%d8%b9%d8%b1%d8%b6-sls-x-%d8%a8%d8%b1%d9%82/",
-        "source_changed": false,
-        "conflicts": [],
-        "error": "HTTPError: 404 Client Error: Not Found for url: https://barq.com/ar/offers/%D8%B9%D8%B1%D8%B6-sls-x-%D8%A8%D8%B1%D9%82/"
-      },
-      "review_priority": 37
-    },
-    {
-      "id": "detected:barq:d0ec39bb31c0ff7283b1",
-      "competitor_id": "barq",
-      "source_key": "website:barq:offers",
-      "source_type": "website",
-      "platform": "website",
-      "content_type": "review",
-      "suggested_record_type": "merchant_offer",
-      "campaign_category": "other",
-      "primary_category": "other",
-      "categories": [
-        "other"
-      ],
-      "title": "عرض برق × سامسونايت",
-      "snippet": "عرض برق × سامسونايت",
-      "link": "https://barq.com/ar/offers/%d8%b9%d8%b1%d8%b6-%d8%a8%d8%b1%d9%82-x-%d8%b3%d8%a7%d9%85%d8%b3%d9%88%d9%86%d8%a7%d9%8a%d8%aa/",
-      "official_campaign_page_url": "https://barq.com/ar/offers/%d8%b9%d8%b1%d8%b6-%d8%a8%d8%b1%d9%82-x-%d8%b3%d8%a7%d9%85%d8%b3%d9%88%d9%86%d8%a7%d9%8a%d8%aa/",
-      "primary_official_source_url": "https://barq.com/ar/offers/%d8%b9%d8%b1%d8%b6-%d8%a8%d8%b1%d9%82-x-%d8%b3%d8%a7%d9%85%d8%b3%d9%88%d9%86%d8%a7%d9%8a%d8%aa/",
-      "social_links": {},
-      "social_link_count": 0,
-      "published_at": null,
-      "start_date": null,
-      "end_date": null,
-      "date_evidence": {},
-      "current_status": "Needs Review",
-      "active": true,
-      "direct_link": true,
-      "verified": true,
-      "official_discovery": true,
-      "discovery_section": "current",
-      "review_required": true,
-      "review_reasons": [
-        "new_official_item_not_in_excel_inventory",
-        "official_detail_not_verified"
-      ],
-      "mechanic_tags": [
-        "other"
-      ],
-      "theme_tags": [
-        "other"
-      ],
-      "media": null,
-      "first_seen": "2026-08-25T15:44:42.097858+00:00",
-      "last_seen": "2026-08-27T03:51:56.195769+00:00",
-      "last_changed": "2026-08-25T15:44:42.097858+00:00",
-      "version": 1,
-      "change_history": [
-        {
-          "at": "2026-08-25T15:44:42.097858+00:00",
-          "type": "detected",
-          "version": 1
-        }
-      ],
-      "detail_timeout_seconds": 35,
-      "manual_override": true,
-      "source_verification": {
-        "status": "failed",
-        "verification_method": "official_website_page",
-        "checked_at": "2026-08-27T03:52:26.320634+00:00",
-        "source_url": "https://barq.com/ar/offers/%d8%b9%d8%b1%d8%b6-%d8%a8%d8%b1%d9%82-x-%d8%b3%d8%a7%d9%85%d8%b3%d9%88%d9%86%d8%a7%d9%8a%d8%aa/",
-        "source_changed": false,
-        "conflicts": [],
-        "error": "HTTPError: 404 Client Error: Not Found for url: https://barq.com/ar/offers/%D8%B9%D8%B1%D8%B6-%D8%A8%D8%B1%D9%82-x-%D8%B3%D8%A7%D9%85%D8%B3%D9%88%D9%86%D8%A7%D9%8A%D8%AA/"
-      },
-      "review_priority": 37
-    },
-    {
-      "id": "detected:barq:a969ce2447190653f552",
-      "competitor_id": "barq",
-      "source_key": "website:barq:offers",
-      "source_type": "website",
-      "platform": "website",
-      "content_type": "review",
-      "suggested_record_type": "merchant_offer",
-      "campaign_category": "other",
-      "primary_category": "other",
-      "categories": [
-        "other"
-      ],
-      "title": "عرض برق × بيت الشاورما",
-      "snippet": "عرض برق × بيت الشاورما",
-      "link": "https://barq.com/ar/offers/shawarma-house-2/",
-      "official_campaign_page_url": "https://barq.com/ar/offers/shawarma-house-2/",
-      "primary_official_source_url": "https://barq.com/ar/offers/shawarma-house-2/",
-      "social_links": {},
-      "social_link_count": 0,
-      "published_at": null,
-      "start_date": null,
-      "end_date": null,
-      "date_evidence": {},
-      "current_status": "Needs Review",
-      "active": true,
-      "direct_link": true,
-      "verified": true,
-      "official_discovery": true,
-      "discovery_section": "current",
-      "review_required": true,
-      "review_reasons": [
-        "new_official_item_not_in_excel_inventory",
-        "official_detail_not_verified"
-      ],
-      "mechanic_tags": [
-        "other"
-      ],
-      "theme_tags": [
-        "other"
-      ],
-      "media": null,
-      "first_seen": "2026-08-25T15:44:42.097858+00:00",
-      "last_seen": "2026-08-27T03:51:56.195769+00:00",
-      "last_changed": "2026-08-25T15:44:42.097858+00:00",
-      "version": 1,
-      "change_history": [
-        {
-          "at": "2026-08-25T15:44:42.097858+00:00",
-          "type": "detected",
-          "version": 1
-        }
-      ],
-      "detail_timeout_seconds": 35,
-      "manual_override": true,
-      "source_verification": {
-        "status": "failed",
-        "verification_method": "official_website_page",
-        "checked_at": "2026-08-27T03:52:26.320634+00:00",
-        "source_url": "https://barq.com/ar/offers/shawarma-house-2/",
-        "source_changed": false,
-        "conflicts": [],
-        "error": "HTTPError: 404 Client Error: Not Found for url: https://barq.com/ar/offers/shawarma-house-2/"
-      },
-      "review_priority": 37
-    },
-    {
-      "id": "detected:barq:b23ed61da3fc895477f2",
-      "competitor_id": "barq",
-      "source_key": "website:barq:offers",
-      "source_type": "website",
-      "platform": "website",
-      "content_type": "review",
-      "suggested_record_type": "merchant_offer",
-      "campaign_category": "other",
-      "primary_category": "other",
-      "categories": [
-        "other"
-      ],
-      "title": "عرض برق × Villa Mamas",
-      "snippet": "عرض برق × Villa Mamas",
-      "link": "https://barq.com/ar/offers/villa-mamas-offer/",
-      "official_campaign_page_url": "https://barq.com/ar/offers/villa-mamas-offer/",
-      "primary_official_source_url": "https://barq.com/ar/offers/villa-mamas-offer/",
-      "social_links": {},
-      "social_link_count": 0,
-      "published_at": null,
-      "start_date": null,
-      "end_date": null,
-      "date_evidence": {},
-      "current_status": "Needs Review",
-      "active": true,
-      "direct_link": true,
-      "verified": true,
-      "official_discovery": true,
-      "discovery_section": "current",
-      "review_required": true,
-      "review_reasons": [
-        "new_official_item_not_in_excel_inventory",
-        "official_detail_not_verified"
-      ],
-      "mechanic_tags": [
-        "other"
-      ],
-      "theme_tags": [
-        "other"
-      ],
-      "media": null,
-      "first_seen": "2026-08-25T15:44:42.097858+00:00",
-      "last_seen": "2026-08-27T03:51:56.195769+00:00",
-      "last_changed": "2026-08-25T15:44:42.097858+00:00",
-      "version": 1,
-      "change_history": [
-        {
-          "at": "2026-08-25T15:44:42.097858+00:00",
-          "type": "detected",
-          "version": 1
-        }
-      ],
-      "detail_timeout_seconds": 35,
-      "manual_override": true,
-      "source_verification": {
-        "status": "failed",
-        "verification_method": "official_website_page",
-        "checked_at": "2026-08-27T03:52:26.320634+00:00",
-        "source_url": "https://barq.com/ar/offers/villa-mamas-offer/",
-        "source_changed": false,
-        "conflicts": [],
-        "error": "HTTPError: 404 Client Error: Not Found for url: https://barq.com/ar/offers/villa-mamas-offer/"
-      },
-      "review_priority": 37
-    },
-    {
-      "id": "detected:barq:c11054aa8e431bd93af6",
-      "competitor_id": "barq",
-      "source_key": "website:barq:offers",
-      "source_type": "website",
-      "platform": "website",
-      "content_type": "review",
-      "suggested_record_type": "merchant_offer",
-      "campaign_category": "other",
-      "primary_category": "other",
-      "categories": [
-        "other"
-      ],
-      "title": "عرض برق × Pret A Manger",
-      "snippet": "عرض برق × Pret A Manger",
-      "link": "https://barq.com/ar/offers/%d8%b9%d8%b1%d8%b6-%d8%a8%d8%b1%d9%82-x-pret-a-manger/",
-      "official_campaign_page_url": "https://barq.com/ar/offers/%d8%b9%d8%b1%d8%b6-%d8%a8%d8%b1%d9%82-x-pret-a-manger/",
-      "primary_official_source_url": "https://barq.com/ar/offers/%d8%b9%d8%b1%d8%b6-%d8%a8%d8%b1%d9%82-x-pret-a-manger/",
-      "social_links": {},
-      "social_link_count": 0,
-      "published_at": null,
-      "start_date": null,
-      "end_date": null,
-      "date_evidence": {},
-      "current_status": "Needs Review",
-      "active": true,
-      "direct_link": true,
-      "verified": true,
-      "official_discovery": true,
-      "discovery_section": "current",
-      "review_required": true,
-      "review_reasons": [
-        "new_official_item_not_in_excel_inventory",
-        "official_detail_not_verified"
-      ],
-      "mechanic_tags": [
-        "other"
-      ],
-      "theme_tags": [
-        "other"
-      ],
-      "media": null,
-      "first_seen": "2026-08-25T15:44:42.097858+00:00",
-      "last_seen": "2026-08-27T03:51:56.195769+00:00",
-      "last_changed": "2026-08-25T15:44:42.097858+00:00",
-      "version": 1,
-      "change_history": [
-        {
-          "at": "2026-08-25T15:44:42.097858+00:00",
-          "type": "detected",
-          "version": 1
-        }
-      ],
-      "detail_timeout_seconds": 35,
-      "manual_override": true,
-      "source_verification": {
-        "status": "failed",
-        "verification_method": "official_website_page",
-        "checked_at": "2026-08-27T03:52:26.320634+00:00",
-        "source_url": "https://barq.com/ar/offers/%d8%b9%d8%b1%d8%b6-%d8%a8%d8%b1%d9%82-x-pret-a-manger/",
-        "source_changed": false,
-        "conflicts": [],
-        "error": "HTTPError: 404 Client Error: Not Found for url: https://barq.com/ar/offers/%D8%B9%D8%B1%D8%B6-%D8%A8%D8%B1%D9%82-x-pret-a-manger/"
-      },
-      "review_priority": 37
-    },
-    {
-      "id": "detected:barq:bca2b13a003614dd3331",
-      "competitor_id": "barq",
-      "source_key": "website:barq:offers",
-      "source_type": "website",
-      "platform": "website",
-      "content_type": "review",
-      "suggested_record_type": "merchant_offer",
-      "campaign_category": "other",
-      "primary_category": "other",
-      "categories": [
-        "other"
-      ],
-      "title": "عرض برق × Nofa Resort",
-      "snippet": "عرض برق × Nofa Resort",
-      "link": "https://barq.com/ar/offers/%d8%b9%d8%b1%d8%b6-%d8%a8%d8%b1%d9%82-x-nofa-resort/",
-      "official_campaign_page_url": "https://barq.com/ar/offers/%d8%b9%d8%b1%d8%b6-%d8%a8%d8%b1%d9%82-x-nofa-resort/",
-      "primary_official_source_url": "https://barq.com/ar/offers/%d8%b9%d8%b1%d8%b6-%d8%a8%d8%b1%d9%82-x-nofa-resort/",
-      "social_links": {},
-      "social_link_count": 0,
-      "published_at": null,
-      "start_date": null,
-      "end_date": null,
-      "date_evidence": {},
-      "current_status": "Needs Review",
-      "active": true,
-      "direct_link": true,
-      "verified": true,
-      "official_discovery": true,
-      "discovery_section": "current",
-      "review_required": true,
-      "review_reasons": [
-        "new_official_item_not_in_excel_inventory",
-        "official_detail_not_verified"
-      ],
-      "mechanic_tags": [
-        "other"
-      ],
-      "theme_tags": [
-        "other"
-      ],
-      "media": null,
-      "first_seen": "2026-08-25T15:44:42.097858+00:00",
-      "last_seen": "2026-08-27T03:51:56.195769+00:00",
-      "last_changed": "2026-08-25T15:44:42.097858+00:00",
-      "version": 1,
-      "change_history": [
-        {
-          "at": "2026-08-25T15:44:42.097858+00:00",
-          "type": "detected",
-          "version": 1
-        }
-      ],
-      "detail_timeout_seconds": 35,
-      "manual_override": true,
-      "source_verification": {
-        "status": "failed",
-        "verification_method": "official_website_page",
-        "checked_at": "2026-08-27T03:52:26.320634+00:00",
-        "source_url": "https://barq.com/ar/offers/%d8%b9%d8%b1%d8%b6-%d8%a8%d8%b1%d9%82-x-nofa-resort/",
-        "source_changed": false,
-        "conflicts": [],
-        "error": "HTTPError: 404 Client Error: Not Found for url: https://barq.com/ar/offers/%D8%B9%D8%B1%D8%B6-%D8%A8%D8%B1%D9%82-x-nofa-resort/"
-      },
-      "review_priority": 37
-    },
-    {
-      "id": "detected:barq:2b5fa023869718edc6ed",
-      "competitor_id": "barq",
-      "source_key": "website:barq:offers",
-      "source_type": "website",
-      "platform": "website",
-      "content_type": "review",
-      "suggested_record_type": "merchant_offer",
-      "campaign_category": "other",
-      "primary_category": "other",
-      "categories": [
-        "other"
-      ],
-      "title": "برق × ماكوين",
-      "snippet": "برق × ماكوين",
-      "link": "https://barq.com/ar/offers/macqueen-offer-2/",
-      "official_campaign_page_url": "https://barq.com/ar/offers/macqueen-offer-2/",
-      "primary_official_source_url": "https://barq.com/ar/offers/macqueen-offer-2/",
-      "social_links": {},
-      "social_link_count": 0,
-      "published_at": null,
-      "start_date": null,
-      "end_date": null,
-      "date_evidence": {},
-      "current_status": "Needs Review",
-      "active": true,
-      "direct_link": true,
-      "verified": true,
-      "official_discovery": true,
-      "discovery_section": "current",
-      "review_required": true,
-      "review_reasons": [
-        "new_official_item_not_in_excel_inventory",
-        "official_detail_not_verified"
-      ],
-      "mechanic_tags": [
-        "other"
-      ],
-      "theme_tags": [
-        "other"
-      ],
-      "media": null,
-      "first_seen": "2026-08-25T15:44:42.097858+00:00",
-      "last_seen": "2026-08-27T03:51:56.195769+00:00",
-      "last_changed": "2026-08-25T15:44:42.097858+00:00",
-      "version": 1,
-      "change_history": [
-        {
-          "at": "2026-08-25T15:44:42.097858+00:00",
-          "type": "detected",
-          "version": 1
-        }
-      ],
-      "detail_timeout_seconds": 35,
-      "manual_override": true,
-      "source_verification": {
-        "status": "failed",
-        "verification_method": "official_website_page",
-        "checked_at": "2026-08-27T03:52:26.320634+00:00",
-        "source_url": "https://barq.com/ar/offers/macqueen-offer-2/",
-        "source_changed": false,
-        "conflicts": [],
-        "error": "HTTPError: 404 Client Error: Not Found for url: https://barq.com/ar/offers/macqueen-offer-2/"
-      },
-      "review_priority": 37
-    },
-    {
-      "id": "detected:barq:4298adffc0395c564039",
-      "competitor_id": "barq",
-      "source_key": "website:barq:offers",
-      "source_type": "website",
-      "platform": "website",
-      "content_type": "review",
-      "suggested_record_type": "merchant_offer",
-      "campaign_category": "other",
-      "primary_category": "other",
-      "categories": [
-        "other"
-      ],
-      "title": "عرض Wooden × barq",
-      "snippet": "عرض Wooden × barq",
-      "link": "https://barq.com/ar/offers/wooden-x-barq/",
-      "official_campaign_page_url": "https://barq.com/ar/offers/wooden-x-barq/",
-      "primary_official_source_url": "https://barq.com/ar/offers/wooden-x-barq/",
-      "social_links": {},
-      "social_link_count": 0,
-      "published_at": null,
-      "start_date": null,
-      "end_date": null,
-      "date_evidence": {},
-      "current_status": "Needs Review",
-      "active": true,
-      "direct_link": true,
-      "verified": true,
-      "official_discovery": true,
-      "discovery_section": "current",
-      "review_required": true,
-      "review_reasons": [
-        "new_official_item_not_in_excel_inventory",
-        "official_detail_not_verified"
-      ],
-      "mechanic_tags": [
-        "other"
-      ],
-      "theme_tags": [
-        "other"
-      ],
-      "media": null,
-      "first_seen": "2026-08-25T15:44:42.097858+00:00",
-      "last_seen": "2026-08-27T03:51:56.195769+00:00",
-      "last_changed": "2026-08-25T15:44:42.097858+00:00",
-      "version": 1,
-      "change_history": [
-        {
-          "at": "2026-08-25T15:44:42.097858+00:00",
-          "type": "detected",
-          "version": 1
-        }
-      ],
-      "detail_timeout_seconds": 35,
-      "manual_override": true,
-      "source_verification": {
-        "status": "failed",
-        "verification_method": "official_website_page",
-        "checked_at": "2026-08-27T03:52:26.320634+00:00",
-        "source_url": "https://barq.com/ar/offers/wooden-x-barq/",
-        "source_changed": false,
-        "conflicts": [],
-        "error": "HTTPError: 404 Client Error: Not Found for url: https://barq.com/ar/offers/wooden-x-barq/"
-      },
-      "review_priority": 37
-    },
-    {
-      "id": "detected:barq:686e33acc8f746d18332",
-      "competitor_id": "barq",
-      "source_key": "website:barq:offers",
-      "source_type": "website",
-      "platform": "website",
-      "content_type": "review",
-      "suggested_record_type": "merchant_offer",
-      "campaign_category": "other",
-      "primary_category": "other",
-      "categories": [
-        "other"
-      ],
-      "title": "عرض Soma Lab × barq",
-      "snippet": "عرض Soma Lab × barq",
-      "link": "https://barq.com/ar/offers/soma-lab-x-barq/",
-      "official_campaign_page_url": "https://barq.com/ar/offers/soma-lab-x-barq/",
-      "primary_official_source_url": "https://barq.com/ar/offers/soma-lab-x-barq/",
-      "social_links": {},
-      "social_link_count": 0,
-      "published_at": null,
-      "start_date": null,
-      "end_date": null,
-      "date_evidence": {},
-      "current_status": "Needs Review",
-      "active": true,
-      "direct_link": true,
-      "verified": true,
-      "official_discovery": true,
-      "discovery_section": "current",
-      "review_required": true,
-      "review_reasons": [
-        "new_official_item_not_in_excel_inventory",
-        "official_detail_not_verified"
-      ],
-      "mechanic_tags": [
-        "other"
-      ],
-      "theme_tags": [
-        "other"
-      ],
-      "media": null,
-      "first_seen": "2026-08-25T15:44:42.097858+00:00",
-      "last_seen": "2026-08-27T03:51:56.195769+00:00",
-      "last_changed": "2026-08-25T15:44:42.097858+00:00",
-      "version": 1,
-      "change_history": [
-        {
-          "at": "2026-08-25T15:44:42.097858+00:00",
-          "type": "detected",
-          "version": 1
-        }
-      ],
-      "detail_timeout_seconds": 35,
-      "manual_override": true,
-      "source_verification": {
-        "status": "failed",
-        "verification_method": "official_website_page",
-        "checked_at": "2026-08-27T03:52:26.320634+00:00",
-        "source_url": "https://barq.com/ar/offers/soma-lab-x-barq/",
-        "source_changed": false,
-        "conflicts": [],
-        "error": "HTTPError: 404 Client Error: Not Found for url: https://barq.com/ar/offers/soma-lab-x-barq/"
-      },
-      "review_priority": 37
-    },
-    {
-      "id": "detected:barq:670e484dde8add2698e9",
-      "competitor_id": "barq",
-      "source_key": "website:barq:offers",
-      "source_type": "website",
-      "platform": "website",
-      "content_type": "review",
-      "suggested_record_type": "merchant_offer",
-      "campaign_category": "other",
-      "primary_category": "other",
-      "categories": [
-        "other"
-      ],
-      "title": "عرض كويا",
-      "snippet": "عرض كويا",
-      "link": "https://barq.com/ar/offers/coya-riyadh-offer/",
-      "official_campaign_page_url": "https://barq.com/ar/offers/coya-riyadh-offer/",
-      "primary_official_source_url": "https://barq.com/ar/offers/coya-riyadh-offer/",
-      "social_links": {},
-      "social_link_count": 0,
-      "published_at": null,
-      "start_date": null,
-      "end_date": null,
-      "date_evidence": {},
-      "current_status": "Needs Review",
-      "active": true,
-      "direct_link": true,
-      "verified": true,
-      "official_discovery": true,
-      "discovery_section": "current",
-      "review_required": true,
-      "review_reasons": [
-        "new_official_item_not_in_excel_inventory",
-        "official_detail_not_verified"
-      ],
-      "mechanic_tags": [
-        "other"
-      ],
-      "theme_tags": [
-        "other"
-      ],
-      "media": null,
-      "first_seen": "2026-08-25T15:44:42.097858+00:00",
-      "last_seen": "2026-08-27T03:51:56.195769+00:00",
-      "last_changed": "2026-08-25T15:44:42.097858+00:00",
-      "version": 1,
-      "change_history": [
-        {
-          "at": "2026-08-25T15:44:42.097858+00:00",
-          "type": "detected",
-          "version": 1
-        }
-      ],
-      "detail_timeout_seconds": 35,
-      "manual_override": true,
-      "source_verification": {
-        "status": "failed",
-        "verification_method": "official_website_page",
-        "checked_at": "2026-08-27T03:52:26.320634+00:00",
-        "source_url": "https://barq.com/ar/offers/coya-riyadh-offer/",
-        "source_changed": false,
-        "conflicts": [],
-        "error": "HTTPError: 404 Client Error: Not Found for url: https://barq.com/ar/offers/coya-riyadh-offer/"
-      },
-      "review_priority": 37
-    },
-    {
-      "id": "detected:barq:e98ec9a5b9af9c382e35",
-      "competitor_id": "barq",
-      "source_key": "website:barq:offers",
-      "source_type": "website",
-      "platform": "website",
-      "content_type": "review",
-      "suggested_record_type": "merchant_offer",
-      "campaign_category": "other",
-      "primary_category": "other",
-      "categories": [
-        "other"
-      ],
-      "title": "عرض اي هيرب × برق",
-      "snippet": "عرض اي هيرب × برق",
-      "link": "https://barq.com/ar/offers/%d8%b9%d8%b1%d8%b6-%d8%a7%d9%8a-%d9%87%d9%8a%d8%b1%d8%a8-x-%d8%a8%d8%b1%d9%82/",
-      "official_campaign_page_url": "https://barq.com/ar/offers/%d8%b9%d8%b1%d8%b6-%d8%a7%d9%8a-%d9%87%d9%8a%d8%b1%d8%a8-x-%d8%a8%d8%b1%d9%82/",
-      "primary_official_source_url": "https://barq.com/ar/offers/%d8%b9%d8%b1%d8%b6-%d8%a7%d9%8a-%d9%87%d9%8a%d8%b1%d8%a8-x-%d8%a8%d8%b1%d9%82/",
-      "social_links": {},
-      "social_link_count": 0,
-      "published_at": null,
-      "start_date": null,
-      "end_date": null,
-      "date_evidence": {},
-      "current_status": "Needs Review",
-      "active": true,
-      "direct_link": true,
-      "verified": true,
-      "official_discovery": true,
-      "discovery_section": "current",
-      "review_required": true,
-      "review_reasons": [
-        "new_official_item_not_in_excel_inventory",
-        "official_detail_not_verified"
-      ],
-      "mechanic_tags": [
-        "other"
-      ],
-      "theme_tags": [
-        "other"
-      ],
-      "media": null,
-      "first_seen": "2026-08-25T15:44:42.097858+00:00",
-      "last_seen": "2026-08-27T03:51:56.195769+00:00",
-      "last_changed": "2026-08-25T15:44:42.097858+00:00",
-      "version": 1,
-      "change_history": [
-        {
-          "at": "2026-08-25T15:44:42.097858+00:00",
-          "type": "detected",
-          "version": 1
-        }
-      ],
-      "detail_timeout_seconds": 35,
-      "manual_override": true,
-      "source_verification": {
-        "status": "failed",
-        "verification_method": "official_website_page",
-        "checked_at": "2026-08-25T21:00:56.091136+00:00",
-        "source_url": "https://barq.com/ar/offers/%d8%b9%d8%b1%d8%b6-%d8%a7%d9%8a-%d9%87%d9%8a%d8%b1%d8%a8-x-%d8%a8%d8%b1%d9%82/",
-        "source_changed": false,
-        "conflicts": [],
-        "error": "HTTPError: 503 Server Error: Service Temporarily Unavailable for url: https://barq.com/ar/offers/%D8%B9%D8%B1%D8%B6-%D8%A7%D9%8A-%D9%87%D9%8A%D8%B1%D8%A8-x-%D8%A8%D8%B1%D9%82/"
-      },
-      "review_priority": 37
-    },
-    {
-      "id": "detected:barq:a3b4ce9d1d845160cfb5",
-      "competitor_id": "barq",
-      "source_key": "website:barq:offers",
-      "source_type": "website",
-      "platform": "website",
-      "content_type": "review",
-      "suggested_record_type": "merchant_offer",
-      "campaign_category": "other",
-      "primary_category": "other",
-      "categories": [
-        "other"
-      ],
-      "title": "عرض Riyadh Padel",
-      "snippet": "عرض Riyadh Padel",
-      "link": "https://barq.com/ar/offers/riyadh-padel-2/",
-      "official_campaign_page_url": "https://barq.com/ar/offers/riyadh-padel-2/",
-      "primary_official_source_url": "https://barq.com/ar/offers/riyadh-padel-2/",
-      "social_links": {},
-      "social_link_count": 0,
-      "published_at": null,
-      "start_date": null,
-      "end_date": null,
-      "date_evidence": {},
-      "current_status": "Needs Review",
-      "active": true,
-      "direct_link": true,
-      "verified": true,
-      "official_discovery": true,
-      "discovery_section": "current",
-      "review_required": true,
-      "review_reasons": [
-        "new_official_item_not_in_excel_inventory",
-        "official_detail_not_verified"
-      ],
-      "mechanic_tags": [
-        "other"
-      ],
-      "theme_tags": [
-        "other"
-      ],
-      "media": null,
-      "first_seen": "2026-08-25T15:44:42.097858+00:00",
-      "last_seen": "2026-08-27T03:51:56.195769+00:00",
-      "last_changed": "2026-08-25T15:44:42.097858+00:00",
-      "version": 1,
-      "change_history": [
-        {
-          "at": "2026-08-25T15:44:42.097858+00:00",
-          "type": "detected",
-          "version": 1
-        }
-      ],
-      "detail_timeout_seconds": 35,
-      "manual_override": true,
-      "source_verification": {
-        "status": "failed",
-        "verification_method": "official_website_page",
-        "checked_at": "2026-08-25T21:00:56.091136+00:00",
-        "source_url": "https://barq.com/ar/offers/riyadh-padel-2/",
-        "source_changed": false,
-        "conflicts": [],
-        "error": "HTTPError: 503 Server Error: Service Unavailable for url: https://barq.com/ar/offers/riyadh-padel-2/"
-      },
-      "review_priority": 37
-    },
-    {
-      "id": "detected:barq:1590d84ba4320d3f674b",
-      "competitor_id": "barq",
-      "source_key": "website:barq:offers",
-      "source_type": "website",
-      "platform": "website",
-      "content_type": "review",
-      "suggested_record_type": "merchant_offer",
-      "campaign_category": "other",
-      "primary_category": "other",
-      "categories": [
-        "other"
-      ],
-      "title": "عرض Holiday Inn and Suites Al Khobar",
-      "snippet": "عرض Holiday Inn and Suites Al Khobar",
-      "link": "https://barq.com/ar/offers/holiday-inn-and-suites-al-khobar/",
-      "official_campaign_page_url": "https://barq.com/ar/offers/holiday-inn-and-suites-al-khobar/",
-      "primary_official_source_url": "https://barq.com/ar/offers/holiday-inn-and-suites-al-khobar/",
-      "social_links": {},
-      "social_link_count": 0,
-      "published_at": null,
-      "start_date": null,
-      "end_date": null,
-      "date_evidence": {},
-      "current_status": "Needs Review",
-      "active": true,
-      "direct_link": true,
-      "verified": true,
-      "official_discovery": true,
-      "discovery_section": "current",
-      "review_required": true,
-      "review_reasons": [
-        "new_official_item_not_in_excel_inventory",
-        "official_detail_not_verified"
-      ],
-      "mechanic_tags": [
-        "other"
-      ],
-      "theme_tags": [
-        "other"
-      ],
-      "media": null,
-      "first_seen": "2026-08-25T15:44:42.097858+00:00",
-      "last_seen": "2026-08-27T03:51:56.195769+00:00",
-      "last_changed": "2026-08-25T15:44:42.097858+00:00",
-      "version": 1,
-      "change_history": [
-        {
-          "at": "2026-08-25T15:44:42.097858+00:00",
-          "type": "detected",
-          "version": 1
-        }
-      ],
-      "detail_timeout_seconds": 35,
-      "manual_override": true,
-      "source_verification": {
-        "status": "failed",
-        "verification_method": "official_website_page",
-        "checked_at": "2026-08-25T23:00:46.205983+00:00",
-        "source_url": "https://barq.com/ar/offers/holiday-inn-and-suites-al-khobar/",
-        "source_changed": false,
-        "conflicts": [],
-        "error": "HTTPError: 404 Client Error: Not Found for url: https://barq.com/ar/offers/holiday-inn-and-suites-al-khobar/"
-      },
-      "review_priority": 37
-    },
-    {
-      "id": "detected:barq:4dcbdcbd57f545b7e066",
-      "competitor_id": "barq",
-      "source_key": "website:barq:offers",
-      "source_type": "website",
-      "platform": "website",
-      "content_type": "review",
-      "suggested_record_type": "merchant_offer",
-      "campaign_category": "card",
-      "primary_category": "card",
-      "categories": [
-        "card"
-      ],
-      "title": "عرض GAMEON",
-      "snippet": "عرض GAMEON العرض خصم 15% البطاقات المؤهلة بطاقات برق فيزا مدة العرض من 01/02/2026 إلى 31/12/2026 آلية... اعرف المزيد",
-      "link": "https://barq.com/ar/offers/gameon-2/",
-      "official_campaign_page_url": "https://barq.com/ar/offers/gameon-2/",
-      "primary_official_source_url": "https://barq.com/ar/offers/gameon-2/",
-      "social_links": {},
-      "social_link_count": 0,
-      "published_at": null,
-      "start_date": "2026-02-01T00:00:00+00:00",
-      "end_date": "2026-12-31T00:00:00+00:00",
-      "date_evidence": {
-        "listing": "مدة العرض من 01/02/2026 إلى 31/12/2026"
-      },
-      "current_status": "Needs Review",
-      "active": true,
-      "direct_link": true,
-      "verified": true,
-      "official_discovery": true,
-      "discovery_section": "current",
-      "review_required": true,
-      "review_reasons": [
-        "new_official_item_not_in_excel_inventory",
-        "official_detail_not_verified"
-      ],
-      "mechanic_tags": [
-        "discount"
-      ],
-      "theme_tags": [
-        "cards",
-        "engagement"
-      ],
-      "media": null,
-      "first_seen": "2026-08-25T15:44:42.097858+00:00",
-      "last_seen": "2026-08-27T03:51:56.195769+00:00",
-      "last_changed": "2026-08-25T15:44:42.097858+00:00",
-      "version": 1,
-      "change_history": [
-        {
-          "at": "2026-08-25T15:44:42.097858+00:00",
-          "type": "detected",
-          "version": 1
-        }
-      ],
-      "detail_timeout_seconds": 35,
-      "manual_override": true,
-      "source_verification": {
-        "status": "needs_review",
-        "verification_method": "official_website_page",
-        "checked_at": null,
-        "source_url": "https://barq.com/ar/offers/gameon-2/",
-        "source_changed": false,
-        "conflicts": [],
-        "error": null
-      },
-      "review_priority": 37
-    },
-    {
-      "id": "detected:barq:d0a2f560b0e810dbfa3e",
-      "competitor_id": "barq",
-      "source_key": "website:barq:offers",
-      "source_type": "website",
-      "platform": "website",
-      "content_type": "review",
-      "suggested_record_type": "merchant_offer",
-      "campaign_category": "card",
-      "primary_category": "card",
-      "categories": [
-        "card"
-      ],
-      "title": "عرض Retro Chocolate",
-      "snippet": "عرض Retro Chocolate العرض خصم %20 البطاقات المؤهلة بطاقات برق فيزا مدة العرض من 1 فبراير 2026 إلى 31 يوليو... اعرف المزيد",
-      "link": "https://barq.com/ar/offers/%d8%b9%d8%b1%d8%b6-retro-chocolate/",
-      "official_campaign_page_url": "https://barq.com/ar/offers/%d8%b9%d8%b1%d8%b6-retro-chocolate/",
-      "primary_official_source_url": "https://barq.com/ar/offers/%d8%b9%d8%b1%d8%b6-retro-chocolate/",
-      "social_links": {},
-      "social_link_count": 0,
-      "published_at": null,
-      "start_date": null,
-      "end_date": null,
-      "date_evidence": {},
-      "current_status": "Needs Review",
-      "active": true,
-      "direct_link": true,
-      "verified": true,
-      "official_discovery": true,
-      "discovery_section": "current",
-      "review_required": true,
-      "review_reasons": [
-        "new_official_item_not_in_excel_inventory",
-        "official_detail_not_verified"
-      ],
-      "mechanic_tags": [
-        "discount"
-      ],
-      "theme_tags": [
-        "cards"
-      ],
-      "media": null,
-      "first_seen": "2026-08-25T15:44:42.097858+00:00",
-      "last_seen": "2026-08-27T03:51:56.195769+00:00",
-      "last_changed": "2026-08-25T15:44:42.097858+00:00",
-      "version": 1,
-      "change_history": [
-        {
-          "at": "2026-08-25T15:44:42.097858+00:00",
-          "type": "detected",
-          "version": 1
-        }
-      ],
-      "detail_timeout_seconds": 35,
-      "manual_override": true,
-      "source_verification": {
-        "status": "failed",
-        "verification_method": "official_website_page",
-        "checked_at": "2026-08-25T23:00:46.205983+00:00",
-        "source_url": "https://barq.com/ar/offers/%d8%b9%d8%b1%d8%b6-retro-chocolate/",
-        "source_changed": false,
-        "conflicts": [],
-        "error": "HTTPError: 404 Client Error: Not Found for url: https://barq.com/ar/offers/%D8%B9%D8%B1%D8%B6-retro-chocolate/"
-      },
-      "review_priority": 37
-    },
-    {
-      "id": "detected:barq:c98d6fbddcde7ac67e8b",
-      "competitor_id": "barq",
-      "source_key": "website:barq:offers",
-      "source_type": "website",
-      "platform": "website",
-      "content_type": "review",
-      "suggested_record_type": "merchant_offer",
-      "campaign_category": "card",
-      "primary_category": "card",
-      "categories": [
-        "card"
-      ],
-      "title": "منتجع شاطئ الدانة",
-      "snippet": "منتجع شاطئ الدانة العرض خصم إضافي ‎5%‎ البطاقات المؤهلة بطاقات برق فيزا مدة العرض من 1 فبراير 2026 إلى 31 يوليو 2026 آلية... اعرف المزيد",
-      "link": "https://barq.com/ar/offers/dana-beach-resort/",
-      "official_campaign_page_url": "https://barq.com/ar/offers/dana-beach-resort/",
-      "primary_official_source_url": "https://barq.com/ar/offers/dana-beach-resort/",
-      "social_links": {},
-      "social_link_count": 0,
-      "published_at": null,
-      "start_date": "2026-02-01T00:00:00+00:00",
-      "end_date": "2026-07-31T00:00:00+00:00",
-      "date_evidence": {
-        "listing": "مدة العرض من 1 فبراير 2026 إلى 31 يوليو 2026"
-      },
-      "current_status": "Needs Review",
-      "active": true,
-      "direct_link": true,
-      "verified": true,
-      "official_discovery": true,
-      "discovery_section": "current",
-      "review_required": true,
-      "review_reasons": [
-        "new_official_item_not_in_excel_inventory",
-        "official_detail_not_verified"
-      ],
-      "mechanic_tags": [
-        "discount"
-      ],
-      "theme_tags": [
-        "cards"
-      ],
-      "media": null,
-      "first_seen": "2026-08-25T15:44:42.097858+00:00",
-      "last_seen": "2026-08-27T03:51:56.195769+00:00",
-      "last_changed": "2026-08-25T15:44:42.097858+00:00",
-      "version": 1,
-      "change_history": [
-        {
-          "at": "2026-08-25T15:44:42.097858+00:00",
-          "type": "detected",
-          "version": 1
-        }
-      ],
-      "detail_timeout_seconds": 35,
-      "manual_override": true,
-      "source_verification": {
-        "status": "needs_review",
-        "verification_method": "official_website_page",
-        "checked_at": null,
-        "source_url": "https://barq.com/ar/offers/dana-beach-resort/",
-        "source_changed": false,
-        "conflicts": [],
-        "error": null
-      },
-      "review_priority": 37
-    },
-    {
-      "id": "detected:barq:10a082994adb8ef9bc54",
-      "competitor_id": "barq",
-      "source_key": "website:barq:offers",
-      "source_type": "website",
-      "platform": "website",
-      "content_type": "review",
-      "suggested_record_type": "merchant_offer",
-      "campaign_category": "other",
-      "primary_category": "other",
-      "categories": [
-        "other"
-      ],
-      "title": "عرض بالا دي 7",
-      "snippet": "عرض بالا دي 7",
-      "link": "https://barq.com/ar/offers/pala-de-7-offer/",
-      "official_campaign_page_url": "https://barq.com/ar/offers/pala-de-7-offer/",
-      "primary_official_source_url": "https://barq.com/ar/offers/pala-de-7-offer/",
-      "social_links": {},
-      "social_link_count": 0,
-      "published_at": null,
-      "start_date": null,
-      "end_date": null,
-      "date_evidence": {},
-      "current_status": "Needs Review",
-      "active": true,
-      "direct_link": true,
-      "verified": true,
-      "official_discovery": true,
-      "discovery_section": "current",
-      "review_required": true,
-      "review_reasons": [
-        "new_official_item_not_in_excel_inventory",
-        "official_detail_not_verified"
-      ],
-      "mechanic_tags": [
-        "other"
-      ],
-      "theme_tags": [
-        "other"
-      ],
-      "media": null,
-      "first_seen": "2026-08-25T15:44:42.097858+00:00",
-      "last_seen": "2026-08-27T03:51:56.195769+00:00",
-      "last_changed": "2026-08-25T15:44:42.097858+00:00",
-      "version": 1,
-      "change_history": [
-        {
-          "at": "2026-08-25T15:44:42.097858+00:00",
-          "type": "detected",
-          "version": 1
-        }
-      ],
-      "detail_timeout_seconds": 35,
-      "manual_override": true,
-      "source_verification": {
-        "status": "failed",
-        "verification_method": "official_website_page",
-        "checked_at": "2026-08-25T23:00:46.205983+00:00",
-        "source_url": "https://barq.com/ar/offers/pala-de-7-offer/",
-        "source_changed": false,
-        "conflicts": [],
-        "error": "HTTPError: 404 Client Error: Not Found for url: https://barq.com/ar/offers/pala-de-7-offer/"
-      },
-      "review_priority": 37
-    },
-    {
-      "id": "detected:barq:9f8a2e8f1901a4cc28c0",
-      "competitor_id": "barq",
-      "source_key": "website:barq:offers",
-      "source_type": "website",
-      "platform": "website",
-      "content_type": "review",
-      "suggested_record_type": "merchant_offer",
-      "campaign_category": "other",
-      "primary_category": "other",
-      "categories": [
-        "other"
-      ],
-      "title": "عرض مجوهرات يسايان",
-      "snippet": "عرض مجوهرات يسايان",
-      "link": "https://barq.com/ar/offers/%d8%b9%d8%b1%d8%b6-%d9%85%d8%ac%d9%88%d9%87%d8%b1%d8%a7%d8%aa-%d9%8a%d8%b3%d8%a7%d9%8a%d8%a7%d9%86/",
-      "official_campaign_page_url": "https://barq.com/ar/offers/%d8%b9%d8%b1%d8%b6-%d9%85%d8%ac%d9%88%d9%87%d8%b1%d8%a7%d8%aa-%d9%8a%d8%b3%d8%a7%d9%8a%d8%a7%d9%86/",
-      "primary_official_source_url": "https://barq.com/ar/offers/%d8%b9%d8%b1%d8%b6-%d9%85%d8%ac%d9%88%d9%87%d8%b1%d8%a7%d8%aa-%d9%8a%d8%b3%d8%a7%d9%8a%d8%a7%d9%86/",
-      "social_links": {},
-      "social_link_count": 0,
-      "published_at": null,
-      "start_date": null,
-      "end_date": null,
-      "date_evidence": {},
-      "current_status": "Needs Review",
-      "active": true,
-      "direct_link": true,
-      "verified": true,
-      "official_discovery": true,
-      "discovery_section": "current",
-      "review_required": true,
-      "review_reasons": [
-        "new_official_item_not_in_excel_inventory",
-        "official_detail_not_verified"
-      ],
-      "mechanic_tags": [
-        "other"
-      ],
-      "theme_tags": [
-        "other"
-      ],
-      "media": null,
-      "first_seen": "2026-08-25T15:44:42.097858+00:00",
-      "last_seen": "2026-08-27T03:51:56.195769+00:00",
-      "last_changed": "2026-08-25T15:44:42.097858+00:00",
-      "version": 1,
-      "change_history": [
-        {
-          "at": "2026-08-25T15:44:42.097858+00:00",
-          "type": "detected",
-          "version": 1
-        }
-      ],
-      "detail_timeout_seconds": 35,
-      "manual_override": true,
-      "source_verification": {
-        "status": "failed",
-        "verification_method": "official_website_page",
-        "checked_at": "2026-08-25T23:00:46.205983+00:00",
-        "source_url": "https://barq.com/ar/offers/%d8%b9%d8%b1%d8%b6-%d9%85%d8%ac%d9%88%d9%87%d8%b1%d8%a7%d8%aa-%d9%8a%d8%b3%d8%a7%d9%8a%d8%a7%d9%86/",
-        "source_changed": false,
-        "conflicts": [],
-        "error": "HTTPError: 404 Client Error: Not Found for url: https://barq.com/ar/offers/%D8%B9%D8%B1%D8%B6-%D9%85%D8%AC%D9%88%D9%87%D8%B1%D8%A7%D8%AA-%D9%8A%D8%B3%D8%A7%D9%8A%D8%A7%D9%86/"
-      },
-      "review_priority": 37
-    },
-    {
-      "id": "detected:barq:39c57782377d47231675",
-      "competitor_id": "barq",
-      "source_key": "website:barq:offers",
-      "source_type": "website",
-      "platform": "website",
-      "content_type": "review",
-      "suggested_record_type": "merchant_offer",
-      "campaign_category": "other",
-      "primary_category": "other",
-      "categories": [
-        "other"
-      ],
-      "title": "عرض فلامينجو روم",
-      "snippet": "عرض فلامينجو روم",
-      "link": "https://barq.com/ar/offers/flamingo-by-tashas/",
-      "official_campaign_page_url": "https://barq.com/ar/offers/flamingo-by-tashas/",
-      "primary_official_source_url": "https://barq.com/ar/offers/flamingo-by-tashas/",
-      "social_links": {},
-      "social_link_count": 0,
-      "published_at": null,
-      "start_date": null,
-      "end_date": null,
-      "date_evidence": {},
-      "current_status": "Needs Review",
-      "active": true,
-      "direct_link": true,
-      "verified": true,
-      "official_discovery": true,
-      "discovery_section": "current",
-      "review_required": true,
-      "review_reasons": [
-        "new_official_item_not_in_excel_inventory",
-        "official_detail_not_verified"
-      ],
-      "mechanic_tags": [
-        "other"
-      ],
-      "theme_tags": [
-        "other"
-      ],
-      "media": null,
-      "first_seen": "2026-08-25T15:44:42.097858+00:00",
-      "last_seen": "2026-08-27T03:51:56.195769+00:00",
-      "last_changed": "2026-08-25T15:44:42.097858+00:00",
-      "version": 1,
-      "change_history": [
-        {
-          "at": "2026-08-25T15:44:42.097858+00:00",
-          "type": "detected",
-          "version": 1
-        }
-      ],
-      "detail_timeout_seconds": 35,
-      "manual_override": true,
-      "source_verification": {
-        "status": "failed",
-        "verification_method": "official_website_page",
-        "checked_at": "2026-08-25T23:00:46.205983+00:00",
-        "source_url": "https://barq.com/ar/offers/flamingo-by-tashas/",
-        "source_changed": false,
-        "conflicts": [],
-        "error": "HTTPError: 404 Client Error: Not Found for url: https://barq.com/ar/offers/flamingo-by-tashas/"
-      },
-      "review_priority": 37
-    },
-    {
-      "id": "detected:barq:53d6369e145efa05dbd7",
-      "competitor_id": "barq",
-      "source_key": "website:barq:offers",
-      "source_type": "website",
-      "platform": "website",
-      "content_type": "review",
-      "suggested_record_type": "merchant_offer",
-      "campaign_category": "other",
-      "primary_category": "other",
-      "categories": [
-        "other"
-      ],
-      "title": "عرض Golden Ticket × برق",
-      "snippet": "عرض Golden Ticket × برق",
-      "link": "https://barq.com/ar/offers/%d8%b9%d8%b1%d8%b6-golden-ticket-x-%d8%a8%d8%b1%d9%82/",
-      "official_campaign_page_url": "https://barq.com/ar/offers/%d8%b9%d8%b1%d8%b6-golden-ticket-x-%d8%a8%d8%b1%d9%82/",
-      "primary_official_source_url": "https://barq.com/ar/offers/%d8%b9%d8%b1%d8%b6-golden-ticket-x-%d8%a8%d8%b1%d9%82/",
-      "social_links": {},
-      "social_link_count": 0,
-      "published_at": null,
-      "start_date": null,
-      "end_date": null,
-      "date_evidence": {},
-      "current_status": "Needs Review",
-      "active": true,
-      "direct_link": true,
-      "verified": true,
-      "official_discovery": true,
-      "discovery_section": "current",
-      "review_required": true,
-      "review_reasons": [
-        "new_official_item_not_in_excel_inventory",
-        "official_detail_not_verified"
-      ],
-      "mechanic_tags": [
-        "other"
-      ],
-      "theme_tags": [
-        "other"
-      ],
-      "media": null,
-      "first_seen": "2026-08-25T15:44:42.097858+00:00",
-      "last_seen": "2026-08-27T03:51:56.195769+00:00",
-      "last_changed": "2026-08-25T15:44:42.097858+00:00",
-      "version": 1,
-      "change_history": [
-        {
-          "at": "2026-08-25T15:44:42.097858+00:00",
-          "type": "detected",
-          "version": 1
-        }
-      ],
-      "detail_timeout_seconds": 35,
-      "manual_override": true,
-      "source_verification": {
-        "status": "failed",
-        "verification_method": "official_website_page",
-        "checked_at": "2026-08-25T23:00:46.205983+00:00",
-        "source_url": "https://barq.com/ar/offers/%d8%b9%d8%b1%d8%b6-golden-ticket-x-%d8%a8%d8%b1%d9%82/",
-        "source_changed": false,
-        "conflicts": [],
-        "error": "HTTPError: 404 Client Error: Not Found for url: https://barq.com/ar/offers/%D8%B9%D8%B1%D8%B6-golden-ticket-x-%D8%A8%D8%B1%D9%82/"
-      },
-      "review_priority": 37
-    },
-    {
-      "id": "detected:barq:7babf99e75149e6a607b",
-      "competitor_id": "barq",
-      "source_key": "website:barq:offers",
-      "source_type": "website",
-      "platform": "website",
-      "content_type": "review",
-      "suggested_record_type": "merchant_offer",
-      "campaign_category": "other",
-      "primary_category": "other",
-      "categories": [
-        "other"
-      ],
-      "title": "عرض بترومين إكسبرس × برق",
-      "snippet": "عرض بترومين إكسبرس × برق",
-      "link": "https://barq.com/ar/offers/petromin-offer-2/",
-      "official_campaign_page_url": "https://barq.com/ar/offers/petromin-offer-2/",
-      "primary_official_source_url": "https://barq.com/ar/offers/petromin-offer-2/",
-      "social_links": {},
-      "social_link_count": 0,
-      "published_at": null,
-      "start_date": null,
-      "end_date": null,
-      "date_evidence": {},
-      "current_status": "Needs Review",
-      "active": true,
-      "direct_link": true,
-      "verified": true,
-      "official_discovery": true,
-      "discovery_section": "current",
-      "review_required": true,
-      "review_reasons": [
-        "new_official_item_not_in_excel_inventory",
-        "official_detail_not_verified"
-      ],
-      "mechanic_tags": [
-        "other"
-      ],
-      "theme_tags": [
-        "other"
-      ],
-      "media": null,
-      "first_seen": "2026-08-25T15:44:42.097858+00:00",
-      "last_seen": "2026-08-27T03:51:56.195769+00:00",
-      "last_changed": "2026-08-25T15:44:42.097858+00:00",
-      "version": 1,
-      "change_history": [
-        {
-          "at": "2026-08-25T15:44:42.097858+00:00",
-          "type": "detected",
-          "version": 1
-        }
-      ],
-      "detail_timeout_seconds": 35,
-      "manual_override": true,
-      "source_verification": {
-        "status": "failed",
-        "verification_method": "official_website_page",
-        "checked_at": "2026-08-25T23:00:46.205983+00:00",
-        "source_url": "https://barq.com/ar/offers/petromin-offer-2/",
-        "source_changed": false,
-        "conflicts": [],
-        "error": "HTTPError: 404 Client Error: Not Found for url: https://barq.com/ar/offers/petromin-offer-2/"
-      },
-      "review_priority": 37
-    },
-    {
-      "id": "detected:barq:eaae56e95a534b19df2d",
-      "competitor_id": "barq",
-      "source_key": "website:barq:offers",
-      "source_type": "website",
-      "platform": "website",
-      "content_type": "review",
-      "suggested_record_type": "merchant_offer",
-      "campaign_category": "other",
-      "primary_category": "other",
-      "categories": [
-        "other"
-      ],
-      "title": "عرض بولانجري موديرن",
-      "snippet": "عرض بولانجري موديرن",
-      "link": "https://barq.com/ar/offers/boulangerie-moderne/",
-      "official_campaign_page_url": "https://barq.com/ar/offers/boulangerie-moderne/",
-      "primary_official_source_url": "https://barq.com/ar/offers/boulangerie-moderne/",
-      "social_links": {},
-      "social_link_count": 0,
-      "published_at": null,
-      "start_date": null,
-      "end_date": null,
-      "date_evidence": {},
-      "current_status": "Needs Review",
-      "active": true,
-      "direct_link": true,
-      "verified": true,
-      "official_discovery": true,
-      "discovery_section": "current",
-      "review_required": true,
-      "review_reasons": [
-        "new_official_item_not_in_excel_inventory",
-        "official_detail_not_verified"
-      ],
-      "mechanic_tags": [
-        "other"
-      ],
-      "theme_tags": [
-        "other"
-      ],
-      "media": null,
-      "first_seen": "2026-08-25T15:44:42.097858+00:00",
-      "last_seen": "2026-08-27T03:51:56.195769+00:00",
-      "last_changed": "2026-08-25T15:44:42.097858+00:00",
-      "version": 1,
-      "change_history": [
-        {
-          "at": "2026-08-25T15:44:42.097858+00:00",
-          "type": "detected",
-          "version": 1
-        }
-      ],
-      "detail_timeout_seconds": 35,
-      "manual_override": true,
-      "source_verification": {
-        "status": "failed",
-        "verification_method": "official_website_page",
-        "checked_at": "2026-08-25T23:57:04.915241+00:00",
-        "source_url": "https://barq.com/ar/offers/boulangerie-moderne/",
-        "source_changed": false,
-        "conflicts": [],
-        "error": "ConnectTimeout: HTTPSConnectionPool(host='barq.com', port=443): Max retries exceeded with url: /ar/offers/boulangerie-moderne/ (Caused by ConnectTimeoutError(<HTTPSConnection(host='barq.com', port=443) at 0x7f2c1a20f470>, 'Connection to barq.com timed out. (connect timeout=18)'))"
-      },
-      "review_priority": 37
-    },
     {
       "id": "detected:barq:1705003416af6dc5ffb0",
       "competitor_id": "barq",
@@ -18117,7 +16576,7 @@
       "primary_official_source_url": "https://www.instagram.com/p/DcOcD3rjvfD",
       "manual_override": true,
       "corridors": [],
-      "suggested_campaign_id": "detected:barq:22c761ca658d2d3fc9fd",
+      "suggested_campaign_id": "detected:barq:2b5fa023869718edc6ed",
       "review_priority": 23
     },
     {
@@ -21351,6 +19810,68 @@
       "corridors": [],
       "suggested_campaign_id": "campaign:stc-bank:16",
       "review_priority": 23
+    },
+    {
+      "id": "post:barq:facebook:7a2f2d76ae31ecc9f8a6",
+      "competitor_id": "barq",
+      "source_key": "social:barq:facebook",
+      "source_type": "social",
+      "platform": "facebook",
+      "content_type": "social_post",
+      "campaign_category": "other",
+      "primary_category": "other",
+      "categories": [
+        "other"
+      ],
+      "title": "barq के साथ अपना अनुभव कमेंट में बताएं ⚡️ और 3 मोबाइल फोन जीतने का मौका पाएं! 📱🎁 जय हिंद! 🇮🇳❤️",
+      "snippet": "barq के साथ अपना अनुभव कमेंट में बताएं ⚡️ और 3 मोबाइल फोन जीतने का मौका पाएं! 📱🎁 जय हिंद! 🇮🇳❤️",
+      "link": "https://m.facebook.com/usebarq/posts/pfbid0TZMWvm3CmtPKZdy6fx9FnQThr8VaNKd8jFFD9FcVP4SdRkadUdSVKnt8DnZXDtDTl",
+      "social_links": {
+        "facebook": "https://m.facebook.com/usebarq/posts/pfbid0TZMWvm3CmtPKZdy6fx9FnQThr8VaNKd8jFFD9FcVP4SdRkadUdSVKnt8DnZXDtDTl"
+      },
+      "social_link_count": 1,
+      "published_at": "2026-08-15T10:01:02+00:00",
+      "active": true,
+      "direct_link": true,
+      "verified": true,
+      "review_required": true,
+      "review_reasons": [
+        "social_campaign_match_uncertain"
+      ],
+      "current_status": null,
+      "post_role": "promotion_or_content",
+      "mechanic_tags": [
+        "other"
+      ],
+      "theme_tags": [
+        "other"
+      ],
+      "media": {
+        "url": "https://scontent-ams2-1.xx.fbcdn.net/v/t39.30808-6/772664484_122201177438385166_7823100026568938064_n.jpg?_nc_cat=101&_nc_gid=RbxKGzfSuTQO5vY9Uk_U3Q&_nc_ht=scontent-ams2-1.xx&_nc_oc=AdqI86kyuSc7dOQvxr1gDZJwUrMYS4Unj4Evk5FTdGheHCoqZLz8q8Cx2rMUCNGfG-R2fzE5YsgNaMs40vockV6C&_nc_ohc=u1QeM1zkttcQ7kNvwFY4X5E&_nc_sid=ebae6b&_nc_ss=7b289&_nc_zt=23&ccb=1-7&oe=6A8923A3&oh=00_AQF1g3xuaily_GX18qx7-knFyS_3nTyNpgN1qRtOs-NaTA&stp=dst-jpg_p843x403_tt6",
+        "type": "image",
+        "thumbnail_url": "https://scontent-ams2-1.xx.fbcdn.net/v/t39.30808-6/772664484_122201177438385166_7823100026568938064_n.jpg?_nc_cat=101&_nc_gid=RbxKGzfSuTQO5vY9Uk_U3Q&_nc_ht=scontent-ams2-1.xx&_nc_oc=AdqI86kyuSc7dOQvxr1gDZJwUrMYS4Unj4Evk5FTdGheHCoqZLz8q8Cx2rMUCNGfG-R2fzE5YsgNaMs40vockV6C&_nc_ohc=u1QeM1zkttcQ7kNvwFY4X5E&_nc_sid=ebae6b&_nc_ss=7b289&_nc_zt=23&ccb=1-7&oe=6A8923A3&oh=00_AQF1g3xuaily_GX18qx7-knFyS_3nTyNpgN1qRtOs-NaTA&stp=dst-jpg_p843x403_tt6"
+      },
+      "first_seen": "2026-08-25T15:44:42.097858+00:00",
+      "last_seen": "2026-08-27T03:51:56.195769+00:00",
+      "last_changed": "2026-08-25T15:44:42.097858+00:00",
+      "version": 1,
+      "change_history": [
+        {
+          "at": "2026-08-25T15:44:42.097858+00:00",
+          "type": "detected",
+          "version": 1
+        }
+      ],
+      "outbound_links": [
+        "https://scontent-ams2-1.xx.fbcdn.net/v/t39.30808-6/772664484_122201177438385166_7823100026568938064_n.jpg?_nc_cat=101&_nc_gid=RbxKGzfSuTQO5vY9Uk_U3Q&_nc_ht=scontent-ams2-1.xx&_nc_oc=AdqI86kyuSc7dOQvxr1gDZJwUrMYS4Unj4Evk5FTdGheHCoqZLz8q8Cx2rMUCNGfG-R2fzE5YsgNaMs40vockV6C&_nc_ohc=u1QeM1zkttcQ7kNvwFY4X5E&_nc_sid=ebae6b&_nc_ss=7b289&_nc_zt=23&ccb=1-7&oe=6A8923A3&oh=00_AQF1g3xuaily_GX18qx7-knFyS_3nTyNpgN1qRtOs-NaTA&stp=dst-jpg_p843x403_tt6"
+      ],
+      "official_evidence_url": null,
+      "official_campaign_page_url": null,
+      "primary_official_source_url": "https://m.facebook.com/usebarq/posts/pfbid0TZMWvm3CmtPKZdy6fx9FnQThr8VaNKd8jFFD9FcVP4SdRkadUdSVKnt8DnZXDtDTl",
+      "manual_override": true,
+      "corridors": [],
+      "review_priority": 23,
+      "suggested_campaign_id": "detected:barq:4298adffc0395c564039"
     },
     {
       "id": "post:barq:x:685c1d4964d518d9fee1",
@@ -24935,7 +23456,7 @@
       "primary_official_source_url": "https://x.com/barq/status/2087171635241517144",
       "manual_override": true,
       "corridors": [],
-      "suggested_campaign_id": "detected:barq:22c761ca658d2d3fc9fd",
+      "suggested_campaign_id": "detected:barq:533ae691fafb686aee38",
       "review_priority": 23
     },
     {
@@ -25958,7 +24479,7 @@
       "primary_official_source_url": "https://www.facebook.com/reel/1699509661157057/",
       "manual_override": true,
       "corridors": [],
-      "suggested_campaign_id": "detected:barq:22c761ca658d2d3fc9fd",
+      "suggested_campaign_id": "detected:barq:2b5fa023869718edc6ed",
       "review_priority": 23
     },
     {
@@ -26014,7 +24535,7 @@
       "primary_official_source_url": "https://www.facebook.com/reel/4302708693275404/",
       "manual_override": true,
       "corridors": [],
-      "suggested_campaign_id": "detected:barq:22c761ca658d2d3fc9fd",
+      "suggested_campaign_id": "detected:barq:2b5fa023869718edc6ed",
       "review_priority": 23
     },
     {
@@ -26774,7 +25295,7 @@
       "primary_official_source_url": "https://www.facebook.com/reel/2317193289044121/",
       "manual_override": true,
       "corridors": [],
-      "suggested_campaign_id": "detected:barq:22c761ca658d2d3fc9fd",
+      "suggested_campaign_id": "detected:barq:2b5fa023869718edc6ed",
       "review_priority": 23
     },
     {
@@ -26836,7 +25357,7 @@
       "primary_official_source_url": "https://www.instagram.com/p/Db1oBiMIOTQ",
       "manual_override": true,
       "corridors": [],
-      "suggested_campaign_id": "detected:barq:22c761ca658d2d3fc9fd",
+      "suggested_campaign_id": "detected:barq:2b5fa023869718edc6ed",
       "review_priority": 23
     },
     {
@@ -48342,6 +46863,101 @@
       "review_priority": 20
     },
     {
+      "id": "detected:stc-bank:7b46d3c2cae682f75e4e",
+      "competitor_id": "stc-bank",
+      "source_key": "website:stc-bank:offers",
+      "source_type": "website",
+      "platform": "website",
+      "content_type": "merchant_offer",
+      "suggested_record_type": "merchant_offer",
+      "campaign_category": "merchant",
+      "primary_category": "merchant",
+      "categories": [
+        "merchant"
+      ],
+      "title": "10% off on perfumes from Golden Scent",
+      "snippet": "Valid until 19 Oct 2026 Transfer internationally and enter the draw Make an international transfer of any amount to any country through the app and get a chance to enter the draw to win a car every week and ⃁ 1,000 for 10 winners daily. Valid until 2 Oct 2026 Earn cash amount on international purchases! Exclusively for selected customers, earn a cash amount on international purchases using Visa payment cards from STC Bank. Valid until 30 Sep 2026 15% discount from Madame Tussauds Walk around Madame Tussauds London using STC Bank Visa cards. Valid until 30 Sep 2026 15% off on London Eye tickets! Enjoy a London Eye visit with 15% off on tickets using Visa payment cards and Credit cards from STC Bank. Valid until 27 Dec 2027 10% off from GrintaHub Enjoy an exclusive 10% off offer on the GrintaHub website and app with all STC Bank cards. Valid until 31 Dec 2027 15% discount from Legoland Make enjoyable memories with Legoland in the UK using STC Bank Visa cards. Valid until 31 Dec 2027 10% discount on The Bicester Collection Luxurious shopping in The Bicester Collection in the UK using STC Bank Visa cards. Valid until 31 Dec 2027 A Unique Shopping Experience at La Vallée Village! Enjoy…",
+      "link": "https://stcbank.com.sa/en/web/guest/w/goldenscent",
+      "official_campaign_page_url": "https://stcbank.com.sa/en/web/guest/w/goldenscent",
+      "primary_official_source_url": "https://stcbank.com.sa/en/web/guest/w/goldenscent",
+      "social_links": {},
+      "social_link_count": 0,
+      "published_at": null,
+      "start_date": null,
+      "end_date": "2026-10-19T00:00:00+00:00",
+      "date_evidence": {
+        "listing": "Valid until 19 Oct 2026"
+      },
+      "current_status": "Active",
+      "active": true,
+      "direct_link": true,
+      "verified": true,
+      "official_discovery": true,
+      "discovery_section": "current",
+      "review_required": false,
+      "review_reasons": [],
+      "mechanic_tags": [
+        "discount",
+        "prize_draw"
+      ],
+      "theme_tags": [
+        "international_transfer",
+        "cards"
+      ],
+      "first_seen": "2026-08-25T15:44:42.097858+00:00",
+      "last_seen": "2026-08-27T03:51:56.195769+00:00",
+      "last_changed": "2026-08-27T03:51:56.195769+00:00",
+      "version": 3,
+      "change_history": [
+        {
+          "at": "2026-08-25T15:44:42.097858+00:00",
+          "type": "detected",
+          "version": 1
+        },
+        {
+          "at": "2026-08-26T12:01:59.476231+00:00",
+          "type": "updated",
+          "version": 2
+        },
+        {
+          "at": "2026-08-27T03:51:56.195769+00:00",
+          "type": "updated",
+          "version": 3
+        }
+      ],
+      "detail_timeout_seconds": 18,
+      "manual_override": true,
+      "source_verification": {
+        "status": "failed",
+        "verification_method": "official_website_page",
+        "checked_at": "2026-08-26T08:10:25.539430+00:00",
+        "source_url": "https://stcbank.com.sa/en/web/guest/w/goldenscent",
+        "source_changed": false,
+        "conflicts": [],
+        "error": "ConnectionError: HTTPSConnectionPool(host='liferay-bank-web-prod.apps.dmz46-oc-int-1.ad.stcpay.com.sa', port=443): Max retries exceeded with url: /en/web/guest/w/golden-scent-1 (Caused by NameResolutionError(\"HTTPSConnection(host='liferay-bank-web-prod.apps.dmz46-oc-int-1.ad.stcpay.com.sa', port=443): Failed to resolve 'liferay-bank-web-prod.apps.dmz46-oc-int-1.ad.stcpay.com.sa' ([Errno -2] Name or service not known)\"))"
+      },
+      "review_priority": 17,
+      "review_decision": "confirm_merchant_offers_bulk",
+      "review_approved": true,
+      "classification_method": "admin_bulk_separate_merchant_v1",
+      "reviewed_by": "admin",
+      "reviewed_at": "2026-08-27T04:36:06.384605+00:00",
+      "review_request_id": "b80e0538-00e0-4183-96d1-2803f1f4b73f",
+      "linked_posts": [],
+      "social_post_counts": {
+        "instagram": 0,
+        "x": 0,
+        "facebook": 0,
+        "tiktok": 0
+      },
+      "social_posts_total": 0,
+      "social_platform_count": 0,
+      "social_first_post": null,
+      "social_latest_post": null,
+      "social_posts_7d": 0,
+      "social_posts_30d": 0
+    },
+    {
       "id": "detected:stc-bank:fbee4408c8f62cd77d91",
       "competitor_id": "stc-bank",
       "source_key": "website:stc-bank:offers",
@@ -49950,93 +48566,6 @@
       },
       "last_live_verified_at": "2026-08-26T12:04:37.584346+00:00",
       "last_reviewed": "2026-08-26T12:04:37.584346+00:00",
-      "classification_method": "verified_official_rules_v5",
-      "linked_posts": [],
-      "social_post_counts": {
-        "instagram": 0,
-        "x": 0,
-        "facebook": 0,
-        "tiktok": 0
-      },
-      "social_posts_total": 0,
-      "social_platform_count": 0,
-      "social_first_post": null,
-      "social_latest_post": null,
-      "social_posts_7d": 0,
-      "social_posts_30d": 0,
-      "review_priority": 17
-    },
-    {
-      "id": "detected:barq:c78030488f60cc01b087",
-      "competitor_id": "barq",
-      "source_key": "website:barq:offers",
-      "source_type": "website",
-      "platform": "website",
-      "content_type": "merchant_offer",
-      "suggested_record_type": "merchant_offer",
-      "campaign_category": "merchant",
-      "primary_category": "merchant",
-      "categories": [
-        "merchant"
-      ],
-      "title": "عرض بترومين إكسبرس × برق",
-      "snippet": "بالاستفادة من هذا العرض، يقرّ العميل بموافقته الكاملة على الشروط والأحكام الموضحة أدناه. للاستفادة من هذا العرض، يجب استيفاء الشروط التالية:",
-      "link": "https://barq.com/ar/offers/petromin-offer/",
-      "official_campaign_page_url": "https://barq.com/ar/offers/petromin-offer/",
-      "primary_official_source_url": "https://barq.com/ar/offers/petromin-offer/",
-      "social_links": {},
-      "social_link_count": 0,
-      "published_at": null,
-      "start_date": null,
-      "end_date": null,
-      "date_evidence": {
-        "start": null,
-        "end": null
-      },
-      "current_status": "End Date Not Stated",
-      "active": true,
-      "direct_link": true,
-      "verified": true,
-      "official_discovery": true,
-      "discovery_section": "current",
-      "review_required": false,
-      "review_reasons": [],
-      "mechanic_tags": [
-        "other",
-        "discount"
-      ],
-      "theme_tags": [
-        "other"
-      ],
-      "first_seen": "2026-08-26T05:05:29.025352+00:00",
-      "last_seen": "2026-08-26T07:10:45.580101+00:00",
-      "last_changed": "2026-08-26T05:05:29.025352+00:00",
-      "version": 1,
-      "change_history": [
-        {
-          "at": "2026-08-26T05:05:29.025352+00:00",
-          "type": "detected",
-          "version": 1
-        }
-      ],
-      "detail_timeout_seconds": 35,
-      "manual_override": true,
-      "summary": "بالاستفادة من هذا العرض، يقرّ العميل بموافقته الكاملة على الشروط والأحكام الموضحة أدناه. للاستفادة من هذا العرض، يجب استيفاء الشروط التالية:",
-      "corridors": [],
-      "offer_values": [],
-      "evidence_snapshot": "بالاستفادة من هذا العرض، يقرّ العميل بموافقته الكاملة على الشروط والأحكام الموضحة أدناه. للاستفادة من هذا العرض، يجب استيفاء الشروط التالية:",
-      "date_extraction_method": "not_found",
-      "source_verification": {
-        "status": "verified_website",
-        "verification_method": "official_website_page",
-        "checked_at": "2026-08-26T05:05:58.171940+00:00",
-        "source_url": "https://barq.com/ar/offers/petromin-offer/",
-        "source_changed": false,
-        "conflicts": [],
-        "error": null
-      },
-      "last_live_verified_at": "2026-08-26T05:05:58.171940+00:00",
-      "last_reviewed": "2026-08-26T05:05:58.171940+00:00",
       "classification_method": "verified_official_rules_v5",
       "linked_posts": [],
       "social_post_counts": {
@@ -54772,101 +53301,6 @@
       "review_priority": 17
     },
     {
-      "id": "detected:barq:15027933c2ba9718f282",
-      "competitor_id": "barq",
-      "source_key": "website:barq:offers",
-      "source_type": "website",
-      "platform": "website",
-      "content_type": "merchant_offer",
-      "suggested_record_type": "merchant_offer",
-      "campaign_category": "merchant",
-      "primary_category": "merchant",
-      "categories": [
-        "merchant"
-      ],
-      "title": "Boulangerie Moderne offer",
-      "snippet": "Terms and Conditions Offer • 10% Discount",
-      "link": "https://barq.com/offers/boulangerie-moderne/",
-      "official_campaign_page_url": "https://barq.com/offers/boulangerie-moderne/",
-      "primary_official_source_url": "https://barq.com/offers/boulangerie-moderne/",
-      "social_links": {},
-      "social_link_count": 0,
-      "published_at": null,
-      "start_date": null,
-      "end_date": null,
-      "date_evidence": {
-        "start": null,
-        "end": null
-      },
-      "current_status": "End Date Not Stated",
-      "active": true,
-      "direct_link": true,
-      "verified": true,
-      "official_discovery": true,
-      "discovery_section": "current",
-      "review_required": false,
-      "review_reasons": [],
-      "mechanic_tags": [
-        "other",
-        "discount"
-      ],
-      "theme_tags": [
-        "other"
-      ],
-      "media": {
-        "type": "image",
-        "url": "https://barq.com/wp-content/uploads/Boulangerie-moderne-1024x525.png",
-        "thumbnail_url": "https://barq.com/wp-content/uploads/Boulangerie-moderne-1024x525.png",
-        "source_type": "official_website",
-        "source_url": "https://barq.com/offers/boulangerie-moderne/"
-      },
-      "first_seen": "2026-08-26T01:56:07.999714+00:00",
-      "last_seen": "2026-08-26T01:56:07.999714+00:00",
-      "last_changed": "2026-08-26T01:56:07.999714+00:00",
-      "version": 1,
-      "change_history": [
-        {
-          "at": "2026-08-26T01:56:07.999714+00:00",
-          "type": "detected",
-          "version": 1
-        }
-      ],
-      "manual_override": true,
-      "summary": "Terms and Conditions Offer • 10% Discount",
-      "corridors": [],
-      "offer_values": [
-        "10%"
-      ],
-      "evidence_snapshot": "Terms and Conditions Offer • 10% Discount",
-      "date_extraction_method": "not_found",
-      "source_verification": {
-        "status": "verified_website",
-        "verification_method": "official_website_page",
-        "checked_at": "2026-08-26T01:56:19.492783+00:00",
-        "source_url": "https://barq.com/offers/boulangerie-moderne/",
-        "source_changed": false,
-        "conflicts": [],
-        "error": null
-      },
-      "last_live_verified_at": "2026-08-26T01:56:19.492783+00:00",
-      "last_reviewed": "2026-08-26T01:56:19.492783+00:00",
-      "classification_method": "verified_official_rules_v5",
-      "linked_posts": [],
-      "social_post_counts": {
-        "instagram": 0,
-        "x": 0,
-        "facebook": 0,
-        "tiktok": 0
-      },
-      "social_posts_total": 0,
-      "social_platform_count": 0,
-      "social_first_post": null,
-      "social_latest_post": null,
-      "social_posts_7d": 0,
-      "social_posts_30d": 0,
-      "review_priority": 17
-    },
-    {
       "id": "detected:barq:181a50e4e32503a6f1b4",
       "competitor_id": "barq",
       "source_key": "website:barq:offers",
@@ -58139,6 +56573,1743 @@
       "social_posts_7d": 0,
       "social_posts_30d": 0,
       "review_priority": 17
+    },
+    {
+      "id": "detected:barq:533ae691fafb686aee38",
+      "competitor_id": "barq",
+      "source_key": "website:barq:offers",
+      "source_type": "website",
+      "platform": "website",
+      "content_type": "merchant_offer",
+      "suggested_record_type": "merchant_offer",
+      "campaign_category": "merchant",
+      "primary_category": "merchant",
+      "categories": [
+        "merchant"
+      ],
+      "title": "عرض SLS × برق",
+      "snippet": "عرض SLS × برق",
+      "link": "https://barq.com/ar/offers/%d8%b9%d8%b1%d8%b6-sls-x-%d8%a8%d8%b1%d9%82/",
+      "official_campaign_page_url": "https://barq.com/ar/offers/%d8%b9%d8%b1%d8%b6-sls-x-%d8%a8%d8%b1%d9%82/",
+      "primary_official_source_url": "https://barq.com/ar/offers/%d8%b9%d8%b1%d8%b6-sls-x-%d8%a8%d8%b1%d9%82/",
+      "social_links": {},
+      "social_link_count": 0,
+      "published_at": null,
+      "start_date": null,
+      "end_date": null,
+      "date_evidence": {},
+      "current_status": "End Date Not Stated",
+      "active": true,
+      "direct_link": true,
+      "verified": true,
+      "official_discovery": true,
+      "discovery_section": "current",
+      "review_required": false,
+      "review_reasons": [],
+      "mechanic_tags": [
+        "other"
+      ],
+      "theme_tags": [
+        "other"
+      ],
+      "media": null,
+      "first_seen": "2026-08-25T15:44:42.097858+00:00",
+      "last_seen": "2026-08-27T03:51:56.195769+00:00",
+      "last_changed": "2026-08-25T15:44:42.097858+00:00",
+      "version": 1,
+      "change_history": [
+        {
+          "at": "2026-08-25T15:44:42.097858+00:00",
+          "type": "detected",
+          "version": 1
+        }
+      ],
+      "detail_timeout_seconds": 35,
+      "manual_override": true,
+      "source_verification": {
+        "status": "failed",
+        "verification_method": "official_website_page",
+        "checked_at": "2026-08-27T03:52:26.320634+00:00",
+        "source_url": "https://barq.com/ar/offers/%d8%b9%d8%b1%d8%b6-sls-x-%d8%a8%d8%b1%d9%82/",
+        "source_changed": false,
+        "conflicts": [],
+        "error": "HTTPError: 404 Client Error: Not Found for url: https://barq.com/ar/offers/%D8%B9%D8%B1%D8%B6-sls-x-%D8%A8%D8%B1%D9%82/"
+      },
+      "review_priority": 17,
+      "review_decision": "confirm_merchant_offers_bulk",
+      "review_approved": true,
+      "classification_method": "admin_bulk_separate_merchant_v1",
+      "reviewed_by": "admin",
+      "reviewed_at": "2026-08-27T04:36:06.384605+00:00",
+      "review_request_id": "b80e0538-00e0-4183-96d1-2803f1f4b73f",
+      "linked_posts": [],
+      "social_post_counts": {
+        "instagram": 0,
+        "x": 0,
+        "facebook": 0,
+        "tiktok": 0
+      },
+      "social_posts_total": 0,
+      "social_platform_count": 0,
+      "social_first_post": null,
+      "social_latest_post": null,
+      "social_posts_7d": 0,
+      "social_posts_30d": 0
+    },
+    {
+      "id": "detected:barq:d0ec39bb31c0ff7283b1",
+      "competitor_id": "barq",
+      "source_key": "website:barq:offers",
+      "source_type": "website",
+      "platform": "website",
+      "content_type": "merchant_offer",
+      "suggested_record_type": "merchant_offer",
+      "campaign_category": "merchant",
+      "primary_category": "merchant",
+      "categories": [
+        "merchant"
+      ],
+      "title": "عرض برق × سامسونايت",
+      "snippet": "عرض برق × سامسونايت",
+      "link": "https://barq.com/ar/offers/%d8%b9%d8%b1%d8%b6-%d8%a8%d8%b1%d9%82-x-%d8%b3%d8%a7%d9%85%d8%b3%d9%88%d9%86%d8%a7%d9%8a%d8%aa/",
+      "official_campaign_page_url": "https://barq.com/ar/offers/%d8%b9%d8%b1%d8%b6-%d8%a8%d8%b1%d9%82-x-%d8%b3%d8%a7%d9%85%d8%b3%d9%88%d9%86%d8%a7%d9%8a%d8%aa/",
+      "primary_official_source_url": "https://barq.com/ar/offers/%d8%b9%d8%b1%d8%b6-%d8%a8%d8%b1%d9%82-x-%d8%b3%d8%a7%d9%85%d8%b3%d9%88%d9%86%d8%a7%d9%8a%d8%aa/",
+      "social_links": {},
+      "social_link_count": 0,
+      "published_at": null,
+      "start_date": null,
+      "end_date": null,
+      "date_evidence": {},
+      "current_status": "End Date Not Stated",
+      "active": true,
+      "direct_link": true,
+      "verified": true,
+      "official_discovery": true,
+      "discovery_section": "current",
+      "review_required": false,
+      "review_reasons": [],
+      "mechanic_tags": [
+        "other"
+      ],
+      "theme_tags": [
+        "other"
+      ],
+      "media": null,
+      "first_seen": "2026-08-25T15:44:42.097858+00:00",
+      "last_seen": "2026-08-27T03:51:56.195769+00:00",
+      "last_changed": "2026-08-25T15:44:42.097858+00:00",
+      "version": 1,
+      "change_history": [
+        {
+          "at": "2026-08-25T15:44:42.097858+00:00",
+          "type": "detected",
+          "version": 1
+        }
+      ],
+      "detail_timeout_seconds": 35,
+      "manual_override": true,
+      "source_verification": {
+        "status": "failed",
+        "verification_method": "official_website_page",
+        "checked_at": "2026-08-27T03:52:26.320634+00:00",
+        "source_url": "https://barq.com/ar/offers/%d8%b9%d8%b1%d8%b6-%d8%a8%d8%b1%d9%82-x-%d8%b3%d8%a7%d9%85%d8%b3%d9%88%d9%86%d8%a7%d9%8a%d8%aa/",
+        "source_changed": false,
+        "conflicts": [],
+        "error": "HTTPError: 404 Client Error: Not Found for url: https://barq.com/ar/offers/%D8%B9%D8%B1%D8%B6-%D8%A8%D8%B1%D9%82-x-%D8%B3%D8%A7%D9%85%D8%B3%D9%88%D9%86%D8%A7%D9%8A%D8%AA/"
+      },
+      "review_priority": 17,
+      "review_decision": "confirm_merchant_offers_bulk",
+      "review_approved": true,
+      "classification_method": "admin_bulk_separate_merchant_v1",
+      "reviewed_by": "admin",
+      "reviewed_at": "2026-08-27T04:36:06.384605+00:00",
+      "review_request_id": "b80e0538-00e0-4183-96d1-2803f1f4b73f",
+      "linked_posts": [],
+      "social_post_counts": {
+        "instagram": 0,
+        "x": 0,
+        "facebook": 0,
+        "tiktok": 0
+      },
+      "social_posts_total": 0,
+      "social_platform_count": 0,
+      "social_first_post": null,
+      "social_latest_post": null,
+      "social_posts_7d": 0,
+      "social_posts_30d": 0
+    },
+    {
+      "id": "detected:barq:a969ce2447190653f552",
+      "competitor_id": "barq",
+      "source_key": "website:barq:offers",
+      "source_type": "website",
+      "platform": "website",
+      "content_type": "merchant_offer",
+      "suggested_record_type": "merchant_offer",
+      "campaign_category": "merchant",
+      "primary_category": "merchant",
+      "categories": [
+        "merchant"
+      ],
+      "title": "عرض برق × بيت الشاورما",
+      "snippet": "عرض برق × بيت الشاورما",
+      "link": "https://barq.com/ar/offers/shawarma-house-2/",
+      "official_campaign_page_url": "https://barq.com/ar/offers/shawarma-house-2/",
+      "primary_official_source_url": "https://barq.com/ar/offers/shawarma-house-2/",
+      "social_links": {},
+      "social_link_count": 0,
+      "published_at": null,
+      "start_date": null,
+      "end_date": null,
+      "date_evidence": {},
+      "current_status": "End Date Not Stated",
+      "active": true,
+      "direct_link": true,
+      "verified": true,
+      "official_discovery": true,
+      "discovery_section": "current",
+      "review_required": false,
+      "review_reasons": [],
+      "mechanic_tags": [
+        "other"
+      ],
+      "theme_tags": [
+        "other"
+      ],
+      "media": null,
+      "first_seen": "2026-08-25T15:44:42.097858+00:00",
+      "last_seen": "2026-08-27T03:51:56.195769+00:00",
+      "last_changed": "2026-08-25T15:44:42.097858+00:00",
+      "version": 1,
+      "change_history": [
+        {
+          "at": "2026-08-25T15:44:42.097858+00:00",
+          "type": "detected",
+          "version": 1
+        }
+      ],
+      "detail_timeout_seconds": 35,
+      "manual_override": true,
+      "source_verification": {
+        "status": "failed",
+        "verification_method": "official_website_page",
+        "checked_at": "2026-08-27T03:52:26.320634+00:00",
+        "source_url": "https://barq.com/ar/offers/shawarma-house-2/",
+        "source_changed": false,
+        "conflicts": [],
+        "error": "HTTPError: 404 Client Error: Not Found for url: https://barq.com/ar/offers/shawarma-house-2/"
+      },
+      "review_priority": 17,
+      "review_decision": "confirm_merchant_offers_bulk",
+      "review_approved": true,
+      "classification_method": "admin_bulk_separate_merchant_v1",
+      "reviewed_by": "admin",
+      "reviewed_at": "2026-08-27T04:36:06.384605+00:00",
+      "review_request_id": "b80e0538-00e0-4183-96d1-2803f1f4b73f",
+      "linked_posts": [],
+      "social_post_counts": {
+        "instagram": 0,
+        "x": 0,
+        "facebook": 0,
+        "tiktok": 0
+      },
+      "social_posts_total": 0,
+      "social_platform_count": 0,
+      "social_first_post": null,
+      "social_latest_post": null,
+      "social_posts_7d": 0,
+      "social_posts_30d": 0
+    },
+    {
+      "id": "detected:barq:b23ed61da3fc895477f2",
+      "competitor_id": "barq",
+      "source_key": "website:barq:offers",
+      "source_type": "website",
+      "platform": "website",
+      "content_type": "merchant_offer",
+      "suggested_record_type": "merchant_offer",
+      "campaign_category": "merchant",
+      "primary_category": "merchant",
+      "categories": [
+        "merchant"
+      ],
+      "title": "عرض برق × Villa Mamas",
+      "snippet": "عرض برق × Villa Mamas",
+      "link": "https://barq.com/ar/offers/villa-mamas-offer/",
+      "official_campaign_page_url": "https://barq.com/ar/offers/villa-mamas-offer/",
+      "primary_official_source_url": "https://barq.com/ar/offers/villa-mamas-offer/",
+      "social_links": {},
+      "social_link_count": 0,
+      "published_at": null,
+      "start_date": null,
+      "end_date": null,
+      "date_evidence": {},
+      "current_status": "End Date Not Stated",
+      "active": true,
+      "direct_link": true,
+      "verified": true,
+      "official_discovery": true,
+      "discovery_section": "current",
+      "review_required": false,
+      "review_reasons": [],
+      "mechanic_tags": [
+        "other"
+      ],
+      "theme_tags": [
+        "other"
+      ],
+      "media": null,
+      "first_seen": "2026-08-25T15:44:42.097858+00:00",
+      "last_seen": "2026-08-27T03:51:56.195769+00:00",
+      "last_changed": "2026-08-25T15:44:42.097858+00:00",
+      "version": 1,
+      "change_history": [
+        {
+          "at": "2026-08-25T15:44:42.097858+00:00",
+          "type": "detected",
+          "version": 1
+        }
+      ],
+      "detail_timeout_seconds": 35,
+      "manual_override": true,
+      "source_verification": {
+        "status": "failed",
+        "verification_method": "official_website_page",
+        "checked_at": "2026-08-27T03:52:26.320634+00:00",
+        "source_url": "https://barq.com/ar/offers/villa-mamas-offer/",
+        "source_changed": false,
+        "conflicts": [],
+        "error": "HTTPError: 404 Client Error: Not Found for url: https://barq.com/ar/offers/villa-mamas-offer/"
+      },
+      "review_priority": 17,
+      "review_decision": "confirm_merchant_offers_bulk",
+      "review_approved": true,
+      "classification_method": "admin_bulk_separate_merchant_v1",
+      "reviewed_by": "admin",
+      "reviewed_at": "2026-08-27T04:36:06.384605+00:00",
+      "review_request_id": "b80e0538-00e0-4183-96d1-2803f1f4b73f",
+      "linked_posts": [],
+      "social_post_counts": {
+        "instagram": 0,
+        "x": 0,
+        "facebook": 0,
+        "tiktok": 0
+      },
+      "social_posts_total": 0,
+      "social_platform_count": 0,
+      "social_first_post": null,
+      "social_latest_post": null,
+      "social_posts_7d": 0,
+      "social_posts_30d": 0
+    },
+    {
+      "id": "detected:barq:c11054aa8e431bd93af6",
+      "competitor_id": "barq",
+      "source_key": "website:barq:offers",
+      "source_type": "website",
+      "platform": "website",
+      "content_type": "merchant_offer",
+      "suggested_record_type": "merchant_offer",
+      "campaign_category": "merchant",
+      "primary_category": "merchant",
+      "categories": [
+        "merchant"
+      ],
+      "title": "عرض برق × Pret A Manger",
+      "snippet": "عرض برق × Pret A Manger",
+      "link": "https://barq.com/ar/offers/%d8%b9%d8%b1%d8%b6-%d8%a8%d8%b1%d9%82-x-pret-a-manger/",
+      "official_campaign_page_url": "https://barq.com/ar/offers/%d8%b9%d8%b1%d8%b6-%d8%a8%d8%b1%d9%82-x-pret-a-manger/",
+      "primary_official_source_url": "https://barq.com/ar/offers/%d8%b9%d8%b1%d8%b6-%d8%a8%d8%b1%d9%82-x-pret-a-manger/",
+      "social_links": {},
+      "social_link_count": 0,
+      "published_at": null,
+      "start_date": null,
+      "end_date": null,
+      "date_evidence": {},
+      "current_status": "End Date Not Stated",
+      "active": true,
+      "direct_link": true,
+      "verified": true,
+      "official_discovery": true,
+      "discovery_section": "current",
+      "review_required": false,
+      "review_reasons": [],
+      "mechanic_tags": [
+        "other"
+      ],
+      "theme_tags": [
+        "other"
+      ],
+      "media": null,
+      "first_seen": "2026-08-25T15:44:42.097858+00:00",
+      "last_seen": "2026-08-27T03:51:56.195769+00:00",
+      "last_changed": "2026-08-25T15:44:42.097858+00:00",
+      "version": 1,
+      "change_history": [
+        {
+          "at": "2026-08-25T15:44:42.097858+00:00",
+          "type": "detected",
+          "version": 1
+        }
+      ],
+      "detail_timeout_seconds": 35,
+      "manual_override": true,
+      "source_verification": {
+        "status": "failed",
+        "verification_method": "official_website_page",
+        "checked_at": "2026-08-27T03:52:26.320634+00:00",
+        "source_url": "https://barq.com/ar/offers/%d8%b9%d8%b1%d8%b6-%d8%a8%d8%b1%d9%82-x-pret-a-manger/",
+        "source_changed": false,
+        "conflicts": [],
+        "error": "HTTPError: 404 Client Error: Not Found for url: https://barq.com/ar/offers/%D8%B9%D8%B1%D8%B6-%D8%A8%D8%B1%D9%82-x-pret-a-manger/"
+      },
+      "review_priority": 17,
+      "review_decision": "confirm_merchant_offers_bulk",
+      "review_approved": true,
+      "classification_method": "admin_bulk_separate_merchant_v1",
+      "reviewed_by": "admin",
+      "reviewed_at": "2026-08-27T04:36:06.384605+00:00",
+      "review_request_id": "b80e0538-00e0-4183-96d1-2803f1f4b73f",
+      "linked_posts": [],
+      "social_post_counts": {
+        "instagram": 0,
+        "x": 0,
+        "facebook": 0,
+        "tiktok": 0
+      },
+      "social_posts_total": 0,
+      "social_platform_count": 0,
+      "social_first_post": null,
+      "social_latest_post": null,
+      "social_posts_7d": 0,
+      "social_posts_30d": 0
+    },
+    {
+      "id": "detected:barq:bca2b13a003614dd3331",
+      "competitor_id": "barq",
+      "source_key": "website:barq:offers",
+      "source_type": "website",
+      "platform": "website",
+      "content_type": "merchant_offer",
+      "suggested_record_type": "merchant_offer",
+      "campaign_category": "merchant",
+      "primary_category": "merchant",
+      "categories": [
+        "merchant"
+      ],
+      "title": "عرض برق × Nofa Resort",
+      "snippet": "عرض برق × Nofa Resort",
+      "link": "https://barq.com/ar/offers/%d8%b9%d8%b1%d8%b6-%d8%a8%d8%b1%d9%82-x-nofa-resort/",
+      "official_campaign_page_url": "https://barq.com/ar/offers/%d8%b9%d8%b1%d8%b6-%d8%a8%d8%b1%d9%82-x-nofa-resort/",
+      "primary_official_source_url": "https://barq.com/ar/offers/%d8%b9%d8%b1%d8%b6-%d8%a8%d8%b1%d9%82-x-nofa-resort/",
+      "social_links": {},
+      "social_link_count": 0,
+      "published_at": null,
+      "start_date": null,
+      "end_date": null,
+      "date_evidence": {},
+      "current_status": "End Date Not Stated",
+      "active": true,
+      "direct_link": true,
+      "verified": true,
+      "official_discovery": true,
+      "discovery_section": "current",
+      "review_required": false,
+      "review_reasons": [],
+      "mechanic_tags": [
+        "other"
+      ],
+      "theme_tags": [
+        "other"
+      ],
+      "media": null,
+      "first_seen": "2026-08-25T15:44:42.097858+00:00",
+      "last_seen": "2026-08-27T03:51:56.195769+00:00",
+      "last_changed": "2026-08-25T15:44:42.097858+00:00",
+      "version": 1,
+      "change_history": [
+        {
+          "at": "2026-08-25T15:44:42.097858+00:00",
+          "type": "detected",
+          "version": 1
+        }
+      ],
+      "detail_timeout_seconds": 35,
+      "manual_override": true,
+      "source_verification": {
+        "status": "failed",
+        "verification_method": "official_website_page",
+        "checked_at": "2026-08-27T03:52:26.320634+00:00",
+        "source_url": "https://barq.com/ar/offers/%d8%b9%d8%b1%d8%b6-%d8%a8%d8%b1%d9%82-x-nofa-resort/",
+        "source_changed": false,
+        "conflicts": [],
+        "error": "HTTPError: 404 Client Error: Not Found for url: https://barq.com/ar/offers/%D8%B9%D8%B1%D8%B6-%D8%A8%D8%B1%D9%82-x-nofa-resort/"
+      },
+      "review_priority": 17,
+      "review_decision": "confirm_merchant_offers_bulk",
+      "review_approved": true,
+      "classification_method": "admin_bulk_separate_merchant_v1",
+      "reviewed_by": "admin",
+      "reviewed_at": "2026-08-27T04:36:06.384605+00:00",
+      "review_request_id": "b80e0538-00e0-4183-96d1-2803f1f4b73f",
+      "linked_posts": [],
+      "social_post_counts": {
+        "instagram": 0,
+        "x": 0,
+        "facebook": 0,
+        "tiktok": 0
+      },
+      "social_posts_total": 0,
+      "social_platform_count": 0,
+      "social_first_post": null,
+      "social_latest_post": null,
+      "social_posts_7d": 0,
+      "social_posts_30d": 0
+    },
+    {
+      "id": "detected:barq:2b5fa023869718edc6ed",
+      "competitor_id": "barq",
+      "source_key": "website:barq:offers",
+      "source_type": "website",
+      "platform": "website",
+      "content_type": "merchant_offer",
+      "suggested_record_type": "merchant_offer",
+      "campaign_category": "merchant",
+      "primary_category": "merchant",
+      "categories": [
+        "merchant"
+      ],
+      "title": "برق × ماكوين",
+      "snippet": "برق × ماكوين",
+      "link": "https://barq.com/ar/offers/macqueen-offer-2/",
+      "official_campaign_page_url": "https://barq.com/ar/offers/macqueen-offer-2/",
+      "primary_official_source_url": "https://barq.com/ar/offers/macqueen-offer-2/",
+      "social_links": {},
+      "social_link_count": 0,
+      "published_at": null,
+      "start_date": null,
+      "end_date": null,
+      "date_evidence": {},
+      "current_status": "End Date Not Stated",
+      "active": true,
+      "direct_link": true,
+      "verified": true,
+      "official_discovery": true,
+      "discovery_section": "current",
+      "review_required": false,
+      "review_reasons": [],
+      "mechanic_tags": [
+        "other"
+      ],
+      "theme_tags": [
+        "other"
+      ],
+      "media": null,
+      "first_seen": "2026-08-25T15:44:42.097858+00:00",
+      "last_seen": "2026-08-27T03:51:56.195769+00:00",
+      "last_changed": "2026-08-25T15:44:42.097858+00:00",
+      "version": 1,
+      "change_history": [
+        {
+          "at": "2026-08-25T15:44:42.097858+00:00",
+          "type": "detected",
+          "version": 1
+        }
+      ],
+      "detail_timeout_seconds": 35,
+      "manual_override": true,
+      "source_verification": {
+        "status": "failed",
+        "verification_method": "official_website_page",
+        "checked_at": "2026-08-27T03:52:26.320634+00:00",
+        "source_url": "https://barq.com/ar/offers/macqueen-offer-2/",
+        "source_changed": false,
+        "conflicts": [],
+        "error": "HTTPError: 404 Client Error: Not Found for url: https://barq.com/ar/offers/macqueen-offer-2/"
+      },
+      "review_priority": 17,
+      "review_decision": "confirm_merchant_offers_bulk",
+      "review_approved": true,
+      "classification_method": "admin_bulk_separate_merchant_v1",
+      "reviewed_by": "admin",
+      "reviewed_at": "2026-08-27T04:36:06.384605+00:00",
+      "review_request_id": "b80e0538-00e0-4183-96d1-2803f1f4b73f",
+      "linked_posts": [],
+      "social_post_counts": {
+        "instagram": 0,
+        "x": 0,
+        "facebook": 0,
+        "tiktok": 0
+      },
+      "social_posts_total": 0,
+      "social_platform_count": 0,
+      "social_first_post": null,
+      "social_latest_post": null,
+      "social_posts_7d": 0,
+      "social_posts_30d": 0
+    },
+    {
+      "id": "detected:barq:4298adffc0395c564039",
+      "competitor_id": "barq",
+      "source_key": "website:barq:offers",
+      "source_type": "website",
+      "platform": "website",
+      "content_type": "merchant_offer",
+      "suggested_record_type": "merchant_offer",
+      "campaign_category": "merchant",
+      "primary_category": "merchant",
+      "categories": [
+        "merchant"
+      ],
+      "title": "عرض Wooden × barq",
+      "snippet": "عرض Wooden × barq",
+      "link": "https://barq.com/ar/offers/wooden-x-barq/",
+      "official_campaign_page_url": "https://barq.com/ar/offers/wooden-x-barq/",
+      "primary_official_source_url": "https://barq.com/ar/offers/wooden-x-barq/",
+      "social_links": {},
+      "social_link_count": 0,
+      "published_at": null,
+      "start_date": null,
+      "end_date": null,
+      "date_evidence": {},
+      "current_status": "End Date Not Stated",
+      "active": true,
+      "direct_link": true,
+      "verified": true,
+      "official_discovery": true,
+      "discovery_section": "current",
+      "review_required": false,
+      "review_reasons": [],
+      "mechanic_tags": [
+        "other"
+      ],
+      "theme_tags": [
+        "other"
+      ],
+      "media": null,
+      "first_seen": "2026-08-25T15:44:42.097858+00:00",
+      "last_seen": "2026-08-27T03:51:56.195769+00:00",
+      "last_changed": "2026-08-25T15:44:42.097858+00:00",
+      "version": 1,
+      "change_history": [
+        {
+          "at": "2026-08-25T15:44:42.097858+00:00",
+          "type": "detected",
+          "version": 1
+        }
+      ],
+      "detail_timeout_seconds": 35,
+      "manual_override": true,
+      "source_verification": {
+        "status": "failed",
+        "verification_method": "official_website_page",
+        "checked_at": "2026-08-27T03:52:26.320634+00:00",
+        "source_url": "https://barq.com/ar/offers/wooden-x-barq/",
+        "source_changed": false,
+        "conflicts": [],
+        "error": "HTTPError: 404 Client Error: Not Found for url: https://barq.com/ar/offers/wooden-x-barq/"
+      },
+      "review_priority": 17,
+      "review_decision": "confirm_merchant_offers_bulk",
+      "review_approved": true,
+      "classification_method": "admin_bulk_separate_merchant_v1",
+      "reviewed_by": "admin",
+      "reviewed_at": "2026-08-27T04:36:06.384605+00:00",
+      "review_request_id": "b80e0538-00e0-4183-96d1-2803f1f4b73f",
+      "linked_posts": [],
+      "social_post_counts": {
+        "instagram": 0,
+        "x": 0,
+        "facebook": 0,
+        "tiktok": 0
+      },
+      "social_posts_total": 0,
+      "social_platform_count": 0,
+      "social_first_post": null,
+      "social_latest_post": null,
+      "social_posts_7d": 0,
+      "social_posts_30d": 0
+    },
+    {
+      "id": "detected:barq:686e33acc8f746d18332",
+      "competitor_id": "barq",
+      "source_key": "website:barq:offers",
+      "source_type": "website",
+      "platform": "website",
+      "content_type": "merchant_offer",
+      "suggested_record_type": "merchant_offer",
+      "campaign_category": "merchant",
+      "primary_category": "merchant",
+      "categories": [
+        "merchant"
+      ],
+      "title": "عرض Soma Lab × barq",
+      "snippet": "عرض Soma Lab × barq",
+      "link": "https://barq.com/ar/offers/soma-lab-x-barq/",
+      "official_campaign_page_url": "https://barq.com/ar/offers/soma-lab-x-barq/",
+      "primary_official_source_url": "https://barq.com/ar/offers/soma-lab-x-barq/",
+      "social_links": {},
+      "social_link_count": 0,
+      "published_at": null,
+      "start_date": null,
+      "end_date": null,
+      "date_evidence": {},
+      "current_status": "End Date Not Stated",
+      "active": true,
+      "direct_link": true,
+      "verified": true,
+      "official_discovery": true,
+      "discovery_section": "current",
+      "review_required": false,
+      "review_reasons": [],
+      "mechanic_tags": [
+        "other"
+      ],
+      "theme_tags": [
+        "other"
+      ],
+      "media": null,
+      "first_seen": "2026-08-25T15:44:42.097858+00:00",
+      "last_seen": "2026-08-27T03:51:56.195769+00:00",
+      "last_changed": "2026-08-25T15:44:42.097858+00:00",
+      "version": 1,
+      "change_history": [
+        {
+          "at": "2026-08-25T15:44:42.097858+00:00",
+          "type": "detected",
+          "version": 1
+        }
+      ],
+      "detail_timeout_seconds": 35,
+      "manual_override": true,
+      "source_verification": {
+        "status": "failed",
+        "verification_method": "official_website_page",
+        "checked_at": "2026-08-27T03:52:26.320634+00:00",
+        "source_url": "https://barq.com/ar/offers/soma-lab-x-barq/",
+        "source_changed": false,
+        "conflicts": [],
+        "error": "HTTPError: 404 Client Error: Not Found for url: https://barq.com/ar/offers/soma-lab-x-barq/"
+      },
+      "review_priority": 17,
+      "review_decision": "confirm_merchant_offers_bulk",
+      "review_approved": true,
+      "classification_method": "admin_bulk_separate_merchant_v1",
+      "reviewed_by": "admin",
+      "reviewed_at": "2026-08-27T04:36:06.384605+00:00",
+      "review_request_id": "b80e0538-00e0-4183-96d1-2803f1f4b73f",
+      "linked_posts": [],
+      "social_post_counts": {
+        "instagram": 0,
+        "x": 0,
+        "facebook": 0,
+        "tiktok": 0
+      },
+      "social_posts_total": 0,
+      "social_platform_count": 0,
+      "social_first_post": null,
+      "social_latest_post": null,
+      "social_posts_7d": 0,
+      "social_posts_30d": 0
+    },
+    {
+      "id": "detected:barq:670e484dde8add2698e9",
+      "competitor_id": "barq",
+      "source_key": "website:barq:offers",
+      "source_type": "website",
+      "platform": "website",
+      "content_type": "merchant_offer",
+      "suggested_record_type": "merchant_offer",
+      "campaign_category": "merchant",
+      "primary_category": "merchant",
+      "categories": [
+        "merchant"
+      ],
+      "title": "عرض كويا",
+      "snippet": "عرض كويا",
+      "link": "https://barq.com/ar/offers/coya-riyadh-offer/",
+      "official_campaign_page_url": "https://barq.com/ar/offers/coya-riyadh-offer/",
+      "primary_official_source_url": "https://barq.com/ar/offers/coya-riyadh-offer/",
+      "social_links": {},
+      "social_link_count": 0,
+      "published_at": null,
+      "start_date": null,
+      "end_date": null,
+      "date_evidence": {},
+      "current_status": "End Date Not Stated",
+      "active": true,
+      "direct_link": true,
+      "verified": true,
+      "official_discovery": true,
+      "discovery_section": "current",
+      "review_required": false,
+      "review_reasons": [],
+      "mechanic_tags": [
+        "other"
+      ],
+      "theme_tags": [
+        "other"
+      ],
+      "media": null,
+      "first_seen": "2026-08-25T15:44:42.097858+00:00",
+      "last_seen": "2026-08-27T03:51:56.195769+00:00",
+      "last_changed": "2026-08-25T15:44:42.097858+00:00",
+      "version": 1,
+      "change_history": [
+        {
+          "at": "2026-08-25T15:44:42.097858+00:00",
+          "type": "detected",
+          "version": 1
+        }
+      ],
+      "detail_timeout_seconds": 35,
+      "manual_override": true,
+      "source_verification": {
+        "status": "failed",
+        "verification_method": "official_website_page",
+        "checked_at": "2026-08-27T03:52:26.320634+00:00",
+        "source_url": "https://barq.com/ar/offers/coya-riyadh-offer/",
+        "source_changed": false,
+        "conflicts": [],
+        "error": "HTTPError: 404 Client Error: Not Found for url: https://barq.com/ar/offers/coya-riyadh-offer/"
+      },
+      "review_priority": 17,
+      "review_decision": "confirm_merchant_offers_bulk",
+      "review_approved": true,
+      "classification_method": "admin_bulk_separate_merchant_v1",
+      "reviewed_by": "admin",
+      "reviewed_at": "2026-08-27T04:36:06.384605+00:00",
+      "review_request_id": "b80e0538-00e0-4183-96d1-2803f1f4b73f",
+      "linked_posts": [],
+      "social_post_counts": {
+        "instagram": 0,
+        "x": 0,
+        "facebook": 0,
+        "tiktok": 0
+      },
+      "social_posts_total": 0,
+      "social_platform_count": 0,
+      "social_first_post": null,
+      "social_latest_post": null,
+      "social_posts_7d": 0,
+      "social_posts_30d": 0
+    },
+    {
+      "id": "detected:barq:e98ec9a5b9af9c382e35",
+      "competitor_id": "barq",
+      "source_key": "website:barq:offers",
+      "source_type": "website",
+      "platform": "website",
+      "content_type": "merchant_offer",
+      "suggested_record_type": "merchant_offer",
+      "campaign_category": "merchant",
+      "primary_category": "merchant",
+      "categories": [
+        "merchant"
+      ],
+      "title": "عرض اي هيرب × برق",
+      "snippet": "عرض اي هيرب × برق",
+      "link": "https://barq.com/ar/offers/%d8%b9%d8%b1%d8%b6-%d8%a7%d9%8a-%d9%87%d9%8a%d8%b1%d8%a8-x-%d8%a8%d8%b1%d9%82/",
+      "official_campaign_page_url": "https://barq.com/ar/offers/%d8%b9%d8%b1%d8%b6-%d8%a7%d9%8a-%d9%87%d9%8a%d8%b1%d8%a8-x-%d8%a8%d8%b1%d9%82/",
+      "primary_official_source_url": "https://barq.com/ar/offers/%d8%b9%d8%b1%d8%b6-%d8%a7%d9%8a-%d9%87%d9%8a%d8%b1%d8%a8-x-%d8%a8%d8%b1%d9%82/",
+      "social_links": {},
+      "social_link_count": 0,
+      "published_at": null,
+      "start_date": null,
+      "end_date": null,
+      "date_evidence": {},
+      "current_status": "End Date Not Stated",
+      "active": true,
+      "direct_link": true,
+      "verified": true,
+      "official_discovery": true,
+      "discovery_section": "current",
+      "review_required": false,
+      "review_reasons": [],
+      "mechanic_tags": [
+        "other"
+      ],
+      "theme_tags": [
+        "other"
+      ],
+      "media": null,
+      "first_seen": "2026-08-25T15:44:42.097858+00:00",
+      "last_seen": "2026-08-27T03:51:56.195769+00:00",
+      "last_changed": "2026-08-25T15:44:42.097858+00:00",
+      "version": 1,
+      "change_history": [
+        {
+          "at": "2026-08-25T15:44:42.097858+00:00",
+          "type": "detected",
+          "version": 1
+        }
+      ],
+      "detail_timeout_seconds": 35,
+      "manual_override": true,
+      "source_verification": {
+        "status": "failed",
+        "verification_method": "official_website_page",
+        "checked_at": "2026-08-25T21:00:56.091136+00:00",
+        "source_url": "https://barq.com/ar/offers/%d8%b9%d8%b1%d8%b6-%d8%a7%d9%8a-%d9%87%d9%8a%d8%b1%d8%a8-x-%d8%a8%d8%b1%d9%82/",
+        "source_changed": false,
+        "conflicts": [],
+        "error": "HTTPError: 503 Server Error: Service Temporarily Unavailable for url: https://barq.com/ar/offers/%D8%B9%D8%B1%D8%B6-%D8%A7%D9%8A-%D9%87%D9%8A%D8%B1%D8%A8-x-%D8%A8%D8%B1%D9%82/"
+      },
+      "review_priority": 17,
+      "review_decision": "confirm_merchant_offers_bulk",
+      "review_approved": true,
+      "classification_method": "admin_bulk_separate_merchant_v1",
+      "reviewed_by": "admin",
+      "reviewed_at": "2026-08-27T04:36:06.384605+00:00",
+      "review_request_id": "b80e0538-00e0-4183-96d1-2803f1f4b73f",
+      "linked_posts": [],
+      "social_post_counts": {
+        "instagram": 0,
+        "x": 0,
+        "facebook": 0,
+        "tiktok": 0
+      },
+      "social_posts_total": 0,
+      "social_platform_count": 0,
+      "social_first_post": null,
+      "social_latest_post": null,
+      "social_posts_7d": 0,
+      "social_posts_30d": 0
+    },
+    {
+      "id": "detected:barq:a3b4ce9d1d845160cfb5",
+      "competitor_id": "barq",
+      "source_key": "website:barq:offers",
+      "source_type": "website",
+      "platform": "website",
+      "content_type": "merchant_offer",
+      "suggested_record_type": "merchant_offer",
+      "campaign_category": "merchant",
+      "primary_category": "merchant",
+      "categories": [
+        "merchant"
+      ],
+      "title": "عرض Riyadh Padel",
+      "snippet": "عرض Riyadh Padel",
+      "link": "https://barq.com/ar/offers/riyadh-padel-2/",
+      "official_campaign_page_url": "https://barq.com/ar/offers/riyadh-padel-2/",
+      "primary_official_source_url": "https://barq.com/ar/offers/riyadh-padel-2/",
+      "social_links": {},
+      "social_link_count": 0,
+      "published_at": null,
+      "start_date": null,
+      "end_date": null,
+      "date_evidence": {},
+      "current_status": "End Date Not Stated",
+      "active": true,
+      "direct_link": true,
+      "verified": true,
+      "official_discovery": true,
+      "discovery_section": "current",
+      "review_required": false,
+      "review_reasons": [],
+      "mechanic_tags": [
+        "other"
+      ],
+      "theme_tags": [
+        "other"
+      ],
+      "media": null,
+      "first_seen": "2026-08-25T15:44:42.097858+00:00",
+      "last_seen": "2026-08-27T03:51:56.195769+00:00",
+      "last_changed": "2026-08-25T15:44:42.097858+00:00",
+      "version": 1,
+      "change_history": [
+        {
+          "at": "2026-08-25T15:44:42.097858+00:00",
+          "type": "detected",
+          "version": 1
+        }
+      ],
+      "detail_timeout_seconds": 35,
+      "manual_override": true,
+      "source_verification": {
+        "status": "failed",
+        "verification_method": "official_website_page",
+        "checked_at": "2026-08-25T21:00:56.091136+00:00",
+        "source_url": "https://barq.com/ar/offers/riyadh-padel-2/",
+        "source_changed": false,
+        "conflicts": [],
+        "error": "HTTPError: 503 Server Error: Service Unavailable for url: https://barq.com/ar/offers/riyadh-padel-2/"
+      },
+      "review_priority": 17,
+      "review_decision": "confirm_merchant_offers_bulk",
+      "review_approved": true,
+      "classification_method": "admin_bulk_separate_merchant_v1",
+      "reviewed_by": "admin",
+      "reviewed_at": "2026-08-27T04:36:06.384605+00:00",
+      "review_request_id": "b80e0538-00e0-4183-96d1-2803f1f4b73f",
+      "linked_posts": [],
+      "social_post_counts": {
+        "instagram": 0,
+        "x": 0,
+        "facebook": 0,
+        "tiktok": 0
+      },
+      "social_posts_total": 0,
+      "social_platform_count": 0,
+      "social_first_post": null,
+      "social_latest_post": null,
+      "social_posts_7d": 0,
+      "social_posts_30d": 0
+    },
+    {
+      "id": "detected:barq:1590d84ba4320d3f674b",
+      "competitor_id": "barq",
+      "source_key": "website:barq:offers",
+      "source_type": "website",
+      "platform": "website",
+      "content_type": "merchant_offer",
+      "suggested_record_type": "merchant_offer",
+      "campaign_category": "merchant",
+      "primary_category": "merchant",
+      "categories": [
+        "merchant"
+      ],
+      "title": "عرض Holiday Inn and Suites Al Khobar",
+      "snippet": "عرض Holiday Inn and Suites Al Khobar",
+      "link": "https://barq.com/ar/offers/holiday-inn-and-suites-al-khobar/",
+      "official_campaign_page_url": "https://barq.com/ar/offers/holiday-inn-and-suites-al-khobar/",
+      "primary_official_source_url": "https://barq.com/ar/offers/holiday-inn-and-suites-al-khobar/",
+      "social_links": {},
+      "social_link_count": 0,
+      "published_at": null,
+      "start_date": null,
+      "end_date": null,
+      "date_evidence": {},
+      "current_status": "End Date Not Stated",
+      "active": true,
+      "direct_link": true,
+      "verified": true,
+      "official_discovery": true,
+      "discovery_section": "current",
+      "review_required": false,
+      "review_reasons": [],
+      "mechanic_tags": [
+        "other"
+      ],
+      "theme_tags": [
+        "other"
+      ],
+      "media": null,
+      "first_seen": "2026-08-25T15:44:42.097858+00:00",
+      "last_seen": "2026-08-27T03:51:56.195769+00:00",
+      "last_changed": "2026-08-25T15:44:42.097858+00:00",
+      "version": 1,
+      "change_history": [
+        {
+          "at": "2026-08-25T15:44:42.097858+00:00",
+          "type": "detected",
+          "version": 1
+        }
+      ],
+      "detail_timeout_seconds": 35,
+      "manual_override": true,
+      "source_verification": {
+        "status": "failed",
+        "verification_method": "official_website_page",
+        "checked_at": "2026-08-25T23:00:46.205983+00:00",
+        "source_url": "https://barq.com/ar/offers/holiday-inn-and-suites-al-khobar/",
+        "source_changed": false,
+        "conflicts": [],
+        "error": "HTTPError: 404 Client Error: Not Found for url: https://barq.com/ar/offers/holiday-inn-and-suites-al-khobar/"
+      },
+      "review_priority": 17,
+      "review_decision": "confirm_merchant_offers_bulk",
+      "review_approved": true,
+      "classification_method": "admin_bulk_separate_merchant_v1",
+      "reviewed_by": "admin",
+      "reviewed_at": "2026-08-27T04:36:06.384605+00:00",
+      "review_request_id": "b80e0538-00e0-4183-96d1-2803f1f4b73f",
+      "linked_posts": [],
+      "social_post_counts": {
+        "instagram": 0,
+        "x": 0,
+        "facebook": 0,
+        "tiktok": 0
+      },
+      "social_posts_total": 0,
+      "social_platform_count": 0,
+      "social_first_post": null,
+      "social_latest_post": null,
+      "social_posts_7d": 0,
+      "social_posts_30d": 0
+    },
+    {
+      "id": "detected:barq:4dcbdcbd57f545b7e066",
+      "competitor_id": "barq",
+      "source_key": "website:barq:offers",
+      "source_type": "website",
+      "platform": "website",
+      "content_type": "merchant_offer",
+      "suggested_record_type": "merchant_offer",
+      "campaign_category": "merchant",
+      "primary_category": "merchant",
+      "categories": [
+        "merchant"
+      ],
+      "title": "عرض GAMEON",
+      "snippet": "عرض GAMEON العرض خصم 15% البطاقات المؤهلة بطاقات برق فيزا مدة العرض من 01/02/2026 إلى 31/12/2026 آلية... اعرف المزيد",
+      "link": "https://barq.com/ar/offers/gameon-2/",
+      "official_campaign_page_url": "https://barq.com/ar/offers/gameon-2/",
+      "primary_official_source_url": "https://barq.com/ar/offers/gameon-2/",
+      "social_links": {},
+      "social_link_count": 0,
+      "published_at": null,
+      "start_date": "2026-02-01T00:00:00+00:00",
+      "end_date": "2026-12-31T00:00:00+00:00",
+      "date_evidence": {
+        "listing": "مدة العرض من 01/02/2026 إلى 31/12/2026"
+      },
+      "current_status": "Active",
+      "active": true,
+      "direct_link": true,
+      "verified": true,
+      "official_discovery": true,
+      "discovery_section": "current",
+      "review_required": false,
+      "review_reasons": [],
+      "mechanic_tags": [
+        "discount"
+      ],
+      "theme_tags": [
+        "cards",
+        "engagement"
+      ],
+      "media": null,
+      "first_seen": "2026-08-25T15:44:42.097858+00:00",
+      "last_seen": "2026-08-27T03:51:56.195769+00:00",
+      "last_changed": "2026-08-25T15:44:42.097858+00:00",
+      "version": 1,
+      "change_history": [
+        {
+          "at": "2026-08-25T15:44:42.097858+00:00",
+          "type": "detected",
+          "version": 1
+        }
+      ],
+      "detail_timeout_seconds": 35,
+      "manual_override": true,
+      "source_verification": {
+        "status": "needs_review",
+        "verification_method": "official_website_page",
+        "checked_at": null,
+        "source_url": "https://barq.com/ar/offers/gameon-2/",
+        "source_changed": false,
+        "conflicts": [],
+        "error": null
+      },
+      "review_priority": 17,
+      "review_decision": "confirm_merchant_offers_bulk",
+      "review_approved": true,
+      "classification_method": "admin_bulk_separate_merchant_v1",
+      "reviewed_by": "admin",
+      "reviewed_at": "2026-08-27T04:36:06.384605+00:00",
+      "review_request_id": "b80e0538-00e0-4183-96d1-2803f1f4b73f",
+      "linked_posts": [],
+      "social_post_counts": {
+        "instagram": 0,
+        "x": 0,
+        "facebook": 0,
+        "tiktok": 0
+      },
+      "social_posts_total": 0,
+      "social_platform_count": 0,
+      "social_first_post": null,
+      "social_latest_post": null,
+      "social_posts_7d": 0,
+      "social_posts_30d": 0
+    },
+    {
+      "id": "detected:barq:d0a2f560b0e810dbfa3e",
+      "competitor_id": "barq",
+      "source_key": "website:barq:offers",
+      "source_type": "website",
+      "platform": "website",
+      "content_type": "merchant_offer",
+      "suggested_record_type": "merchant_offer",
+      "campaign_category": "merchant",
+      "primary_category": "merchant",
+      "categories": [
+        "merchant"
+      ],
+      "title": "عرض Retro Chocolate",
+      "snippet": "عرض Retro Chocolate العرض خصم %20 البطاقات المؤهلة بطاقات برق فيزا مدة العرض من 1 فبراير 2026 إلى 31 يوليو... اعرف المزيد",
+      "link": "https://barq.com/ar/offers/%d8%b9%d8%b1%d8%b6-retro-chocolate/",
+      "official_campaign_page_url": "https://barq.com/ar/offers/%d8%b9%d8%b1%d8%b6-retro-chocolate/",
+      "primary_official_source_url": "https://barq.com/ar/offers/%d8%b9%d8%b1%d8%b6-retro-chocolate/",
+      "social_links": {},
+      "social_link_count": 0,
+      "published_at": null,
+      "start_date": null,
+      "end_date": null,
+      "date_evidence": {},
+      "current_status": "End Date Not Stated",
+      "active": true,
+      "direct_link": true,
+      "verified": true,
+      "official_discovery": true,
+      "discovery_section": "current",
+      "review_required": false,
+      "review_reasons": [],
+      "mechanic_tags": [
+        "discount"
+      ],
+      "theme_tags": [
+        "cards"
+      ],
+      "media": null,
+      "first_seen": "2026-08-25T15:44:42.097858+00:00",
+      "last_seen": "2026-08-27T03:51:56.195769+00:00",
+      "last_changed": "2026-08-25T15:44:42.097858+00:00",
+      "version": 1,
+      "change_history": [
+        {
+          "at": "2026-08-25T15:44:42.097858+00:00",
+          "type": "detected",
+          "version": 1
+        }
+      ],
+      "detail_timeout_seconds": 35,
+      "manual_override": true,
+      "source_verification": {
+        "status": "failed",
+        "verification_method": "official_website_page",
+        "checked_at": "2026-08-25T23:00:46.205983+00:00",
+        "source_url": "https://barq.com/ar/offers/%d8%b9%d8%b1%d8%b6-retro-chocolate/",
+        "source_changed": false,
+        "conflicts": [],
+        "error": "HTTPError: 404 Client Error: Not Found for url: https://barq.com/ar/offers/%D8%B9%D8%B1%D8%B6-retro-chocolate/"
+      },
+      "review_priority": 17,
+      "review_decision": "confirm_merchant_offers_bulk",
+      "review_approved": true,
+      "classification_method": "admin_bulk_separate_merchant_v1",
+      "reviewed_by": "admin",
+      "reviewed_at": "2026-08-27T04:36:06.384605+00:00",
+      "review_request_id": "b80e0538-00e0-4183-96d1-2803f1f4b73f",
+      "linked_posts": [],
+      "social_post_counts": {
+        "instagram": 0,
+        "x": 0,
+        "facebook": 0,
+        "tiktok": 0
+      },
+      "social_posts_total": 0,
+      "social_platform_count": 0,
+      "social_first_post": null,
+      "social_latest_post": null,
+      "social_posts_7d": 0,
+      "social_posts_30d": 0
+    },
+    {
+      "id": "detected:barq:10a082994adb8ef9bc54",
+      "competitor_id": "barq",
+      "source_key": "website:barq:offers",
+      "source_type": "website",
+      "platform": "website",
+      "content_type": "merchant_offer",
+      "suggested_record_type": "merchant_offer",
+      "campaign_category": "merchant",
+      "primary_category": "merchant",
+      "categories": [
+        "merchant"
+      ],
+      "title": "عرض بالا دي 7",
+      "snippet": "عرض بالا دي 7",
+      "link": "https://barq.com/ar/offers/pala-de-7-offer/",
+      "official_campaign_page_url": "https://barq.com/ar/offers/pala-de-7-offer/",
+      "primary_official_source_url": "https://barq.com/ar/offers/pala-de-7-offer/",
+      "social_links": {},
+      "social_link_count": 0,
+      "published_at": null,
+      "start_date": null,
+      "end_date": null,
+      "date_evidence": {},
+      "current_status": "End Date Not Stated",
+      "active": true,
+      "direct_link": true,
+      "verified": true,
+      "official_discovery": true,
+      "discovery_section": "current",
+      "review_required": false,
+      "review_reasons": [],
+      "mechanic_tags": [
+        "other"
+      ],
+      "theme_tags": [
+        "other"
+      ],
+      "media": null,
+      "first_seen": "2026-08-25T15:44:42.097858+00:00",
+      "last_seen": "2026-08-27T03:51:56.195769+00:00",
+      "last_changed": "2026-08-25T15:44:42.097858+00:00",
+      "version": 1,
+      "change_history": [
+        {
+          "at": "2026-08-25T15:44:42.097858+00:00",
+          "type": "detected",
+          "version": 1
+        }
+      ],
+      "detail_timeout_seconds": 35,
+      "manual_override": true,
+      "source_verification": {
+        "status": "failed",
+        "verification_method": "official_website_page",
+        "checked_at": "2026-08-25T23:00:46.205983+00:00",
+        "source_url": "https://barq.com/ar/offers/pala-de-7-offer/",
+        "source_changed": false,
+        "conflicts": [],
+        "error": "HTTPError: 404 Client Error: Not Found for url: https://barq.com/ar/offers/pala-de-7-offer/"
+      },
+      "review_priority": 17,
+      "review_decision": "confirm_merchant_offers_bulk",
+      "review_approved": true,
+      "classification_method": "admin_bulk_separate_merchant_v1",
+      "reviewed_by": "admin",
+      "reviewed_at": "2026-08-27T04:36:06.384605+00:00",
+      "review_request_id": "b80e0538-00e0-4183-96d1-2803f1f4b73f",
+      "linked_posts": [],
+      "social_post_counts": {
+        "instagram": 0,
+        "x": 0,
+        "facebook": 0,
+        "tiktok": 0
+      },
+      "social_posts_total": 0,
+      "social_platform_count": 0,
+      "social_first_post": null,
+      "social_latest_post": null,
+      "social_posts_7d": 0,
+      "social_posts_30d": 0
+    },
+    {
+      "id": "detected:barq:9f8a2e8f1901a4cc28c0",
+      "competitor_id": "barq",
+      "source_key": "website:barq:offers",
+      "source_type": "website",
+      "platform": "website",
+      "content_type": "merchant_offer",
+      "suggested_record_type": "merchant_offer",
+      "campaign_category": "merchant",
+      "primary_category": "merchant",
+      "categories": [
+        "merchant"
+      ],
+      "title": "عرض مجوهرات يسايان",
+      "snippet": "عرض مجوهرات يسايان",
+      "link": "https://barq.com/ar/offers/%d8%b9%d8%b1%d8%b6-%d9%85%d8%ac%d9%88%d9%87%d8%b1%d8%a7%d8%aa-%d9%8a%d8%b3%d8%a7%d9%8a%d8%a7%d9%86/",
+      "official_campaign_page_url": "https://barq.com/ar/offers/%d8%b9%d8%b1%d8%b6-%d9%85%d8%ac%d9%88%d9%87%d8%b1%d8%a7%d8%aa-%d9%8a%d8%b3%d8%a7%d9%8a%d8%a7%d9%86/",
+      "primary_official_source_url": "https://barq.com/ar/offers/%d8%b9%d8%b1%d8%b6-%d9%85%d8%ac%d9%88%d9%87%d8%b1%d8%a7%d8%aa-%d9%8a%d8%b3%d8%a7%d9%8a%d8%a7%d9%86/",
+      "social_links": {},
+      "social_link_count": 0,
+      "published_at": null,
+      "start_date": null,
+      "end_date": null,
+      "date_evidence": {},
+      "current_status": "End Date Not Stated",
+      "active": true,
+      "direct_link": true,
+      "verified": true,
+      "official_discovery": true,
+      "discovery_section": "current",
+      "review_required": false,
+      "review_reasons": [],
+      "mechanic_tags": [
+        "other"
+      ],
+      "theme_tags": [
+        "other"
+      ],
+      "media": null,
+      "first_seen": "2026-08-25T15:44:42.097858+00:00",
+      "last_seen": "2026-08-27T03:51:56.195769+00:00",
+      "last_changed": "2026-08-25T15:44:42.097858+00:00",
+      "version": 1,
+      "change_history": [
+        {
+          "at": "2026-08-25T15:44:42.097858+00:00",
+          "type": "detected",
+          "version": 1
+        }
+      ],
+      "detail_timeout_seconds": 35,
+      "manual_override": true,
+      "source_verification": {
+        "status": "failed",
+        "verification_method": "official_website_page",
+        "checked_at": "2026-08-25T23:00:46.205983+00:00",
+        "source_url": "https://barq.com/ar/offers/%d8%b9%d8%b1%d8%b6-%d9%85%d8%ac%d9%88%d9%87%d8%b1%d8%a7%d8%aa-%d9%8a%d8%b3%d8%a7%d9%8a%d8%a7%d9%86/",
+        "source_changed": false,
+        "conflicts": [],
+        "error": "HTTPError: 404 Client Error: Not Found for url: https://barq.com/ar/offers/%D8%B9%D8%B1%D8%B6-%D9%85%D8%AC%D9%88%D9%87%D8%B1%D8%A7%D8%AA-%D9%8A%D8%B3%D8%A7%D9%8A%D8%A7%D9%86/"
+      },
+      "review_priority": 17,
+      "review_decision": "confirm_merchant_offers_bulk",
+      "review_approved": true,
+      "classification_method": "admin_bulk_separate_merchant_v1",
+      "reviewed_by": "admin",
+      "reviewed_at": "2026-08-27T04:36:06.384605+00:00",
+      "review_request_id": "b80e0538-00e0-4183-96d1-2803f1f4b73f",
+      "linked_posts": [],
+      "social_post_counts": {
+        "instagram": 0,
+        "x": 0,
+        "facebook": 0,
+        "tiktok": 0
+      },
+      "social_posts_total": 0,
+      "social_platform_count": 0,
+      "social_first_post": null,
+      "social_latest_post": null,
+      "social_posts_7d": 0,
+      "social_posts_30d": 0
+    },
+    {
+      "id": "detected:barq:39c57782377d47231675",
+      "competitor_id": "barq",
+      "source_key": "website:barq:offers",
+      "source_type": "website",
+      "platform": "website",
+      "content_type": "merchant_offer",
+      "suggested_record_type": "merchant_offer",
+      "campaign_category": "merchant",
+      "primary_category": "merchant",
+      "categories": [
+        "merchant"
+      ],
+      "title": "عرض فلامينجو روم",
+      "snippet": "عرض فلامينجو روم",
+      "link": "https://barq.com/ar/offers/flamingo-by-tashas/",
+      "official_campaign_page_url": "https://barq.com/ar/offers/flamingo-by-tashas/",
+      "primary_official_source_url": "https://barq.com/ar/offers/flamingo-by-tashas/",
+      "social_links": {},
+      "social_link_count": 0,
+      "published_at": null,
+      "start_date": null,
+      "end_date": null,
+      "date_evidence": {},
+      "current_status": "End Date Not Stated",
+      "active": true,
+      "direct_link": true,
+      "verified": true,
+      "official_discovery": true,
+      "discovery_section": "current",
+      "review_required": false,
+      "review_reasons": [],
+      "mechanic_tags": [
+        "other"
+      ],
+      "theme_tags": [
+        "other"
+      ],
+      "media": null,
+      "first_seen": "2026-08-25T15:44:42.097858+00:00",
+      "last_seen": "2026-08-27T03:51:56.195769+00:00",
+      "last_changed": "2026-08-25T15:44:42.097858+00:00",
+      "version": 1,
+      "change_history": [
+        {
+          "at": "2026-08-25T15:44:42.097858+00:00",
+          "type": "detected",
+          "version": 1
+        }
+      ],
+      "detail_timeout_seconds": 35,
+      "manual_override": true,
+      "source_verification": {
+        "status": "failed",
+        "verification_method": "official_website_page",
+        "checked_at": "2026-08-25T23:00:46.205983+00:00",
+        "source_url": "https://barq.com/ar/offers/flamingo-by-tashas/",
+        "source_changed": false,
+        "conflicts": [],
+        "error": "HTTPError: 404 Client Error: Not Found for url: https://barq.com/ar/offers/flamingo-by-tashas/"
+      },
+      "review_priority": 17,
+      "review_decision": "confirm_merchant_offers_bulk",
+      "review_approved": true,
+      "classification_method": "admin_bulk_separate_merchant_v1",
+      "reviewed_by": "admin",
+      "reviewed_at": "2026-08-27T04:36:06.384605+00:00",
+      "review_request_id": "b80e0538-00e0-4183-96d1-2803f1f4b73f",
+      "linked_posts": [],
+      "social_post_counts": {
+        "instagram": 0,
+        "x": 0,
+        "facebook": 0,
+        "tiktok": 0
+      },
+      "social_posts_total": 0,
+      "social_platform_count": 0,
+      "social_first_post": null,
+      "social_latest_post": null,
+      "social_posts_7d": 0,
+      "social_posts_30d": 0
+    },
+    {
+      "id": "detected:barq:53d6369e145efa05dbd7",
+      "competitor_id": "barq",
+      "source_key": "website:barq:offers",
+      "source_type": "website",
+      "platform": "website",
+      "content_type": "merchant_offer",
+      "suggested_record_type": "merchant_offer",
+      "campaign_category": "merchant",
+      "primary_category": "merchant",
+      "categories": [
+        "merchant"
+      ],
+      "title": "عرض Golden Ticket × برق",
+      "snippet": "عرض Golden Ticket × برق",
+      "link": "https://barq.com/ar/offers/%d8%b9%d8%b1%d8%b6-golden-ticket-x-%d8%a8%d8%b1%d9%82/",
+      "official_campaign_page_url": "https://barq.com/ar/offers/%d8%b9%d8%b1%d8%b6-golden-ticket-x-%d8%a8%d8%b1%d9%82/",
+      "primary_official_source_url": "https://barq.com/ar/offers/%d8%b9%d8%b1%d8%b6-golden-ticket-x-%d8%a8%d8%b1%d9%82/",
+      "social_links": {},
+      "social_link_count": 0,
+      "published_at": null,
+      "start_date": null,
+      "end_date": null,
+      "date_evidence": {},
+      "current_status": "End Date Not Stated",
+      "active": true,
+      "direct_link": true,
+      "verified": true,
+      "official_discovery": true,
+      "discovery_section": "current",
+      "review_required": false,
+      "review_reasons": [],
+      "mechanic_tags": [
+        "other"
+      ],
+      "theme_tags": [
+        "other"
+      ],
+      "media": null,
+      "first_seen": "2026-08-25T15:44:42.097858+00:00",
+      "last_seen": "2026-08-27T03:51:56.195769+00:00",
+      "last_changed": "2026-08-25T15:44:42.097858+00:00",
+      "version": 1,
+      "change_history": [
+        {
+          "at": "2026-08-25T15:44:42.097858+00:00",
+          "type": "detected",
+          "version": 1
+        }
+      ],
+      "detail_timeout_seconds": 35,
+      "manual_override": true,
+      "source_verification": {
+        "status": "failed",
+        "verification_method": "official_website_page",
+        "checked_at": "2026-08-25T23:00:46.205983+00:00",
+        "source_url": "https://barq.com/ar/offers/%d8%b9%d8%b1%d8%b6-golden-ticket-x-%d8%a8%d8%b1%d9%82/",
+        "source_changed": false,
+        "conflicts": [],
+        "error": "HTTPError: 404 Client Error: Not Found for url: https://barq.com/ar/offers/%D8%B9%D8%B1%D8%B6-golden-ticket-x-%D8%A8%D8%B1%D9%82/"
+      },
+      "review_priority": 17,
+      "review_decision": "confirm_merchant_offers_bulk",
+      "review_approved": true,
+      "classification_method": "admin_bulk_separate_merchant_v1",
+      "reviewed_by": "admin",
+      "reviewed_at": "2026-08-27T04:36:06.384605+00:00",
+      "review_request_id": "b80e0538-00e0-4183-96d1-2803f1f4b73f",
+      "linked_posts": [],
+      "social_post_counts": {
+        "instagram": 0,
+        "x": 0,
+        "facebook": 0,
+        "tiktok": 0
+      },
+      "social_posts_total": 0,
+      "social_platform_count": 0,
+      "social_first_post": null,
+      "social_latest_post": null,
+      "social_posts_7d": 0,
+      "social_posts_30d": 0
+    },
+    {
+      "id": "detected:barq:7babf99e75149e6a607b",
+      "competitor_id": "barq",
+      "source_key": "website:barq:offers",
+      "source_type": "website",
+      "platform": "website",
+      "content_type": "merchant_offer",
+      "suggested_record_type": "merchant_offer",
+      "campaign_category": "merchant",
+      "primary_category": "merchant",
+      "categories": [
+        "merchant"
+      ],
+      "title": "عرض بترومين إكسبرس × برق",
+      "snippet": "عرض بترومين إكسبرس × برق",
+      "link": "https://barq.com/ar/offers/petromin-offer/",
+      "official_campaign_page_url": "https://barq.com/ar/offers/petromin-offer/",
+      "primary_official_source_url": "https://barq.com/ar/offers/petromin-offer/",
+      "social_links": {},
+      "social_link_count": 0,
+      "published_at": null,
+      "start_date": null,
+      "end_date": null,
+      "date_evidence": {},
+      "current_status": "End Date Not Stated",
+      "active": true,
+      "direct_link": true,
+      "verified": true,
+      "official_discovery": true,
+      "discovery_section": "current",
+      "review_required": false,
+      "review_reasons": [],
+      "mechanic_tags": [
+        "other"
+      ],
+      "theme_tags": [
+        "other"
+      ],
+      "media": null,
+      "first_seen": "2026-08-25T15:44:42.097858+00:00",
+      "last_seen": "2026-08-27T03:51:56.195769+00:00",
+      "last_changed": "2026-08-25T15:44:42.097858+00:00",
+      "version": 1,
+      "change_history": [
+        {
+          "at": "2026-08-25T15:44:42.097858+00:00",
+          "type": "detected",
+          "version": 1
+        }
+      ],
+      "detail_timeout_seconds": 35,
+      "manual_override": true,
+      "source_verification": {
+        "status": "failed",
+        "verification_method": "official_website_page",
+        "checked_at": "2026-08-25T23:00:46.205983+00:00",
+        "source_url": "https://barq.com/ar/offers/petromin-offer-2/",
+        "source_changed": false,
+        "conflicts": [],
+        "error": "HTTPError: 404 Client Error: Not Found for url: https://barq.com/ar/offers/petromin-offer-2/"
+      },
+      "review_priority": 17,
+      "review_decision": "confirm_merchant_offers_bulk",
+      "review_approved": true,
+      "classification_method": "admin_bulk_separate_merchant_v1",
+      "reviewed_by": "admin",
+      "reviewed_at": "2026-08-27T04:36:06.384605+00:00",
+      "review_request_id": "b80e0538-00e0-4183-96d1-2803f1f4b73f",
+      "linked_posts": [],
+      "social_post_counts": {
+        "instagram": 0,
+        "x": 0,
+        "facebook": 0,
+        "tiktok": 0
+      },
+      "social_posts_total": 0,
+      "social_platform_count": 0,
+      "social_first_post": null,
+      "social_latest_post": null,
+      "social_posts_7d": 0,
+      "social_posts_30d": 0,
+      "summary": "بالاستفادة من هذا العرض، يقرّ العميل بموافقته الكاملة على الشروط والأحكام الموضحة أدناه. للاستفادة من هذا العرض، يجب استيفاء الشروط التالية:",
+      "evidence_snapshot": "بالاستفادة من هذا العرض، يقرّ العميل بموافقته الكاملة على الشروط والأحكام الموضحة أدناه. للاستفادة من هذا العرض، يجب استيفاء الشروط التالية:",
+      "last_live_verified_at": "2026-08-26T05:05:58.171940+00:00"
+    },
+    {
+      "id": "detected:barq:eaae56e95a534b19df2d",
+      "competitor_id": "barq",
+      "source_key": "website:barq:offers",
+      "source_type": "website",
+      "platform": "website",
+      "content_type": "merchant_offer",
+      "suggested_record_type": "merchant_offer",
+      "campaign_category": "merchant",
+      "primary_category": "merchant",
+      "categories": [
+        "merchant"
+      ],
+      "title": "عرض بولانجري موديرن",
+      "snippet": "عرض بولانجري موديرن",
+      "link": "https://barq.com/offers/boulangerie-moderne/",
+      "official_campaign_page_url": "https://barq.com/offers/boulangerie-moderne/",
+      "primary_official_source_url": "https://barq.com/offers/boulangerie-moderne/",
+      "social_links": {},
+      "social_link_count": 0,
+      "published_at": null,
+      "start_date": null,
+      "end_date": null,
+      "date_evidence": {},
+      "current_status": "End Date Not Stated",
+      "active": true,
+      "direct_link": true,
+      "verified": true,
+      "official_discovery": true,
+      "discovery_section": "current",
+      "review_required": false,
+      "review_reasons": [],
+      "mechanic_tags": [
+        "other"
+      ],
+      "theme_tags": [
+        "other"
+      ],
+      "media": {
+        "type": "image",
+        "url": "https://barq.com/wp-content/uploads/Boulangerie-moderne-1024x525.png",
+        "thumbnail_url": "https://barq.com/wp-content/uploads/Boulangerie-moderne-1024x525.png",
+        "source_type": "official_website",
+        "source_url": "https://barq.com/offers/boulangerie-moderne/"
+      },
+      "first_seen": "2026-08-25T15:44:42.097858+00:00",
+      "last_seen": "2026-08-27T03:51:56.195769+00:00",
+      "last_changed": "2026-08-25T15:44:42.097858+00:00",
+      "version": 1,
+      "change_history": [
+        {
+          "at": "2026-08-25T15:44:42.097858+00:00",
+          "type": "detected",
+          "version": 1
+        }
+      ],
+      "detail_timeout_seconds": 35,
+      "manual_override": true,
+      "source_verification": {
+        "status": "failed",
+        "verification_method": "official_website_page",
+        "checked_at": "2026-08-25T23:57:04.915241+00:00",
+        "source_url": "https://barq.com/ar/offers/boulangerie-moderne/",
+        "source_changed": false,
+        "conflicts": [],
+        "error": "ConnectTimeout: HTTPSConnectionPool(host='barq.com', port=443): Max retries exceeded with url: /ar/offers/boulangerie-moderne/ (Caused by ConnectTimeoutError(<HTTPSConnection(host='barq.com', port=443) at 0x7f2c1a20f470>, 'Connection to barq.com timed out. (connect timeout=18)'))"
+      },
+      "review_priority": 17,
+      "review_decision": "confirm_merchant_offers_bulk",
+      "review_approved": true,
+      "classification_method": "admin_bulk_separate_merchant_v1",
+      "reviewed_by": "admin",
+      "reviewed_at": "2026-08-27T04:36:06.384605+00:00",
+      "review_request_id": "b80e0538-00e0-4183-96d1-2803f1f4b73f",
+      "linked_posts": [],
+      "social_post_counts": {
+        "instagram": 0,
+        "x": 0,
+        "facebook": 0,
+        "tiktok": 0
+      },
+      "social_posts_total": 0,
+      "social_platform_count": 0,
+      "social_first_post": null,
+      "social_latest_post": null,
+      "social_posts_7d": 0,
+      "social_posts_30d": 0,
+      "summary": "Terms and Conditions Offer • 10% Discount",
+      "evidence_snapshot": "Terms and Conditions Offer • 10% Discount",
+      "last_live_verified_at": "2026-08-26T01:56:19.492783+00:00"
     },
     {
       "id": "detected:alinma-pay:e241b07545fec8838663",
@@ -62616,7 +62787,7 @@
       "source_verification": {
         "status": "verified_social",
         "verification_method": "official_social_rss_or_inventory",
-        "checked_at": "2026-08-27T04:33:27.821016+00:00",
+        "checked_at": "2026-08-27T04:36:06.833037+00:00",
         "source_url": "https://www.instagram.com/p/Dazzjtdt1Jt/?utm_source=ig_web_button_share_sheet&igsh=MzRlODBiNWFlZA==",
         "source_changed": false,
         "conflicts": [],
@@ -62726,7 +62897,7 @@
       "source_verification": {
         "status": "verified_social",
         "verification_method": "official_social_rss_or_inventory",
-        "checked_at": "2026-08-27T04:33:27.821016+00:00",
+        "checked_at": "2026-08-27T04:36:06.833037+00:00",
         "source_url": "https://www.instagram.com/reel/DaaydiADUvg/?utm_source=ig_web_button_share_sheet&igsh=MzRlODBiNWFlZA==",
         "source_changed": false,
         "conflicts": [],
@@ -62951,7 +63122,7 @@
       "source_verification": {
         "status": "verified_social",
         "verification_method": "official_social_rss_or_inventory",
-        "checked_at": "2026-08-27T04:33:27.821016+00:00",
+        "checked_at": "2026-08-27T04:36:06.833037+00:00",
         "source_url": "https://www.facebook.com/mobilypay/videos/sar-20000-is-waiting-for-you-make-an-international-transfer-with-mobilypay-and-i/4300117560266135/",
         "source_changed": false,
         "conflicts": [],
@@ -63055,7 +63226,7 @@
       "source_verification": {
         "status": "verified_social",
         "verification_method": "official_social_rss_or_inventory",
-        "checked_at": "2026-08-27T04:33:27.821016+00:00",
+        "checked_at": "2026-08-27T04:36:06.833037+00:00",
         "source_url": "https://www.instagram.com/p/DbBUcjiIHS1/",
         "source_changed": false,
         "conflicts": [],
@@ -63208,7 +63379,7 @@
       "source_verification": {
         "status": "verified_social",
         "verification_method": "official_social_rss_or_inventory",
-        "checked_at": "2026-08-27T04:33:27.821016+00:00",
+        "checked_at": "2026-08-27T04:36:06.833037+00:00",
         "source_url": "https://www.facebook.com/urpay.sa/posts/scratch-win-with-every-international-transfer-via-urpay-and-you-could-win-up-to-/1079237764323076/",
         "source_changed": false,
         "conflicts": [],
@@ -63310,7 +63481,7 @@
       "source_verification": {
         "status": "verified_social",
         "verification_method": "official_social_rss_or_inventory",
-        "checked_at": "2026-08-27T04:33:27.821016+00:00",
+        "checked_at": "2026-08-27T04:36:06.833037+00:00",
         "source_url": "https://www.instagram.com/alinmapay/p/CC_U-JDB6yh/",
         "source_changed": false,
         "conflicts": [],
@@ -63492,7 +63663,7 @@
       "source_verification": {
         "status": "verified_social",
         "verification_method": "official_social_rss_or_inventory",
-        "checked_at": "2026-08-27T04:33:27.821016+00:00",
+        "checked_at": "2026-08-27T04:36:06.833037+00:00",
         "source_url": "https://www.facebook.com/AlinmaPaySA/videos/zero-fees-fast-transfers-to-india/873682655502395/",
         "source_changed": false,
         "conflicts": [],
@@ -63696,6 +63867,14 @@
             "source": "https://m.facebook.com/Tiqmoksa/posts/pfbid02c7PJipWJA9SNNWsSqsG1H72VTzeqYR6PVsHx4Y3NagD5vLYJbDzgy7cc93XhXQT6l",
             "method": "official_social"
           }
+        },
+        {
+          "at": "2026-08-27T04:36:06.973847+00:00",
+          "type": "manual_source_verified",
+          "details": {
+            "source": "https://m.facebook.com/Tiqmoksa/posts/pfbid02c7PJipWJA9SNNWsSqsG1H72VTzeqYR6PVsHx4Y3NagD5vLYJbDzgy7cc93XhXQT6l",
+            "method": "official_social"
+          }
         }
       ],
       "review_approved": true,
@@ -63711,7 +63890,7 @@
       "source_verification": {
         "status": "verified_social",
         "verification_method": "official_social_rss_or_inventory",
-        "checked_at": "2026-08-27T04:33:27.821016+00:00",
+        "checked_at": "2026-08-27T04:36:06.833037+00:00",
         "source_url": "https://m.facebook.com/Tiqmoksa/posts/pfbid02c7PJipWJA9SNNWsSqsG1H72VTzeqYR6PVsHx4Y3NagD5vLYJbDzgy7cc93XhXQT6l",
         "source_changed": false,
         "conflicts": [],
@@ -78165,65 +78344,6 @@
       "review_priority": 0
     },
     {
-      "id": "post:barq:facebook:7a2f2d76ae31ecc9f8a6",
-      "competitor_id": "barq",
-      "source_key": "social:barq:facebook",
-      "source_type": "social",
-      "platform": "facebook",
-      "content_type": "social_post",
-      "campaign_category": "other",
-      "primary_category": "other",
-      "categories": [
-        "other"
-      ],
-      "title": "barq के साथ अपना अनुभव कमेंट में बताएं ⚡️ और 3 मोबाइल फोन जीतने का मौका पाएं! 📱🎁 जय हिंद! 🇮🇳❤️",
-      "snippet": "barq के साथ अपना अनुभव कमेंट में बताएं ⚡️ और 3 मोबाइल फोन जीतने का मौका पाएं! 📱🎁 जय हिंद! 🇮🇳❤️",
-      "link": "https://m.facebook.com/usebarq/posts/pfbid0TZMWvm3CmtPKZdy6fx9FnQThr8VaNKd8jFFD9FcVP4SdRkadUdSVKnt8DnZXDtDTl",
-      "social_links": {
-        "facebook": "https://m.facebook.com/usebarq/posts/pfbid0TZMWvm3CmtPKZdy6fx9FnQThr8VaNKd8jFFD9FcVP4SdRkadUdSVKnt8DnZXDtDTl"
-      },
-      "social_link_count": 1,
-      "published_at": "2026-08-15T10:01:02+00:00",
-      "active": true,
-      "direct_link": true,
-      "verified": true,
-      "review_required": false,
-      "review_reasons": [],
-      "current_status": null,
-      "post_role": "promotion_or_content",
-      "mechanic_tags": [
-        "other"
-      ],
-      "theme_tags": [
-        "other"
-      ],
-      "media": {
-        "url": "https://scontent-ams2-1.xx.fbcdn.net/v/t39.30808-6/772664484_122201177438385166_7823100026568938064_n.jpg?_nc_cat=101&_nc_gid=RbxKGzfSuTQO5vY9Uk_U3Q&_nc_ht=scontent-ams2-1.xx&_nc_oc=AdqI86kyuSc7dOQvxr1gDZJwUrMYS4Unj4Evk5FTdGheHCoqZLz8q8Cx2rMUCNGfG-R2fzE5YsgNaMs40vockV6C&_nc_ohc=u1QeM1zkttcQ7kNvwFY4X5E&_nc_sid=ebae6b&_nc_ss=7b289&_nc_zt=23&ccb=1-7&oe=6A8923A3&oh=00_AQF1g3xuaily_GX18qx7-knFyS_3nTyNpgN1qRtOs-NaTA&stp=dst-jpg_p843x403_tt6",
-        "type": "image",
-        "thumbnail_url": "https://scontent-ams2-1.xx.fbcdn.net/v/t39.30808-6/772664484_122201177438385166_7823100026568938064_n.jpg?_nc_cat=101&_nc_gid=RbxKGzfSuTQO5vY9Uk_U3Q&_nc_ht=scontent-ams2-1.xx&_nc_oc=AdqI86kyuSc7dOQvxr1gDZJwUrMYS4Unj4Evk5FTdGheHCoqZLz8q8Cx2rMUCNGfG-R2fzE5YsgNaMs40vockV6C&_nc_ohc=u1QeM1zkttcQ7kNvwFY4X5E&_nc_sid=ebae6b&_nc_ss=7b289&_nc_zt=23&ccb=1-7&oe=6A8923A3&oh=00_AQF1g3xuaily_GX18qx7-knFyS_3nTyNpgN1qRtOs-NaTA&stp=dst-jpg_p843x403_tt6"
-      },
-      "first_seen": "2026-08-25T15:44:42.097858+00:00",
-      "last_seen": "2026-08-27T03:51:56.195769+00:00",
-      "last_changed": "2026-08-25T15:44:42.097858+00:00",
-      "version": 1,
-      "change_history": [
-        {
-          "at": "2026-08-25T15:44:42.097858+00:00",
-          "type": "detected",
-          "version": 1
-        }
-      ],
-      "outbound_links": [
-        "https://scontent-ams2-1.xx.fbcdn.net/v/t39.30808-6/772664484_122201177438385166_7823100026568938064_n.jpg?_nc_cat=101&_nc_gid=RbxKGzfSuTQO5vY9Uk_U3Q&_nc_ht=scontent-ams2-1.xx&_nc_oc=AdqI86kyuSc7dOQvxr1gDZJwUrMYS4Unj4Evk5FTdGheHCoqZLz8q8Cx2rMUCNGfG-R2fzE5YsgNaMs40vockV6C&_nc_ohc=u1QeM1zkttcQ7kNvwFY4X5E&_nc_sid=ebae6b&_nc_ss=7b289&_nc_zt=23&ccb=1-7&oe=6A8923A3&oh=00_AQF1g3xuaily_GX18qx7-knFyS_3nTyNpgN1qRtOs-NaTA&stp=dst-jpg_p843x403_tt6"
-      ],
-      "official_evidence_url": null,
-      "official_campaign_page_url": null,
-      "primary_official_source_url": "https://m.facebook.com/usebarq/posts/pfbid0TZMWvm3CmtPKZdy6fx9FnQThr8VaNKd8jFFD9FcVP4SdRkadUdSVKnt8DnZXDtDTl",
-      "manual_override": true,
-      "corridors": [],
-      "review_priority": 0
-    },
-    {
       "id": "post:urpay:x:accd8d7ce43b3c8f2380",
       "competitor_id": "urpay",
       "source_key": "social:urpay:x",
@@ -86834,7 +86954,7 @@
       "source_verification": {
         "status": "verified_social",
         "verification_method": "official_social_rss_or_inventory",
-        "checked_at": "2026-08-27T04:33:27.821016+00:00",
+        "checked_at": "2026-08-27T04:36:06.833037+00:00",
         "source_url": "https://www.instagram.com/reel/DYxvJOWiZY5/",
         "source_changed": false,
         "conflicts": [],
@@ -86944,7 +87064,7 @@
       "source_verification": {
         "status": "verified_social",
         "verification_method": "official_social_rss_or_inventory",
-        "checked_at": "2026-08-27T04:33:27.821016+00:00",
+        "checked_at": "2026-08-27T04:36:06.833037+00:00",
         "source_url": "https://www.facebook.com/usebarq/posts/update-your-barq-app-and-join-the-prediction-game-win-your-share-of-prizes-worth/122197690844385166/",
         "source_changed": false,
         "conflicts": [],
@@ -87045,7 +87165,7 @@
       "source_verification": {
         "status": "verified_social",
         "verification_method": "official_social_rss_or_inventory",
-        "checked_at": "2026-08-27T04:33:27.821016+00:00",
+        "checked_at": "2026-08-27T04:36:06.833037+00:00",
         "source_url": "https://www.facebook.com/usebarq/posts/planning-a-trip-%EF%B8%8Fbook-through-almatarapp-with-your-barq-visa-and-get-up-to-10-of/122178668528385166/",
         "source_changed": false,
         "conflicts": [],
@@ -87150,7 +87270,7 @@
       "source_verification": {
         "status": "verified_social",
         "verification_method": "official_social_rss_or_inventory",
-        "checked_at": "2026-08-27T04:33:27.821016+00:00",
+        "checked_at": "2026-08-27T04:36:06.833037+00:00",
         "source_url": "https://www.instagram.com/p/DbAtiuQNGlf/",
         "source_changed": false,
         "conflicts": [],
@@ -88095,7 +88215,7 @@
       "source_verification": {
         "status": "verified_social",
         "verification_method": "official_social_rss_or_inventory",
-        "checked_at": "2026-08-27T04:33:27.821016+00:00",
+        "checked_at": "2026-08-27T04:36:06.833037+00:00",
         "source_url": "https://x.com/urpay_sa/status/2074433249682845889",
         "source_changed": false,
         "conflicts": [],
@@ -88198,7 +88318,7 @@
       "source_verification": {
         "status": "verified_social",
         "verification_method": "official_social_rss_or_inventory",
-        "checked_at": "2026-08-27T04:33:27.821016+00:00",
+        "checked_at": "2026-08-27T04:36:06.833037+00:00",
         "source_url": "https://www.facebook.com/AlinmaPaySA/posts/%EF%B8%8F-fees-gonetravel-anywhere-and-use-your-alinmapay-cashback-cards-without-worryin/1619335260194305/",
         "source_changed": false,
         "conflicts": [],
@@ -89324,7 +89444,7 @@
       "source_verification": {
         "status": "verified_social",
         "verification_method": "official_social_rss_or_inventory",
-        "checked_at": "2026-08-27T04:33:27.821016+00:00",
+        "checked_at": "2026-08-27T04:36:06.833037+00:00",
         "source_url": "https://www.instagram.com/alinmapay/p/DbqaY05mm9E/",
         "source_changed": false,
         "conflicts": [],
@@ -93431,7 +93551,7 @@
       "source_verification": {
         "status": "verified_social",
         "verification_method": "official_social_rss_or_inventory",
-        "checked_at": "2026-08-27T04:33:27.821016+00:00",
+        "checked_at": "2026-08-27T04:36:06.833037+00:00",
         "source_url": "https://www.instagram.com/tiqmoksa/p/DbLZ9Yfj6dy/",
         "source_changed": false,
         "conflicts": [],
@@ -94689,7 +94809,7 @@
       "source_verification": {
         "status": "verified_social",
         "verification_method": "official_social_rss_or_inventory",
-        "checked_at": "2026-08-27T04:33:27.821016+00:00",
+        "checked_at": "2026-08-27T04:36:06.833037+00:00",
         "source_url": "https://www.instagram.com/reel/DWots29j8fx/?hl=en",
         "source_changed": false,
         "conflicts": [],
@@ -114523,6 +114643,90 @@
       "review_priority": 23
     },
     {
+      "id": "detected:barq:c98d6fbddcde7ac67e8b",
+      "competitor_id": "barq",
+      "source_key": "website:barq:offers",
+      "source_type": "website",
+      "platform": "website",
+      "content_type": "merchant_offer",
+      "suggested_record_type": "merchant_offer",
+      "campaign_category": "merchant",
+      "primary_category": "merchant",
+      "categories": [
+        "merchant"
+      ],
+      "title": "منتجع شاطئ الدانة",
+      "snippet": "منتجع شاطئ الدانة العرض خصم إضافي ‎5%‎ البطاقات المؤهلة بطاقات برق فيزا مدة العرض من 1 فبراير 2026 إلى 31 يوليو 2026 آلية... اعرف المزيد",
+      "link": "https://barq.com/ar/offers/dana-beach-resort/",
+      "official_campaign_page_url": "https://barq.com/ar/offers/dana-beach-resort/",
+      "primary_official_source_url": "https://barq.com/ar/offers/dana-beach-resort/",
+      "social_links": {},
+      "social_link_count": 0,
+      "published_at": null,
+      "start_date": "2026-02-01T00:00:00+00:00",
+      "end_date": "2026-07-31T00:00:00+00:00",
+      "date_evidence": {
+        "listing": "مدة العرض من 1 فبراير 2026 إلى 31 يوليو 2026"
+      },
+      "current_status": "Expired",
+      "active": false,
+      "direct_link": true,
+      "verified": true,
+      "official_discovery": true,
+      "discovery_section": "current",
+      "review_required": false,
+      "review_reasons": [],
+      "mechanic_tags": [
+        "discount"
+      ],
+      "theme_tags": [
+        "cards"
+      ],
+      "media": null,
+      "first_seen": "2026-08-25T15:44:42.097858+00:00",
+      "last_seen": "2026-08-27T03:51:56.195769+00:00",
+      "last_changed": "2026-08-25T15:44:42.097858+00:00",
+      "version": 1,
+      "change_history": [
+        {
+          "at": "2026-08-25T15:44:42.097858+00:00",
+          "type": "detected",
+          "version": 1
+        }
+      ],
+      "detail_timeout_seconds": 35,
+      "manual_override": true,
+      "source_verification": {
+        "status": "needs_review",
+        "verification_method": "official_website_page",
+        "checked_at": null,
+        "source_url": "https://barq.com/ar/offers/dana-beach-resort/",
+        "source_changed": false,
+        "conflicts": [],
+        "error": null
+      },
+      "review_priority": 17,
+      "review_decision": "confirm_merchant_offers_bulk",
+      "review_approved": true,
+      "classification_method": "admin_bulk_separate_merchant_v1",
+      "reviewed_by": "admin",
+      "reviewed_at": "2026-08-27T04:36:06.384605+00:00",
+      "review_request_id": "b80e0538-00e0-4183-96d1-2803f1f4b73f",
+      "linked_posts": [],
+      "social_post_counts": {
+        "instagram": 0,
+        "x": 0,
+        "facebook": 0,
+        "tiktok": 0
+      },
+      "social_posts_total": 0,
+      "social_platform_count": 0,
+      "social_first_post": null,
+      "social_latest_post": null,
+      "social_posts_7d": 0,
+      "social_posts_30d": 0
+    },
+    {
       "id": "campaign:mobily-pay:1",
       "record_id": "1",
       "competitor_id": "mobily-pay",
@@ -116205,37 +116409,37 @@
   "detail_verification_stats": {
     "network_checks": 0,
     "elapsed_seconds": 0.1,
-    "completed_at": "2026-08-27T04:33:27.899576+00:00"
+    "completed_at": "2026-08-27T04:36:06.974972+00:00"
   },
   "mobily_deterministic_classification": {
     "changed": 0,
-    "at": "2026-08-27T04:33:28.616172+00:00"
+    "at": "2026-08-27T04:36:08.350583+00:00"
   },
   "verified_official_classification": {
     "changed": 0,
-    "at": "2026-08-27T04:33:28.617797+00:00",
+    "at": "2026-08-27T04:36:08.353389+00:00",
     "version": "classifier-v5-merchant-candidates"
   },
   "record_integrity": {
     "quarantined_or_demoted": 0,
-    "at": "2026-08-27T04:33:28.482558+00:00"
+    "at": "2026-08-27T04:36:08.042718+00:00"
   },
   "winner_announcement_integrity": {
-    "normalized": 4,
-    "at": "2026-08-27T04:33:28.482042+00:00"
+    "normalized": 0,
+    "at": "2026-08-27T04:36:08.041849+00:00"
   },
   "deduplication": {
-    "removed": 0,
-    "at": "2026-08-27T04:33:28.594453+00:00"
+    "removed": 2,
+    "at": "2026-08-27T04:36:08.311333+00:00"
   },
   "final_status_normalization": {
-    "changed": 0,
-    "at": "2026-08-27T04:33:28.639371+00:00"
+    "changed": 24,
+    "at": "2026-08-27T04:36:08.390395+00:00"
   },
-  "social_analytics_rebuilt_at": "2026-08-27T04:33:28.645051+00:00",
+  "social_analytics_rebuilt_at": "2026-08-27T04:36:08.400408+00:00",
   "media_sanitization": {
-    "removed": 0,
-    "at": "2026-08-27T04:33:28.655155+00:00"
+    "removed": 1,
+    "at": "2026-08-27T04:36:08.417957+00:00"
   },
   "ai_summary": {
     "what_changed": [
@@ -116275,13 +116479,11 @@
     "generated_at": "2026-08-27T04:33:28.656892+00:00"
   },
   "authoritative_delta": {
-    "added": [
-      "manual:review:tiqmo:7744d3d2-2bfd-4c7f-a7e5-a7307e7d8a52"
-    ],
+    "added": [],
     "removed": [],
     "changed": [],
     "initial": false,
-    "material": true
+    "material": false
   },
   "ai_usage": {
     "calls": 50,
@@ -116381,6 +116583,63 @@
       ],
       "campaign_id": "manual:review:tiqmo:7744d3d2-2bfd-4c7f-a7e5-a7307e7d8a52",
       "record_ids": []
+    },
+    {
+      "request_id": "b80e0538-00e0-4183-96d1-2803f1f4b73f",
+      "reviewed_at": "2026-08-27T04:36:06.384605+00:00",
+      "reviewed_by": "admin",
+      "action": "confirm_merchant_offers_bulk",
+      "item_ids": [
+        "detected:stc-bank:7b46d3c2cae682f75e4e",
+        "detected:barq:533ae691fafb686aee38",
+        "detected:barq:d0ec39bb31c0ff7283b1",
+        "detected:barq:a969ce2447190653f552",
+        "detected:barq:b23ed61da3fc895477f2",
+        "detected:barq:c11054aa8e431bd93af6",
+        "detected:barq:bca2b13a003614dd3331",
+        "detected:barq:2b5fa023869718edc6ed",
+        "detected:barq:4298adffc0395c564039",
+        "detected:barq:686e33acc8f746d18332",
+        "detected:barq:670e484dde8add2698e9",
+        "detected:barq:e98ec9a5b9af9c382e35",
+        "detected:barq:a3b4ce9d1d845160cfb5",
+        "detected:barq:1590d84ba4320d3f674b",
+        "detected:barq:4dcbdcbd57f545b7e066",
+        "detected:barq:d0a2f560b0e810dbfa3e",
+        "detected:barq:c98d6fbddcde7ac67e8b",
+        "detected:barq:10a082994adb8ef9bc54",
+        "detected:barq:9f8a2e8f1901a4cc28c0",
+        "detected:barq:39c57782377d47231675",
+        "detected:barq:53d6369e145efa05dbd7",
+        "detected:barq:7babf99e75149e6a607b",
+        "detected:barq:eaae56e95a534b19df2d"
+      ],
+      "campaign_id": null,
+      "record_ids": [
+        "detected:stc-bank:7b46d3c2cae682f75e4e",
+        "detected:barq:533ae691fafb686aee38",
+        "detected:barq:d0ec39bb31c0ff7283b1",
+        "detected:barq:a969ce2447190653f552",
+        "detected:barq:b23ed61da3fc895477f2",
+        "detected:barq:c11054aa8e431bd93af6",
+        "detected:barq:bca2b13a003614dd3331",
+        "detected:barq:2b5fa023869718edc6ed",
+        "detected:barq:4298adffc0395c564039",
+        "detected:barq:686e33acc8f746d18332",
+        "detected:barq:670e484dde8add2698e9",
+        "detected:barq:e98ec9a5b9af9c382e35",
+        "detected:barq:a3b4ce9d1d845160cfb5",
+        "detected:barq:1590d84ba4320d3f674b",
+        "detected:barq:4dcbdcbd57f545b7e066",
+        "detected:barq:d0a2f560b0e810dbfa3e",
+        "detected:barq:c98d6fbddcde7ac67e8b",
+        "detected:barq:10a082994adb8ef9bc54",
+        "detected:barq:9f8a2e8f1901a4cc28c0",
+        "detected:barq:39c57782377d47231675",
+        "detected:barq:53d6369e145efa05dbd7",
+        "detected:barq:7babf99e75149e6a607b",
+        "detected:barq:eaae56e95a534b19df2d"
+      ]
     }
   ]
 }

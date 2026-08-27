@@ -1,6 +1,6 @@
 {
   "schema_version": 3,
-  "updated_at": "2026-08-27T04:33:27.422914+00:00",
+  "updated_at": "2026-08-27T04:36:06.384605+00:00",
   "items": {
     "detected:stc-bank:fbee4408c8f62cd77d91": {
       "content_type": "merchant_offer",
@@ -105,6 +105,420 @@
       "record_role": "campaign_evidence",
       "content_type": "social_post",
       "current_status": "Linked"
+    },
+    "detected:stc-bank:7b46d3c2cae682f75e4e": {
+      "content_type": "merchant_offer",
+      "suggested_record_type": "merchant_offer",
+      "campaign_category": "merchant",
+      "primary_category": "merchant",
+      "categories": [
+        "merchant"
+      ],
+      "review_required": false,
+      "review_reasons": [],
+      "review_decision": "confirm_merchant_offers_bulk",
+      "review_approved": true,
+      "manual_override": true,
+      "classification_method": "admin_bulk_separate_merchant_v1",
+      "reviewed_by": "admin",
+      "reviewed_at": "2026-08-27T04:36:06.384605+00:00",
+      "review_request_id": "b80e0538-00e0-4183-96d1-2803f1f4b73f"
+    },
+    "detected:barq:533ae691fafb686aee38": {
+      "content_type": "merchant_offer",
+      "suggested_record_type": "merchant_offer",
+      "campaign_category": "merchant",
+      "primary_category": "merchant",
+      "categories": [
+        "merchant"
+      ],
+      "review_required": false,
+      "review_reasons": [],
+      "review_decision": "confirm_merchant_offers_bulk",
+      "review_approved": true,
+      "manual_override": true,
+      "classification_method": "admin_bulk_separate_merchant_v1",
+      "reviewed_by": "admin",
+      "reviewed_at": "2026-08-27T04:36:06.384605+00:00",
+      "review_request_id": "b80e0538-00e0-4183-96d1-2803f1f4b73f"
+    },
+    "detected:barq:d0ec39bb31c0ff7283b1": {
+      "content_type": "merchant_offer",
+      "suggested_record_type": "merchant_offer",
+      "campaign_category": "merchant",
+      "primary_category": "merchant",
+      "categories": [
+        "merchant"
+      ],
+      "review_required": false,
+      "review_reasons": [],
+      "review_decision": "confirm_merchant_offers_bulk",
+      "review_approved": true,
+      "manual_override": true,
+      "classification_method": "admin_bulk_separate_merchant_v1",
+      "reviewed_by": "admin",
+      "reviewed_at": "2026-08-27T04:36:06.384605+00:00",
+      "review_request_id": "b80e0538-00e0-4183-96d1-2803f1f4b73f"
+    },
+    "detected:barq:a969ce2447190653f552": {
+      "content_type": "merchant_offer",
+      "suggested_record_type": "merchant_offer",
+      "campaign_category": "merchant",
+      "primary_category": "merchant",
+      "categories": [
+        "merchant"
+      ],
+      "review_required": false,
+      "review_reasons": [],
+      "review_decision": "confirm_merchant_offers_bulk",
+      "review_approved": true,
+      "manual_override": true,
+      "classification_method": "admin_bulk_separate_merchant_v1",
+      "reviewed_by": "admin",
+      "reviewed_at": "2026-08-27T04:36:06.384605+00:00",
+      "review_request_id": "b80e0538-00e0-4183-96d1-2803f1f4b73f"
+    },
+    "detected:barq:b23ed61da3fc895477f2": {
+      "content_type": "merchant_offer",
+      "suggested_record_type": "merchant_offer",
+      "campaign_category": "merchant",
+      "primary_category": "merchant",
+      "categories": [
+        "merchant"
+      ],
+      "review_required": false,
+      "review_reasons": [],
+      "review_decision": "confirm_merchant_offers_bulk",
+      "review_approved": true,
+      "manual_override": true,
+      "classification_method": "admin_bulk_separate_merchant_v1",
+      "reviewed_by": "admin",
+      "reviewed_at": "2026-08-27T04:36:06.384605+00:00",
+      "review_request_id": "b80e0538-00e0-4183-96d1-2803f1f4b73f"
+    },
+    "detected:barq:c11054aa8e431bd93af6": {
+      "content_type": "merchant_offer",
+      "suggested_record_type": "merchant_offer",
+      "campaign_category": "merchant",
+      "primary_category": "merchant",
+      "categories": [
+        "merchant"
+      ],
+      "review_required": false,
+      "review_reasons": [],
+      "review_decision": "confirm_merchant_offers_bulk",
+      "review_approved": true,
+      "manual_override": true,
+      "classification_method": "admin_bulk_separate_merchant_v1",
+      "reviewed_by": "admin",
+      "reviewed_at": "2026-08-27T04:36:06.384605+00:00",
+      "review_request_id": "b80e0538-00e0-4183-96d1-2803f1f4b73f"
+    },
+    "detected:barq:bca2b13a003614dd3331": {
+      "content_type": "merchant_offer",
+      "suggested_record_type": "merchant_offer",
+      "campaign_category": "merchant",
+      "primary_category": "merchant",
+      "categories": [
+        "merchant"
+      ],
+      "review_required": false,
+      "review_reasons": [],
+      "review_decision": "confirm_merchant_offers_bulk",
+      "review_approved": true,
+      "manual_override": true,
+      "classification_method": "admin_bulk_separate_merchant_v1",
+      "reviewed_by": "admin",
+      "reviewed_at": "2026-08-27T04:36:06.384605+00:00",
+      "review_request_id": "b80e0538-00e0-4183-96d1-2803f1f4b73f"
+    },
+    "detected:barq:2b5fa023869718edc6ed": {
+      "content_type": "merchant_offer",
+      "suggested_record_type": "merchant_offer",
+      "campaign_category": "merchant",
+      "primary_category": "merchant",
+      "categories": [
+        "merchant"
+      ],
+      "review_required": false,
+      "review_reasons": [],
+      "review_decision": "confirm_merchant_offers_bulk",
+      "review_approved": true,
+      "manual_override": true,
+      "classification_method": "admin_bulk_separate_merchant_v1",
+      "reviewed_by": "admin",
+      "reviewed_at": "2026-08-27T04:36:06.384605+00:00",
+      "review_request_id": "b80e0538-00e0-4183-96d1-2803f1f4b73f"
+    },
+    "detected:barq:4298adffc0395c564039": {
+      "content_type": "merchant_offer",
+      "suggested_record_type": "merchant_offer",
+      "campaign_category": "merchant",
+      "primary_category": "merchant",
+      "categories": [
+        "merchant"
+      ],
+      "review_required": false,
+      "review_reasons": [],
+      "review_decision": "confirm_merchant_offers_bulk",
+      "review_approved": true,
+      "manual_override": true,
+      "classification_method": "admin_bulk_separate_merchant_v1",
+      "reviewed_by": "admin",
+      "reviewed_at": "2026-08-27T04:36:06.384605+00:00",
+      "review_request_id": "b80e0538-00e0-4183-96d1-2803f1f4b73f"
+    },
+    "detected:barq:686e33acc8f746d18332": {
+      "content_type": "merchant_offer",
+      "suggested_record_type": "merchant_offer",
+      "campaign_category": "merchant",
+      "primary_category": "merchant",
+      "categories": [
+        "merchant"
+      ],
+      "review_required": false,
+      "review_reasons": [],
+      "review_decision": "confirm_merchant_offers_bulk",
+      "review_approved": true,
+      "manual_override": true,
+      "classification_method": "admin_bulk_separate_merchant_v1",
+      "reviewed_by": "admin",
+      "reviewed_at": "2026-08-27T04:36:06.384605+00:00",
+      "review_request_id": "b80e0538-00e0-4183-96d1-2803f1f4b73f"
+    },
+    "detected:barq:670e484dde8add2698e9": {
+      "content_type": "merchant_offer",
+      "suggested_record_type": "merchant_offer",
+      "campaign_category": "merchant",
+      "primary_category": "merchant",
+      "categories": [
+        "merchant"
+      ],
+      "review_required": false,
+      "review_reasons": [],
+      "review_decision": "confirm_merchant_offers_bulk",
+      "review_approved": true,
+      "manual_override": true,
+      "classification_method": "admin_bulk_separate_merchant_v1",
+      "reviewed_by": "admin",
+      "reviewed_at": "2026-08-27T04:36:06.384605+00:00",
+      "review_request_id": "b80e0538-00e0-4183-96d1-2803f1f4b73f"
+    },
+    "detected:barq:e98ec9a5b9af9c382e35": {
+      "content_type": "merchant_offer",
+      "suggested_record_type": "merchant_offer",
+      "campaign_category": "merchant",
+      "primary_category": "merchant",
+      "categories": [
+        "merchant"
+      ],
+      "review_required": false,
+      "review_reasons": [],
+      "review_decision": "confirm_merchant_offers_bulk",
+      "review_approved": true,
+      "manual_override": true,
+      "classification_method": "admin_bulk_separate_merchant_v1",
+      "reviewed_by": "admin",
+      "reviewed_at": "2026-08-27T04:36:06.384605+00:00",
+      "review_request_id": "b80e0538-00e0-4183-96d1-2803f1f4b73f"
+    },
+    "detected:barq:a3b4ce9d1d845160cfb5": {
+      "content_type": "merchant_offer",
+      "suggested_record_type": "merchant_offer",
+      "campaign_category": "merchant",
+      "primary_category": "merchant",
+      "categories": [
+        "merchant"
+      ],
+      "review_required": false,
+      "review_reasons": [],
+      "review_decision": "confirm_merchant_offers_bulk",
+      "review_approved": true,
+      "manual_override": true,
+      "classification_method": "admin_bulk_separate_merchant_v1",
+      "reviewed_by": "admin",
+      "reviewed_at": "2026-08-27T04:36:06.384605+00:00",
+      "review_request_id": "b80e0538-00e0-4183-96d1-2803f1f4b73f"
+    },
+    "detected:barq:1590d84ba4320d3f674b": {
+      "content_type": "merchant_offer",
+      "suggested_record_type": "merchant_offer",
+      "campaign_category": "merchant",
+      "primary_category": "merchant",
+      "categories": [
+        "merchant"
+      ],
+      "review_required": false,
+      "review_reasons": [],
+      "review_decision": "confirm_merchant_offers_bulk",
+      "review_approved": true,
+      "manual_override": true,
+      "classification_method": "admin_bulk_separate_merchant_v1",
+      "reviewed_by": "admin",
+      "reviewed_at": "2026-08-27T04:36:06.384605+00:00",
+      "review_request_id": "b80e0538-00e0-4183-96d1-2803f1f4b73f"
+    },
+    "detected:barq:4dcbdcbd57f545b7e066": {
+      "content_type": "merchant_offer",
+      "suggested_record_type": "merchant_offer",
+      "campaign_category": "merchant",
+      "primary_category": "merchant",
+      "categories": [
+        "merchant"
+      ],
+      "review_required": false,
+      "review_reasons": [],
+      "review_decision": "confirm_merchant_offers_bulk",
+      "review_approved": true,
+      "manual_override": true,
+      "classification_method": "admin_bulk_separate_merchant_v1",
+      "reviewed_by": "admin",
+      "reviewed_at": "2026-08-27T04:36:06.384605+00:00",
+      "review_request_id": "b80e0538-00e0-4183-96d1-2803f1f4b73f"
+    },
+    "detected:barq:d0a2f560b0e810dbfa3e": {
+      "content_type": "merchant_offer",
+      "suggested_record_type": "merchant_offer",
+      "campaign_category": "merchant",
+      "primary_category": "merchant",
+      "categories": [
+        "merchant"
+      ],
+      "review_required": false,
+      "review_reasons": [],
+      "review_decision": "confirm_merchant_offers_bulk",
+      "review_approved": true,
+      "manual_override": true,
+      "classification_method": "admin_bulk_separate_merchant_v1",
+      "reviewed_by": "admin",
+      "reviewed_at": "2026-08-27T04:36:06.384605+00:00",
+      "review_request_id": "b80e0538-00e0-4183-96d1-2803f1f4b73f"
+    },
+    "detected:barq:c98d6fbddcde7ac67e8b": {
+      "content_type": "merchant_offer",
+      "suggested_record_type": "merchant_offer",
+      "campaign_category": "merchant",
+      "primary_category": "merchant",
+      "categories": [
+        "merchant"
+      ],
+      "review_required": false,
+      "review_reasons": [],
+      "review_decision": "confirm_merchant_offers_bulk",
+      "review_approved": true,
+      "manual_override": true,
+      "classification_method": "admin_bulk_separate_merchant_v1",
+      "reviewed_by": "admin",
+      "reviewed_at": "2026-08-27T04:36:06.384605+00:00",
+      "review_request_id": "b80e0538-00e0-4183-96d1-2803f1f4b73f"
+    },
+    "detected:barq:10a082994adb8ef9bc54": {
+      "content_type": "merchant_offer",
+      "suggested_record_type": "merchant_offer",
+      "campaign_category": "merchant",
+      "primary_category": "merchant",
+      "categories": [
+        "merchant"
+      ],
+      "review_required": false,
+      "review_reasons": [],
+      "review_decision": "confirm_merchant_offers_bulk",
+      "review_approved": true,
+      "manual_override": true,
+      "classification_method": "admin_bulk_separate_merchant_v1",
+      "reviewed_by": "admin",
+      "reviewed_at": "2026-08-27T04:36:06.384605+00:00",
+      "review_request_id": "b80e0538-00e0-4183-96d1-2803f1f4b73f"
+    },
+    "detected:barq:9f8a2e8f1901a4cc28c0": {
+      "content_type": "merchant_offer",
+      "suggested_record_type": "merchant_offer",
+      "campaign_category": "merchant",
+      "primary_category": "merchant",
+      "categories": [
+        "merchant"
+      ],
+      "review_required": false,
+      "review_reasons": [],
+      "review_decision": "confirm_merchant_offers_bulk",
+      "review_approved": true,
+      "manual_override": true,
+      "classification_method": "admin_bulk_separate_merchant_v1",
+      "reviewed_by": "admin",
+      "reviewed_at": "2026-08-27T04:36:06.384605+00:00",
+      "review_request_id": "b80e0538-00e0-4183-96d1-2803f1f4b73f"
+    },
+    "detected:barq:39c57782377d47231675": {
+      "content_type": "merchant_offer",
+      "suggested_record_type": "merchant_offer",
+      "campaign_category": "merchant",
+      "primary_category": "merchant",
+      "categories": [
+        "merchant"
+      ],
+      "review_required": false,
+      "review_reasons": [],
+      "review_decision": "confirm_merchant_offers_bulk",
+      "review_approved": true,
+      "manual_override": true,
+      "classification_method": "admin_bulk_separate_merchant_v1",
+      "reviewed_by": "admin",
+      "reviewed_at": "2026-08-27T04:36:06.384605+00:00",
+      "review_request_id": "b80e0538-00e0-4183-96d1-2803f1f4b73f"
+    },
+    "detected:barq:53d6369e145efa05dbd7": {
+      "content_type": "merchant_offer",
+      "suggested_record_type": "merchant_offer",
+      "campaign_category": "merchant",
+      "primary_category": "merchant",
+      "categories": [
+        "merchant"
+      ],
+      "review_required": false,
+      "review_reasons": [],
+      "review_decision": "confirm_merchant_offers_bulk",
+      "review_approved": true,
+      "manual_override": true,
+      "classification_method": "admin_bulk_separate_merchant_v1",
+      "reviewed_by": "admin",
+      "reviewed_at": "2026-08-27T04:36:06.384605+00:00",
+      "review_request_id": "b80e0538-00e0-4183-96d1-2803f1f4b73f"
+    },
+    "detected:barq:7babf99e75149e6a607b": {
+      "content_type": "merchant_offer",
+      "suggested_record_type": "merchant_offer",
+      "campaign_category": "merchant",
+      "primary_category": "merchant",
+      "categories": [
+        "merchant"
+      ],
+      "review_required": false,
+      "review_reasons": [],
+      "review_decision": "confirm_merchant_offers_bulk",
+      "review_approved": true,
+      "manual_override": true,
+      "classification_method": "admin_bulk_separate_merchant_v1",
+      "reviewed_by": "admin",
+      "reviewed_at": "2026-08-27T04:36:06.384605+00:00",
+      "review_request_id": "b80e0538-00e0-4183-96d1-2803f1f4b73f"
+    },
+    "detected:barq:eaae56e95a534b19df2d": {
+      "content_type": "merchant_offer",
+      "suggested_record_type": "merchant_offer",
+      "campaign_category": "merchant",
+      "primary_category": "merchant",
+      "categories": [
+        "merchant"
+      ],
+      "review_required": false,
+      "review_reasons": [],
+      "review_decision": "confirm_merchant_offers_bulk",
+      "review_approved": true,
+      "manual_override": true,
+      "classification_method": "admin_bulk_separate_merchant_v1",
+      "reviewed_by": "admin",
+      "reviewed_at": "2026-08-27T04:36:06.384605+00:00",
+      "review_request_id": "b80e0538-00e0-4183-96d1-2803f1f4b73f"
     }
   },
   "new_items": [
@@ -210,6 +624,63 @@
       ],
       "campaign_id": "manual:review:tiqmo:7744d3d2-2bfd-4c7f-a7e5-a7307e7d8a52",
       "record_ids": []
+    },
+    {
+      "request_id": "b80e0538-00e0-4183-96d1-2803f1f4b73f",
+      "reviewed_at": "2026-08-27T04:36:06.384605+00:00",
+      "reviewed_by": "admin",
+      "action": "confirm_merchant_offers_bulk",
+      "item_ids": [
+        "detected:stc-bank:7b46d3c2cae682f75e4e",
+        "detected:barq:533ae691fafb686aee38",
+        "detected:barq:d0ec39bb31c0ff7283b1",
+        "detected:barq:a969ce2447190653f552",
+        "detected:barq:b23ed61da3fc895477f2",
+        "detected:barq:c11054aa8e431bd93af6",
+        "detected:barq:bca2b13a003614dd3331",
+        "detected:barq:2b5fa023869718edc6ed",
+        "detected:barq:4298adffc0395c564039",
+        "detected:barq:686e33acc8f746d18332",
+        "detected:barq:670e484dde8add2698e9",
+        "detected:barq:e98ec9a5b9af9c382e35",
+        "detected:barq:a3b4ce9d1d845160cfb5",
+        "detected:barq:1590d84ba4320d3f674b",
+        "detected:barq:4dcbdcbd57f545b7e066",
+        "detected:barq:d0a2f560b0e810dbfa3e",
+        "detected:barq:c98d6fbddcde7ac67e8b",
+        "detected:barq:10a082994adb8ef9bc54",
+        "detected:barq:9f8a2e8f1901a4cc28c0",
+        "detected:barq:39c57782377d47231675",
+        "detected:barq:53d6369e145efa05dbd7",
+        "detected:barq:7babf99e75149e6a607b",
+        "detected:barq:eaae56e95a534b19df2d"
+      ],
+      "campaign_id": null,
+      "record_ids": [
+        "detected:stc-bank:7b46d3c2cae682f75e4e",
+        "detected:barq:533ae691fafb686aee38",
+        "detected:barq:d0ec39bb31c0ff7283b1",
+        "detected:barq:a969ce2447190653f552",
+        "detected:barq:b23ed61da3fc895477f2",
+        "detected:barq:c11054aa8e431bd93af6",
+        "detected:barq:bca2b13a003614dd3331",
+        "detected:barq:2b5fa023869718edc6ed",
+        "detected:barq:4298adffc0395c564039",
+        "detected:barq:686e33acc8f746d18332",
+        "detected:barq:670e484dde8add2698e9",
+        "detected:barq:e98ec9a5b9af9c382e35",
+        "detected:barq:a3b4ce9d1d845160cfb5",
+        "detected:barq:1590d84ba4320d3f674b",
+        "detected:barq:4dcbdcbd57f545b7e066",
+        "detected:barq:d0a2f560b0e810dbfa3e",
+        "detected:barq:c98d6fbddcde7ac67e8b",
+        "detected:barq:10a082994adb8ef9bc54",
+        "detected:barq:9f8a2e8f1901a4cc28c0",
+        "detected:barq:39c57782377d47231675",
+        "detected:barq:53d6369e145efa05dbd7",
+        "detected:barq:7babf99e75149e6a607b",
+        "detected:barq:eaae56e95a534b19df2d"
+      ]
     }
   ]
 }

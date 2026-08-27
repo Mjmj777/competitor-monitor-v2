@@ -107235,7 +107235,7 @@
     }
   },
   "ai_cache": {},
-  "updated_at": "2026-08-27T04:33:28.656903+00:00",
+  "updated_at": "2026-08-27T04:36:08.420975+00:00",
   "ai_classification_cache": {
     "post:alinma-pay:facebook:342fb820cfeedf68ae83": {
       "content_key": "b7909a066e1ce27745e0337d",
@@ -114460,6 +114460,15 @@
       "end_date": null,
       "active": true
     },
+    "manual:review:tiqmo:7744d3d2-2bfd-4c7f-a7e5-a7307e7d8a52": {
+      "title": "Spend More, Win More!",
+      "campaign_category": "card",
+      "mechanic": "",
+      "current_status": "Expiring ≤7 Days",
+      "start_date": "2026-08-01",
+      "end_date": "2026-08-31",
+      "active": true
+    },
     "detected:tiqmo:89908f62d5f010cd07ea": {
       "title": "Play and Earn",
       "campaign_category": "engagement",
@@ -114729,15 +114738,6 @@
       "start_date": "2026-07-07T00:00:00+00:00",
       "end_date": "2026-08-07T00:00:00+00:00",
       "active": false
-    },
-    "manual:review:tiqmo:7744d3d2-2bfd-4c7f-a7e5-a7307e7d8a52": {
-      "title": "Spend More, Win More!",
-      "campaign_category": "card",
-      "mechanic": "",
-      "current_status": "Expiring ≤7 Days",
-      "start_date": "2026-08-01",
-      "end_date": "2026-08-31",
-      "active": true
     }
   },
   "ai_summary": {
@@ -114778,13 +114778,11 @@
     "generated_at": "2026-08-27T04:33:28.656892+00:00"
   },
   "authoritative_delta": {
-    "added": [
-      "manual:review:tiqmo:7744d3d2-2bfd-4c7f-a7e5-a7307e7d8a52"
-    ],
+    "added": [],
     "removed": [],
     "changed": [],
     "initial": false,
-    "material": true
+    "material": false
   },
   "ai_date_cache": {
     "b08acfbb057de9d62dd8e078": {
