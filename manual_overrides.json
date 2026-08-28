@@ -1,6 +1,6 @@
 {
   "schema_version": 3,
-  "updated_at": "2026-08-27T11:28:10.006642+00:00",
+  "updated_at": "2026-08-28T05:54:59.655817+00:00",
   "items": {
     "detected:stc-bank:fbee4408c8f62cd77d91": {
       "content_type": "merchant_offer",
@@ -2738,6 +2738,72 @@
       "record_role": "campaign_evidence",
       "content_type": "awareness",
       "current_status": "Linked"
+    },
+    "campaign:alinma-pay:5": {
+      "manual_override": true,
+      "reviewed_by": "admin",
+      "reviewed_at": "2026-08-28T05:54:59.655817+00:00",
+      "review_request_id": "bbb5e1ac-0255-4f10-bb16-e8548bf9e48a",
+      "evidence_ids": [
+        "detected:alinma-pay:4388e8323ca781e0c1eb"
+      ],
+      "social_links": {
+        "instagram": [
+          "https://www.instagram.com/alinmapay/p/DbqaY05mm9E/",
+          "https://www.instagram.com/p/DbqaY05mm9E"
+        ],
+        "x": [
+          "https://x.com/alinmapay/status/2085018248685232195",
+          "https://x.com/alinmapay/status/2082127730972176680"
+        ],
+        "facebook": "https://m.facebook.com/AlinmaPaySA/posts/pfbid02qzFxmfE6Ajm5LhhKy4EVeNqAVycQERoEyiAKqjyHfBhKQ13AdTQGqE9Wcrs39Fucl"
+      }
+    },
+    "detected:alinma-pay:4388e8323ca781e0c1eb": {
+      "merged_into": "campaign:alinma-pay:5",
+      "merge_previous_active": true,
+      "merge_previous_status": "Active",
+      "active": false,
+      "current_status": "Merged",
+      "review_required": false,
+      "review_reasons": [],
+      "manual_override": true,
+      "review_decision": "merge_campaigns",
+      "reviewed_by": "admin",
+      "reviewed_at": "2026-08-28T05:54:59.655817+00:00",
+      "review_request_id": "bbb5e1ac-0255-4f10-bb16-e8548bf9e48a"
+    },
+    "post:alinma-pay:facebook:988be0c8c7f61f0db244": {
+      "campaign_id": "campaign:alinma-pay:5",
+      "linked_campaign_id": "campaign:alinma-pay:5",
+      "merge_origin_campaign_id": "detected:alinma-pay:4388e8323ca781e0c1eb",
+      "reviewed_by": "admin",
+      "reviewed_at": "2026-08-28T05:54:59.655817+00:00",
+      "review_request_id": "bbb5e1ac-0255-4f10-bb16-e8548bf9e48a"
+    },
+    "post:alinma-pay:instagram:0bb6aa97c34f70136874": {
+      "campaign_id": "campaign:alinma-pay:5",
+      "linked_campaign_id": "campaign:alinma-pay:5",
+      "merge_origin_campaign_id": "detected:alinma-pay:4388e8323ca781e0c1eb",
+      "reviewed_by": "admin",
+      "reviewed_at": "2026-08-28T05:54:59.655817+00:00",
+      "review_request_id": "bbb5e1ac-0255-4f10-bb16-e8548bf9e48a"
+    },
+    "post:alinma-pay:x:c580644a214beb6bc73a": {
+      "campaign_id": "campaign:alinma-pay:5",
+      "linked_campaign_id": "campaign:alinma-pay:5",
+      "merge_origin_campaign_id": "detected:alinma-pay:4388e8323ca781e0c1eb",
+      "reviewed_by": "admin",
+      "reviewed_at": "2026-08-28T05:54:59.655817+00:00",
+      "review_request_id": "bbb5e1ac-0255-4f10-bb16-e8548bf9e48a"
+    },
+    "post:alinma-pay:instagram:4b8775ca009431c07129": {
+      "campaign_id": "campaign:alinma-pay:5",
+      "linked_campaign_id": "campaign:alinma-pay:5",
+      "merge_origin_campaign_id": "detected:alinma-pay:4388e8323ca781e0c1eb",
+      "reviewed_by": "admin",
+      "reviewed_at": "2026-08-28T05:54:59.655817+00:00",
+      "review_request_id": "bbb5e1ac-0255-4f10-bb16-e8548bf9e48a"
     }
   },
   "new_items": [
@@ -3245,6 +3311,17 @@
         "detected:barq:a5db2146230537cf52b3"
       ],
       "campaign_id": "campaign:barq:1",
+      "record_ids": []
+    },
+    {
+      "request_id": "bbb5e1ac-0255-4f10-bb16-e8548bf9e48a",
+      "reviewed_at": "2026-08-28T05:54:59.655817+00:00",
+      "reviewed_by": "admin",
+      "action": "merge_campaigns",
+      "item_ids": [
+        "detected:alinma-pay:4388e8323ca781e0c1eb"
+      ],
+      "campaign_id": "campaign:alinma-pay:5",
       "record_ids": []
     }
   ]
