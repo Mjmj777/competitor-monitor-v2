@@ -1,6 +1,6 @@
 {
   "schema_version": 3,
-  "updated_at": "2026-08-27T05:30:33.177261+00:00",
+  "updated_at": "2026-08-28T08:27:00.511754+00:00",
   "site_preferences": {
     "home_layout": "intelligence-os",
     "updated_at": "2026-08-28T00:00:00+00:00",
@@ -2731,6 +2731,41 @@
       "record_role": "campaign_evidence",
       "content_type": "awareness",
       "current_status": "Linked"
+    },
+    "campaign:alinma-pay:5": {
+      "manual_override": true,
+      "reviewed_by": "admin",
+      "reviewed_at": "2026-08-28T08:27:00.511754+00:00",
+      "review_request_id": "0fbbfe08-dec2-425b-9392-ec3497959e2c",
+      "evidence_ids": [
+        "detected:alinma-pay:e185f47787fe476946bf"
+      ],
+      "social_links": {
+        "instagram": "https://www.instagram.com/alinmapay/p/DbqaY05mm9E/",
+        "x": "https://x.com/alinmapay/status/2085018248685232195"
+      }
+    },
+    "detected:alinma-pay:e185f47787fe476946bf": {
+      "merged_into": "campaign:alinma-pay:5",
+      "merge_previous_active": true,
+      "merge_previous_status": "Expiring ≤7 Days",
+      "active": false,
+      "current_status": "Merged",
+      "review_required": false,
+      "review_reasons": [],
+      "manual_override": true,
+      "review_decision": "merge_campaigns",
+      "reviewed_by": "admin",
+      "reviewed_at": "2026-08-28T08:27:00.511754+00:00",
+      "review_request_id": "0fbbfe08-dec2-425b-9392-ec3497959e2c"
+    },
+    "post:alinma-pay:x:dad6e34142575dcfa664": {
+      "campaign_id": "campaign:alinma-pay:5",
+      "linked_campaign_id": "campaign:alinma-pay:5",
+      "merge_origin_campaign_id": "detected:alinma-pay:e185f47787fe476946bf",
+      "reviewed_by": "admin",
+      "reviewed_at": "2026-08-28T08:27:00.511754+00:00",
+      "review_request_id": "0fbbfe08-dec2-425b-9392-ec3497959e2c"
     }
   },
   "new_items": [
@@ -3227,6 +3262,17 @@
         "detected:urpay:d5bb9e4e4cbdb4917a9d"
       ],
       "campaign_id": "campaign:urpay:1",
+      "record_ids": []
+    },
+    {
+      "request_id": "0fbbfe08-dec2-425b-9392-ec3497959e2c",
+      "reviewed_at": "2026-08-28T08:27:00.511754+00:00",
+      "reviewed_by": "admin",
+      "action": "merge_campaigns",
+      "item_ids": [
+        "detected:alinma-pay:e185f47787fe476946bf"
+      ],
+      "campaign_id": "campaign:alinma-pay:5",
       "record_ids": []
     }
   ]
