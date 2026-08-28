@@ -20,9 +20,10 @@ DATA_PATH = BASE / "data.json"
 OVERRIDES_PATH = BASE / "manual_overrides.json"
 ALLOWED_ACTIONS = {
     "confirm_campaign", "confirm_merchant_offer", "confirm_merchant_offers_bulk", "group_campaign",
-    "link_existing", "mark_not_campaign", "mark_awareness", "merge_campaigns", "undo_merge",
+    "link_existing", "mark_not_campaign", "mark_awareness", "merge_campaigns", "undo_merge", "set_site_layout",
 }
 ALLOWED_CATEGORIES = {"remittance", "musaned", "sadad", "card", "engagement", "other", "merchant"}
+ALLOWED_SITE_LAYOUTS = {"classic", "market-orbit"}
 MAX_REVIEW_ITEMS = 50
 MAX_SEPARATE_MERCHANT_ITEMS = 200
 
@@ -161,6 +162,38 @@ def apply(payload, reviewer, request_id):
 
     data = load(DATA_PATH, {"items": []})
     overrides = load(OVERRIDES_PATH, {"schema_version": 3, "items": {}, "new_items": [], "review_history": []})
+    if action == "set_site_layout":
+        layout = clean(payload.get("layout"), 40)
+        if layout not in ALLOWED_SITE_LAYOUTS:
+            raise ValueError("Unknown site layout")
+        reviewed_at = datetime.now(timezone.utc).isoformat()
+        reviewer = clean(reviewer, 100) or "admin"
+        request_id = clean(request_id, 120)
+        preference = {
+            "home_layout": layout,
+            "updated_at": reviewed_at,
+            "updated_by": reviewer,
+            "request_id": request_id,
+        }
+        overrides["site_preferences"] = preference
+        history = overrides.setdefault("review_history", [])
+        history.append({
+            "request_id": request_id,
+            "reviewed_at": reviewed_at,
+            "reviewed_by": reviewer,
+            "action": action,
+            "item_ids": ["site:home-layout"],
+            "layout": layout,
+        })
+        overrides["review_history"] = history[-500:]
+        overrides["schema_version"] = 3
+        overrides["updated_at"] = reviewed_at
+        data["site_preferences"] = preference
+        data["review_activity"] = overrides["review_history"][-50:]
+        save(OVERRIDES_PATH, overrides)
+        save(DATA_PATH, data)
+        print(json.dumps({"applied": True, "action": action, "layout": layout}, ensure_ascii=False))
+        return
     by_id = {item.get("id"): item for item in data.get("items", []) if item.get("id")}
     missing = [item_id for item_id in item_ids if item_id not in by_id]
     if missing:

@@ -151,7 +151,8 @@ for page,js in [('index.html','assets/index.js'),('competitor.html','assets/comp
         html=(BASE/page).read_text(encoding='utf-8'); code=(BASE/js).read_text(encoding='utf-8')
         ids=set(re.findall(r'id=["\']([^"\']+)',html))
         refs=set(re.findall(r'(?:getElementById|byId)\(["\']([^"\']+)',code))
-        missing=sorted(refs-ids)
+        dynamic_ids={'cm-site-experience','layout-preview-badge'} if page=='index.html' else set()
+        missing=sorted(refs-ids-dynamic_ids)
         if missing: fail(f'{js} references missing {page} IDs: '+', '.join(missing))
     except Exception as exc: fail(f'{page}/{js} DOM check failed: {exc}')
 
@@ -248,8 +249,8 @@ try:
     idx=(BASE/'index.html').read_text(encoding='utf-8')
     competitor=(BASE/'competitor.html').read_text(encoding='utf-8')
     common=(BASE/'assets/common.js').read_text(encoding='utf-8')
-    if 'const WORKER_BUILD = "5.12.0"' not in worker:
-        fail('cloudflare-worker.js is outdated; upload the v5.12.0 Worker reference file')
+    if 'const WORKER_BUILD = "5.13.0"' not in worker:
+        fail('cloudflare-worker.js is outdated; upload the v5.13.0 Worker reference file')
     if '/__refresh-status' not in worker or 'workflowRuns(token)' not in worker:
         fail('Worker refresh-status tracking is missing')
     if 'request_id: requestId' not in worker or 'crypto.randomUUID()' not in worker:
@@ -310,6 +311,11 @@ try:
         fail('Worker/Python separate Merchant Offer bulk contract is incomplete')
     if 'merge_campaigns' not in worker or 'undo_merge' not in worker or 'merge_campaigns' not in apply_review or 'undo_merge' not in apply_review:
         fail('Admin campaign merge/undo contract is incomplete')
+    index_source=(BASE/'assets/index.js').read_text(encoding='utf-8')
+    if 'set_site_layout' not in worker or 'set_site_layout' not in apply_review or 'set_site_layout' not in index_source:
+        fail('Admin Site Experience publish contract is incomplete')
+    if 'market-orbit' not in (BASE/'enhance.py').read_text(encoding='utf-8'):
+        fail('Published Site Experience is not preserved by enhance.py')
     if 'Another review decision is being saved' in worker:
         fail('Worker still contains the stale active-review lock')
     if 'python apply_review.py' not in review_wf or 'cancel-in-progress: false' not in review_wf:
@@ -332,6 +338,8 @@ try:
     if missing: fail('Missing competitor logos: '+', '.join(missing))
     if 'class="section-nav"' not in idx or 'id="competitors"' not in idx:
         fail('Home-page section navigation is incomplete')
+    if 'id="market-orbit-rail"' not in idx or 'id="site-experience"' not in idx:
+        fail('Market Orbit or Admin Site Experience UI is incomplete')
     if 'competitorLogo' not in common or 'id="competitor-logo"' not in competitor:
         fail('Competitor logo rendering is incomplete')
 except Exception as exc: fail(f'v5.12.0 competitor identity guard failed: {exc}')
