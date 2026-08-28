@@ -249,8 +249,8 @@ try:
     idx=(BASE/'index.html').read_text(encoding='utf-8')
     competitor=(BASE/'competitor.html').read_text(encoding='utf-8')
     common=(BASE/'assets/common.js').read_text(encoding='utf-8')
-    if 'const WORKER_BUILD = "5.13.0"' not in worker:
-        fail('cloudflare-worker.js is outdated; upload the v5.13.0 Worker reference file')
+    if 'const WORKER_BUILD = "5.14.0"' not in worker:
+        fail('cloudflare-worker.js is outdated; upload the v5.14.0 Worker reference file')
     if '/__refresh-status' not in worker or 'workflowRuns(token)' not in worker:
         fail('Worker refresh-status tracking is missing')
     if 'request_id: requestId' not in worker or 'crypto.randomUUID()' not in worker:
@@ -314,7 +314,7 @@ try:
     index_source=(BASE/'assets/index.js').read_text(encoding='utf-8')
     if 'set_site_layout' not in worker or 'set_site_layout' not in apply_review or 'set_site_layout' not in index_source:
         fail('Admin Site Experience publish contract is incomplete')
-    if 'market-orbit' not in (BASE/'enhance.py').read_text(encoding='utf-8'):
+    if 'intelligence-os' not in (BASE/'enhance.py').read_text(encoding='utf-8'):
         fail('Published Site Experience is not preserved by enhance.py')
     if 'Another review decision is being saved' in worker:
         fail('Worker still contains the stale active-review lock')
@@ -336,10 +336,15 @@ try:
     logo_ids=('stc-bank','barq','mobily-pay','tiqmo','urpay','alinma-pay')
     missing=[logo_id for logo_id in logo_ids if not (BASE/'assets/logos'/f'{logo_id}.webp').is_file()]
     if missing: fail('Missing competitor logos: '+', '.join(missing))
+    dark_logo_ids=('barq','tiqmo')
+    missing_dark=[logo_id for logo_id in dark_logo_ids if not (BASE/'assets/logos'/f'{logo_id}-dark.png').is_file()]
+    if missing_dark: fail('Missing Intelligence OS logo variants: '+', '.join(missing_dark))
     if 'class="section-nav"' not in idx or 'id="competitors"' not in idx:
         fail('Home-page section navigation is incomplete')
-    if 'id="market-orbit-rail"' not in idx or 'id="site-experience"' not in idx:
-        fail('Market Orbit or Admin Site Experience UI is incomplete')
+    if 'id="intelligence-field"' not in idx or 'id="site-experience"' not in idx:
+        fail('Intelligence OS or Admin Site Experience UI is incomplete')
+    if 'market-orbit' in idx or 'market-orbit' in index_source:
+        fail('Retired Market Orbit layout is still present')
     if 'competitorLogo' not in common or 'id="competitor-logo"' not in competitor:
         fail('Competitor logo rendering is incomplete')
 except Exception as exc: fail(f'v5.12.0 competitor identity guard failed: {exc}')

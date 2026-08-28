@@ -23,7 +23,7 @@ ALLOWED_ACTIONS = {
     "link_existing", "mark_not_campaign", "mark_awareness", "merge_campaigns", "undo_merge", "set_site_layout",
 }
 ALLOWED_CATEGORIES = {"remittance", "musaned", "sadad", "card", "engagement", "other", "merchant"}
-ALLOWED_SITE_LAYOUTS = {"classic", "market-orbit"}
+ALLOWED_SITE_LAYOUTS = {"classic", "intelligence-os"}
 MAX_REVIEW_ITEMS = 50
 MAX_SEPARATE_MERCHANT_ITEMS = 200
 

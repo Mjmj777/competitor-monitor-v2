@@ -2710,7 +2710,7 @@ def main():
     cli=cli_args();target=clean(cli.competitor or "all")
     data=load(DATA_PATH,{});state=load(STATE_PATH,{"schema_version":5,"items":{}});config=load(CONFIG_PATH,{});overrides=load(OVERRIDES_PATH,{"items":{},"new_items":[]})
     preference=overrides.get("site_preferences") or {}
-    if preference.get("home_layout") in {"classic","market-orbit"}:
+    if preference.get("home_layout") in {"classic","intelligence-os"}:
         data["site_preferences"]={
             "home_layout":preference["home_layout"],
             "updated_at":preference.get("updated_at"),

@@ -2,7 +2,7 @@ const ORIGIN = "https://mjmj777.github.io/competitor-monitor-v2";
 const GITHUB_REPOSITORY = "Mjmj777/competitor-monitor-v2";
 const GITHUB_WORKFLOW = "monitor.yml";
 const GITHUB_REVIEW_WORKFLOW = "review.yml";
-const WORKER_BUILD = "5.13.0";
+const WORKER_BUILD = "5.14.0";
 const REFRESH_TARGETS = new Set([
   "all",
   "stc-bank",
@@ -570,7 +570,7 @@ function validReviewPayload(payload) {
   if (!Array.isArray(payload.item_ids) || payload.item_ids.length < 1 || payload.item_ids.length > maxItems) return `Select between 1 and ${maxItems} items`;
   if (payload.item_ids.some((value) => typeof value !== "string" || !/^[A-Za-z0-9:._-]{4,240}$/.test(value))) return "Invalid item ID";
   if (new Set(["link_existing", "merge_campaigns"]).has(payload.action) && !/^[A-Za-z0-9:._-]{4,240}$/.test(String(payload.target_campaign_id || ""))) return "A target campaign is required";
-  if (payload.action === "set_site_layout" && !new Set(["classic", "market-orbit"]).has(String(payload.layout || ""))) return "Unknown site layout";
+  if (payload.action === "set_site_layout" && !new Set(["classic", "intelligence-os"]).has(String(payload.layout || ""))) return "Unknown site layout";
   for (const field of ["title", "summary", "campaign_category", "record_type", "start_date", "end_date", "official_source_url"]) {
     if (payload[field] != null && typeof payload[field] !== "string") return `Invalid ${field}`;
   }

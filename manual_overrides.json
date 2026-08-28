@@ -2,10 +2,10 @@
   "schema_version": 3,
   "updated_at": "2026-08-27T05:30:33.177261+00:00",
   "site_preferences": {
-    "home_layout": "market-orbit",
+    "home_layout": "intelligence-os",
     "updated_at": "2026-08-28T00:00:00+00:00",
     "updated_by": "admin",
-    "request_id": "release-v5.13.0"
+    "request_id": "release-v5.14.0"
   },
   "items": {
     "detected:stc-bank:fbee4408c8f62cd77d91": {
