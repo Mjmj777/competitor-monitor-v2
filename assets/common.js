@@ -177,7 +177,8 @@
     mergeCampaign:"دمج الحملة",mergeCampaignTitle:"دمج حملات متداخلة",mergeCampaignHint:"اختر الحملة الأساسية. سيتم نقل الأدلة والمنشورات إليها وأرشفة الحملة الحالية مع حفظ سجل القرار.",
     mergeInto:"الدمج مع",mergeConfirm:"دمج الحملة الحالية في الحملة المحددة؟ يمكن استعادتها من سجل الدمج.",mergeQueued:"تم إرسال طلب الدمج…",mergeCompleted:"تم دمج الحملتين وتحديث الموقع.",
     mergedCampaign:"حملة مدمجة",undoMerge:"استعادة الدمج",undoMergeConfirm:"استعادة الحملة المدمجة وإعادة الروابط السابقة؟",noMergeTargets:"لا توجد حملة أخرى مناسبة للدمج.",
-    overviewNav:"نظرة عامة",competitorsNav:"المنافسون",summaryNav:"ملخص الإدارة",analyticsNav:"التحليلات",inventoryNav:"سجل الحملات"
+    overviewNav:"نظرة عامة",competitorsNav:"المنافسون",summaryNav:"ملخص الإدارة",analyticsNav:"التحليلات",inventoryNav:"سجل الحملات",
+    siteExperience:"شكل الموقع",siteExperienceTitle:"تجربة واجهة الموقع",siteExperienceHint:"عاين التصميم عندك أولًا، ثم انشره لجميع المستخدمين عندما تتأكد.",classicView:"التصميم الكلاسيكي",classicViewHint:"واجهة الموقع الحالية المألوفة.",marketOrbitView:"Market Orbit",marketOrbitViewHint:"واجهة أكثر إبداعًا تضع المنافسين وحركة السوق في مركز التجربة.",previewLayout:"معاينة عندي",publishLayout:"نشر للجميع",publishedLayout:"التصميم المنشور",previewingLayout:"وضع المعاينة",layoutPublished:"تم نشر تصميم الموقع بنجاح.",layoutQueued:"جاري حفظ تصميم الموقع…",orbitHeadline:"شاهد السوق كنظام مترابط.",orbitSubheadline:"المنافسون يدورون حول النشاط السوقي الموثق. اختر منافسًا للدخول إلى تحليله الكامل."
   });
   Object.assign(I18N.en,{
     exploreCompetitors:"Explore competitors",exploreCompetitorsHint:"Select a competitor to open its dedicated campaigns and analysis page.",
@@ -185,7 +186,8 @@
     mergeCampaign:"Merge campaign",mergeCampaignTitle:"Merge overlapping campaigns",mergeCampaignHint:"Choose the primary campaign. Evidence and social posts will move to it, while this campaign is safely archived with an audit record.",
     mergeInto:"Merge into",mergeConfirm:"Merge this campaign into the selected primary campaign? It can be restored from the merge history.",mergeQueued:"Merge request queued…",mergeCompleted:"Campaigns merged and the site was updated.",
     mergedCampaign:"Merged campaign",undoMerge:"Undo merge",undoMergeConfirm:"Restore the merged campaign and its previous links?",noMergeTargets:"No other suitable campaign is available for merging.",
-    overviewNav:"Overview",competitorsNav:"Competitors",summaryNav:"Management Summary",analyticsNav:"Analytics",inventoryNav:"Inventory"
+    overviewNav:"Overview",competitorsNav:"Competitors",summaryNav:"Management Summary",analyticsNav:"Analytics",inventoryNav:"Inventory",
+    siteExperience:"Site Experience",siteExperienceTitle:"Site Experience",siteExperienceHint:"Preview a layout privately first, then publish it for every user when ready.",classicView:"Classic View",classicViewHint:"The familiar current interface.",marketOrbitView:"Market Orbit",marketOrbitViewHint:"A more distinctive experience centred on competitors and verified market movement.",previewLayout:"Preview for me",publishLayout:"Publish for everyone",publishedLayout:"Published layout",previewingLayout:"Preview mode",layoutPublished:"The site layout was published successfully.",layoutQueued:"Saving the site layout…",orbitHeadline:"See the market as a connected system.",orbitSubheadline:"Competitors orbit around verified market activity. Select one to open its complete analysis."
   });
   let AUTH={authenticated:false,role:"viewer",user:""};
   async function loadAuth(){try{const r=await fetch("/__session",{cache:"no-store",credentials:"same-origin"});if(r.ok){const v=await r.json();AUTH={authenticated:!!v.authenticated,role:v.role||"viewer",user:v.username||v.user||""};}}catch{}return AUTH;}
@@ -242,7 +244,8 @@
   async function submitAdminDecision(payload,statusNode=null){
     if(!isAdmin())return false;
     try{
-      if(statusNode)statusNode.textContent=t("mergeQueued");
+      const layoutAction=payload?.action==="set_site_layout";
+      if(statusNode)statusNode.textContent=t(layoutAction?"layoutQueued":"mergeQueued");
       const response=await fetch("/__review",{method:"POST",credentials:"same-origin",cache:"no-store",headers:{"Content-Type":"application/json","X-Requested-With":"competitor-monitor"},body:JSON.stringify(payload)});
       let result={};try{result=await response.json();}catch{}
       if(!response.ok)throw new Error(result.message||result.error||`HTTP ${response.status}`);
@@ -252,7 +255,7 @@
         let progress={};try{progress=await check.json();}catch{}
         if(check.ok&&progress.status==="completed"){
           if(progress.conclusion!=="success")throw new Error(progress.conclusion||t("reviewSaveFailed"));
-          if(statusNode)statusNode.textContent=t("mergeCompleted");
+          if(statusNode)statusNode.textContent=t(layoutAction?"layoutPublished":"mergeCompleted");
           await sleep(1000);location.reload();return true;
         }
         if(!check.ok&&check.status!==202)throw new Error(progress.message||progress.error||`HTTP ${check.status}`);
@@ -403,5 +406,5 @@
   function csvEscape(v){const s=v==null?"":String(v);return/[",\n]/.test(s)?`"${s.replaceAll('"','""')}"`:s;}
   function exportDelta(data){if(!isAdmin())return;const since=new Date(localStorage.getItem(DELTA_KEY)||data.inventory_source?.review_date||"1970-01-01"),comps=byId(data.competitors),cats=byId(data.categories),rows=(data.items||[]).filter(i=>!i.baseline_import&&new Date(i.last_changed||i.first_seen||0)>since),head=["Competitor","Record Type","Category","Title","Status","Start Date","End Date","Changed At","Official URL"],body=rows.map(i=>[competitorName(comps[i.competitor_id]),i.content_type,taxonomyName(cats[i.campaign_category]),i.title,i.current_status,i.start_date,i.end_date,i.last_changed||i.first_seen,i.official_campaign_page_url||i.link]);downloadBlob(`competitor_delta_${new Date().toISOString().slice(0,10)}.csv`,[head,...body].map(r=>r.map(csvEscape).join(",")).join("\n"),"text/csv;charset=utf-8");localStorage.setItem(DELTA_KEY,new Date().toISOString());}
   setupReportDownloads();
-  window.CM={lifecycleFor,normalizeLifecycle,t,language,setLanguage,initLanguage,loadAuth,auth,isAdmin,loadData,triggerRefresh,resumeRefresh,el,clear,byId,competitorName,competitorLogo,taxonomyName,formatDate,timeAgo,withinDays,countBy,getOverrides,exportOverrides,importOverrides,saveItemOverride,addNewItem,deleteCampaign,activeCampaigns,activeMerchants,socialPosts,alerts,acknowledgeAlerts,alertLabel,pill,competitorColor,renderBarChart,renderStackedBarChart,renderGroupedBarChart,renderDonutChart,renderColumnChart,renderMatrix,renderMedia,renderItemCard,renderMediaCard,openEditor,openAddCampaign,openMergeDialog,sourceRow,refreshHistoryRow,showError,categoryLabel,contentLabel,exportDelta};
+  window.CM={lifecycleFor,normalizeLifecycle,t,language,setLanguage,initLanguage,loadAuth,auth,isAdmin,loadData,triggerRefresh,resumeRefresh,submitAdminDecision,el,clear,byId,competitorName,competitorLogo,taxonomyName,formatDate,timeAgo,withinDays,countBy,getOverrides,exportOverrides,importOverrides,saveItemOverride,addNewItem,deleteCampaign,activeCampaigns,activeMerchants,socialPosts,alerts,acknowledgeAlerts,alertLabel,pill,competitorColor,renderBarChart,renderStackedBarChart,renderGroupedBarChart,renderDonutChart,renderColumnChart,renderMatrix,renderMedia,renderItemCard,renderMediaCard,openEditor,openAddCampaign,openMergeDialog,sourceRow,refreshHistoryRow,showError,categoryLabel,contentLabel,exportDelta};
 })();
