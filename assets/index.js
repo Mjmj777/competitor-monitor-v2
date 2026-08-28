@@ -14,7 +14,7 @@
     filters: { q: "", competitor: "", category: "", source: "", reviewReason: "" },
   };
   const LAYOUT_PREVIEW_KEY = "cm_home_layout_preview";
-  const HOME_LAYOUTS = new Set(["classic", "market-orbit"]);
+  const HOME_LAYOUTS = new Set(["classic", "intelligence-os"]);
 
   function publishedHomeLayout() {
     const value = state.data?.site_preferences?.home_layout;
@@ -31,41 +31,34 @@
 
   function applyHomeLayout(layout = effectiveHomeLayout()) {
     const selected = HOME_LAYOUTS.has(layout) ? layout : "classic";
-    document.body.classList.toggle("layout-market-orbit", selected === "market-orbit");
+    document.body.classList.toggle("layout-intelligence-os", selected === "intelligence-os");
     document.body.classList.toggle("layout-classic", selected === "classic");
     document.body.dataset.homeLayout = selected;
     const headline = document.querySelector("#overview h1");
     const subheadline = document.querySelector("#overview > .hero__copy > p");
-    if (headline) headline.textContent = C.t(selected === "market-orbit" ? "orbitHeadline" : "appTitle");
-    if (subheadline) subheadline.textContent = C.t(selected === "market-orbit" ? "orbitSubheadline" : "appSubtitle");
-    document.getElementById("market-orbit-rail")?.setAttribute("aria-hidden", String(selected !== "market-orbit"));
+    if (headline) headline.textContent = C.t(selected === "intelligence-os" ? "marketOverview" : "appTitle");
+    if (subheadline) subheadline.textContent = C.t(selected === "intelligence-os" ? "marketOverviewDetail" : "appSubtitle");
     renderLayoutPreviewBadge(selected);
   }
 
   function renderLayoutPreviewBadge(selected) {
     document.getElementById("layout-preview-badge")?.remove();
     if (!C.isAdmin() || selected === publishedHomeLayout()) return;
-    const badge = C.el("button", { id: "layout-preview-badge", type: "button", class: "layout-preview-badge", onclick: openSiteExperience }, `${C.t("previewingLayout")}: ${selected === "market-orbit" ? C.t("marketOrbitView") : C.t("classicView")}`);
+    const badge = C.el("button", { id: "layout-preview-badge", type: "button", class: "layout-preview-badge", onclick: openSiteExperience }, `${C.t("previewingLayout")}: ${selected === "intelligence-os" ? C.t("intelligenceOsView") : C.t("classicView")}`);
     document.body.appendChild(badge);
   }
 
-  function renderOrbitVisual() {
-    const container = document.getElementById("market-orbit-visual");
+  function renderIntelligenceField() {
+    const container = document.getElementById("intelligence-field");
     if (!container || !state.data) return;
     C.clear(container);
     const active = campaigns();
-    const expiring = active.filter((item) => {
-      const end = validDate(item.end_date);
-      const days = end ? (end.getTime() - Date.now()) / 86400000 : -1;
-      return days >= 0 && days <= 7;
-    }).length;
-    container.appendChild(C.el("div", { class: "market-orbit-ring market-orbit-ring--outer" }));
-    container.appendChild(C.el("div", { class: "market-orbit-ring market-orbit-ring--inner" }));
-    container.appendChild(C.el("div", { class: "market-orbit-core" }, C.el("strong", {}, String(active.length)), C.el("span", {}, C.t("activeCampaigns")), expiring ? C.el("small", {}, `${expiring} · ${C.t("upcomingExpiries7d")}`) : null));
-    state.data.competitors.slice(0, 6).forEach((competitor, index) => {
-      const total = active.filter((item) => item.competitor_id === competitor.id).length;
-      container.appendChild(C.el("a", { class: `market-orbit-node market-orbit-node--${index + 1}`, href: `competitor.html?id=${competitor.id}`, title: `${C.competitorName(competitor)} · ${total}` }, C.el("img", { src: C.competitorLogo(competitor.id), alt: "" }), C.el("span", {}, String(total))));
-    });
+    const rows = state.data.competitors.map((competitor) => ({ competitor, total: active.filter((item) => item.competitor_id === competitor.id).length })).sort((a, b) => b.total - a.total);
+    const max = Math.max(1, ...rows.map((row) => row.total));
+    container.appendChild(C.el("header", { class: "intelligence-field__head" }, C.el("h2", {}, C.t("campaignsByCompetitor")), C.el("span", {}, `${active.length} · ${C.t("activeCampaigns")}`)));
+    const bars = C.el("div", { class: "intelligence-field__bars" });
+    rows.forEach(({ competitor, total }) => bars.appendChild(C.el("a", { class: "intelligence-field__row", href: `competitor.html?id=${competitor.id}`, "aria-label": `${C.competitorName(competitor)}: ${total}` }, C.el("span", {}, C.competitorName(competitor)), C.el("i", { class: "intelligence-field__track" }, C.el("i", { class: "intelligence-field__fill", style: `width:${Math.max(4, total / max * 100)}%;--field-color:${C.competitorColor(competitor.id)}` })), C.el("strong", {}, String(total)))));
+    container.appendChild(bars);
   }
 
   function openSiteExperience() {
@@ -77,22 +70,10 @@
       selected = value;
       event.currentTarget.parentElement.querySelectorAll(".layout-choice").forEach((node) => node.classList.toggle("is-selected", node === event.currentTarget));
     } }, C.el("span", { class: `layout-choice__preview layout-choice__preview--${value}` }, C.el("i", {}), C.el("i", {}), C.el("i", {})), C.el("strong", {}, label), C.el("small", {}, hint));
-    const choices = C.el("div", { class: "layout-choices" }, choice("classic", C.t("classicView"), C.t("classicViewHint")), choice("market-orbit", C.t("marketOrbitView"), C.t("marketOrbitViewHint")));
-    const modal = C.el("div", { id: "cm-site-experience", class: "modal-backdrop" }, C.el("section", { class: "modal modal--compact site-experience-modal" }, C.el("header", { class: "modal__header" }, C.el("h2", {}, C.t("siteExperienceTitle")), C.el("button", { class: "icon-button", onclick: () => modal.remove() }, "×")), C.el("div", { class: "modal__body" }, C.el("p", { class: "editor-note" }, C.t("siteExperienceHint")), C.el("p", { class: "published-layout-note" }, `${C.t("publishedLayout")}: ${publishedHomeLayout() === "market-orbit" ? C.t("marketOrbitView") : C.t("classicView")}`), choices, status), C.el("footer", { class: "modal__footer" }, C.el("button", { class: "button button--ghost", onclick: () => modal.remove() }, C.t("cancel")), C.el("button", { class: "button button--secondary", onclick: () => { localStorage.setItem(LAYOUT_PREVIEW_KEY, selected); applyHomeLayout(selected); renderOrbitVisual(); modal.remove(); } }, C.t("previewLayout")), C.el("button", { class: "button button--primary", onclick: (event) => { event.currentTarget.disabled = true; localStorage.setItem(LAYOUT_PREVIEW_KEY, selected); C.submitAdminDecision({ action: "set_site_layout", item_ids: ["site:home-layout"], layout: selected }, status); } }, C.t("publishLayout")))));
+    const choices = C.el("div", { class: "layout-choices" }, choice("classic", C.t("classicView"), C.t("classicViewHint")), choice("intelligence-os", C.t("intelligenceOsView"), C.t("intelligenceOsViewHint")));
+    const modal = C.el("div", { id: "cm-site-experience", class: "modal-backdrop" }, C.el("section", { class: "modal modal--compact site-experience-modal" }, C.el("header", { class: "modal__header" }, C.el("h2", {}, C.t("siteExperienceTitle")), C.el("button", { class: "icon-button", onclick: () => modal.remove() }, "×")), C.el("div", { class: "modal__body" }, C.el("p", { class: "editor-note" }, C.t("siteExperienceHint")), C.el("p", { class: "published-layout-note" }, `${C.t("publishedLayout")}: ${publishedHomeLayout() === "intelligence-os" ? C.t("intelligenceOsView") : C.t("classicView")}`), choices, status), C.el("footer", { class: "modal__footer" }, C.el("button", { class: "button button--ghost", onclick: () => modal.remove() }, C.t("cancel")), C.el("button", { class: "button button--secondary", onclick: () => { localStorage.setItem(LAYOUT_PREVIEW_KEY, selected); applyHomeLayout(selected); renderIntelligenceField(); renderCompetitors(); modal.remove(); } }, C.t("previewLayout")), C.el("button", { class: "button button--primary", onclick: (event) => { event.currentTarget.disabled = true; localStorage.setItem(LAYOUT_PREVIEW_KEY, selected); C.submitAdminDecision({ action: "set_site_layout", item_ids: ["site:home-layout"], layout: selected }, status); } }, C.t("publishLayout")))));
     document.body.appendChild(modal);
     modal.addEventListener("click", (event) => { if (event.target === modal) modal.remove(); });
-  }
-
-  function setupOrbitScrollSpy() {
-    const links = [...document.querySelectorAll("#market-orbit-rail a")];
-    if (!links.length || !("IntersectionObserver" in window)) return;
-    const bySection = new Map(links.map((link) => [link.getAttribute("href")?.slice(1), link]));
-    const observer = new IntersectionObserver((entries) => {
-      const visible = entries.filter((entry) => entry.isIntersecting).sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
-      if (!visible) return;
-      links.forEach((link) => link.classList.toggle("is-active", link === bySection.get(visible.target.id)));
-    }, { rootMargin: "-22% 0px -60%", threshold: [0.05, 0.3] });
-    bySection.forEach((_, id) => { const section = document.getElementById(id); if (section) observer.observe(section); });
   }
 
   const CATEGORY_COLORS = {
@@ -464,7 +445,7 @@
       const actions = C.el("div", { class: "competitor-card__actions" });
       if (C.isAdmin()) actions.appendChild(C.el("button", { type: "button", class: "button button--primary", "data-refresh-control": "true", onclick: (event) => C.triggerRefresh(competitor.id, event.currentTarget) }, C.t("checkNow")));
       actions.appendChild(C.el("a", { class: "button button--secondary competitor-card__viewall", href: `competitor.html?id=${competitor.id}` }, C.t("viewAllCampaigns")));
-      box.appendChild(C.el("article", { class: "competitor-card competitor-card--campaigns" }, C.el("a", { class: "competitor-logo-stage", href: `competitor.html?id=${competitor.id}`, "aria-label": C.competitorName(competitor) }, C.el("img", { src: C.competitorLogo(competitor.id), alt: `${C.competitorName(competitor)} logo`, loading: "lazy" })), C.el("div", { class: "competitor-card__head" }, C.el("div", {}, C.el("h3", {}, C.competitorName(competitor)), latest ? C.el("small", { class: "competitor-last-new" }, `${C.t("lastNewOffer")}: ${C.formatDate(latest)}`) : null), C.el("span", { class: "count-badge" }, String(current.length))), list, actions));
+      box.appendChild(C.el("article", { class: "competitor-card competitor-card--campaigns" }, C.el("a", { class: `competitor-logo-stage competitor-logo-stage--${competitor.id}`, href: `competitor.html?id=${competitor.id}`, "aria-label": C.competitorName(competitor) }, C.el("img", { src: C.competitorLogo(competitor.id), alt: `${C.competitorName(competitor)} logo`, loading: "lazy" })), C.el("div", { class: "competitor-card__head" }, C.el("div", {}, C.el("h3", {}, C.competitorName(competitor)), latest ? C.el("small", { class: "competitor-last-new" }, `${C.t("lastNewOffer")}: ${C.formatDate(latest)}`) : null), C.el("span", { class: "count-badge" }, String(current.length))), list, actions));
     });
   }
 
@@ -689,7 +670,7 @@
     renderDecisionSignals();
     renderCharts();
     renderCompetitors();
-    renderOrbitVisual();
+    renderIntelligenceField();
     renderMedia();
     setupFilters();
     renderList();
@@ -706,7 +687,6 @@
       document.getElementById("content").hidden = false;
       renderAll();
       bind();
-      setupOrbitScrollSpy();
       C.resumeRefresh();
       window.addEventListener("cm:language", () => location.reload());
     } catch (error) {
