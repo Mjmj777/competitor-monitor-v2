@@ -4550,10 +4550,10 @@
     }
   ],
   "stats": {
-    "active_campaigns": 30,
+    "active_campaigns": 29,
     "merchant_offers": 171,
     "remittance_campaigns": 11,
-    "expiring_30d": 5,
+    "expiring_30d": 4,
     "social_posts_7d": 234,
     "review_required": 233,
     "healthy_sources": 30,
@@ -4563,7 +4563,7 @@
   "refresh_summary": {
     "request_id": "33133080644",
     "competitor": "all",
-    "completed_at": "2026-08-28T05:55:10.932170+00:00",
+    "completed_at": "2026-08-28T06:00:17.586724+00:00",
     "new_offers": 3,
     "updated_offers": 101,
     "unchanged_offers": 213,
@@ -4824,7 +4824,7 @@
     {
       "request_id": "33133080644",
       "competitor": "all",
-      "completed_at": "2026-08-28T05:55:10.932170+00:00",
+      "completed_at": "2026-08-28T06:00:17.586724+00:00",
       "new_offers": 3,
       "updated_offers": 101,
       "unchanged_offers": 213,
@@ -41787,7 +41787,7 @@
       "source_verification": {
         "status": "verified_social",
         "verification_method": "official_social_rss_or_inventory",
-        "checked_at": "2026-08-28T05:55:00.169024+00:00",
+        "checked_at": "2026-08-28T06:00:09.934679+00:00",
         "source_url": "https://www.facebook.com/reel/2415225532300286/",
         "source_changed": false,
         "conflicts": [],
@@ -41895,7 +41895,7 @@
       "source_verification": {
         "status": "verified_social",
         "verification_method": "official_social_rss_or_inventory",
-        "checked_at": "2026-08-28T05:55:00.169024+00:00",
+        "checked_at": "2026-08-28T06:00:09.934679+00:00",
         "source_url": "https://x.com/MobilyPay/status/2092312502595952987",
         "source_changed": false,
         "conflicts": [],
@@ -42017,7 +42017,7 @@
       "source_verification": {
         "status": "verified_social",
         "verification_method": "official_social_rss_or_inventory",
-        "checked_at": "2026-08-28T05:55:00.169024+00:00",
+        "checked_at": "2026-08-28T06:00:09.934679+00:00",
         "source_url": "https://x.com/MobilyPay/status/2091571167866052701",
         "source_changed": false,
         "conflicts": [],
@@ -42137,7 +42137,7 @@
       "source_verification": {
         "status": "verified_social",
         "verification_method": "official_social_rss_or_inventory",
-        "checked_at": "2026-08-28T05:55:00.169024+00:00",
+        "checked_at": "2026-08-28T06:00:09.934679+00:00",
         "source_url": "https://x.com/MobilyPay/status/2089683923152654437",
         "source_changed": false,
         "conflicts": [],
@@ -42315,7 +42315,7 @@
       "source_verification": {
         "status": "verified_social",
         "verification_method": "official_social_rss_or_inventory",
-        "checked_at": "2026-08-28T05:55:00.169024+00:00",
+        "checked_at": "2026-08-28T06:00:09.934679+00:00",
         "source_url": "https://x.com/MobilyPay/status/2089321358291501415",
         "source_changed": false,
         "conflicts": [],
@@ -42437,7 +42437,7 @@
       "source_verification": {
         "status": "verified_social",
         "verification_method": "official_social_rss_or_inventory",
-        "checked_at": "2026-08-28T05:55:00.169024+00:00",
+        "checked_at": "2026-08-28T06:00:09.934679+00:00",
         "source_url": "https://x.com/MobilyPay/status/2089034453826039982",
         "source_changed": false,
         "conflicts": [],
@@ -42586,7 +42586,7 @@
       "source_verification": {
         "status": "verified_social",
         "verification_method": "official_social_rss_or_inventory",
-        "checked_at": "2026-08-28T05:55:00.169024+00:00",
+        "checked_at": "2026-08-28T06:00:09.934679+00:00",
         "source_url": "https://x.com/MobilyPay/status/2088309682456895660",
         "source_changed": false,
         "conflicts": [],
@@ -42693,7 +42693,7 @@
       "source_verification": {
         "status": "verified_social",
         "verification_method": "official_social_rss_or_inventory",
-        "checked_at": "2026-08-28T05:55:00.169024+00:00",
+        "checked_at": "2026-08-28T06:00:09.934679+00:00",
         "source_url": "https://www.instagram.com/p/Db6N_tkNgFI",
         "source_changed": false,
         "conflicts": [],
@@ -42800,7 +42800,7 @@
       "source_verification": {
         "status": "verified_social",
         "verification_method": "official_social_rss_or_inventory",
-        "checked_at": "2026-08-28T05:55:00.169024+00:00",
+        "checked_at": "2026-08-28T06:00:09.934679+00:00",
         "source_url": "https://x.com/barq/status/2087230805584011485",
         "source_changed": false,
         "conflicts": [],
@@ -42956,7 +42956,7 @@
       "source_verification": {
         "status": "verified_social",
         "verification_method": "official_social_rss_or_inventory",
-        "checked_at": "2026-08-28T05:55:00.169024+00:00",
+        "checked_at": "2026-08-28T06:00:09.934679+00:00",
         "source_url": "https://x.com/barq/status/2087181508222046216",
         "source_changed": false,
         "conflicts": [],
@@ -43078,7 +43078,7 @@
       "source_verification": {
         "status": "verified_social",
         "verification_method": "official_social_rss_or_inventory",
-        "checked_at": "2026-08-28T05:55:00.169024+00:00",
+        "checked_at": "2026-08-28T06:00:09.934679+00:00",
         "source_url": "https://www.instagram.com/p/Db5ZNugDGsU",
         "source_changed": false,
         "conflicts": [],
@@ -43186,7 +43186,7 @@
       "source_verification": {
         "status": "verified_social",
         "verification_method": "official_social_rss_or_inventory",
-        "checked_at": "2026-08-28T05:55:00.169024+00:00",
+        "checked_at": "2026-08-28T06:00:09.934679+00:00",
         "source_url": "https://www.instagram.com/p/Db3dccMM_Ux",
         "source_changed": false,
         "conflicts": [],
@@ -43296,7 +43296,7 @@
       "source_verification": {
         "status": "verified_social",
         "verification_method": "official_social_rss_or_inventory",
-        "checked_at": "2026-08-28T05:55:00.169024+00:00",
+        "checked_at": "2026-08-28T06:00:09.934679+00:00",
         "source_url": "https://x.com/MobilyPay/status/2086497737495957726",
         "source_changed": false,
         "conflicts": [],
@@ -43566,7 +43566,7 @@
       "source_verification": {
         "status": "verified_social",
         "verification_method": "official_social_rss_or_inventory",
-        "checked_at": "2026-08-28T05:55:00.169024+00:00",
+        "checked_at": "2026-08-28T06:00:09.934679+00:00",
         "source_url": "https://x.com/MobilyPay/status/2085772960887873742",
         "source_changed": false,
         "conflicts": [],
@@ -43702,7 +43702,7 @@
       "source_verification": {
         "status": "verified_social",
         "verification_method": "official_social_rss_or_inventory",
-        "checked_at": "2026-08-28T05:55:00.169024+00:00",
+        "checked_at": "2026-08-28T06:00:09.934679+00:00",
         "source_url": "https://www.instagram.com/p/DbQweKFDzN4",
         "source_changed": false,
         "conflicts": [],
@@ -44900,9 +44900,10 @@
       "primary_official_source_url": "https://www.instagram.com/p/Dazzjtdt1Jt/?utm_source=ig_web_button_share_sheet&igsh=MzRlODBiNWFlZA==",
       "social_links": {
         "instagram": "https://www.instagram.com/p/Dazzjtdt1Jt/?utm_source=ig_web_button_share_sheet&igsh=MzRlODBiNWFlZA==",
-        "facebook": "https://www.facebook.com/usebarq/videos/barq-transfer-fast-and-free/1218272083516944/"
+        "facebook": "https://www.facebook.com/usebarq/videos/barq-transfer-fast-and-free/1218272083516944/",
+        "tiktok": "https://www.tiktok.com/@barq/video/7667549953513884949"
       },
-      "social_link_count": 2,
+      "social_link_count": 3,
       "published_social_platforms": "Instagram, Facebook",
       "published_at": null,
       "start_date": "2026-08-06T00:00:00+00:00",
@@ -44954,7 +44955,7 @@
       "source_verification": {
         "status": "verified_social",
         "verification_method": "official_social_rss_or_inventory",
-        "checked_at": "2026-08-28T05:55:00.169024+00:00",
+        "checked_at": "2026-08-28T06:00:09.934679+00:00",
         "source_url": "https://www.instagram.com/p/Dazzjtdt1Jt/?utm_source=ig_web_button_share_sheet&igsh=MzRlODBiNWFlZA==",
         "source_changed": false,
         "conflicts": [],
@@ -44993,7 +44994,7 @@
             "thumbnail_url": "https://p16-common-sign.tiktokcdn-us.com/tos-alisg-p-0037/oUiQCg3RBDOa6UyRSaFzgwQERAieDiJfEUBqzJ~tplv-tiktokx-origin.image?dr=9636&idc=useast5&ps=13740610&shcp=43f4a2f9&shp=81f88b70&t=4d5b0474&x-expires=1787914800&x-signature=UyFplNwFODQt78LKOLYRt27vFos%3D"
           },
           "match_method": "full_review_campaign_semantic_strong",
-          "source_origin": "rss"
+          "source_origin": "master+rss"
         }
       ],
       "social_post_counts": {
@@ -45088,7 +45089,7 @@
       "source_verification": {
         "status": "verified_social",
         "verification_method": "official_social_rss_or_inventory",
-        "checked_at": "2026-08-28T05:55:00.169024+00:00",
+        "checked_at": "2026-08-28T06:00:09.934679+00:00",
         "source_url": "https://www.instagram.com/reel/DaaydiADUvg/?utm_source=ig_web_button_share_sheet&igsh=MzRlODBiNWFlZA==",
         "source_changed": false,
         "conflicts": [],
@@ -45327,7 +45328,7 @@
       "source_verification": {
         "status": "verified_social",
         "verification_method": "official_social_rss_or_inventory",
-        "checked_at": "2026-08-28T05:55:00.169024+00:00",
+        "checked_at": "2026-08-28T06:00:09.934679+00:00",
         "source_url": "https://www.facebook.com/mobilypay/videos/sar-20000-is-waiting-for-you-make-an-international-transfer-with-mobilypay-and-i/4300117560266135/",
         "source_changed": false,
         "conflicts": [],
@@ -45385,9 +45386,10 @@
       "social_links": {
         "instagram": "https://www.instagram.com/p/DbBUcjiIHS1/",
         "x": "https://x.com/tiqmo/status/2079235327240368574",
-        "facebook": "https://www.facebook.com/Tiqmoksa/posts/your-monthly-cashback-is-heretransfer-internationally-sar-1500-or-more-every-mon/1027166950077303/"
+        "facebook": "https://www.facebook.com/Tiqmoksa/posts/your-monthly-cashback-is-heretransfer-internationally-sar-1500-or-more-every-mon/1027166950077303/",
+        "tiktok": "https://www.tiktok.com/@tiqmoksa/video/7672683243400957201"
       },
-      "social_link_count": 3,
+      "social_link_count": 4,
       "published_social_platforms": "Instagram, X, Facebook",
       "published_at": null,
       "start_date": "2026-07-20T16:01:00+00:00",
@@ -45442,7 +45444,7 @@
       "source_verification": {
         "status": "verified_social",
         "verification_method": "official_social_rss_or_inventory",
-        "checked_at": "2026-08-28T05:55:00.169024+00:00",
+        "checked_at": "2026-08-28T06:00:09.934679+00:00",
         "source_url": "https://www.instagram.com/p/DbBUcjiIHS1/",
         "source_changed": false,
         "conflicts": [],
@@ -45523,7 +45525,7 @@
             "thumbnail_url": "https://p19-common-sign.tiktokcdn-us.com/tos-alisg-p-0037/o4NDkSD8F7cUe26zRjKlACbIe1KII4EfAUtiSE~tplv-tiktokx-origin.image?dr=9636&idc=useast8&ps=13740610&shcp=43f4a2f9&shp=81f88b70&t=4d5b0474&x-expires=1788051600&x-signature=pEiogZXS8I9KvbIm6hyvsX60ivo%3D"
           },
           "match_method": "full_review_campaign_semantic_strong",
-          "source_origin": "rss"
+          "source_origin": "master+rss"
         },
         {
           "id": "post:tiqmo:instagram:92096996c1e15466fb53",
@@ -45650,7 +45652,7 @@
       "source_verification": {
         "status": "verified_social",
         "verification_method": "official_social_rss_or_inventory",
-        "checked_at": "2026-08-28T05:55:00.169024+00:00",
+        "checked_at": "2026-08-28T06:00:09.934679+00:00",
         "source_url": "https://www.facebook.com/urpay.sa/posts/scratch-win-with-every-international-transfer-via-urpay-and-you-could-win-up-to-/1079237764323076/",
         "source_changed": false,
         "conflicts": [],
@@ -45776,7 +45778,7 @@
       "source_verification": {
         "status": "verified_social",
         "verification_method": "official_social_rss_or_inventory",
-        "checked_at": "2026-08-28T05:55:00.169024+00:00",
+        "checked_at": "2026-08-28T06:00:09.934679+00:00",
         "source_url": "https://www.instagram.com/alinmapay/p/CC_U-JDB6yh/",
         "source_changed": false,
         "conflicts": [],
@@ -46096,7 +46098,7 @@
       "source_verification": {
         "status": "verified_social",
         "verification_method": "official_social_rss_or_inventory",
-        "checked_at": "2026-08-28T05:55:00.169024+00:00",
+        "checked_at": "2026-08-28T06:00:09.934679+00:00",
         "source_url": "https://www.facebook.com/AlinmaPaySA/videos/zero-fees-fast-transfers-to-india/873682655502395/",
         "source_changed": false,
         "conflicts": [],
@@ -46314,6 +46316,14 @@
             "source": "https://m.facebook.com/Tiqmoksa/posts/pfbid02c7PJipWJA9SNNWsSqsG1H72VTzeqYR6PVsHx4Y3NagD5vLYJbDzgy7cc93XhXQT6l",
             "method": "official_social"
           }
+        },
+        {
+          "at": "2026-08-28T06:00:10.003456+00:00",
+          "type": "manual_source_verified",
+          "details": {
+            "source": "https://m.facebook.com/Tiqmoksa/posts/pfbid02c7PJipWJA9SNNWsSqsG1H72VTzeqYR6PVsHx4Y3NagD5vLYJbDzgy7cc93XhXQT6l",
+            "method": "official_social"
+          }
         }
       ],
       "review_approved": true,
@@ -46329,7 +46339,7 @@
       "source_verification": {
         "status": "verified_social",
         "verification_method": "official_social_rss_or_inventory",
-        "checked_at": "2026-08-28T05:55:00.169024+00:00",
+        "checked_at": "2026-08-28T06:00:09.934679+00:00",
         "source_url": "https://m.facebook.com/Tiqmoksa/posts/pfbid02c7PJipWJA9SNNWsSqsG1H72VTzeqYR6PVsHx4Y3NagD5vLYJbDzgy7cc93XhXQT6l",
         "source_changed": false,
         "conflicts": [],
@@ -47108,142 +47118,6 @@
       "start_date_estimated": false,
       "review_priority": 5,
       "market_launch_date": "2026-01-05T00:00:00+00:00",
-      "market_date_basis": "official_start_date"
-    },
-    {
-      "id": "detected:alinma-pay:e185f47787fe476946bf",
-      "competitor_id": "alinma-pay",
-      "source_key": "website:alinma-pay:offers",
-      "source_type": "website",
-      "platform": "website",
-      "content_type": "campaign",
-      "suggested_record_type": "campaign",
-      "campaign_category": "card",
-      "primary_category": "card",
-      "categories": [
-        "card"
-      ],
-      "title": "صفر رسوم على المشتريات الدولية",
-      "snippet": "استمتع بصفر رسوم على مشترياتك الدولية مع بطاقة الإنماء باي كاش باك صفر رسوم على عمليات الشراء الدولية عبر نقاط البيع خارج المملكة العربية السعودية.",
-      "link": "https://www.alinmapay.com.sa/Offers/OIF-JUN2026",
-      "official_campaign_page_url": "https://www.alinmapay.com.sa/Offers/OIF-JUN2026",
-      "primary_official_source_url": "https://www.alinmapay.com.sa/Offers/OIF-JUN2026",
-      "social_links": {
-        "x": "https://x.com/alinmapay/status/2078087619943055657"
-      },
-      "social_link_count": 1,
-      "published_at": null,
-      "start_date": "2026-06-24T00:00:00+00:00",
-      "end_date": "2026-08-31T00:00:00+00:00",
-      "date_evidence": {
-        "start": "يسري العرض من 24 يونيو 2026 حتى 31 أغسطس 2026",
-        "end": "يسري العرض من 24 يونيو 2026 حتى 31 أغسطس 2026"
-      },
-      "current_status": "Expiring ≤7 Days",
-      "active": true,
-      "direct_link": true,
-      "verified": true,
-      "official_discovery": true,
-      "discovery_section": "current",
-      "review_required": false,
-      "review_reasons": [],
-      "mechanic_tags": [
-        "other",
-        "cashback",
-        "fee_waiver",
-        "prize_draw",
-        "reward"
-      ],
-      "theme_tags": [
-        "other"
-      ],
-      "media": {
-        "type": "image",
-        "url": "https://www.alinmapay.com.sa/-/media/Project/AlinmaPay/AlinmaPay/alinmapaylogotrans.png",
-        "thumbnail_url": "https://www.alinmapay.com.sa/-/media/Project/AlinmaPay/AlinmaPay/alinmapaylogotrans.png",
-        "source_type": "official_website",
-        "source_url": "https://www.alinmapay.com.sa/Offers/OIF-JUN2026"
-      },
-      "first_seen": "2026-08-25T15:44:42.097858+00:00",
-      "last_seen": "2026-08-28T01:31:33.228594+00:00",
-      "last_changed": "2026-08-25T15:44:42.097858+00:00",
-      "version": 1,
-      "change_history": [
-        {
-          "at": "2026-08-25T15:44:42.097858+00:00",
-          "type": "detected",
-          "version": 1
-        },
-        {
-          "at": "2026-08-28T01:36:53.509239+00:00",
-          "type": "start_date_updated",
-          "details": {
-            "from": null,
-            "to": "2026-06-24T00:00:00+00:00"
-          }
-        },
-        {
-          "at": "2026-08-28T01:36:53.509246+00:00",
-          "type": "end_date_updated",
-          "details": {
-            "from": null,
-            "to": "2026-08-31T00:00:00+00:00"
-          }
-        }
-      ],
-      "detail_timeout_seconds": 30,
-      "manual_override": true,
-      "summary": "استمتع بصفر رسوم على مشترياتك الدولية مع بطاقة الإنماء باي كاش باك صفر رسوم على عمليات الشراء الدولية عبر نقاط البيع خارج المملكة العربية السعودية.",
-      "corridors": [],
-      "offer_values": [
-        "حتى 31"
-      ],
-      "evidence_snapshot": "يسري العرض من 24 يونيو 2026 حتى 31 أغسطس 2026",
-      "date_extraction_method": "structured_or_rules",
-      "source_verification": {
-        "status": "verified_website",
-        "verification_method": "official_website_page",
-        "checked_at": "2026-08-25T19:47:41.382402+00:00",
-        "source_url": "https://www.alinmapay.com.sa/Offers/OIF-JUN2026",
-        "source_changed": false,
-        "conflicts": [],
-        "error": null
-      },
-      "last_live_verified_at": "2026-08-25T19:47:41.382402+00:00",
-      "last_reviewed": "2026-08-25T19:47:41.382402+00:00",
-      "classification_method": "verified_official_rules_v6",
-      "linked_posts": [
-        {
-          "id": "post:alinma-pay:x:dad6e34142575dcfa664",
-          "platform": "x",
-          "title": "ليش تدفع أكثر وأنت مسافر؟ ✈️ مع بطاقات #الإنماء_باي ما فيه رسوم للعمليات الدولية، ولا رسوم للسحب النقدي على أول عمليتين، وفوقها كاش باك على كل عملية مؤهلة 👌 #محفظتك_اليومية",
-          "link": "https://x.com/alinmapay/status/2078087619943055657",
-          "published_at": "2026-07-17T12:01:00+00:00",
-          "media": {
-            "url": "https://pbs.twimg.com/media/HNbZrV2W0AAetbX.jpg",
-            "type": "image",
-            "thumbnail_url": "https://pbs.twimg.com/media/HNbZrV2W0AAetbX.jpg"
-          },
-          "match_method": "full_review_campaign_semantic_strong",
-          "source_origin": "master+rss"
-        }
-      ],
-      "social_post_counts": {
-        "instagram": 0,
-        "x": 1,
-        "facebook": 0,
-        "tiktok": 0
-      },
-      "social_posts_total": 1,
-      "social_platform_count": 1,
-      "social_first_post": "2026-07-17T12:01:00+00:00",
-      "social_latest_post": "2026-07-17T12:01:00+00:00",
-      "social_posts_7d": 0,
-      "social_posts_30d": 0,
-      "start_date_basis": "official_start_date",
-      "start_date_estimated": false,
-      "review_priority": 5,
-      "market_launch_date": "2026-06-24T00:00:00+00:00",
       "market_date_basis": "official_start_date"
     },
     {
@@ -89843,7 +89717,7 @@
       "source_verification": {
         "status": "verified_social",
         "verification_method": "official_social_rss_or_inventory",
-        "checked_at": "2026-08-28T05:55:00.169024+00:00",
+        "checked_at": "2026-08-28T06:00:09.934679+00:00",
         "source_url": "https://www.instagram.com/reel/DYxvJOWiZY5/",
         "source_changed": false,
         "conflicts": [],
@@ -89963,7 +89837,7 @@
       "source_verification": {
         "status": "verified_social",
         "verification_method": "official_social_rss_or_inventory",
-        "checked_at": "2026-08-28T05:55:00.169024+00:00",
+        "checked_at": "2026-08-28T06:00:09.934679+00:00",
         "source_url": "https://www.facebook.com/usebarq/posts/update-your-barq-app-and-join-the-prediction-game-win-your-share-of-prizes-worth/122197690844385166/",
         "source_changed": false,
         "conflicts": [],
@@ -90067,7 +89941,7 @@
       "source_verification": {
         "status": "verified_social",
         "verification_method": "official_social_rss_or_inventory",
-        "checked_at": "2026-08-28T05:55:00.169024+00:00",
+        "checked_at": "2026-08-28T06:00:09.934679+00:00",
         "source_url": "https://www.facebook.com/usebarq/posts/planning-a-trip-%EF%B8%8Fbook-through-almatarapp-with-your-barq-visa-and-get-up-to-10-of/122178668528385166/",
         "source_changed": false,
         "conflicts": [],
@@ -90180,7 +90054,7 @@
       "source_verification": {
         "status": "verified_social",
         "verification_method": "official_social_rss_or_inventory",
-        "checked_at": "2026-08-28T05:55:00.169024+00:00",
+        "checked_at": "2026-08-28T06:00:09.934679+00:00",
         "source_url": "https://www.instagram.com/p/DbAtiuQNGlf/",
         "source_changed": false,
         "conflicts": [],
@@ -91152,7 +91026,7 @@
       "source_verification": {
         "status": "verified_social",
         "verification_method": "official_social_rss_or_inventory",
-        "checked_at": "2026-08-28T05:55:00.169024+00:00",
+        "checked_at": "2026-08-28T06:00:09.934679+00:00",
         "source_url": "https://x.com/urpay_sa/status/2074433249682845889",
         "source_changed": false,
         "conflicts": [],
@@ -91222,9 +91096,10 @@
       "official_campaign_page_url": "",
       "primary_official_source_url": "https://www.facebook.com/AlinmaPaySA/posts/%EF%B8%8F-fees-gonetravel-anywhere-and-use-your-alinmapay-cashback-cards-without-worryin/1619335260194305/",
       "social_links": {
-        "facebook": "https://www.facebook.com/AlinmaPaySA/posts/%EF%B8%8F-fees-gonetravel-anywhere-and-use-your-alinmapay-cashback-cards-without-worryin/1619335260194305/"
+        "facebook": "https://www.facebook.com/AlinmaPaySA/posts/%EF%B8%8F-fees-gonetravel-anywhere-and-use-your-alinmapay-cashback-cards-without-worryin/1619335260194305/",
+        "x": "https://x.com/alinmapay/status/2078087619943055657"
       },
-      "social_link_count": 1,
+      "social_link_count": 2,
       "published_social_platforms": "Facebook",
       "published_at": null,
       "start_date": "2026-08-06T00:00:00+00:00",
@@ -91279,7 +91154,7 @@
       "source_verification": {
         "status": "verified_social",
         "verification_method": "official_social_rss_or_inventory",
-        "checked_at": "2026-08-28T05:55:00.169024+00:00",
+        "checked_at": "2026-08-28T06:00:09.934679+00:00",
         "source_url": "https://www.facebook.com/AlinmaPaySA/posts/%EF%B8%8F-fees-gonetravel-anywhere-and-use-your-alinmapay-cashback-cards-without-worryin/1619335260194305/",
         "source_changed": false,
         "conflicts": [],
@@ -91295,24 +91170,44 @@
           "media": null,
           "match_method": "master_link",
           "source_origin": "master"
+        },
+        {
+          "id": "post:alinma-pay:x:dad6e34142575dcfa664",
+          "platform": "x",
+          "title": "ليش تدفع أكثر وأنت مسافر؟ ✈️ مع بطاقات #الإنماء_باي ما فيه رسوم للعمليات الدولية، ولا رسوم للسحب النقدي على أول عمليتين، وفوقها كاش باك على كل عملية مؤهلة 👌 #محفظتك_اليومية",
+          "link": "https://x.com/alinmapay/status/2078087619943055657",
+          "published_at": "2026-07-17T12:01:00+00:00",
+          "media": {
+            "url": "https://pbs.twimg.com/media/HNbZrV2W0AAetbX.jpg",
+            "type": "image",
+            "thumbnail_url": "https://pbs.twimg.com/media/HNbZrV2W0AAetbX.jpg"
+          },
+          "match_method": "manual",
+          "source_origin": "master+rss"
         }
       ],
       "social_post_counts": {
         "instagram": 0,
-        "x": 0,
+        "x": 1,
         "facebook": 1,
         "tiktok": 0
       },
-      "social_posts_total": 1,
-      "social_platform_count": 1,
-      "social_first_post": null,
-      "social_latest_post": null,
+      "social_posts_total": 2,
+      "social_platform_count": 2,
+      "social_first_post": "2026-07-17T12:01:00+00:00",
+      "social_latest_post": "2026-07-17T12:01:00+00:00",
       "social_posts_7d": 0,
       "social_posts_30d": 0,
       "start_date_basis": "first_observed",
       "start_date_estimated": true,
       "start_date_evidence_type": "first_observed",
-      "review_priority": 0
+      "review_priority": 0,
+      "reviewed_by": "admin",
+      "reviewed_at": "2026-08-28T06:00:09.258780+00:00",
+      "review_request_id": "26d3dcea-a4bd-4d56-b481-87a3106384ba",
+      "evidence_ids": [
+        "detected:alinma-pay:e185f47787fe476946bf"
+      ]
     },
     {
       "id": "post:stc-bank:instagram:8ea802301aa5ea78c042",
@@ -92614,7 +92509,7 @@
       "source_verification": {
         "status": "verified_social",
         "verification_method": "official_social_rss_or_inventory",
-        "checked_at": "2026-08-28T05:55:00.169024+00:00",
+        "checked_at": "2026-08-28T06:00:09.934679+00:00",
         "source_url": "https://www.instagram.com/alinmapay/p/DbqaY05mm9E/",
         "source_changed": false,
         "conflicts": [],
@@ -100773,7 +100668,7 @@
       "source_verification": {
         "status": "verified_social",
         "verification_method": "official_social_rss_or_inventory",
-        "checked_at": "2026-08-28T05:55:00.169024+00:00",
+        "checked_at": "2026-08-28T06:00:09.934679+00:00",
         "source_url": "https://www.instagram.com/tiqmoksa/p/DbLZ9Yfj6dy/",
         "source_changed": false,
         "conflicts": [],
@@ -102655,9 +102550,14 @@
       "primary_official_source_url": "https://x.com/alinmapay/status/2078087619943055657",
       "manual_override": true,
       "corridors": [],
-      "campaign_id": "detected:alinma-pay:e185f47787fe476946bf",
-      "match_method": "full_review_campaign_semantic_strong",
-      "review_priority": 0
+      "campaign_id": "campaign:alinma-pay:2",
+      "match_method": "manual",
+      "review_priority": 0,
+      "linked_campaign_id": "campaign:alinma-pay:2",
+      "merge_origin_campaign_id": "detected:alinma-pay:e185f47787fe476946bf",
+      "reviewed_by": "admin",
+      "reviewed_at": "2026-08-28T06:00:09.258780+00:00",
+      "review_request_id": "26d3dcea-a4bd-4d56-b481-87a3106384ba"
     },
     {
       "id": "post:alinma-pay:x:e344c795f87666e21890",
@@ -102927,7 +102827,7 @@
       "source_verification": {
         "status": "verified_social",
         "verification_method": "official_social_rss_or_inventory",
-        "checked_at": "2026-08-28T05:55:00.169024+00:00",
+        "checked_at": "2026-08-28T06:00:09.934679+00:00",
         "source_url": "https://www.instagram.com/reel/DWots29j8fx/?hl=en",
         "source_changed": false,
         "conflicts": [],
@@ -130538,6 +130438,143 @@
       "market_expiry_date": "2026-06-30T00:00:00+00:00"
     },
     {
+      "id": "detected:alinma-pay:e185f47787fe476946bf",
+      "competitor_id": "alinma-pay",
+      "source_key": "website:alinma-pay:offers",
+      "source_type": "website",
+      "platform": "website",
+      "content_type": "campaign",
+      "suggested_record_type": "campaign",
+      "campaign_category": "card",
+      "primary_category": "card",
+      "categories": [
+        "card"
+      ],
+      "title": "صفر رسوم على المشتريات الدولية",
+      "snippet": "استمتع بصفر رسوم على مشترياتك الدولية مع بطاقة الإنماء باي كاش باك صفر رسوم على عمليات الشراء الدولية عبر نقاط البيع خارج المملكة العربية السعودية.",
+      "link": "https://www.alinmapay.com.sa/Offers/OIF-JUN2026",
+      "official_campaign_page_url": "https://www.alinmapay.com.sa/Offers/OIF-JUN2026",
+      "primary_official_source_url": "https://www.alinmapay.com.sa/Offers/OIF-JUN2026",
+      "social_links": {
+        "x": "https://x.com/alinmapay/status/2078087619943055657"
+      },
+      "social_link_count": 1,
+      "published_at": null,
+      "start_date": "2026-06-24T00:00:00+00:00",
+      "end_date": "2026-08-31T00:00:00+00:00",
+      "date_evidence": {
+        "start": "يسري العرض من 24 يونيو 2026 حتى 31 أغسطس 2026",
+        "end": "يسري العرض من 24 يونيو 2026 حتى 31 أغسطس 2026"
+      },
+      "current_status": "Merged",
+      "active": false,
+      "direct_link": true,
+      "verified": true,
+      "official_discovery": true,
+      "discovery_section": "current",
+      "review_required": false,
+      "review_reasons": [],
+      "mechanic_tags": [
+        "other",
+        "cashback",
+        "fee_waiver",
+        "prize_draw",
+        "reward"
+      ],
+      "theme_tags": [
+        "other"
+      ],
+      "media": {
+        "type": "image",
+        "url": "https://www.alinmapay.com.sa/-/media/Project/AlinmaPay/AlinmaPay/alinmapaylogotrans.png",
+        "thumbnail_url": "https://www.alinmapay.com.sa/-/media/Project/AlinmaPay/AlinmaPay/alinmapaylogotrans.png",
+        "source_type": "official_website",
+        "source_url": "https://www.alinmapay.com.sa/Offers/OIF-JUN2026"
+      },
+      "first_seen": "2026-08-25T15:44:42.097858+00:00",
+      "last_seen": "2026-08-28T01:31:33.228594+00:00",
+      "last_changed": "2026-08-25T15:44:42.097858+00:00",
+      "version": 1,
+      "change_history": [
+        {
+          "at": "2026-08-25T15:44:42.097858+00:00",
+          "type": "detected",
+          "version": 1
+        },
+        {
+          "at": "2026-08-28T01:36:53.509239+00:00",
+          "type": "start_date_updated",
+          "details": {
+            "from": null,
+            "to": "2026-06-24T00:00:00+00:00"
+          }
+        },
+        {
+          "at": "2026-08-28T01:36:53.509246+00:00",
+          "type": "end_date_updated",
+          "details": {
+            "from": null,
+            "to": "2026-08-31T00:00:00+00:00"
+          }
+        }
+      ],
+      "detail_timeout_seconds": 30,
+      "manual_override": true,
+      "summary": "استمتع بصفر رسوم على مشترياتك الدولية مع بطاقة الإنماء باي كاش باك صفر رسوم على عمليات الشراء الدولية عبر نقاط البيع خارج المملكة العربية السعودية.",
+      "corridors": [],
+      "offer_values": [
+        "حتى 31"
+      ],
+      "evidence_snapshot": "يسري العرض من 24 يونيو 2026 حتى 31 أغسطس 2026",
+      "date_extraction_method": "structured_or_rules",
+      "source_verification": {
+        "status": "verified_website",
+        "verification_method": "official_website_page",
+        "checked_at": "2026-08-25T19:47:41.382402+00:00",
+        "source_url": "https://www.alinmapay.com.sa/Offers/OIF-JUN2026",
+        "source_changed": false,
+        "conflicts": [],
+        "error": null
+      },
+      "last_live_verified_at": "2026-08-25T19:47:41.382402+00:00",
+      "last_reviewed": "2026-08-25T19:47:41.382402+00:00",
+      "classification_method": "verified_official_rules_v6",
+      "linked_posts": [
+        {
+          "id": "source:detected:alinma-pay:e185f47787fe476946bf:x:1f9330a9131582005a650c6c",
+          "platform": "x",
+          "title": "Official x post",
+          "link": "https://x.com/alinmapay/status/2078087619943055657",
+          "published_at": null,
+          "media": null,
+          "match_method": "master_link",
+          "source_origin": "master"
+        }
+      ],
+      "social_post_counts": {
+        "instagram": 0,
+        "x": 1,
+        "facebook": 0,
+        "tiktok": 0
+      },
+      "social_posts_total": 1,
+      "social_platform_count": 1,
+      "social_first_post": null,
+      "social_latest_post": null,
+      "social_posts_7d": 0,
+      "social_posts_30d": 0,
+      "start_date_basis": "official_start_date",
+      "start_date_estimated": false,
+      "review_priority": 5,
+      "merged_into": "campaign:alinma-pay:2",
+      "merge_previous_active": true,
+      "merge_previous_status": "Expiring ≤7 Days",
+      "review_decision": "merge_campaigns",
+      "reviewed_by": "admin",
+      "reviewed_at": "2026-08-28T06:00:09.258780+00:00",
+      "review_request_id": "26d3dcea-a4bd-4d56-b481-87a3106384ba"
+    },
+    {
       "id": "detected:alinma-pay:4388e8323ca781e0c1eb",
       "competitor_id": "alinma-pay",
       "source_key": "website:alinma-pay:offers",
@@ -132159,8 +132196,10 @@
       "link": "https://stcbank.com.sa/en/web/guest/w/whites-offer",
       "official_campaign_page_url": "https://stcbank.com.sa/en/web/guest/w/whites-offer",
       "primary_official_source_url": "https://stcbank.com.sa/en/web/guest/w/whites-offer",
-      "social_links": {},
-      "social_link_count": 0,
+      "social_links": {
+        "tiktok": "https://www.tiktok.com/@stcbank_ksa/video/7663836761537154325"
+      },
+      "social_link_count": 1,
       "published_social_platforms": "No direct social post verified",
       "published_at": null,
       "start_date": null,
@@ -132215,7 +132254,7 @@
             "thumbnail_url": "https://p16-common-sign.tiktokcdn-us.com/tos-alisg-p-0037/oYIAIoHetvREboIjlatUeALXKADGoBADAfTJbE~tplv-tiktokx-origin.image?dr=9636&idc=useast5&ps=13740610&shcp=43f4a2f9&shp=81f88b70&t=4d5b0474&x-expires=1788051600&x-signature=fkhfTUdlXuyJFD8EkpXgRLykKB8%3D"
           },
           "match_method": "full_review_merchant_name_value_date",
-          "source_origin": "rss"
+          "source_origin": "master+rss"
         }
       ],
       "social_post_counts": {
@@ -134269,20 +134308,20 @@
   "detail_verification_stats": {
     "network_checks": 0,
     "elapsed_seconds": 0.1,
-    "completed_at": "2026-08-28T05:55:00.289360+00:00"
+    "completed_at": "2026-08-28T06:00:10.004471+00:00"
   },
   "mobily_deterministic_classification": {
     "changed": 0,
-    "at": "2026-08-28T05:55:10.698406+00:00"
+    "at": "2026-08-28T06:00:17.446599+00:00"
   },
   "verified_official_classification": {
     "changed": 0,
-    "at": "2026-08-28T05:55:10.701273+00:00",
+    "at": "2026-08-28T06:00:17.448759+00:00",
     "version": "classifier-v6-merchant-review-cleanup"
   },
   "record_integrity": {
     "quarantined_or_demoted": 0,
-    "at": "2026-08-28T05:55:09.935154+00:00"
+    "at": "2026-08-28T06:00:16.886213+00:00"
   },
   "merchant_review_cleanup": {
     "cross_platform_merchant_offers_created": 0,
@@ -134292,64 +134331,64 @@
   },
   "winner_announcement_integrity": {
     "normalized": 0,
-    "at": "2026-08-28T05:55:09.928951+00:00"
+    "at": "2026-08-28T06:00:16.881868+00:00"
   },
   "deduplication": {
     "removed": 0,
-    "at": "2026-08-28T05:55:10.644897+00:00"
+    "at": "2026-08-28T06:00:17.403927+00:00"
   },
   "final_status_normalization": {
     "changed": 0,
-    "at": "2026-08-28T05:55:10.734681+00:00"
+    "at": "2026-08-28T06:00:17.470629+00:00"
   },
-  "social_analytics_rebuilt_at": "2026-08-28T05:55:10.771738+00:00",
+  "social_analytics_rebuilt_at": "2026-08-28T06:00:17.492436+00:00",
   "campaign_start_date_fill": {
     "official": 40,
     "from_verified_post": 0,
     "from_first_observed": 0,
     "remaining_missing": 0,
-    "at": "2026-08-28T05:55:10.854895+00:00"
+    "at": "2026-08-28T06:00:17.540877+00:00"
   },
   "media_sanitization": {
     "removed": 0,
-    "at": "2026-08-28T05:55:10.862593+00:00"
+    "at": "2026-08-28T06:00:17.546004+00:00"
   },
   "full_review_scan": {
-    "review_before": 391,
-    "linked_social": 7,
+    "review_before": 384,
+    "linked_social": 0,
     "matched_website_duplicates": 0,
     "awareness_cleared": 164,
     "potential_campaigns": 152,
     "potential_merchant_offers": 47,
     "stale_reasons_cleared": 0,
-    "completed_at": "2026-08-28T05:55:09.899008+00:00",
+    "completed_at": "2026-08-28T06:00:16.858878+00:00",
     "counted_duplicates_removed": 0,
     "review_duplicates_removed": 0,
     "review_after": 233,
-    "workflow_review_before": 241,
-    "cleaned": 158,
-    "workflow_net_change": -8
+    "workflow_review_before": 233,
+    "cleaned": 151,
+    "workflow_net_change": 0
   },
   "ai_summary": {
-    "executive_view": "30 verified active campaigns are tracked across 6 competitors. Inventory coverage was corrected after source verification; that administrative adjustment is excluded from recent market developments.",
+    "executive_view": "29 verified active campaigns are tracked across 6 competitors. Inventory coverage was corrected after source verification; that administrative adjustment is excluded from recent market developments.",
     "key_developments": [
       "No verified market launch, material campaign change or confirmed expiry was identified in the last 7 days."
     ],
     "management_attention": [
-      "5 campaigns are scheduled to expire within 7 days: Mobily Pay — 10 SAR CASHBACK, tiqmo — Spend More, Win More!, Mobily Pay — Trips For hotel and flight reservations…"
+      "4 campaigns are scheduled to expire within 7 days: Mobily Pay — 10 SAR CASHBACK, tiqmo — Spend More, Win More!, Mobily Pay — Trips For hotel and flight reservations…"
     ],
     "recommended_actions": [
       "Monitor the listed expiries for an extension or replacement campaign and refresh the response plan only when an official change is verified."
     ],
-    "portfolio_insight": "Remittance (11) and Card (9) account for 67% of the verified active campaign portfolio.",
+    "portfolio_insight": "Remittance (11) and Card (8) account for 66% of the verified active campaign portfolio.",
     "market_window_days": 7,
     "generated_by": "management-rules-v2",
-    "generated_at": "2026-08-28T05:55:10.874499+00:00"
+    "generated_at": "2026-08-28T06:00:17.553909+00:00"
   },
   "authoritative_delta": {
     "added": [],
     "removed": [
-      "detected:alinma-pay:4388e8323ca781e0c1eb"
+      "detected:alinma-pay:e185f47787fe476946bf"
     ],
     "changed": [],
     "initial": false,
@@ -134360,7 +134399,7 @@
     "new_market_expiries": [],
     "inventory_adjustments": [
       {
-        "id": "detected:alinma-pay:4388e8323ca781e0c1eb",
+        "id": "detected:alinma-pay:e185f47787fe476946bf",
         "fields": [
           "record_removed"
         ]
@@ -134838,6 +134877,17 @@
         "detected:alinma-pay:4388e8323ca781e0c1eb"
       ],
       "campaign_id": "campaign:alinma-pay:5",
+      "record_ids": []
+    },
+    {
+      "request_id": "26d3dcea-a4bd-4d56-b481-87a3106384ba",
+      "reviewed_at": "2026-08-28T06:00:09.258780+00:00",
+      "reviewed_by": "admin",
+      "action": "merge_campaigns",
+      "item_ids": [
+        "detected:alinma-pay:e185f47787fe476946bf"
+      ],
+      "campaign_id": "campaign:alinma-pay:2",
       "record_ids": []
     }
   ]

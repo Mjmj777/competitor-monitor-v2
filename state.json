@@ -123587,7 +123587,7 @@
     }
   },
   "ai_cache": {},
-  "updated_at": "2026-08-28T05:55:10.874507+00:00",
+  "updated_at": "2026-08-28T06:00:17.553917+00:00",
   "ai_classification_cache": {
     "post:alinma-pay:facebook:342fb820cfeedf68ae83": {
       "content_key": "b7909a066e1ce27745e0337d",
@@ -131024,26 +131024,6 @@
       "market_last_changed": null,
       "market_expiry_date": null
     },
-    "detected:alinma-pay:e185f47787fe476946bf": {
-      "competitor_id": "alinma-pay",
-      "title": "صفر رسوم على المشتريات الدولية",
-      "campaign_category": "card",
-      "mechanic": null,
-      "eligibility": null,
-      "terms_note": null,
-      "start_date": "2026-06-24T00:00:00+00:00",
-      "end_date": "2026-08-31T00:00:00+00:00",
-      "offer_values": [
-        "حتى 31"
-      ],
-      "corridors": [],
-      "current_status": "Expiring ≤7 Days",
-      "active": true,
-      "market_launch_date": "2026-06-24T00:00:00+00:00",
-      "market_date_basis": "official_start_date",
-      "market_last_changed": null,
-      "market_expiry_date": null
-    },
     "detected:alinma-pay:b4e4c06d766a276abafa": {
       "competitor_id": "alinma-pay",
       "title": "عرض الهند على رسوم التحويلات الدولية",
@@ -131450,25 +131430,25 @@
     }
   },
   "ai_summary": {
-    "executive_view": "30 verified active campaigns are tracked across 6 competitors. Inventory coverage was corrected after source verification; that administrative adjustment is excluded from recent market developments.",
+    "executive_view": "29 verified active campaigns are tracked across 6 competitors. Inventory coverage was corrected after source verification; that administrative adjustment is excluded from recent market developments.",
     "key_developments": [
       "No verified market launch, material campaign change or confirmed expiry was identified in the last 7 days."
     ],
     "management_attention": [
-      "5 campaigns are scheduled to expire within 7 days: Mobily Pay — 10 SAR CASHBACK, tiqmo — Spend More, Win More!, Mobily Pay — Trips For hotel and flight reservations…"
+      "4 campaigns are scheduled to expire within 7 days: Mobily Pay — 10 SAR CASHBACK, tiqmo — Spend More, Win More!, Mobily Pay — Trips For hotel and flight reservations…"
     ],
     "recommended_actions": [
       "Monitor the listed expiries for an extension or replacement campaign and refresh the response plan only when an official change is verified."
     ],
-    "portfolio_insight": "Remittance (11) and Card (9) account for 67% of the verified active campaign portfolio.",
+    "portfolio_insight": "Remittance (11) and Card (8) account for 66% of the verified active campaign portfolio.",
     "market_window_days": 7,
     "generated_by": "management-rules-v2",
-    "generated_at": "2026-08-28T05:55:10.874499+00:00"
+    "generated_at": "2026-08-28T06:00:17.553909+00:00"
   },
   "authoritative_delta": {
     "added": [],
     "removed": [
-      "detected:alinma-pay:4388e8323ca781e0c1eb"
+      "detected:alinma-pay:e185f47787fe476946bf"
     ],
     "changed": [],
     "initial": false,
@@ -131479,7 +131459,7 @@
     "new_market_expiries": [],
     "inventory_adjustments": [
       {
-        "id": "detected:alinma-pay:4388e8323ca781e0c1eb",
+        "id": "detected:alinma-pay:e185f47787fe476946bf",
         "fields": [
           "record_removed"
         ]
@@ -131700,5 +131680,5 @@
       "at": "2026-08-26T02:43:25.502307+00:00"
     }
   },
-  "summary_snapshot_at": "2026-08-28T05:55:10.874507+00:00"
+  "summary_snapshot_at": "2026-08-28T06:00:17.553917+00:00"
 }

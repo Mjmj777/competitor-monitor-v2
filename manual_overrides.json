@@ -1,6 +1,6 @@
 {
   "schema_version": 3,
-  "updated_at": "2026-08-28T05:54:59.655817+00:00",
+  "updated_at": "2026-08-28T06:00:09.258780+00:00",
   "items": {
     "detected:stc-bank:fbee4408c8f62cd77d91": {
       "content_type": "merchant_offer",
@@ -2804,6 +2804,41 @@
       "reviewed_by": "admin",
       "reviewed_at": "2026-08-28T05:54:59.655817+00:00",
       "review_request_id": "bbb5e1ac-0255-4f10-bb16-e8548bf9e48a"
+    },
+    "campaign:alinma-pay:2": {
+      "manual_override": true,
+      "reviewed_by": "admin",
+      "reviewed_at": "2026-08-28T06:00:09.258780+00:00",
+      "review_request_id": "26d3dcea-a4bd-4d56-b481-87a3106384ba",
+      "evidence_ids": [
+        "detected:alinma-pay:e185f47787fe476946bf"
+      ],
+      "social_links": {
+        "facebook": "https://www.facebook.com/AlinmaPaySA/posts/%EF%B8%8F-fees-gonetravel-anywhere-and-use-your-alinmapay-cashback-cards-without-worryin/1619335260194305/",
+        "x": "https://x.com/alinmapay/status/2078087619943055657"
+      }
+    },
+    "detected:alinma-pay:e185f47787fe476946bf": {
+      "merged_into": "campaign:alinma-pay:2",
+      "merge_previous_active": true,
+      "merge_previous_status": "Expiring ≤7 Days",
+      "active": false,
+      "current_status": "Merged",
+      "review_required": false,
+      "review_reasons": [],
+      "manual_override": true,
+      "review_decision": "merge_campaigns",
+      "reviewed_by": "admin",
+      "reviewed_at": "2026-08-28T06:00:09.258780+00:00",
+      "review_request_id": "26d3dcea-a4bd-4d56-b481-87a3106384ba"
+    },
+    "post:alinma-pay:x:dad6e34142575dcfa664": {
+      "campaign_id": "campaign:alinma-pay:2",
+      "linked_campaign_id": "campaign:alinma-pay:2",
+      "merge_origin_campaign_id": "detected:alinma-pay:e185f47787fe476946bf",
+      "reviewed_by": "admin",
+      "reviewed_at": "2026-08-28T06:00:09.258780+00:00",
+      "review_request_id": "26d3dcea-a4bd-4d56-b481-87a3106384ba"
     }
   },
   "new_items": [
@@ -3322,6 +3357,17 @@
         "detected:alinma-pay:4388e8323ca781e0c1eb"
       ],
       "campaign_id": "campaign:alinma-pay:5",
+      "record_ids": []
+    },
+    {
+      "request_id": "26d3dcea-a4bd-4d56-b481-87a3106384ba",
+      "reviewed_at": "2026-08-28T06:00:09.258780+00:00",
+      "reviewed_by": "admin",
+      "action": "merge_campaigns",
+      "item_ids": [
+        "detected:alinma-pay:e185f47787fe476946bf"
+      ],
+      "campaign_id": "campaign:alinma-pay:2",
       "record_ids": []
     }
   ]
