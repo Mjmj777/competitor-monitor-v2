@@ -37,6 +37,9 @@ assert.equal(dispatchedPayload.action, "group_campaign"); assert.equal(dispatche
 const mergePayload = { action: "merge_campaigns", item_ids: ["campaign:alinma:duplicate"], target_campaign_id: "campaign:alinma:primary" };
 const mergeResponse = await worker.fetch(new Request("https://competitor-monitors.com/__review", { method: "POST", headers: { Cookie: admin, "Content-Type": "application/json" }, body: JSON.stringify(mergePayload) }), env);
 assert.equal(mergeResponse.status, 202); assert.equal(dispatchedPayload.action, "merge_campaigns"); assert.equal(dispatchedPayload.target_campaign_id, "campaign:alinma:primary");
+const layoutPayload = { action: "set_site_layout", item_ids: ["site:home-layout"], layout: "intelligence-os" };
+const layoutResponse = await worker.fetch(new Request("https://competitor-monitors.com/__review", { method: "POST", headers: { Cookie: admin, "Content-Type": "application/json" }, body: JSON.stringify(layoutPayload) }), env);
+assert.equal(layoutResponse.status, 202); assert.equal(dispatchedPayload.action, "set_site_layout"); assert.equal(dispatchedPayload.layout, "intelligence-os");
 const denied = await worker.fetch(new Request("https://competitor-monitors.com/__review", { method: "POST", headers: { Cookie: viewer, "Content-Type": "application/json" }, body: JSON.stringify(reviewPayload) }), env);
 assert.equal(denied.status, 403);
 const invalid = await worker.fetch(new Request("https://competitor-monitors.com/__review", { method: "POST", headers: { Cookie: admin, "Content-Type": "application/json" }, body: JSON.stringify({ action: "group_campaign", item_ids: ["bad id"] }) }), env);

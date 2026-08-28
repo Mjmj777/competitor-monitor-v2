@@ -170,8 +170,17 @@ assert.match(indexHtml, /id="upcoming-expiries"/, "Upcoming expiry section is mi
 assert.match(indexHtml, /id="recent-market-changes"/, "Recent market changes section is missing");
 assert.match(indexHtml, /value="custom"/, "Campaign changes chart is missing its custom-period option");
 assert.match(indexHtml, /class="section-nav"/, "Main-page scroll navigation is missing");
+assert.match(indexHtml, /href="#management-summary"/, "Management Summary scroll link is missing");
+assert.match(indexHtml, /id="intelligence-field"/, "Intelligence OS competitor field is missing");
+assert.match(indexHtml, /id="site-experience"/, "Admin Site Experience control is missing");
+assert.match(indexSource, /set_site_layout/, "Persistent Site Experience publishing is missing");
+assert.doesNotMatch(indexHtml, /market-orbit/, "Retired Market Orbit layout must not remain in the page");
+assert.doesNotMatch(indexSource, /market-orbit/, "Retired Market Orbit logic must not remain in JavaScript");
 for (const id of ["stc-bank", "barq", "mobily-pay", "tiqmo", "urpay", "alinma-pay"]) {
   assert.ok(fs.existsSync(new URL(`../assets/logos/${id}.webp`, import.meta.url)), `Missing logo asset for ${id}`);
+}
+for (const id of ["barq", "tiqmo"]) {
+  assert.ok(fs.existsSync(new URL(`../assets/logos/${id}-dark.png`, import.meta.url)), `Missing Intelligence OS logo asset for ${id}`);
 }
 
 console.log("Chart renderer tests passed");

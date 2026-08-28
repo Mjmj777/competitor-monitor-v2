@@ -96,4 +96,11 @@ with tempfile.TemporaryDirectory() as folder:
     assert restored_by_id["campaign:alinma:duplicate"]["merged_into"] is None
     assert restored_by_id["post:alinma:musaned"]["campaign_id"] == "campaign:alinma:duplicate"
 
+    apply_review.apply({"action": "set_site_layout", "item_ids": ["site:home-layout"], "layout": "intelligence-os"}, "admin", "layout-request-123456")
+    layout_data = json.loads(apply_review.DATA_PATH.read_text(encoding="utf-8"))
+    layout_overrides = json.loads(apply_review.OVERRIDES_PATH.read_text(encoding="utf-8"))
+    assert layout_data["site_preferences"]["home_layout"] == "intelligence-os"
+    assert layout_overrides["site_preferences"]["home_layout"] == "intelligence-os"
+    assert layout_overrides["review_history"][-1]["action"] == "set_site_layout"
+
 print("Admin review persistence tests passed")
