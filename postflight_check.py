@@ -35,6 +35,18 @@ def social_id(v):
         if h=='twitter.com':h='x.com'
         if h=='m.facebook.com':h='facebook.com'
         path=re.sub(r'/{2,}','/',p.path or '/').rstrip('/').casefold() or '/'
+        # Keep validation identity exactly aligned with enhance.py. Instagram commonly
+        # exposes the same post both as /p/<id> and /<account>/p/<id>; those are one post,
+        # not two. X/Twitter aliases and TikTok account paths need the same treatment.
+        if h=='instagram.com' or h.endswith('.instagram.com'):
+            match=re.search(r'/(?:[^/]+/)?(p|reel|reels|tv)/([^/?#]+)',path,re.I)
+            if match:return f"instagram.com/{match.group(1).casefold()}/{match.group(2).casefold()}"
+        if h=='x.com' or h.endswith('.x.com'):
+            match=re.search(r'/status/(\d+)',path,re.I)
+            if match:return f"x.com/status/{match.group(1)}"
+        if h=='tiktok.com' or h.endswith('.tiktok.com'):
+            match=re.search(r'/video/(\d+)',path,re.I)
+            if match:return f"tiktok.com/video/{match.group(1)}"
         return h+path
     except Exception:return str(v).strip().casefold().rstrip('/')
 
