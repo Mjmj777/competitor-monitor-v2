@@ -26,7 +26,7 @@ COUNTRIES = {
     "China":["china","chinese","الصين"],"Egypt":["egypt","egyptian","مصر"],"Sri Lanka":["sri lanka","srilanka","سريلانكا"],"Jordan":["jordan","الأردن","الاردن"],"Morocco":["morocco","المغرب"]
 }
 MECHANICS = {
-    "discount":["discount","% off","خصم"],"cashback":["cashback","cash back","كاش باك","استرداد نقدي"],"fee_waiver":["zero fee","0 fee","fee-free","no fee","without fees","بدون رسوم","صفر رسوم"],
+    "discount":["discount","% off","خصم"],"cashback":["cashback","cash back","كاش باك","استرداد نقدي"],"fee_waiver":["zero fee","zero international transaction fee","zero foreign transaction fee","0 fee","0% international transaction fee","fee-free","no fee","no foreign transaction fee","without fees","بدون رسوم","صفر رسوم"],
     "prize_draw":["win","winner","draw","prize","اربح","فائز","سحب","جائزة"],"reward":["reward","points","miles","مكافأة","نقاط","أميال"],"preferred_rate":["preferred rate","special rate","exchange rate","fx rate","سعر صرف","سعر تفضيلي"]
 }
 
@@ -72,8 +72,22 @@ def social_identity(value):
         if host=="twitter.com":host="x.com"
         if host=="m.facebook.com":host="facebook.com"
         path=re.sub(r"/{2,}","/",parts.path or "/").rstrip("/").casefold() or "/"
+        if host=="instagram.com" or host.endswith(".instagram.com"):
+            match=re.search(r"/(?:[^/]+/)?(p|reel|reels|tv)/([^/?#]+)",path,re.I)
+            if match:return f"instagram.com/{match.group(1).casefold()}/{match.group(2).casefold()}"
+        if host=="x.com" or host.endswith(".x.com"):
+            match=re.search(r"/status/(\d+)",path,re.I)
+            if match:return f"x.com/status/{match.group(1)}"
+        if host=="tiktok.com" or host.endswith(".tiktok.com"):
+            match=re.search(r"/video/(\d+)",path,re.I)
+            if match:return f"tiktok.com/video/{match.group(1)}"
         return f"{host}{path}"
     except Exception:return clean(value,2000).casefold().rstrip("/")
+
+def social_link_values(item):
+    for raw in (item.get("social_links") or {}).values():
+        for value in (raw if isinstance(raw,list) else [raw]):
+            if value:yield value
 
 def specific_social_post_url(value):
     if not social_url(value):return False
@@ -106,7 +120,7 @@ def accepted_direct_source(item, config):
     if sv.get("status")=="verified_website" and sv.get("verification_method")=="official_website_modal" and item.get("source_locator"):
         return True
     # Only a specific official social post is acceptable; a generic social profile is not evidence.
-    if any(specific_social_post_url(v) for v in (item.get("social_links") or {}).values()):return True
+    if any(specific_social_post_url(v) for v in social_link_values(item)):return True
     for key in ("official_campaign_page_url","primary_official_source_url","link"):
         value=item.get(key)
         if not value:continue
@@ -860,6 +874,39 @@ def ai_fill_dates(ex,state,config):
 
 def manual_patch(overrides,item_id): return (overrides.get("items") or {}).get(item_id,{})
 
+PERSISTENT_ITEM_OVERRIDE_FIELDS={
+    "content_type","suggested_record_type","campaign_category","primary_category","categories",
+    "review_required","review_reasons","review_decision","review_approved","manual_override","classification_method",
+    "reviewed_by","reviewed_at","review_request_id","campaign_id","linked_campaign_id","record_role",
+    "current_status","active","merged_into","merge_previous_active","merge_previous_status","merge_origin_campaign_id",
+    "evidence_ids","social_links","deleted","deleted_at","deleted_title","deleted_competitor_id","deleted_url",
+}
+
+def merge_social_link_maps(existing,patch):
+    result=dict(existing or {})
+    for platform,raw in (patch or {}).items():
+        incoming=[value for value in (raw if isinstance(raw,list) else [raw]) if value]
+        current=[value for value in (result.get(platform) if isinstance(result.get(platform),list) else [result.get(platform)]) if value]
+        known={social_identity(value) for value in current}
+        for value in incoming:
+            identity=social_identity(value)
+            if identity not in known:current.append(value);known.add(identity)
+        if current:result[platform]=current[0] if len(current)==1 else current
+    return result
+
+def apply_persistent_item_overrides(data,overrides):
+    """Reapply durable Admin decisions after every monitor rebuild."""
+    changed=0
+    for item in data.get("items",[]):
+        patch=manual_patch(overrides,item.get("id"))
+        if not isinstance(patch,dict) or not patch:continue
+        for field in PERSISTENT_ITEM_OVERRIDE_FIELDS:
+            if field not in patch:continue
+            value=patch[field]
+            if field=="social_links":value=merge_social_link_maps(item.get(field),value)
+            if item.get(field)!=value:item[field]=value;changed+=1
+    return changed
+
 def deletion_tombstones(overrides):
     return [patch for patch in (overrides.get("items") or {}).values() if isinstance(patch,dict) and patch.get("deleted")]
 
@@ -1245,7 +1292,7 @@ def heuristic_match(post,campaigns):
         # Exact known social URL is strongest.
         if post.get("link"):
             pid=social_identity(post.get("link"))
-            if pid and any(pid==social_identity(u) for u in (c.get("social_links") or {}).values() if u):return c["id"],"exact_url"
+            if pid and any(pid==social_identity(u) for u in social_link_values(c)):return c["id"],"exact_url"
         evidence=post.get("official_evidence_url") or post.get("official_campaign_page_url")
         if evidence:
             eid=detail_url_identity(evidence)
@@ -1556,7 +1603,7 @@ def campaign_record_match(item,candidates,include_inactive=False):
         target_urls={detail_url_identity(value) for value in (
             target.get("official_campaign_page_url"),target.get("primary_official_source_url"),target.get("link"),
         ) if value and not social_url(value)}
-        social_ids={social_identity(value) for value in (target.get("social_links") or {}).values() if value}
+        social_ids={social_identity(value) for value in social_link_values(target)}
         if (evidence_ids and evidence_ids&target_urls) or (post_identity and post_identity in social_ids):exact.append(target)
     if len(exact)==1:return exact[0]["id"],"campaign_exact_evidence"
 
@@ -2193,10 +2240,36 @@ def merge_into_campaign(target, source):
         target["link"]=source_url
     elif source_url and detail_url_identity(source_url)!=detail_url_identity(target_url):
         target["alternate_official_source_urls"]=list(dict.fromkeys((target.get("alternate_official_source_urls") or [])+[source_url]))
-    links=dict(target.get("social_links") or {}); links.update({k:v for k,v in (source.get("social_links") or {}).items() if v})
+    links=dict(target.get("social_links") or {})
+    for platform,value in (source.get("social_links") or {}).items():
+        if value and not links.get(platform):links[platform]=value
     target["social_links"]=links; target["social_link_count"]=len(links)
-    for f in ["summary","snippet","start_date","end_date","published_at","mechanic","eligibility","terms_note","evidence_snapshot"]:
+    for f in ["summary","snippet","published_at","mechanic","eligibility","terms_note","evidence_snapshot"]:
         if not target.get(f) and source.get(f): target[f]=source[f]
+    def date_quality(row,field):
+        verification=(row.get("source_verification") or {}).get("status")
+        basis=str(row.get(f"{field}_basis") or row.get("date_extraction_method") or "")
+        score=3 if verification=="verified_website" else 2 if verification=="verified_social" else 0
+        if "official" in basis and "social" not in basis:score+=4
+        elif "verified_social" in basis or "verified_post" in basis:score+=3
+        elif "published" in basis:score+=2
+        return score
+    for field in ("start_date","end_date"):
+        source_date=dt(source.get(field));target_date=dt(target.get(field))
+        use_source=bool(source_date and not target_date)
+        if source_date and target_date:
+            source_quality=date_quality(source,field);target_quality=date_quality(target,field)
+            use_source=source_quality>target_quality or (
+                source_quality==target_quality and (
+                    (field=="start_date" and source_date<target_date)
+                    or (field=="end_date" and source_date>target_date)
+                )
+            )
+        if use_source:
+            target[field]=source[field]
+            for suffix in ("basis","source_url","estimated","evidence_type"):
+                key=f"{field}_{suffix}"
+                if key in source:target[key]=source[key]
     # Never copy an arbitrary/social image while consolidating duplicate campaigns.
     # Only an image explicitly proven to come from an official campaign webpage may merge.
     sm=source.get("media") or {}
@@ -2243,6 +2316,8 @@ def sanitize_campaign_media(data):
     return removed
 
 def campaign_rank(row):
+    if row.get("review_approved"):return 100
+    if (row.get("source_verification") or {}).get("status")=="verified_website" and row.get("official_campaign_page_url"):return 80
     if row.get("source_type")=="inventory" and row.get("manual_override"):return 70
     if row.get("source_type")=="inventory":return 60
     if row.get("source_type")=="manual":return 50
@@ -2250,6 +2325,46 @@ def campaign_rank(row):
     if row.get("verified") and row.get("official_campaign_page_url"):return 30
     if row.get("source_type")=="website":return 20
     return 10
+
+def campaign_evidence_identities(row):
+    identities=set()
+    is_modal=(row.get("source_verification") or {}).get("verification_method")=="official_website_modal" or row.get("source_detail_type")=="modal"
+    for value in (row.get("official_campaign_page_url"),row.get("primary_official_source_url"),row.get("link")):
+        if not value:continue
+        identity=social_identity(value) if social_url(value) else "" if is_modal else detail_url_identity(value)
+        if identity:identities.add(identity)
+    social_values=list(social_link_values(row))
+    social_values.extend(post.get("link") for post in (row.get("linked_posts") or []) if isinstance(post,dict))
+    for value in social_values:
+        if specific_social_post_url(value):identities.add(social_identity(value))
+    return identities
+
+def campaign_concept_key(row):
+    """Known bilingual Alinma Pay identities whose Arabic/English titles do not overlap."""
+    if row.get("content_type")!="campaign" or row.get("competitor_id")!="alinma-pay":return ""
+    text=unicodedata.normalize("NFKC"," ".join(clean(row.get(field),5000) for field in (
+        "title","summary","snippet","mechanic","eligibility","terms_note",
+    ))).casefold().replace("ـ","")
+    text=ARABIC_DIACRITICS.sub("",text)
+    tags=_semantic_campaign_tags(row);category=str(row.get("campaign_category") or "").casefold()
+    if (category=="musaned" or "musaned" in tags) and "cashback" in tags and re.search(r"\bsalary\b|\bsalaries\b|راتب|رواتب|عمالة منزلية|domestic worker",text,re.I):
+        return "musaned-salary-cashback"
+    international_card=bool(re.search(
+        r"foreign\s+transaction|international\s+(?:transaction|purchase)|"
+        r"(?:العمليات|المعاملات|المشتريات)\s+الدولي|(?:عمليات|معاملات|مشتريات)\s+دولي",
+        text,re.I,
+    ))
+    if category=="card" and "fee_waiver" in tags and international_card:return "card-international-fee-waiver"
+    return ""
+
+def campaign_concept_period_compatible(a,b,max_start_gap_days=62):
+    a_start=dt(a.get("start_date"));b_start=dt(b.get("start_date"))
+    if not a_start or not b_start:return False
+    if abs((a_start.date()-b_start.date()).days)>max_start_gap_days:return False
+    a_end=dt(a.get("end_date"));b_end=dt(b.get("end_date"));grace=timedelta(days=7)
+    if a_end and b_start>a_end+grace:return False
+    if b_end and a_start>b_end+grace:return False
+    return True
 
 def consolidate_duplicates(data):
     """Physically remove duplicate campaigns and merge official evidence into one record.
@@ -2275,13 +2390,23 @@ def consolidate_duplicates(data):
     kept=[];by_title={};by_url={}
     for row in campaigns:
         comp=row.get("competitor_id") or "";record_type=row.get("content_type") or "campaign";title_key=campaign_title_key(row.get("title"))
-        is_modal=(row.get("source_verification") or {}).get("verification_method")=="official_website_modal" or row.get("source_detail_type")=="modal"
-        urls=set() if is_modal else {(social_identity(u) if social_url(u) else detail_url_identity(u)) for u in [row.get("official_campaign_page_url"),row.get("primary_official_source_url"),row.get("link")] if u};urls.discard("")
+        urls=campaign_evidence_identities(row)
         target=None
         for u in urls:
             if (comp,record_type,u) in by_url:target=by_url[(comp,record_type,u)];break
         if target is None and title_key and not generic_campaign_title(row.get("title")):
             target=by_title.get((comp,record_type,title_key))
+        concept_key=campaign_concept_key(row)
+        if target is None and concept_key:
+            compatible=[candidate for candidate in kept if (
+                candidate.get("competitor_id")==comp
+                and candidate.get("content_type")==record_type
+                and campaign_concept_key(candidate)==concept_key
+                and campaign_concept_period_compatible(row,candidate)
+            )]
+            if compatible:
+                compatible.sort(key=lambda candidate:abs((dt(candidate.get("start_date")).date()-dt(row.get("start_date")).date()).days))
+                target=compatible[0]
         if target is None and title_key and not generic_campaign_title(row.get("title")):
             scored=[(title_similarity(row.get("title"),c.get("title")),c) for c in kept if c.get("competitor_id")==comp and c.get("content_type")==record_type and c.get("campaign_category")==row.get("campaign_category")]
             if scored:
@@ -2712,13 +2837,9 @@ def main():
     preference=overrides.get("site_preferences") or {}
     if preference.get("home_layout") in {"classic","intelligence-os"}:
         data["site_preferences"]={
-            "home_layout":preference["home_layout"],
-            "updated_at":preference.get("updated_at"),
-            "updated_by":preference.get("updated_by"),
-            "request_id":preference.get("request_id"),
+            "home_layout":preference["home_layout"],"updated_at":preference.get("updated_at"),
+            "updated_by":preference.get("updated_by"),"request_id":preference.get("request_id"),
         }
-    else:
-        data.setdefault("site_preferences",{"home_layout":"classic"})
     if not data.get("items"):print("No data items");return 0
     initial_review_count=sum(item.get("active") is not False and item.get("review_required") for item in data.get("items",[]))
     if target.casefold() not in {"", "all", "*"}:print(f"[TARGET] detail verification for {target}")
@@ -2726,6 +2847,7 @@ def main():
     repair_legacy_mobily_text(data)
     apply_manual_deletions(data,overrides)
     add_manual_new_items(data,overrides)
+    apply_persistent_item_overrides(data,overrides)
     verify_details(data,state,config,overrides,target)
     print("[STAGE 2/5] Classify and link official/social records",flush=True)
     apply_mobily_deterministic_classification(data)
@@ -2734,6 +2856,7 @@ def main():
     enrich_social(data,state,config,overrides)
     apply_mobily_deterministic_classification(data)
     apply_verified_official_classification(data,config)
+    apply_persistent_item_overrides(data,overrides)
 
     print("[STAGE 3/5] Reconcile the full Needs Review backlog",flush=True)
     # Every run now reconciles the complete Needs Review backlog with all canonical

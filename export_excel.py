@@ -146,9 +146,10 @@ def campaign_social_index(data):
 
 def campaign_social_summary(item,index):
     posts=dict(index.get(str(item.get("id")),{}))
-    for platform,link in (item.get("social_links") or {}).items():
+    for platform,raw in (item.get("social_links") or {}).items():
         platform=str(platform).lower()
-        if platform in PLATFORMS and link:posts.setdefault(normalize_url(link),platform)
+        for link in (raw if isinstance(raw,list) else [raw]):
+            if platform in PLATFORMS and link:posts.setdefault(normalize_url(link),platform)
     platforms=sorted(set(posts.values()),key=PLATFORMS.index)
     return len(posts),", ".join(PLATFORM_LABELS[p] for p in platforms)
 
