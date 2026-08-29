@@ -1,11 +1,11 @@
 {
   "schema_version": 3,
-  "updated_at": "2026-08-28T08:27:00.511754+00:00",
+  "updated_at": "2026-08-29T18:38:39.205223+00:00",
   "site_preferences": {
-    "home_layout": "intelligence-os",
-    "updated_at": "2026-08-28T00:00:00+00:00",
+    "home_layout": "classic",
+    "updated_at": "2026-08-29T18:38:38.649282+00:00",
     "updated_by": "admin",
-    "request_id": "release-v5.14.0"
+    "request_id": "50ebdc9e-cee5-4ef4-8e2a-fd396781293b"
   },
   "items": {
     "detected:stc-bank:fbee4408c8f62cd77d91": {
@@ -2737,27 +2737,24 @@
       "reviewed_by": "admin",
       "reviewed_at": "2026-08-28T08:27:00.511754+00:00",
       "review_request_id": "0fbbfe08-dec2-425b-9392-ec3497959e2c",
-      "evidence_ids": [
-        "detected:alinma-pay:e185f47787fe476946bf"
-      ],
       "social_links": {
         "instagram": "https://www.instagram.com/alinmapay/p/DbqaY05mm9E/",
         "x": "https://x.com/alinmapay/status/2085018248685232195"
       }
     },
     "detected:alinma-pay:e185f47787fe476946bf": {
-      "merged_into": "campaign:alinma-pay:5",
-      "merge_previous_active": true,
-      "merge_previous_status": "Expiring ≤7 Days",
-      "active": false,
-      "current_status": "Merged",
+      "merged_into": null,
+      "merge_previous_active": null,
+      "merge_previous_status": null,
+      "active": true,
+      "current_status": "Expiring ≤7 Days",
       "review_required": false,
       "review_reasons": [],
       "manual_override": true,
-      "review_decision": "merge_campaigns",
+      "review_decision": "undo_merge",
       "reviewed_by": "admin",
-      "reviewed_at": "2026-08-28T08:27:00.511754+00:00",
-      "review_request_id": "0fbbfe08-dec2-425b-9392-ec3497959e2c"
+      "reviewed_at": "2026-08-29T18:38:39.205223+00:00",
+      "review_request_id": "auto-repair-incompatible-1782e17d74f230a4504a91c1"
     },
     "post:alinma-pay:x:dad6e34142575dcfa664": {
       "campaign_id": "campaign:alinma-pay:5",
@@ -3274,6 +3271,21 @@
       ],
       "campaign_id": "campaign:alinma-pay:5",
       "record_ids": []
+    },
+    {
+      "request_id": "50ebdc9e-cee5-4ef4-8e2a-fd396781293b",
+      "reviewed_at": "2026-08-29T18:38:38.649282+00:00",
+      "reviewed_by": "admin",
+      "action": "set_site_layout",
+      "item_ids": [
+        "site:home-layout"
+      ],
+      "layout": "classic"
+    },
+    {
+      "action": "auto_repair_incompatible_merges",
+      "reviewed_at": "2026-08-29T18:38:39.205223+00:00",
+      "count": 1
     }
   ]
 }
