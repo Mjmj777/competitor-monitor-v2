@@ -76,8 +76,9 @@ with tempfile.TemporaryDirectory() as folder:
     # primary campaign, and Undo restores the previous relationship.
     merge_data = json.loads(apply_review.DATA_PATH.read_text(encoding="utf-8"))
     merge_data["items"].extend([
-        {"id": "campaign:alinma:primary", "competitor_id": "alinma-pay", "content_type": "campaign", "title": "Musaned", "active": True, "current_status": "Active", "social_links": {}},
-        {"id": "campaign:alinma:duplicate", "competitor_id": "alinma-pay", "content_type": "campaign", "title": "Musaned campaign", "active": True, "current_status": "Active", "social_links": {"instagram": "https://instagram.com/p/MUSANED"}},
+        {"id": "campaign:alinma:primary", "competitor_id": "alinma-pay", "content_type": "campaign", "campaign_category": "musaned", "title": "Musaned", "active": True, "current_status": "Active", "social_links": {}},
+        {"id": "campaign:alinma:duplicate", "competitor_id": "alinma-pay", "content_type": "campaign", "campaign_category": "musaned", "title": "Musaned campaign", "active": True, "current_status": "Active", "end_date": "2026-12-28T00:00:00+00:00", "official_campaign_page_url": "https://alinmapay.com/offers/musaned", "source_verification": {"status": "verified_website"}, "social_links": {"instagram": "https://instagram.com/p/MUSANED"}},
+        {"id": "campaign:alinma:card", "competitor_id": "alinma-pay", "content_type": "campaign", "campaign_category": "card", "title": "Zero international fees", "active": True, "current_status": "Active", "social_links": {}},
         {"id": "post:alinma:musaned", "competitor_id": "alinma-pay", "source_type": "social", "content_type": "social_post", "campaign_id": "campaign:alinma:duplicate", "linked_campaign_id": "campaign:alinma:duplicate", "link": "https://instagram.com/p/MUSANED"},
     ])
     apply_review.DATA_PATH.write_text(json.dumps(merge_data), encoding="utf-8")
@@ -89,6 +90,13 @@ with tempfile.TemporaryDirectory() as folder:
     assert merged_by_id["campaign:alinma:duplicate"]["merged_into"] == "campaign:alinma:primary"
     assert merged_by_id["post:alinma:musaned"]["campaign_id"] == "campaign:alinma:primary"
     assert merged_by_id["post:alinma:musaned"]["merge_origin_campaign_id"] == "campaign:alinma:duplicate"
+    assert merged_by_id["campaign:alinma:primary"]["end_date"] == "2026-12-28T00:00:00+00:00"
+    assert merged_by_id["campaign:alinma:primary"]["official_campaign_page_url"] == "https://alinmapay.com/offers/musaned"
+    try:
+        apply_review.apply({"action": "merge_campaigns", "item_ids": ["campaign:alinma:card"], "target_campaign_id": "campaign:alinma:primary"}, "admin", "bad-cross-category-merge")
+        raise AssertionError("A Card campaign was merged into Musaned")
+    except ValueError as exc:
+        assert "different categories" in str(exc)
     apply_review.apply({"action": "undo_merge", "item_ids": ["campaign:alinma:duplicate"]}, "admin", "undo-request-123456")
     restored = json.loads(apply_review.DATA_PATH.read_text(encoding="utf-8"))
     restored_by_id = {row["id"]: row for row in restored["items"]}
@@ -102,5 +110,22 @@ with tempfile.TemporaryDirectory() as folder:
     assert layout_data["site_preferences"]["home_layout"] == "intelligence-os"
     assert layout_overrides["site_preferences"]["home_layout"] == "intelligence-os"
     assert layout_overrides["review_history"][-1]["action"] == "set_site_layout"
+
+    # A legacy incompatible saved merge is repaired before future rebuilds.
+    repair_data = {
+        "items": [
+            {"id": "campaign:alinma:musaned", "competitor_id": "alinma-pay", "content_type": "campaign", "campaign_category": "musaned", "active": True, "evidence_ids": ["campaign:alinma:fee"]},
+            {"id": "campaign:alinma:fee", "competitor_id": "alinma-pay", "content_type": "campaign", "campaign_category": "card", "active": False, "current_status": "Merged", "merged_into": "campaign:alinma:musaned"},
+        ]
+    }
+    repair_overrides = {"items": {
+        "campaign:alinma:musaned": {"evidence_ids": ["campaign:alinma:fee"]},
+        "campaign:alinma:fee": {"merged_into": "campaign:alinma:musaned", "active": False, "current_status": "Merged", "merge_previous_active": True, "merge_previous_status": "Active"},
+    }}
+    assert enhance.sanitize_incompatible_saved_merges(repair_data, repair_overrides) == 1
+    repaired_by_id = {row["id"]: row for row in repair_data["items"]}
+    assert repaired_by_id["campaign:alinma:fee"]["merged_into"] is None
+    assert repaired_by_id["campaign:alinma:fee"]["active"] is True
+    assert "campaign:alinma:fee" not in repaired_by_id["campaign:alinma:musaned"]["evidence_ids"]
 
 print("Admin review persistence tests passed")

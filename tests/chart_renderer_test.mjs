@@ -174,6 +174,9 @@ assert.match(indexHtml, /href="#management-summary"/, "Management Summary scroll
 assert.match(indexHtml, /id="intelligence-field"/, "Intelligence OS competitor field is missing");
 assert.match(indexHtml, /id="site-experience"/, "Admin Site Experience control is missing");
 assert.match(indexSource, /set_site_layout/, "Persistent Site Experience publishing is missing");
+assert.match(common, /isAdmin\(\)\?merged:\[\]/, "Merged records must be removed from Viewer data");
+assert.match(common, /localStorage\.removeItem\("cm_home_layout_preview"\)/, "Publishing a layout must clear the private Admin preview");
+assert.match(common, /protectedCategories=new Set\(\["remittance","musaned","sadad","card","engagement"\]\)/, "Merge target choices must block incompatible campaign categories");
 assert.doesNotMatch(indexHtml, /market-orbit/, "Retired Market Orbit layout must not remain in the page");
 assert.doesNotMatch(indexSource, /market-orbit/, "Retired Market Orbit logic must not remain in JavaScript");
 for (const id of ["stc-bank", "barq", "mobily-pay", "tiqmo", "urpay", "alinma-pay"]) {
