@@ -24,6 +24,7 @@ ALLOWED_ACTIONS = {
 }
 ALLOWED_CATEGORIES = {"remittance", "musaned", "sadad", "card", "engagement", "other", "merchant"}
 ALLOWED_SITE_LAYOUTS = {"classic", "intelligence-os"}
+PROTECTED_MERGE_CATEGORIES = {"remittance", "musaned", "sadad", "card", "engagement"}
 MAX_REVIEW_ITEMS = 50
 MAX_SEPARATE_MERCHANT_ITEMS = 200
 
@@ -43,6 +44,81 @@ def save(path: Path, value):
 
 def clean(value, limit=500):
     return re.sub(r"\s+", " ", str(value or "")).strip()[:limit]
+
+
+def merge_categories_compatible(source, target):
+    """Reject only clearly contradictory campaign families; 'other' remains flexible."""
+    source_category = clean(source.get("campaign_category") or source.get("primary_category"), 40)
+    target_category = clean(target.get("campaign_category") or target.get("primary_category"), 40)
+    return not (
+        source_category in PROTECTED_MERGE_CATEGORIES
+        and target_category in PROTECTED_MERGE_CATEGORIES
+        and source_category != target_category
+    )
+
+
+def merge_social_links(existing, incoming):
+    result = dict(existing or {})
+    for platform, raw in (incoming or {}).items():
+        values = [value for value in (raw if isinstance(raw, list) else [raw]) if value]
+        current = [value for value in (result.get(platform) if isinstance(result.get(platform), list) else [result.get(platform)]) if value]
+        for value in values:
+            if value not in current:
+                current.append(value)
+        if current:
+            result[platform] = current[0] if len(current) == 1 else current
+    return result
+
+
+def campaign_merge_patch(target, sources):
+    """Preserve the selected primary record while filling its missing official evidence."""
+    patch = {
+        "social_links": dict(target.get("social_links") or {}),
+        "evidence_ids": list(target.get("evidence_ids") or []),
+    }
+    for source in sources:
+        patch["social_links"] = merge_social_links(patch["social_links"], source.get("social_links"))
+        for evidence_id in [source.get("id"), *(source.get("evidence_ids") or [])]:
+            if evidence_id and evidence_id not in patch["evidence_ids"]:
+                patch["evidence_ids"].append(evidence_id)
+
+        target_verification = (target.get("source_verification") or {}).get("status")
+        source_verification = (source.get("source_verification") or {}).get("status")
+        source_official = source.get("official_campaign_page_url") or source.get("primary_official_source_url")
+        target_official = target.get("official_campaign_page_url") or target.get("primary_official_source_url")
+        if source_official and (not target_official or (source_verification == "verified_website" and target_verification != "verified_website")):
+            patch["official_campaign_page_url"] = source_official
+            patch["primary_official_source_url"] = source_official
+            patch["link"] = source_official
+            if source.get("source_verification"):
+                patch["source_verification"] = source["source_verification"]
+
+        for field in ("summary", "snippet", "mechanic", "eligibility", "terms_note"):
+            if not target.get(field) and source.get(field):
+                patch[field] = source[field]
+        current_start = patch.get("start_date") or target.get("start_date")
+        if source.get("start_date") and (
+            not current_start or source.get("start_date") < current_start
+        ):
+            patch["start_date"] = source["start_date"]
+            for suffix in ("basis", "source_url", "estimated", "evidence_type"):
+                key = f"start_date_{suffix}"
+                if key in source:
+                    patch[key] = source[key]
+        current_end = patch.get("end_date") or target.get("end_date")
+        if source.get("end_date") and (
+            not current_end or source.get("end_date") > current_end
+        ):
+            patch["end_date"] = source["end_date"]
+            for suffix in ("basis", "source_url", "estimated", "evidence_type"):
+                key = f"end_date_{suffix}"
+                if key in source:
+                    patch[key] = source[key]
+        if clean(target.get("campaign_category"), 40) == "other" and clean(source.get("campaign_category"), 40) in PROTECTED_MERGE_CATEGORIES:
+            patch["campaign_category"] = source["campaign_category"]
+            patch["primary_category"] = source["campaign_category"]
+            patch["categories"] = [source["campaign_category"]]
+    return {key: value for key, value in patch.items() if value not in (None, [], {})}
 
 
 def decode_payload(value: str):
@@ -259,30 +335,20 @@ def apply(payload, reviewer, request_id):
             raise ValueError("The primary campaign cannot also be a source campaign")
         if any(item.get("content_type") != "campaign" for item in items):
             raise ValueError("Only campaign records can be merged")
+        incompatible = [item.get("title") or item.get("id") for item in items if not merge_categories_compatible(item, target)]
+        if incompatible:
+            raise ValueError(
+                "Cannot merge campaigns from different categories; correct the category first: "
+                + ", ".join(incompatible[:3])
+            )
 
         target_patch = {
             "manual_override": True,
             "reviewed_by": reviewer,
             "reviewed_at": reviewed_at,
             "review_request_id": request_id,
+            **campaign_merge_patch(target, items),
         }
-        combined_evidence = list(dict.fromkeys([
-            *(target.get("evidence_ids") or []),
-            *item_ids,
-            *[evidence_id for item in items for evidence_id in (item.get("evidence_ids") or [])],
-        ]))
-        if combined_evidence:
-            target_patch["evidence_ids"] = combined_evidence
-        combined_social = dict(target.get("social_links") or {})
-        for source_item in items:
-            for platform, raw in (source_item.get("social_links") or {}).items():
-                values = [value for value in (raw if isinstance(raw, list) else [raw]) if value]
-                existing = combined_social.get(platform)
-                merged = [value for value in (existing if isinstance(existing, list) else [existing]) if value]
-                merged.extend(value for value in values if value not in merged)
-                if merged:
-                    combined_social[platform] = merged[0] if len(merged) == 1 else merged
-        target_patch["social_links"] = combined_social
         overrides.setdefault("items", {})[campaign_id] = {**overrides.get("items", {}).get(campaign_id, {}), **target_patch}
         target.update(target_patch)
 

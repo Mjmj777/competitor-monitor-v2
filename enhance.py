@@ -880,7 +880,62 @@ PERSISTENT_ITEM_OVERRIDE_FIELDS={
     "reviewed_by","reviewed_at","review_request_id","campaign_id","linked_campaign_id","record_role",
     "current_status","active","merged_into","merge_previous_active","merge_previous_status","merge_origin_campaign_id",
     "evidence_ids","social_links","deleted","deleted_at","deleted_title","deleted_competitor_id","deleted_url",
+    "official_campaign_page_url","primary_official_source_url","link","source_verification",
+    "start_date","start_date_basis","start_date_source_url","start_date_estimated","start_date_evidence_type",
+    "end_date","end_date_basis","end_date_source_url","end_date_estimated","end_date_evidence_type",
+    "summary","snippet","mechanic","eligibility","terms_note",
 }
+
+PROTECTED_MERGE_CATEGORIES={"remittance","musaned","sadad","card","engagement"}
+
+def merge_categories_compatible(source,target):
+    source_category=clean(source.get("campaign_category") or source.get("primary_category"),40)
+    target_category=clean(target.get("campaign_category") or target.get("primary_category"),40)
+    return not (
+        source_category in PROTECTED_MERGE_CATEGORIES
+        and target_category in PROTECTED_MERGE_CATEGORIES
+        and source_category!=target_category
+    )
+
+def sanitize_incompatible_saved_merges(data,overrides):
+    """Undo legacy Admin merges that joined clearly different campaign families."""
+    items=data.get("items",[]);by_id={item.get("id"):item for item in items if item.get("id")}
+    patches=overrides.setdefault("items",{});repaired=0;repaired_at=iso(now())
+    for source_id,patch in list(patches.items()):
+        if not isinstance(patch,dict):continue
+        target_id=patch.get("merged_into")
+        source=by_id.get(source_id);target=by_id.get(target_id)
+        if not source or not target or merge_categories_compatible(source,target):continue
+        previous_active=patch.get("merge_previous_active",True)
+        previous_status=patch.get("merge_previous_status") or "Active"
+        patch.update({
+            "merged_into":None,"active":bool(previous_active),"current_status":previous_status,
+            "merge_previous_active":None,"merge_previous_status":None,"manual_override":True,
+            "review_decision":"undo_merge","reviewed_at":repaired_at,
+            "review_request_id":f"auto-repair-incompatible-{hash_text(source_id+target_id)}",
+        })
+        source.update({
+            "merged_into":None,"active":bool(previous_active),"current_status":previous_status,
+            "merge_previous_active":None,"merge_previous_status":None,
+        })
+        target_patch=patches.get(target_id) if isinstance(patches.get(target_id),dict) else {}
+        target_evidence=[value for value in (target_patch.get("evidence_ids") or target.get("evidence_ids") or []) if value!=source_id]
+        if target_evidence:target_patch["evidence_ids"]=target_evidence
+        else:target_patch.pop("evidence_ids",None)
+        if target_patch:patches[target_id]=target_patch
+        target["evidence_ids"]=[value for value in (target.get("evidence_ids") or []) if value!=source_id]
+        for evidence in items:
+            if evidence.get("merge_origin_campaign_id")!=source_id:continue
+            evidence.update(campaign_id=source_id,linked_campaign_id=source_id,merge_origin_campaign_id=None)
+            evidence_patch=patches.setdefault(evidence.get("id"),{})
+            evidence_patch.update(campaign_id=source_id,linked_campaign_id=source_id,merge_origin_campaign_id=None)
+        repaired+=1
+    if repaired:
+        overrides["updated_at"]=repaired_at
+        history=overrides.setdefault("review_history",[])
+        history.append({"action":"auto_repair_incompatible_merges","reviewed_at":repaired_at,"count":repaired})
+        overrides["review_history"]=history[-500:]
+    return repaired
 
 def merge_social_link_maps(existing,patch):
     result=dict(existing or {})
@@ -2834,6 +2889,7 @@ def cli_args():
 def main():
     cli=cli_args();target=clean(cli.competitor or "all")
     data=load(DATA_PATH,{});state=load(STATE_PATH,{"schema_version":5,"items":{}});config=load(CONFIG_PATH,{});overrides=load(OVERRIDES_PATH,{"items":{},"new_items":[]})
+    repaired_saved_merges=sanitize_incompatible_saved_merges(data,overrides)
     preference=overrides.get("site_preferences") or {}
     if preference.get("home_layout") in {"classic","intelligence-os"}:
         data["site_preferences"]={
@@ -2897,6 +2953,8 @@ def main():
     print("[STAGE 5/5] Save generated data",flush=True)
     data.update(schema_version=5,ai_summary=summary,authoritative_delta=delta,ai_usage=state.get("ai_usage",{}));recompute_stats(data);finalize_refresh_metadata(data)
     data["items"].sort(key=lambda i:(i.get("active") is not False,i.get("review_priority",0),dt(i.get("published_at")) or dt(i.get("last_changed")) or datetime.min.replace(tzinfo=timezone.utc)),reverse=True)
-    save(DATA_PATH,data);save(STATE_PATH,state);print(f"Enhanced {len(data['items'])} items · review={data['stats']['review_required']} · AI calls total={data.get('ai_usage',{}).get('calls',0)}",flush=True);return 0
+    save(DATA_PATH,data);save(STATE_PATH,state)
+    if repaired_saved_merges:save(OVERRIDES_PATH,overrides)
+    print(f"Enhanced {len(data['items'])} items · review={data['stats']['review_required']} · AI calls total={data.get('ai_usage',{}).get('calls',0)}",flush=True);return 0
 
 if __name__=="__main__": raise SystemExit(main())
