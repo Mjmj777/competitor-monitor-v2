@@ -143205,7 +143205,7 @@
     }
   },
   "ai_cache": {},
-  "updated_at": "2026-08-31T07:05:51.165082+00:00",
+  "updated_at": "2026-08-31T07:11:29.125595+00:00",
   "ai_classification_cache": {
     "post:alinma-pay:facebook:342fb820cfeedf68ae83": {
       "content_key": "b7909a066e1ce27745e0337d",
@@ -150367,6 +150367,195 @@
       "market_last_changed": null,
       "market_expiry_date": null
     },
+    "detected:mobily-pay:f3ba1937a63159024b5b": {
+      "competitor_id": "mobily-pay",
+      "title": "INTERNATIONAL TRANSFER TO PAKISTAN IS FREE",
+      "campaign_category": "remittance",
+      "mechanic": null,
+      "eligibility": null,
+      "terms_note": null,
+      "start_date": "2023-11-08T00:00:00+00:00",
+      "end_date": null,
+      "offer_values": [
+        "800 SAR"
+      ],
+      "corridors": [
+        "Pakistan"
+      ],
+      "current_status": "End Date Not Stated",
+      "active": true,
+      "market_launch_date": "2023-11-08T00:00:00+00:00",
+      "market_date_basis": "official_start_date",
+      "market_last_changed": null,
+      "market_expiry_date": null
+    },
+    "campaign:barq:4": {
+      "competitor_id": "barq",
+      "title": "Zero-Fee International Transfers",
+      "campaign_category": "remittance",
+      "mechanic": "Zero transfer fees on eligible transfers",
+      "eligibility": "barq customers; destination and payout-channel terms apply",
+      "terms_note": "Current official posts in early August continue to promote fast, fee-free international transfers. No campaign end date is stated.",
+      "start_date": "2026-08-06T00:00:00+00:00",
+      "end_date": null,
+      "offer_values": null,
+      "corridors": null,
+      "current_status": "End Date Not Stated",
+      "active": true,
+      "market_launch_date": null,
+      "market_date_basis": null,
+      "market_last_changed": null,
+      "market_expiry_date": null
+    },
+    "campaign:barq:6": {
+      "competitor_id": "barq",
+      "title": "FX Rate Awareness Campaign",
+      "campaign_category": "remittance",
+      "mechanic": "All barq customers using international transfers",
+      "eligibility": "Educational campaign explaining exchange rates and how they affect the received amount in international transfers.",
+      "terms_note": "",
+      "start_date": "2026-08-06T00:00:00+00:00",
+      "end_date": null,
+      "offer_values": null,
+      "corridors": null,
+      "current_status": "End Date Not Stated",
+      "active": true,
+      "market_launch_date": null,
+      "market_date_basis": null,
+      "market_last_changed": null,
+      "market_expiry_date": null
+    },
+    "campaign:mobily-pay:2": {
+      "competitor_id": "mobily-pay",
+      "title": "Zero-Fee International Transfers – Aug–Oct 2026",
+      "campaign_category": "remittance",
+      "mechanic": "Zero transfer fees on qualifying transfers; standard SAR 9 fees apply below certain corridor/amount thresholds",
+      "eligibility": "Mobily Pay customers; corridor, currency, amount threshold, VAT and MoneyGram terms apply",
+      "terms_note": "Campaign is valid from 1 August to 31 October 2026. The official page lists different fee thresholds by corridor/currency; all listed fees are subject to VAT.",
+      "start_date": "2026-08-01T00:00:00+00:00",
+      "end_date": "2026-10-31T00:00:00+00:00",
+      "offer_values": [
+        "1000 ريال",
+        "500 ريال",
+        "9 ريال",
+        "حتى 31"
+      ],
+      "corridors": [],
+      "current_status": "Active",
+      "active": true,
+      "market_launch_date": "2026-08-01T00:00:00+00:00",
+      "market_date_basis": "official_start_date",
+      "market_last_changed": null,
+      "market_expiry_date": null
+    },
+    "campaign:mobily-pay:3": {
+      "competitor_id": "mobily-pay",
+      "title": "Weekly International Transfer Prizes – Up to SAR 20,000",
+      "campaign_category": "remittance",
+      "mechanic": "Weekly prizes up to SAR 20,000; no minimum transfer stated in the post",
+      "eligibility": "Mobily Pay international-transfer customers",
+      "terms_note": "Campaign end date is not stated in the official video.",
+      "start_date": "2026-08-06T00:00:00+00:00",
+      "end_date": null,
+      "offer_values": null,
+      "corridors": null,
+      "current_status": "End Date Not Stated",
+      "active": true,
+      "market_launch_date": null,
+      "market_date_basis": null,
+      "market_last_changed": null,
+      "market_expiry_date": null
+    },
+    "campaign:tiqmo:4": {
+      "competitor_id": "tiqmo",
+      "title": "Monthly International Transfer Streak Cashback",
+      "campaign_category": "remittance",
+      "mechanic": "SAR 1,500+ monthly transfer threshold, increasing monthly cashback, and zero transfer fees",
+      "eligibility": "tiqmo customers making qualifying monthly international transfers",
+      "terms_note": "Current official posts continue to promote Monthly Streak Rewards. The official post does not state a campaign end date.",
+      "start_date": "2026-07-20T16:01:00+00:00",
+      "end_date": null,
+      "offer_values": null,
+      "corridors": null,
+      "current_status": "End Date Not Stated",
+      "active": true,
+      "market_launch_date": "2026-07-20T16:01:00+00:00",
+      "market_date_basis": "first_official_campaign_post",
+      "market_last_changed": null,
+      "market_expiry_date": null
+    },
+    "campaign:urpay:9": {
+      "competitor_id": "urpay",
+      "title": "International Transfer Scratch & Win – Up to SAR 10,000",
+      "campaign_category": "remittance",
+      "mechanic": "Scratch-and-win cash prizes up to SAR 10,000",
+      "eligibility": "urpay customers making eligible international transfers; provider terms apply",
+      "terms_note": "A direct official Facebook post promotes scratch-and-win rewards up to SAR 10,000. The post does not state a campaign end date.",
+      "start_date": "2026-08-06T00:00:00+00:00",
+      "end_date": null,
+      "offer_values": null,
+      "corridors": null,
+      "current_status": "End Date Not Stated",
+      "active": true,
+      "market_launch_date": null,
+      "market_date_basis": null,
+      "market_last_changed": null,
+      "market_expiry_date": null
+    },
+    "campaign:alinma-pay:3": {
+      "competitor_id": "alinma-pay",
+      "title": "International Transfers for SAR 5",
+      "campaign_category": "remittance",
+      "mechanic": "Flat SAR 5 transfer fee",
+      "eligibility": "Transfers to listed destinations including the Philippines, Egypt, Bangladesh, Sri Lanka, Indonesia, Nepal, Jordan, and Morocco",
+      "terms_note": "Campaign end date is not stated in the official post. Social verification: Official Instagram and X posts explicitly promote international transfers for a SAR 5 fee. The Instagram creative is a corridor-specific execution within the same offer.",
+      "start_date": "2026-08-06T00:00:00+00:00",
+      "end_date": null,
+      "offer_values": null,
+      "corridors": null,
+      "current_status": "End Date Not Stated",
+      "active": true,
+      "market_launch_date": null,
+      "market_date_basis": null,
+      "market_last_changed": null,
+      "market_expiry_date": null
+    },
+    "campaign:alinma-pay:4": {
+      "competitor_id": "alinma-pay",
+      "title": "Zero-Fee Transfers to India from SAR 700",
+      "campaign_category": "remittance",
+      "mechanic": "Zero transfer fee for transfers of SAR 700 or more",
+      "eligibility": "alinma pay Direct customers transferring to eligible Indian bank accounts",
+      "terms_note": "Campaign end date is not stated in the official video.",
+      "start_date": "2026-02-15T00:00:00+00:00",
+      "end_date": null,
+      "offer_values": null,
+      "corridors": null,
+      "current_status": "End Date Not Stated",
+      "active": true,
+      "market_launch_date": "2026-02-15T00:00:00+00:00",
+      "market_date_basis": "official_published_date",
+      "market_last_changed": null,
+      "market_expiry_date": null
+    },
+    "manual:review:tiqmo:7744d3d2-2bfd-4c7f-a7e5-a7307e7d8a52": {
+      "competitor_id": "tiqmo",
+      "title": "Spend More, Win More!",
+      "campaign_category": "card",
+      "mechanic": "",
+      "eligibility": "",
+      "terms_note": "",
+      "start_date": "2026-08-01",
+      "end_date": "2026-08-31",
+      "offer_values": null,
+      "corridors": null,
+      "current_status": "Expiring ≤7 Days",
+      "active": true,
+      "market_launch_date": "2026-08-01T00:00:00+00:00",
+      "market_date_basis": "official_start_date",
+      "market_last_changed": null,
+      "market_expiry_date": null
+    },
     "detected:tiqmo:89908f62d5f010cd07ea": {
       "competitor_id": "tiqmo",
       "title": "Play and Earn",
@@ -150432,56 +150621,13 @@
       "market_last_changed": null,
       "market_expiry_date": null
     },
-    "detected:mobily-pay:4232dc8e428d8da7c964": {
-      "competitor_id": "mobily-pay",
-      "title": "10 SAR CASHBACK",
-      "campaign_category": "other",
-      "mechanic": null,
-      "eligibility": null,
-      "terms_note": null,
-      "start_date": "2026-01-05T00:00:00+00:00",
-      "end_date": "2026-08-30T00:00:00+00:00",
-      "offer_values": [
-        "10 SAR",
-        "SAR 5"
-      ],
-      "corridors": [],
-      "current_status": "Expired",
-      "active": false,
-      "market_launch_date": "2026-01-05T00:00:00+00:00",
-      "market_date_basis": "official_start_date",
-      "market_last_changed": null,
-      "market_expiry_date": "2026-08-30T00:00:00+00:00"
-    },
-    "detected:mobily-pay:f3ba1937a63159024b5b": {
-      "competitor_id": "mobily-pay",
-      "title": "INTERNATIONAL TRANSFER TO PAKISTAN IS FREE",
-      "campaign_category": "remittance",
-      "mechanic": null,
-      "eligibility": null,
-      "terms_note": null,
-      "start_date": "2023-11-08T00:00:00+00:00",
-      "end_date": null,
-      "offer_values": [
-        "800 SAR"
-      ],
-      "corridors": [
-        "Pakistan"
-      ],
-      "current_status": "End Date Not Stated",
-      "active": true,
-      "market_launch_date": "2023-11-08T00:00:00+00:00",
-      "market_date_basis": "official_start_date",
-      "market_last_changed": null,
-      "market_expiry_date": null
-    },
     "detected:alinma-pay:e185f47787fe476946bf": {
       "competitor_id": "alinma-pay",
       "title": "صفر رسوم على المشتريات الدولية",
       "campaign_category": "card",
-      "mechanic": null,
-      "eligibility": null,
-      "terms_note": null,
+      "mechanic": "Zero international transaction fees, first two international cash withdrawals free, plus cashback on eligible purchases",
+      "eligibility": "alinma pay Cashback Cards",
+      "terms_note": "Current summer messaging confirms no international transaction fees, no fees on the first two international cash withdrawals, and cashback on eligible purchases. No campaign end date is stated.",
       "start_date": "2026-06-24T00:00:00+00:00",
       "end_date": "2026-08-31T00:00:00+00:00",
       "offer_values": [
@@ -150499,10 +150645,10 @@
       "competitor_id": "alinma-pay",
       "title": "كاش باك 100% على رواتب عمالتك المنزلية",
       "campaign_category": "musaned",
-      "mechanic": null,
-      "eligibility": null,
-      "terms_note": null,
-      "start_date": "2026-07-28T15:34:27+00:00",
+      "mechanic": "Three winners receive 100% cashback up to SAR 1,000",
+      "eligibility": "alinma pay customers transferring domestic-worker salaries through Musaned",
+      "terms_note": "",
+      "start_date": "2026-07-17T12:01:00+00:00",
       "end_date": "2026-12-28T00:00:00+00:00",
       "offer_values": [
         "1,000 ريال",
@@ -150512,7 +150658,7 @@
       "corridors": [],
       "current_status": "Active",
       "active": true,
-      "market_launch_date": "2026-07-28T15:34:27+00:00",
+      "market_launch_date": "2026-07-17T12:01:00+00:00",
       "market_date_basis": "first_official_campaign_post",
       "market_last_changed": null,
       "market_expiry_date": null
@@ -150615,24 +150761,6 @@
       "market_last_changed": null,
       "market_expiry_date": null
     },
-    "campaign:barq:4": {
-      "competitor_id": "barq",
-      "title": "Zero-Fee International Transfers",
-      "campaign_category": "remittance",
-      "mechanic": "Zero transfer fees on eligible transfers",
-      "eligibility": "barq customers; destination and payout-channel terms apply",
-      "terms_note": "Current official posts in early August continue to promote fast, fee-free international transfers. No campaign end date is stated.",
-      "start_date": "2026-08-06T00:00:00+00:00",
-      "end_date": null,
-      "offer_values": null,
-      "corridors": null,
-      "current_status": "End Date Not Stated",
-      "active": true,
-      "market_launch_date": null,
-      "market_date_basis": null,
-      "market_last_changed": null,
-      "market_expiry_date": null
-    },
     "campaign:barq:5": {
       "competitor_id": "barq",
       "title": "Zero Travel Fees with barq Visa",
@@ -150647,83 +150775,6 @@
       "current_status": "End Date Not Stated",
       "active": true,
       "market_launch_date": "2026-07-26T12:48:43+00:00",
-      "market_date_basis": "first_official_campaign_post",
-      "market_last_changed": null,
-      "market_expiry_date": null
-    },
-    "campaign:barq:6": {
-      "competitor_id": "barq",
-      "title": "FX Rate Awareness Campaign",
-      "campaign_category": "remittance",
-      "mechanic": "All barq customers using international transfers",
-      "eligibility": "Educational campaign explaining exchange rates and how they affect the received amount in international transfers.",
-      "terms_note": "",
-      "start_date": "2026-08-06T00:00:00+00:00",
-      "end_date": null,
-      "offer_values": null,
-      "corridors": null,
-      "current_status": "End Date Not Stated",
-      "active": true,
-      "market_launch_date": null,
-      "market_date_basis": null,
-      "market_last_changed": null,
-      "market_expiry_date": null
-    },
-    "campaign:mobily-pay:2": {
-      "competitor_id": "mobily-pay",
-      "title": "Zero-Fee International Transfers – Aug–Oct 2026",
-      "campaign_category": "remittance",
-      "mechanic": "Zero transfer fees on qualifying transfers; standard SAR 9 fees apply below certain corridor/amount thresholds",
-      "eligibility": "Mobily Pay customers; corridor, currency, amount threshold, VAT and MoneyGram terms apply",
-      "terms_note": "Campaign is valid from 1 August to 31 October 2026. The official page lists different fee thresholds by corridor/currency; all listed fees are subject to VAT.",
-      "start_date": "2026-08-01T00:00:00+00:00",
-      "end_date": "2026-10-31T00:00:00+00:00",
-      "offer_values": [
-        "1000 ريال",
-        "500 ريال",
-        "9 ريال",
-        "حتى 31"
-      ],
-      "corridors": [],
-      "current_status": "Active",
-      "active": true,
-      "market_launch_date": "2026-08-01T00:00:00+00:00",
-      "market_date_basis": "official_start_date",
-      "market_last_changed": null,
-      "market_expiry_date": null
-    },
-    "campaign:mobily-pay:3": {
-      "competitor_id": "mobily-pay",
-      "title": "Weekly International Transfer Prizes – Up to SAR 20,000",
-      "campaign_category": "remittance",
-      "mechanic": "Weekly prizes up to SAR 20,000; no minimum transfer stated in the post",
-      "eligibility": "Mobily Pay international-transfer customers",
-      "terms_note": "Campaign end date is not stated in the official video.",
-      "start_date": "2026-08-06T00:00:00+00:00",
-      "end_date": null,
-      "offer_values": null,
-      "corridors": null,
-      "current_status": "End Date Not Stated",
-      "active": true,
-      "market_launch_date": null,
-      "market_date_basis": null,
-      "market_last_changed": null,
-      "market_expiry_date": null
-    },
-    "campaign:tiqmo:4": {
-      "competitor_id": "tiqmo",
-      "title": "Monthly International Transfer Streak Cashback",
-      "campaign_category": "remittance",
-      "mechanic": "SAR 1,500+ monthly transfer threshold, increasing monthly cashback, and zero transfer fees",
-      "eligibility": "tiqmo customers making qualifying monthly international transfers",
-      "terms_note": "Current official posts continue to promote Monthly Streak Rewards. The official post does not state a campaign end date.",
-      "start_date": "2026-07-20T16:01:00+00:00",
-      "end_date": null,
-      "offer_values": null,
-      "corridors": null,
-      "current_status": "End Date Not Stated",
-      "active": true,
-      "market_launch_date": "2026-07-20T16:01:00+00:00",
       "market_date_basis": "first_official_campaign_post",
       "market_last_changed": null,
       "market_expiry_date": null
@@ -150782,78 +150833,6 @@
       "market_last_changed": null,
       "market_expiry_date": null
     },
-    "campaign:urpay:9": {
-      "competitor_id": "urpay",
-      "title": "International Transfer Scratch & Win – Up to SAR 10,000",
-      "campaign_category": "remittance",
-      "mechanic": "Scratch-and-win cash prizes up to SAR 10,000",
-      "eligibility": "urpay customers making eligible international transfers; provider terms apply",
-      "terms_note": "A direct official Facebook post promotes scratch-and-win rewards up to SAR 10,000. The post does not state a campaign end date.",
-      "start_date": "2026-08-06T00:00:00+00:00",
-      "end_date": null,
-      "offer_values": null,
-      "corridors": null,
-      "current_status": "End Date Not Stated",
-      "active": true,
-      "market_launch_date": null,
-      "market_date_basis": null,
-      "market_last_changed": null,
-      "market_expiry_date": null
-    },
-    "campaign:alinma-pay:2": {
-      "competitor_id": "alinma-pay",
-      "title": "Zero International Transaction Fees on Cashback Cards",
-      "campaign_category": "card",
-      "mechanic": "Zero international transaction fees, first two international cash withdrawals free, plus cashback on eligible purchases",
-      "eligibility": "alinma pay Cashback Cards",
-      "terms_note": "Current summer messaging confirms no international transaction fees, no fees on the first two international cash withdrawals, and cashback on eligible purchases. No campaign end date is stated.",
-      "start_date": "2026-08-06T00:00:00+00:00",
-      "end_date": null,
-      "offer_values": null,
-      "corridors": null,
-      "current_status": "End Date Not Stated",
-      "active": true,
-      "market_launch_date": null,
-      "market_date_basis": null,
-      "market_last_changed": null,
-      "market_expiry_date": null
-    },
-    "campaign:alinma-pay:3": {
-      "competitor_id": "alinma-pay",
-      "title": "International Transfers for SAR 5",
-      "campaign_category": "remittance",
-      "mechanic": "Flat SAR 5 transfer fee",
-      "eligibility": "Transfers to listed destinations including the Philippines, Egypt, Bangladesh, Sri Lanka, Indonesia, Nepal, Jordan, and Morocco",
-      "terms_note": "Campaign end date is not stated in the official post. Social verification: Official Instagram and X posts explicitly promote international transfers for a SAR 5 fee. The Instagram creative is a corridor-specific execution within the same offer.",
-      "start_date": "2026-08-06T00:00:00+00:00",
-      "end_date": null,
-      "offer_values": null,
-      "corridors": null,
-      "current_status": "End Date Not Stated",
-      "active": true,
-      "market_launch_date": null,
-      "market_date_basis": null,
-      "market_last_changed": null,
-      "market_expiry_date": null
-    },
-    "campaign:alinma-pay:5": {
-      "competitor_id": "alinma-pay",
-      "title": "Musaned Salary Transfer – 100% Cashback Draw",
-      "campaign_category": "musaned",
-      "mechanic": "Three winners receive 100% cashback up to SAR 1,000",
-      "eligibility": "alinma pay customers transferring domestic-worker salaries through Musaned",
-      "terms_note": "Official Instagram and X posts announce three winners, each receiving 100% cashback up to SAR 1,000. The campaign end date is not stated.",
-      "start_date": "2026-07-17T12:01:00+00:00",
-      "end_date": null,
-      "offer_values": null,
-      "corridors": null,
-      "current_status": "End Date Not Stated",
-      "active": true,
-      "market_launch_date": "2026-07-17T12:01:00+00:00",
-      "market_date_basis": "first_official_campaign_post",
-      "market_last_changed": null,
-      "market_expiry_date": null
-    },
     "campaign:tiqmo:1": {
       "competitor_id": "tiqmo",
       "title": "SADAD Daily Cashback",
@@ -150890,23 +150869,62 @@
       "market_last_changed": null,
       "market_expiry_date": null
     },
-    "campaign:alinma-pay:4": {
-      "competitor_id": "alinma-pay",
-      "title": "Zero-Fee Transfers to India from SAR 700",
+    "campaign:mobily-pay:1": {
+      "competitor_id": "mobily-pay",
+      "title": "International Transfer Prize Draw – SAR 110,000",
       "campaign_category": "remittance",
-      "mechanic": "Zero transfer fee for transfers of SAR 700 or more",
-      "eligibility": "alinma pay Direct customers transferring to eligible Indian bank accounts",
-      "terms_note": "Campaign end date is not stated in the official video.",
-      "start_date": "2026-02-15T00:00:00+00:00",
-      "end_date": null,
+      "mechanic": "Five daily winners; SAR 1,000 per winner; 110 total winners and SAR 110,000 total prize pool",
+      "eligibility": "Mobily Pay customers making international transfers of SAR 1,000 or more",
+      "terms_note": "Campaign ran from 15 June to 6 July 2026 and is now expired. Cancelled or refunded transfers were excluded.",
+      "start_date": "2026-06-15T00:00:00+00:00",
+      "end_date": "2026-07-06T00:00:00+00:00",
       "offer_values": null,
       "corridors": null,
-      "current_status": "End Date Not Stated",
-      "active": true,
-      "market_launch_date": "2026-02-15T00:00:00+00:00",
-      "market_date_basis": "official_published_date",
+      "current_status": "Expired",
+      "active": false,
+      "market_launch_date": "2026-06-15T00:00:00+00:00",
+      "market_date_basis": "official_start_date",
       "market_last_changed": null,
-      "market_expiry_date": null
+      "market_expiry_date": "2026-07-06T00:00:00+00:00"
+    },
+    "campaign:tiqmo:3": {
+      "competitor_id": "tiqmo",
+      "title": "100% Cashback on International Transfers – May Edition",
+      "campaign_category": "remittance",
+      "mechanic": "100% cashback on the transfer amount; 10 daily winners; no minimum stated",
+      "eligibility": "tiqmo international-transfer customers",
+      "terms_note": "The winner-announcement post states that the May edition remained available until 31 May 2026; the campaign is expired.",
+      "start_date": "2026-08-06T00:00:00+00:00",
+      "end_date": "2026-05-31T00:00:00+00:00",
+      "offer_values": null,
+      "corridors": null,
+      "current_status": "Expired",
+      "active": false,
+      "market_launch_date": null,
+      "market_date_basis": null,
+      "market_last_changed": null,
+      "market_expiry_date": "2026-05-31T00:00:00+00:00"
+    },
+    "detected:mobily-pay:4232dc8e428d8da7c964": {
+      "competitor_id": "mobily-pay",
+      "title": "10 SAR CASHBACK",
+      "campaign_category": "other",
+      "mechanic": null,
+      "eligibility": null,
+      "terms_note": null,
+      "start_date": "2026-01-05T00:00:00+00:00",
+      "end_date": "2026-08-30T00:00:00+00:00",
+      "offer_values": [
+        "10 SAR",
+        "SAR 5"
+      ],
+      "corridors": [],
+      "current_status": "Expired",
+      "active": false,
+      "market_launch_date": "2026-01-05T00:00:00+00:00",
+      "market_date_basis": "official_start_date",
+      "market_last_changed": null,
+      "market_expiry_date": "2026-08-30T00:00:00+00:00"
     },
     "detected:tiqmo:62f452efb0655e36f2bb": {
       "competitor_id": "tiqmo",
@@ -150962,24 +150980,6 @@
       "market_last_changed": null,
       "market_expiry_date": "2026-07-19T00:00:00+00:00"
     },
-    "campaign:mobily-pay:1": {
-      "competitor_id": "mobily-pay",
-      "title": "International Transfer Prize Draw – SAR 110,000",
-      "campaign_category": "remittance",
-      "mechanic": "Five daily winners; SAR 1,000 per winner; 110 total winners and SAR 110,000 total prize pool",
-      "eligibility": "Mobily Pay customers making international transfers of SAR 1,000 or more",
-      "terms_note": "Campaign ran from 15 June to 6 July 2026 and is now expired. Cancelled or refunded transfers were excluded.",
-      "start_date": "2026-06-15T00:00:00+00:00",
-      "end_date": "2026-07-06T00:00:00+00:00",
-      "offer_values": null,
-      "corridors": null,
-      "current_status": "Expired",
-      "active": false,
-      "market_launch_date": "2026-06-15T00:00:00+00:00",
-      "market_date_basis": "official_start_date",
-      "market_last_changed": null,
-      "market_expiry_date": "2026-07-06T00:00:00+00:00"
-    },
     "campaign:mobily-pay:5": {
       "competitor_id": "mobily-pay",
       "title": "Summer Card Offers – Fees on Us & Up to 2% Cashback",
@@ -151016,24 +151016,6 @@
       "market_last_changed": null,
       "market_expiry_date": "2026-07-31T00:00:00+00:00"
     },
-    "campaign:tiqmo:3": {
-      "competitor_id": "tiqmo",
-      "title": "100% Cashback on International Transfers – May Edition",
-      "campaign_category": "remittance",
-      "mechanic": "100% cashback on the transfer amount; 10 daily winners; no minimum stated",
-      "eligibility": "tiqmo international-transfer customers",
-      "terms_note": "The winner-announcement post states that the May edition remained available until 31 May 2026; the campaign is expired.",
-      "start_date": "2026-08-06T00:00:00+00:00",
-      "end_date": "2026-05-31T00:00:00+00:00",
-      "offer_values": null,
-      "corridors": null,
-      "current_status": "Expired",
-      "active": false,
-      "market_launch_date": null,
-      "market_date_basis": null,
-      "market_last_changed": null,
-      "market_expiry_date": "2026-05-31T00:00:00+00:00"
-    },
     "campaign:tiqmo:6": {
       "competitor_id": "tiqmo",
       "title": "SAR 250,000 Spend & Win Campaign",
@@ -151069,28 +151051,10 @@
       "market_date_basis": "official_start_date",
       "market_last_changed": null,
       "market_expiry_date": "2026-08-07T00:00:00+00:00"
-    },
-    "manual:review:tiqmo:7744d3d2-2bfd-4c7f-a7e5-a7307e7d8a52": {
-      "competitor_id": "tiqmo",
-      "title": "Spend More, Win More!",
-      "campaign_category": "card",
-      "mechanic": "",
-      "eligibility": "",
-      "terms_note": "",
-      "start_date": "2026-08-01",
-      "end_date": "2026-08-31",
-      "offer_values": null,
-      "corridors": null,
-      "current_status": "Expiring ≤7 Days",
-      "active": true,
-      "market_launch_date": "2026-08-01T00:00:00+00:00",
-      "market_date_basis": "official_start_date",
-      "market_last_changed": null,
-      "market_expiry_date": null
     }
   },
   "ai_summary": {
-    "executive_view": "30 verified active campaigns are tracked across 6 competitors.",
+    "executive_view": "28 verified active campaigns are tracked across 6 competitors. Inventory coverage was corrected after source verification; that administrative adjustment is excluded from recent market developments.",
     "key_developments": [
       "Mobily Pay — 10 SAR CASHBACK expired on 30 Aug 2026."
     ],
@@ -151101,15 +151065,121 @@
     "recommended_actions": [
       "Monitor the listed expiries for an extension or replacement campaign and refresh the response plan only when an official change is verified."
     ],
-    "portfolio_insight": "Remittance (11) and Card (9) account for 67% of the verified active campaign portfolio.",
+    "portfolio_insight": "Remittance (11) and Card (8) account for 68% of the verified active campaign portfolio.",
     "market_window_days": 7,
     "generated_by": "management-rules-v2",
-    "generated_at": "2026-08-31T07:05:51.165072+00:00"
+    "generated_at": "2026-08-31T07:11:29.125587+00:00"
   },
   "authoritative_delta": {
     "added": [],
-    "removed": [],
-    "changed": [],
+    "removed": [
+      "campaign:alinma-pay:2",
+      "campaign:alinma-pay:5"
+    ],
+    "changed": [
+      {
+        "id": "detected:alinma-pay:e185f47787fe476946bf",
+        "fields": [
+          "mechanic",
+          "eligibility",
+          "terms_note"
+        ],
+        "before": {
+          "competitor_id": "alinma-pay",
+          "title": "صفر رسوم على المشتريات الدولية",
+          "campaign_category": "card",
+          "mechanic": null,
+          "eligibility": null,
+          "terms_note": null,
+          "start_date": "2026-06-24T00:00:00+00:00",
+          "end_date": "2026-08-31T00:00:00+00:00",
+          "offer_values": [
+            "حتى 31"
+          ],
+          "corridors": [],
+          "current_status": "Expiring ≤7 Days",
+          "active": true,
+          "market_launch_date": "2026-06-24T00:00:00+00:00",
+          "market_date_basis": "official_start_date",
+          "market_last_changed": null,
+          "market_expiry_date": null
+        },
+        "after": {
+          "competitor_id": "alinma-pay",
+          "title": "صفر رسوم على المشتريات الدولية",
+          "campaign_category": "card",
+          "mechanic": "Zero international transaction fees, first two international cash withdrawals free, plus cashback on eligible purchases",
+          "eligibility": "alinma pay Cashback Cards",
+          "terms_note": "Current summer messaging confirms no international transaction fees, no fees on the first two international cash withdrawals, and cashback on eligible purchases. No campaign end date is stated.",
+          "start_date": "2026-06-24T00:00:00+00:00",
+          "end_date": "2026-08-31T00:00:00+00:00",
+          "offer_values": [
+            "حتى 31"
+          ],
+          "corridors": [],
+          "current_status": "Expiring ≤7 Days",
+          "active": true,
+          "market_launch_date": "2026-06-24T00:00:00+00:00",
+          "market_date_basis": "official_start_date",
+          "market_last_changed": null,
+          "market_expiry_date": null
+        }
+      },
+      {
+        "id": "detected:alinma-pay:4388e8323ca781e0c1eb",
+        "fields": [
+          "mechanic",
+          "eligibility",
+          "terms_note",
+          "start_date",
+          "market_launch_date"
+        ],
+        "before": {
+          "competitor_id": "alinma-pay",
+          "title": "كاش باك 100% على رواتب عمالتك المنزلية",
+          "campaign_category": "musaned",
+          "mechanic": null,
+          "eligibility": null,
+          "terms_note": null,
+          "start_date": "2026-07-28T15:34:27+00:00",
+          "end_date": "2026-12-28T00:00:00+00:00",
+          "offer_values": [
+            "1,000 ريال",
+            "100%",
+            "حتى 28"
+          ],
+          "corridors": [],
+          "current_status": "Active",
+          "active": true,
+          "market_launch_date": "2026-07-28T15:34:27+00:00",
+          "market_date_basis": "first_official_campaign_post",
+          "market_last_changed": null,
+          "market_expiry_date": null
+        },
+        "after": {
+          "competitor_id": "alinma-pay",
+          "title": "كاش باك 100% على رواتب عمالتك المنزلية",
+          "campaign_category": "musaned",
+          "mechanic": "Three winners receive 100% cashback up to SAR 1,000",
+          "eligibility": "alinma pay customers transferring domestic-worker salaries through Musaned",
+          "terms_note": "",
+          "start_date": "2026-07-17T12:01:00+00:00",
+          "end_date": "2026-12-28T00:00:00+00:00",
+          "offer_values": [
+            "1,000 ريال",
+            "100%",
+            "حتى 28"
+          ],
+          "corridors": [],
+          "current_status": "Active",
+          "active": true,
+          "market_launch_date": "2026-07-17T12:01:00+00:00",
+          "market_date_basis": "first_official_campaign_post",
+          "market_last_changed": null,
+          "market_expiry_date": null
+        }
+      }
+    ],
     "initial": false,
     "market_launches": [],
     "market_updates": [],
@@ -151121,8 +151191,39 @@
     ],
     "new_market_updates": [],
     "new_market_expiries": [],
-    "inventory_adjustments": [],
-    "inventory_adjustment_count": 0,
+    "inventory_adjustments": [
+      {
+        "id": "detected:alinma-pay:e185f47787fe476946bf",
+        "fields": [
+          "mechanic",
+          "eligibility",
+          "terms_note"
+        ]
+      },
+      {
+        "id": "detected:alinma-pay:4388e8323ca781e0c1eb",
+        "fields": [
+          "mechanic",
+          "eligibility",
+          "terms_note",
+          "start_date",
+          "market_launch_date"
+        ]
+      },
+      {
+        "id": "campaign:alinma-pay:2",
+        "fields": [
+          "record_removed"
+        ]
+      },
+      {
+        "id": "campaign:alinma-pay:5",
+        "fields": [
+          "record_removed"
+        ]
+      }
+    ],
+    "inventory_adjustment_count": 4,
     "new_event_detected": false,
     "material": true,
     "window_days": 7
@@ -151337,5 +151438,5 @@
       "at": "2026-08-26T02:43:25.502307+00:00"
     }
   },
-  "summary_snapshot_at": "2026-08-31T07:05:51.165082+00:00"
+  "summary_snapshot_at": "2026-08-31T07:11:29.125595+00:00"
 }

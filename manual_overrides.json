@@ -1,6 +1,6 @@
 {
   "schema_version": 3,
-  "updated_at": "2026-08-29T18:38:39.205223+00:00",
+  "updated_at": "2026-08-31T07:11:20.546700+00:00",
   "site_preferences": {
     "home_layout": "classic",
     "updated_at": "2026-08-29T18:38:38.649282+00:00",
@@ -2735,12 +2735,20 @@
     "campaign:alinma-pay:5": {
       "manual_override": true,
       "reviewed_by": "admin",
-      "reviewed_at": "2026-08-28T08:27:00.511754+00:00",
-      "review_request_id": "0fbbfe08-dec2-425b-9392-ec3497959e2c",
+      "reviewed_at": "2026-08-31T07:11:20.546700+00:00",
+      "review_request_id": "89b8b5d4-2d1f-4024-bb57-8f971e6d63d4",
       "social_links": {
         "instagram": "https://www.instagram.com/alinmapay/p/DbqaY05mm9E/",
         "x": "https://x.com/alinmapay/status/2085018248685232195"
-      }
+      },
+      "merged_into": "detected:alinma-pay:4388e8323ca781e0c1eb",
+      "merge_previous_active": true,
+      "merge_previous_status": "End Date Not Stated",
+      "active": false,
+      "current_status": "Merged",
+      "review_required": false,
+      "review_reasons": [],
+      "review_decision": "merge_campaigns"
     },
     "detected:alinma-pay:e185f47787fe476946bf": {
       "merged_into": null,
@@ -2757,12 +2765,53 @@
       "review_request_id": "auto-repair-incompatible-1782e17d74f230a4504a91c1"
     },
     "post:alinma-pay:x:dad6e34142575dcfa664": {
-      "campaign_id": "campaign:alinma-pay:5",
-      "linked_campaign_id": "campaign:alinma-pay:5",
-      "merge_origin_campaign_id": "detected:alinma-pay:e185f47787fe476946bf",
+      "campaign_id": "detected:alinma-pay:4388e8323ca781e0c1eb",
+      "linked_campaign_id": "detected:alinma-pay:4388e8323ca781e0c1eb",
+      "merge_origin_campaign_id": "campaign:alinma-pay:5",
       "reviewed_by": "admin",
-      "reviewed_at": "2026-08-28T08:27:00.511754+00:00",
-      "review_request_id": "0fbbfe08-dec2-425b-9392-ec3497959e2c"
+      "reviewed_at": "2026-08-31T07:11:20.546700+00:00",
+      "review_request_id": "89b8b5d4-2d1f-4024-bb57-8f971e6d63d4"
+    },
+    "detected:alinma-pay:4388e8323ca781e0c1eb": {
+      "manual_override": true,
+      "reviewed_by": "admin",
+      "reviewed_at": "2026-08-31T07:11:20.546700+00:00",
+      "review_request_id": "89b8b5d4-2d1f-4024-bb57-8f971e6d63d4",
+      "social_links": {
+        "x": [
+          "https://x.com/alinmapay/status/2082127730972176680",
+          "https://x.com/alinmapay/status/2085018248685232195"
+        ],
+        "facebook": "https://m.facebook.com/AlinmaPaySA/posts/pfbid02qzFxmfE6Ajm5LhhKy4EVeNqAVycQERoEyiAKqjyHfBhKQ13AdTQGqE9Wcrs39Fucl",
+        "instagram": "https://www.instagram.com/alinmapay/p/DbqaY05mm9E/"
+      },
+      "evidence_ids": [
+        "campaign:alinma-pay:5"
+      ],
+      "mechanic": "Three winners receive 100% cashback up to SAR 1,000",
+      "eligibility": "alinma pay customers transferring domestic-worker salaries through Musaned",
+      "terms_note": "Official Instagram and X posts announce three winners, each receiving 100% cashback up to SAR 1,000. The campaign end date is not stated.",
+      "start_date": "2026-07-17T12:01:00+00:00",
+      "start_date_basis": "first_verified_social_post",
+      "start_date_source_url": "https://x.com/alinmapay/status/2078087619943055657",
+      "start_date_estimated": true,
+      "start_date_evidence_type": "first_verified_social_post"
+    },
+    "post:alinma-pay:instagram:0bb6aa97c34f70136874": {
+      "campaign_id": "detected:alinma-pay:4388e8323ca781e0c1eb",
+      "linked_campaign_id": "detected:alinma-pay:4388e8323ca781e0c1eb",
+      "merge_origin_campaign_id": "campaign:alinma-pay:5",
+      "reviewed_by": "admin",
+      "reviewed_at": "2026-08-31T07:11:20.546700+00:00",
+      "review_request_id": "89b8b5d4-2d1f-4024-bb57-8f971e6d63d4"
+    },
+    "post:alinma-pay:x:f88617875f967a0282f9": {
+      "campaign_id": "detected:alinma-pay:4388e8323ca781e0c1eb",
+      "linked_campaign_id": "detected:alinma-pay:4388e8323ca781e0c1eb",
+      "merge_origin_campaign_id": "campaign:alinma-pay:5",
+      "reviewed_by": "admin",
+      "reviewed_at": "2026-08-31T07:11:20.546700+00:00",
+      "review_request_id": "89b8b5d4-2d1f-4024-bb57-8f971e6d63d4"
     }
   },
   "new_items": [
@@ -3286,6 +3335,17 @@
       "action": "auto_repair_incompatible_merges",
       "reviewed_at": "2026-08-29T18:38:39.205223+00:00",
       "count": 1
+    },
+    {
+      "request_id": "89b8b5d4-2d1f-4024-bb57-8f971e6d63d4",
+      "reviewed_at": "2026-08-31T07:11:20.546700+00:00",
+      "reviewed_by": "admin",
+      "action": "merge_campaigns",
+      "item_ids": [
+        "campaign:alinma-pay:5"
+      ],
+      "campaign_id": "detected:alinma-pay:4388e8323ca781e0c1eb",
+      "record_ids": []
     }
   ]
 }
