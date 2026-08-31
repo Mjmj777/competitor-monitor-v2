@@ -143205,7 +143205,7 @@
     }
   },
   "ai_cache": {},
-  "updated_at": "2026-08-31T07:11:29.125595+00:00",
+  "updated_at": "2026-08-31T07:14:40.111132+00:00",
   "ai_classification_cache": {
     "post:alinma-pay:facebook:342fb820cfeedf68ae83": {
       "content_key": "b7909a066e1ce27745e0337d",
@@ -150520,24 +150520,6 @@
       "market_last_changed": null,
       "market_expiry_date": null
     },
-    "campaign:alinma-pay:4": {
-      "competitor_id": "alinma-pay",
-      "title": "Zero-Fee Transfers to India from SAR 700",
-      "campaign_category": "remittance",
-      "mechanic": "Zero transfer fee for transfers of SAR 700 or more",
-      "eligibility": "alinma pay Direct customers transferring to eligible Indian bank accounts",
-      "terms_note": "Campaign end date is not stated in the official video.",
-      "start_date": "2026-02-15T00:00:00+00:00",
-      "end_date": null,
-      "offer_values": null,
-      "corridors": null,
-      "current_status": "End Date Not Stated",
-      "active": true,
-      "market_launch_date": "2026-02-15T00:00:00+00:00",
-      "market_date_basis": "official_published_date",
-      "market_last_changed": null,
-      "market_expiry_date": null
-    },
     "manual:review:tiqmo:7744d3d2-2bfd-4c7f-a7e5-a7307e7d8a52": {
       "competitor_id": "tiqmo",
       "title": "Spend More, Win More!",
@@ -150666,11 +150648,11 @@
     "detected:alinma-pay:b4e4c06d766a276abafa": {
       "competitor_id": "alinma-pay",
       "title": "عرض الهند على رسوم التحويلات الدولية",
-      "campaign_category": "other",
-      "mechanic": null,
-      "eligibility": null,
-      "terms_note": null,
-      "start_date": "2026-08-08T00:00:00+00:00",
+      "campaign_category": "remittance",
+      "mechanic": "Zero transfer fee for transfers of SAR 700 or more",
+      "eligibility": "alinma pay Direct customers transferring to eligible Indian bank accounts",
+      "terms_note": "",
+      "start_date": "2026-02-15T00:00:00+00:00",
       "end_date": "2026-12-31T00:00:00+00:00",
       "offer_values": [
         "5 ريال",
@@ -150682,8 +150664,8 @@
       ],
       "current_status": "Active",
       "active": true,
-      "market_launch_date": "2026-08-08T00:00:00+00:00",
-      "market_date_basis": "official_start_date",
+      "market_launch_date": "2026-02-15T00:00:00+00:00",
+      "market_date_basis": "official_published_date",
       "market_last_changed": null,
       "market_expiry_date": null
     },
@@ -151054,7 +151036,7 @@
     }
   },
   "ai_summary": {
-    "executive_view": "28 verified active campaigns are tracked across 6 competitors. Inventory coverage was corrected after source verification; that administrative adjustment is excluded from recent market developments.",
+    "executive_view": "27 verified active campaigns are tracked across 6 competitors. Inventory coverage was corrected after source verification; that administrative adjustment is excluded from recent market developments.",
     "key_developments": [
       "Mobily Pay — 10 SAR CASHBACK expired on 30 Aug 2026."
     ],
@@ -151065,116 +151047,73 @@
     "recommended_actions": [
       "Monitor the listed expiries for an extension or replacement campaign and refresh the response plan only when an official change is verified."
     ],
-    "portfolio_insight": "Remittance (11) and Card (8) account for 68% of the verified active campaign portfolio.",
+    "portfolio_insight": "Remittance (11) and Card (8) account for 70% of the verified active campaign portfolio.",
     "market_window_days": 7,
     "generated_by": "management-rules-v2",
-    "generated_at": "2026-08-31T07:11:29.125587+00:00"
+    "generated_at": "2026-08-31T07:14:40.111121+00:00"
   },
   "authoritative_delta": {
     "added": [],
     "removed": [
-      "campaign:alinma-pay:2",
-      "campaign:alinma-pay:5"
+      "campaign:alinma-pay:4"
     ],
     "changed": [
       {
-        "id": "detected:alinma-pay:e185f47787fe476946bf",
+        "id": "detected:alinma-pay:b4e4c06d766a276abafa",
         "fields": [
-          "mechanic",
-          "eligibility",
-          "terms_note"
-        ],
-        "before": {
-          "competitor_id": "alinma-pay",
-          "title": "صفر رسوم على المشتريات الدولية",
-          "campaign_category": "card",
-          "mechanic": null,
-          "eligibility": null,
-          "terms_note": null,
-          "start_date": "2026-06-24T00:00:00+00:00",
-          "end_date": "2026-08-31T00:00:00+00:00",
-          "offer_values": [
-            "حتى 31"
-          ],
-          "corridors": [],
-          "current_status": "Expiring ≤7 Days",
-          "active": true,
-          "market_launch_date": "2026-06-24T00:00:00+00:00",
-          "market_date_basis": "official_start_date",
-          "market_last_changed": null,
-          "market_expiry_date": null
-        },
-        "after": {
-          "competitor_id": "alinma-pay",
-          "title": "صفر رسوم على المشتريات الدولية",
-          "campaign_category": "card",
-          "mechanic": "Zero international transaction fees, first two international cash withdrawals free, plus cashback on eligible purchases",
-          "eligibility": "alinma pay Cashback Cards",
-          "terms_note": "Current summer messaging confirms no international transaction fees, no fees on the first two international cash withdrawals, and cashback on eligible purchases. No campaign end date is stated.",
-          "start_date": "2026-06-24T00:00:00+00:00",
-          "end_date": "2026-08-31T00:00:00+00:00",
-          "offer_values": [
-            "حتى 31"
-          ],
-          "corridors": [],
-          "current_status": "Expiring ≤7 Days",
-          "active": true,
-          "market_launch_date": "2026-06-24T00:00:00+00:00",
-          "market_date_basis": "official_start_date",
-          "market_last_changed": null,
-          "market_expiry_date": null
-        }
-      },
-      {
-        "id": "detected:alinma-pay:4388e8323ca781e0c1eb",
-        "fields": [
+          "campaign_category",
           "mechanic",
           "eligibility",
           "terms_note",
           "start_date",
-          "market_launch_date"
+          "market_launch_date",
+          "market_date_basis"
         ],
         "before": {
           "competitor_id": "alinma-pay",
-          "title": "كاش باك 100% على رواتب عمالتك المنزلية",
-          "campaign_category": "musaned",
+          "title": "عرض الهند على رسوم التحويلات الدولية",
+          "campaign_category": "other",
           "mechanic": null,
           "eligibility": null,
           "terms_note": null,
-          "start_date": "2026-07-28T15:34:27+00:00",
-          "end_date": "2026-12-28T00:00:00+00:00",
+          "start_date": "2026-08-08T00:00:00+00:00",
+          "end_date": "2026-12-31T00:00:00+00:00",
           "offer_values": [
-            "1,000 ريال",
-            "100%",
-            "حتى 28"
+            "5 ريال",
+            "700 ريال",
+            "حتى 31"
           ],
-          "corridors": [],
+          "corridors": [
+            "India"
+          ],
           "current_status": "Active",
           "active": true,
-          "market_launch_date": "2026-07-28T15:34:27+00:00",
-          "market_date_basis": "first_official_campaign_post",
+          "market_launch_date": "2026-08-08T00:00:00+00:00",
+          "market_date_basis": "official_start_date",
           "market_last_changed": null,
           "market_expiry_date": null
         },
         "after": {
           "competitor_id": "alinma-pay",
-          "title": "كاش باك 100% على رواتب عمالتك المنزلية",
-          "campaign_category": "musaned",
-          "mechanic": "Three winners receive 100% cashback up to SAR 1,000",
-          "eligibility": "alinma pay customers transferring domestic-worker salaries through Musaned",
+          "title": "عرض الهند على رسوم التحويلات الدولية",
+          "campaign_category": "remittance",
+          "mechanic": "Zero transfer fee for transfers of SAR 700 or more",
+          "eligibility": "alinma pay Direct customers transferring to eligible Indian bank accounts",
           "terms_note": "",
-          "start_date": "2026-07-17T12:01:00+00:00",
-          "end_date": "2026-12-28T00:00:00+00:00",
+          "start_date": "2026-02-15T00:00:00+00:00",
+          "end_date": "2026-12-31T00:00:00+00:00",
           "offer_values": [
-            "1,000 ريال",
-            "100%",
-            "حتى 28"
+            "5 ريال",
+            "700 ريال",
+            "حتى 31"
           ],
-          "corridors": [],
+          "corridors": [
+            "India"
+          ],
           "current_status": "Active",
           "active": true,
-          "market_launch_date": "2026-07-17T12:01:00+00:00",
-          "market_date_basis": "first_official_campaign_post",
+          "market_launch_date": "2026-02-15T00:00:00+00:00",
+          "market_date_basis": "official_published_date",
           "market_last_changed": null,
           "market_expiry_date": null
         }
@@ -151193,37 +151132,25 @@
     "new_market_expiries": [],
     "inventory_adjustments": [
       {
-        "id": "detected:alinma-pay:e185f47787fe476946bf",
+        "id": "detected:alinma-pay:b4e4c06d766a276abafa",
         "fields": [
-          "mechanic",
-          "eligibility",
-          "terms_note"
-        ]
-      },
-      {
-        "id": "detected:alinma-pay:4388e8323ca781e0c1eb",
-        "fields": [
+          "campaign_category",
           "mechanic",
           "eligibility",
           "terms_note",
           "start_date",
-          "market_launch_date"
+          "market_launch_date",
+          "market_date_basis"
         ]
       },
       {
-        "id": "campaign:alinma-pay:2",
-        "fields": [
-          "record_removed"
-        ]
-      },
-      {
-        "id": "campaign:alinma-pay:5",
+        "id": "campaign:alinma-pay:4",
         "fields": [
           "record_removed"
         ]
       }
     ],
-    "inventory_adjustment_count": 4,
+    "inventory_adjustment_count": 2,
     "new_event_detected": false,
     "material": true,
     "window_days": 7
@@ -151438,5 +151365,5 @@
       "at": "2026-08-26T02:43:25.502307+00:00"
     }
   },
-  "summary_snapshot_at": "2026-08-31T07:11:29.125595+00:00"
+  "summary_snapshot_at": "2026-08-31T07:14:40.111132+00:00"
 }

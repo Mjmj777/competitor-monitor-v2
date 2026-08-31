@@ -4538,12 +4538,12 @@
     }
   ],
   "stats": {
-    "active_campaigns": 28,
+    "active_campaigns": 27,
     "merchant_offers": 143,
     "remittance_campaigns": 11,
     "expiring_30d": 6,
     "social_posts_7d": 243,
-    "review_required": 245,
+    "review_required": 246,
     "healthy_sources": 30,
     "failed_sources": 1,
     "total_sources": 31
@@ -4551,12 +4551,12 @@
   "refresh_summary": {
     "request_id": "33366742212",
     "competitor": "all",
-    "completed_at": "2026-08-31T07:11:29.163344+00:00",
+    "completed_at": "2026-08-31T07:14:40.155885+00:00",
     "new_offers": 0,
     "updated_offers": 96,
     "unchanged_offers": 208,
     "new_posts": 0,
-    "needs_review": 245,
+    "needs_review": 246,
     "failed_sources": 1,
     "zero_item_sources": 0,
     "preserved_last_known_good": 1
@@ -4812,12 +4812,12 @@
     {
       "request_id": "33366742212",
       "competitor": "all",
-      "completed_at": "2026-08-31T07:11:29.163344+00:00",
+      "completed_at": "2026-08-31T07:14:40.155885+00:00",
       "new_offers": 0,
       "updated_offers": 96,
       "unchanged_offers": 208,
       "new_posts": 0,
-      "needs_review": 245,
+      "needs_review": 246,
       "failed_sources": 1,
       "zero_item_sources": 0,
       "preserved_last_known_good": 1
@@ -7835,7 +7835,7 @@
       ],
       "manual_override": true,
       "corridors": [],
-      "suggested_campaign_id": "detected:alinma-pay:e185f47787fe476946bf",
+      "suggested_campaign_id": "detected:alinma-pay:6b8d7b9b17767484f8e3",
       "suggested_record_type": "merchant_offer",
       "review_priority": 35
     },
@@ -7899,7 +7899,7 @@
       "primary_official_source_url": "https://x.com/alinmapay/status/2092162681998368968",
       "manual_override": true,
       "corridors": [],
-      "suggested_campaign_id": "detected:alinma-pay:e185f47787fe476946bf",
+      "suggested_campaign_id": "detected:alinma-pay:d86e8d1aa6a36304cb13",
       "suggested_record_type": "merchant_offer",
       "review_priority": 35
     },
@@ -12111,6 +12111,69 @@
       "review_priority": 31
     },
     {
+      "id": "post:alinma-pay:tiktok:e57017aae4e9be22deb3",
+      "competitor_id": "alinma-pay",
+      "source_key": "social:alinma-pay:tiktok",
+      "source_type": "social",
+      "platform": "tiktok",
+      "content_type": "review",
+      "campaign_category": "remittance",
+      "primary_category": "remittance",
+      "categories": [
+        "remittance"
+      ],
+      "title": "بمناسبة ⁧‫#اليوم_الوطني_السعودي‬⁩ الغالين عليك في أي دولة ثانية يستاهلون حوالة مالية منك 😍🇸🇦💚 ‏شاركهم الاحتفال وحوّل تحويل دولي بدون أي رسووووووم 😉0️⃣ ‏عن طريق ويسترن يونيون استخد…",
+      "snippet": "بمناسبة ⁧‫#اليوم_الوطني_السعودي‬⁩ الغالين عليك في أي دولة ثانية يستاهلون حوالة مالية منك 😍🇸🇦💚 ‏شاركهم الاحتفال وحوّل تحويل دولي بدون أي رسووووووم 😉0️⃣ ‏عن طريق ويسترن يونيون استخدم كود \" ALINMA \" 📲 ♬ Sunrise - Official Sound Studio",
+      "link": "https://www.tiktok.com/@alinmapay/video/7281638782733012242",
+      "social_links": {
+        "tiktok": "https://www.tiktok.com/@alinmapay/video/7281638782733012242"
+      },
+      "social_link_count": 1,
+      "published_at": "2023-09-22T13:17:28+00:00",
+      "active": true,
+      "direct_link": true,
+      "verified": true,
+      "review_required": true,
+      "review_reasons": [
+        "new_social_campaign_needs_review"
+      ],
+      "current_status": "Needs Review",
+      "post_role": "promotion_or_content",
+      "mechanic_tags": [
+        "discount"
+      ],
+      "theme_tags": [
+        "international_transfer"
+      ],
+      "media": {
+        "url": "https://p16-common-sign.tiktokcdn-us.com/tos-alisg-p-0037/72584148c2244b9d9fbd1184dbef6002_1695388650~tplv-tiktokx-origin.image?dr=9636&idc=useast8&ps=13740610&shcp=43f4a2f9&shp=81f88b70&t=4d5b0474&x-expires=1787061600&x-signature=P%2FtzeRiYPuB%2BhHeuZOI864pWmSE%3D",
+        "type": "image",
+        "thumbnail_url": "https://p16-common-sign.tiktokcdn-us.com/tos-alisg-p-0037/72584148c2244b9d9fbd1184dbef6002_1695388650~tplv-tiktokx-origin.image?dr=9636&idc=useast8&ps=13740610&shcp=43f4a2f9&shp=81f88b70&t=4d5b0474&x-expires=1787061600&x-signature=P%2FtzeRiYPuB%2BhHeuZOI864pWmSE%3D"
+      },
+      "first_seen": "2026-08-25T15:44:42.097858+00:00",
+      "last_seen": "2026-08-31T07:04:39.834195+00:00",
+      "last_changed": "2026-08-25T15:44:42.097858+00:00",
+      "version": 1,
+      "change_history": [
+        {
+          "at": "2026-08-25T15:44:42.097858+00:00",
+          "type": "detected",
+          "version": 1
+        }
+      ],
+      "outbound_links": [
+        "https://p16-common-sign.tiktokcdn-us.com/tos-alisg-p-0037/72584148c2244b9d9fbd1184dbef6002_1695388650~tplv-tiktokx-origin.image?dr=9636&idc=useast8&ps=13740610&shcp=43f4a2f9&shp=81f88b70&t=4d5b0474&x-expires=1787061600&x-signature=P%2FtzeRiYPuB%2BhHeuZOI864pWmSE%3D"
+      ],
+      "official_evidence_url": null,
+      "official_campaign_page_url": null,
+      "primary_official_source_url": "https://www.tiktok.com/@alinmapay/video/7281638782733012242",
+      "manual_override": true,
+      "corridors": [],
+      "review_priority": 31,
+      "suggested_campaign_id": "detected:alinma-pay:b4e4c06d766a276abafa",
+      "suggested_record_type": "campaign"
+    },
+    {
       "id": "detected:barq:a5db2146230537cf52b3",
       "competitor_id": "barq",
       "source_key": "website:barq:offers",
@@ -16079,127 +16142,6 @@
       "corridors": [],
       "suggested_campaign_id": "social-merchant:mobily-pay:b968b9d58ac184f13ac57c69",
       "suggested_record_type": "campaign",
-      "review_priority": 23
-    },
-    {
-      "id": "detected:mobily-pay:75e03e28295de56a5345",
-      "competitor_id": "mobily-pay",
-      "source_key": "website:mobily-pay:offers",
-      "source_type": "website",
-      "platform": "website",
-      "content_type": "merchant_offer",
-      "suggested_record_type": "merchant_offer",
-      "campaign_category": "merchant",
-      "primary_category": "merchant",
-      "categories": [
-        "merchant"
-      ],
-      "title": "ALFA MEDICAL LABORATORIES",
-      "snippet": "Offer is valid from 20 Jan 2025 until 31 Dec 2026. 50% discount on individual tests.",
-      "link": "https://mobilypay.sa/en/offers/offer-6.html",
-      "official_campaign_page_url": "https://mobilypay.sa/en/offers/offer-6.html",
-      "primary_official_source_url": "https://mobilypay.sa/en/offers/offer-6.html",
-      "social_links": {},
-      "social_link_count": 0,
-      "published_at": null,
-      "start_date": "2025-01-20T00:00:00+00:00",
-      "end_date": "2026-12-31T00:00:00+00:00",
-      "date_evidence": {
-        "start": "valid from 20 Jan 2025 until 31 Dec 2026",
-        "end": "valid from 20 Jan 2025 until 31 Dec 2026"
-      },
-      "current_status": "Active",
-      "active": true,
-      "direct_link": true,
-      "verified": true,
-      "official_discovery": true,
-      "discovery_section": "current",
-      "review_required": false,
-      "review_reasons": [
-        "official_source_conflict"
-      ],
-      "mechanic_tags": [
-        "other",
-        "discount"
-      ],
-      "theme_tags": [
-        "other"
-      ],
-      "first_seen": "2026-08-26T04:50:28.536146+00:00",
-      "last_seen": "2026-08-31T07:04:39.834195+00:00",
-      "last_changed": "2026-08-26T04:50:28.536146+00:00",
-      "version": 1,
-      "change_history": [
-        {
-          "at": "2026-08-26T04:50:28.536146+00:00",
-          "type": "detected",
-          "version": 1
-        },
-        {
-          "at": "2026-08-31T07:05:31.282734+00:00",
-          "type": "start_date_updated",
-          "details": {
-            "from": null,
-            "to": "2025-01-20T00:00:00+00:00"
-          }
-        },
-        {
-          "at": "2026-08-31T07:05:31.282739+00:00",
-          "type": "end_date_updated",
-          "details": {
-            "from": null,
-            "to": "2026-12-31T00:00:00+00:00"
-          }
-        },
-        {
-          "at": "2026-08-31T07:11:21.042036+00:00",
-          "type": "start_date_updated",
-          "details": {
-            "from": "2024-08-01T00:00:00+00:00",
-            "to": "2025-01-20T00:00:00+00:00"
-          }
-        }
-      ],
-      "detail_timeout_seconds": 18,
-      "manual_override": true,
-      "summary": "Offer is valid from 20 Jan 2025 until 31 Dec 2026. 50% discount on individual tests.",
-      "corridors": [],
-      "offer_values": [
-        "50%"
-      ],
-      "evidence_snapshot": "valid from 20 Jan 2025 until 31 Dec 2026",
-      "date_extraction_method": "structured_or_rules",
-      "source_verification": {
-        "status": "verified_website",
-        "verification_method": "official_website_page",
-        "checked_at": "2026-08-26T05:56:08.438363+00:00",
-        "source_url": "https://mobilypay.sa/en/offers/offer-6.html",
-        "source_changed": true,
-        "conflicts": [
-          {
-            "field": "start_date",
-            "current": "2024-08-01T00:00:00+00:00",
-            "source": "2025-01-20T00:00:00+00:00"
-          }
-        ],
-        "error": null
-      },
-      "last_live_verified_at": "2026-08-26T05:56:08.438363+00:00",
-      "last_reviewed": "2026-08-26T05:56:08.438363+00:00",
-      "classification_method": "verified_official_rules_v6",
-      "linked_posts": [],
-      "social_post_counts": {
-        "instagram": 0,
-        "x": 0,
-        "facebook": 0,
-        "tiktok": 0
-      },
-      "social_posts_total": 0,
-      "social_platform_count": 0,
-      "social_first_post": null,
-      "social_latest_post": null,
-      "social_posts_7d": 0,
-      "social_posts_30d": 0,
       "review_priority": 23
     },
     {
@@ -29972,6 +29914,172 @@
       "review_priority": 20
     },
     {
+      "id": "detected:alinma-pay:b4e4c06d766a276abafa",
+      "competitor_id": "alinma-pay",
+      "source_key": "website:alinma-pay:offers",
+      "source_type": "website",
+      "platform": "website",
+      "content_type": "campaign",
+      "suggested_record_type": "campaign",
+      "campaign_category": "remittance",
+      "primary_category": "remittance",
+      "categories": [
+        "remittance"
+      ],
+      "title": "عرض الهند على رسوم التحويلات الدولية",
+      "snippet": "حوّل دولياً إلى الهند برسوم ثابتة 5 ريال فقط عبر خدمة alinmapay Direct ، إلى الهند. رسوم تحويل دولية ثابتة بقيمة 5 ريال عبر خدمة alinmapay Direct .",
+      "link": "https://www.alinmapay.com.sa/Offers/India-Transfer-Fee-Offer-Aug26",
+      "official_campaign_page_url": "https://www.alinmapay.com.sa/Offers/India-Transfer-Fee-Offer-Aug26",
+      "primary_official_source_url": "https://www.alinmapay.com.sa/Offers/India-Transfer-Fee-Offer-Aug26",
+      "social_links": {
+        "tiktok": "https://www.tiktok.com/@alinmapay/video/7586667265882443024",
+        "facebook": "https://www.facebook.com/AlinmaPaySA/videos/zero-fees-fast-transfers-to-india/873682655502395/"
+      },
+      "social_link_count": 2,
+      "published_at": null,
+      "start_date": "2026-02-15T00:00:00+00:00",
+      "end_date": "2026-12-31T00:00:00+00:00",
+      "date_evidence": {
+        "start": "يسري العرض من 8 أغسطس 2026 حتى 31 ديسمبر 2026",
+        "end": "يسري العرض من 8 أغسطس 2026 حتى 31 ديسمبر 2026"
+      },
+      "current_status": "Active",
+      "active": true,
+      "direct_link": true,
+      "verified": true,
+      "official_discovery": true,
+      "discovery_section": "current",
+      "review_required": false,
+      "review_reasons": [
+        "official_source_conflict"
+      ],
+      "mechanic_tags": [
+        "other"
+      ],
+      "theme_tags": [
+        "other"
+      ],
+      "media": {
+        "type": "image",
+        "url": "https://www.alinmapay.com.sa/-/media/Project/AlinmaPay/AlinmaPay/Icons/logo/alinmapayDirect-(2).png",
+        "thumbnail_url": "https://www.alinmapay.com.sa/-/media/Project/AlinmaPay/AlinmaPay/Icons/logo/alinmapayDirect-(2).png",
+        "source_type": "official_website",
+        "source_url": "https://www.alinmapay.com.sa/Offers/India-Transfer-Fee-Offer-Aug26"
+      },
+      "first_seen": "2026-08-25T15:44:42.097858+00:00",
+      "last_seen": "2026-08-31T07:04:39.834195+00:00",
+      "last_changed": "2026-08-25T15:44:42.097858+00:00",
+      "version": 1,
+      "change_history": [
+        {
+          "at": "2026-08-25T15:44:42.097858+00:00",
+          "type": "detected",
+          "version": 1
+        },
+        {
+          "at": "2026-08-31T07:05:31.268319+00:00",
+          "type": "start_date_updated",
+          "details": {
+            "from": null,
+            "to": "2026-08-08T00:00:00+00:00"
+          }
+        },
+        {
+          "at": "2026-08-31T07:05:31.268324+00:00",
+          "type": "end_date_updated",
+          "details": {
+            "from": null,
+            "to": "2026-12-31T00:00:00+00:00"
+          }
+        }
+      ],
+      "detail_timeout_seconds": 30,
+      "manual_override": true,
+      "summary": "حوّل دولياً إلى الهند برسوم ثابتة 5 ريال فقط عبر خدمة alinmapay Direct ، إلى الهند. رسوم تحويل دولية ثابتة بقيمة 5 ريال عبر خدمة alinmapay Direct .",
+      "corridors": [
+        "India"
+      ],
+      "offer_values": [
+        "5 ريال",
+        "700 ريال",
+        "حتى 31"
+      ],
+      "evidence_snapshot": "يسري العرض من 8 أغسطس 2026 حتى 31 ديسمبر 2026",
+      "date_extraction_method": "structured_or_rules",
+      "source_verification": {
+        "status": "verified_website",
+        "verification_method": "official_website_page",
+        "checked_at": "2026-08-25T19:47:41.382402+00:00",
+        "source_url": "https://www.alinmapay.com.sa/Offers/India-Transfer-Fee-Offer-Aug26",
+        "source_changed": true,
+        "conflicts": [
+          {
+            "field": "start_date",
+            "current": "2026-02-15T00:00:00+00:00",
+            "source": "2026-08-08T00:00:00+00:00"
+          }
+        ],
+        "error": null
+      },
+      "last_live_verified_at": "2026-08-25T19:47:41.382402+00:00",
+      "last_reviewed": "2026-08-25T19:47:41.382402+00:00",
+      "classification_method": "verified_official_rules_v6",
+      "linked_posts": [
+        {
+          "id": "source:detected:alinma-pay:b4e4c06d766a276abafa:facebook:67194e400429a4302b28724c",
+          "platform": "facebook",
+          "title": "Official facebook post",
+          "link": "https://www.facebook.com/AlinmaPaySA/videos/zero-fees-fast-transfers-to-india/873682655502395/",
+          "published_at": null,
+          "media": null,
+          "match_method": "master_link",
+          "source_origin": "master"
+        },
+        {
+          "id": "post:alinma-pay:tiktok:c3a42518da666464caed",
+          "platform": "tiktok",
+          "title": "700 SAR se zyada bhejoge to fee zero.alinma pay direct se India bhejna simple, safe aur fast.",
+          "link": "https://www.tiktok.com/@alinmapay/video/7586667265882443024",
+          "published_at": "2025-12-22T13:04:04+00:00",
+          "media": {
+            "url": "https://p19-common-sign.tiktokcdn-us.com/tos-alisg-p-0051c001-sg/osfDCoSgkxYGfCV9A9gHneIdLGAbEBkulYnwaQ~tplv-tiktokx-origin.image?dr=9636&idc=useast8&ps=13740610&shcp=43f4a2f9&shp=81f88b70&t=4d5b0474&x-expires=1787126400&x-signature=EBdwJ%2BwBVvj9iyH9yGbV8NIoU%2FU%3D",
+            "type": "image",
+            "thumbnail_url": "https://p19-common-sign.tiktokcdn-us.com/tos-alisg-p-0051c001-sg/osfDCoSgkxYGfCV9A9gHneIdLGAbEBkulYnwaQ~tplv-tiktokx-origin.image?dr=9636&idc=useast8&ps=13740610&shcp=43f4a2f9&shp=81f88b70&t=4d5b0474&x-expires=1787126400&x-signature=EBdwJ%2BwBVvj9iyH9yGbV8NIoU%2FU%3D"
+          },
+          "match_method": "heuristic",
+          "source_origin": "master+rss"
+        }
+      ],
+      "social_post_counts": {
+        "instagram": 0,
+        "x": 0,
+        "facebook": 1,
+        "tiktok": 1
+      },
+      "social_posts_total": 2,
+      "social_platform_count": 2,
+      "social_first_post": "2025-12-22T13:04:04+00:00",
+      "social_latest_post": "2025-12-22T13:04:04+00:00",
+      "social_posts_7d": 0,
+      "social_posts_30d": 0,
+      "start_date_basis": "first_verified_social_post",
+      "start_date_estimated": true,
+      "review_priority": 19,
+      "market_launch_date": "2026-02-15T00:00:00+00:00",
+      "market_date_basis": "official_published_date",
+      "reviewed_by": "admin",
+      "reviewed_at": "2026-08-31T07:14:30.812110+00:00",
+      "review_request_id": "e5ac1218-18a6-471a-8915-2182d6c9e000",
+      "evidence_ids": [
+        "campaign:alinma-pay:4"
+      ],
+      "mechanic": "Zero transfer fee for transfers of SAR 700 or more",
+      "eligibility": "alinma pay Direct customers transferring to eligible Indian bank accounts",
+      "terms_note": "",
+      "start_date_source_url": "https://www.facebook.com/AlinmaPaySA/videos/zero-fees-fast-transfers-to-india/873682655502395/",
+      "start_date_evidence_type": "record_publication"
+    },
+    {
       "id": "detected:stc-bank:fbee4408c8f62cd77d91",
       "competitor_id": "stc-bank",
       "source_key": "website:stc-bank:offers",
@@ -32340,6 +32448,121 @@
         "conflicts": [],
         "error": "SSLError: HTTPSConnectionPool(host='barq.com', port=443): Max retries exceeded with url: /ar/offers/%D8%B9%D8%B1%D8%B6-%D9%83%D9%88%D9%84%D9%8A%D9%83%D8%B4%D9%86-%D8%A3%D9%88%D9%81-%D8%B2%D9%8A%D8%AF/ (Caused by SSLError(SSLCertVerificationError(1, '[SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1010)')))"
       },
+      "linked_posts": [],
+      "social_post_counts": {
+        "instagram": 0,
+        "x": 0,
+        "facebook": 0,
+        "tiktok": 0
+      },
+      "social_posts_total": 0,
+      "social_platform_count": 0,
+      "social_first_post": null,
+      "social_latest_post": null,
+      "social_posts_7d": 0,
+      "social_posts_30d": 0,
+      "review_priority": 17
+    },
+    {
+      "id": "detected:mobily-pay:75e03e28295de56a5345",
+      "competitor_id": "mobily-pay",
+      "source_key": "website:mobily-pay:offers",
+      "source_type": "website",
+      "platform": "website",
+      "content_type": "merchant_offer",
+      "suggested_record_type": "merchant_offer",
+      "campaign_category": "merchant",
+      "primary_category": "merchant",
+      "categories": [
+        "merchant"
+      ],
+      "title": "ALFA MEDICAL LABORATORIES",
+      "snippet": "Offer is valid from 20 Jan 2025 until 31 Dec 2026. 50% discount on individual tests.",
+      "link": "https://mobilypay.sa/en/offers/offer-6.html",
+      "official_campaign_page_url": "https://mobilypay.sa/en/offers/offer-6.html",
+      "primary_official_source_url": "https://mobilypay.sa/en/offers/offer-6.html",
+      "social_links": {},
+      "social_link_count": 0,
+      "published_at": null,
+      "start_date": "2025-01-20T00:00:00+00:00",
+      "end_date": "2026-12-31T00:00:00+00:00",
+      "date_evidence": {
+        "start": "valid from 20 Jan 2025 until 31 Dec 2026",
+        "end": "valid from 20 Jan 2025 until 31 Dec 2026"
+      },
+      "current_status": "Active",
+      "active": true,
+      "direct_link": true,
+      "verified": true,
+      "official_discovery": true,
+      "discovery_section": "current",
+      "review_required": false,
+      "review_reasons": [
+        "official_source_conflict"
+      ],
+      "mechanic_tags": [
+        "other",
+        "discount"
+      ],
+      "theme_tags": [
+        "other"
+      ],
+      "first_seen": "2026-08-26T04:50:28.536146+00:00",
+      "last_seen": "2026-08-31T07:04:39.834195+00:00",
+      "last_changed": "2026-08-26T04:50:28.536146+00:00",
+      "version": 1,
+      "change_history": [
+        {
+          "at": "2026-08-26T04:50:28.536146+00:00",
+          "type": "detected",
+          "version": 1
+        },
+        {
+          "at": "2026-08-31T07:05:31.282734+00:00",
+          "type": "start_date_updated",
+          "details": {
+            "from": null,
+            "to": "2025-01-20T00:00:00+00:00"
+          }
+        },
+        {
+          "at": "2026-08-31T07:05:31.282739+00:00",
+          "type": "end_date_updated",
+          "details": {
+            "from": null,
+            "to": "2026-12-31T00:00:00+00:00"
+          }
+        },
+        {
+          "at": "2026-08-31T07:11:21.042036+00:00",
+          "type": "start_date_updated",
+          "details": {
+            "from": "2024-08-01T00:00:00+00:00",
+            "to": "2025-01-20T00:00:00+00:00"
+          }
+        }
+      ],
+      "detail_timeout_seconds": 18,
+      "manual_override": true,
+      "summary": "Offer is valid from 20 Jan 2025 until 31 Dec 2026. 50% discount on individual tests.",
+      "corridors": [],
+      "offer_values": [
+        "50%"
+      ],
+      "evidence_snapshot": "valid from 20 Jan 2025 until 31 Dec 2026",
+      "date_extraction_method": "structured_or_rules",
+      "source_verification": {
+        "status": "verified_website",
+        "verification_method": "official_website_page",
+        "checked_at": "2026-08-26T05:56:08.438363+00:00",
+        "source_url": "https://mobilypay.sa/en/offers/offer-6.html",
+        "source_changed": false,
+        "conflicts": [],
+        "error": null
+      },
+      "last_live_verified_at": "2026-08-26T05:56:08.438363+00:00",
+      "last_reviewed": "2026-08-26T05:56:08.438363+00:00",
+      "classification_method": "verified_official_rules_v6",
       "linked_posts": [],
       "social_post_counts": {
         "instagram": 0,
@@ -41911,7 +42134,7 @@
       "source_verification": {
         "status": "verified_social",
         "verification_method": "official_social_rss_or_inventory",
-        "checked_at": "2026-08-31T07:11:20.998452+00:00",
+        "checked_at": "2026-08-31T07:14:31.428712+00:00",
         "source_url": "https://m.facebook.com/stcbank/posts/pfbid0Po3zqZkqbQF9Q4a2bRV6xk62Mt5a1sHV9k9tVrmJfLhoZwJD3LBaeUEnafRMzfCCl",
         "source_changed": false,
         "conflicts": [],
@@ -42043,7 +42266,7 @@
       "source_verification": {
         "status": "verified_social",
         "verification_method": "official_social_rss_or_inventory",
-        "checked_at": "2026-08-31T07:11:20.998452+00:00",
+        "checked_at": "2026-08-31T07:14:31.428712+00:00",
         "source_url": "https://www.instagram.com/p/DcqZLkMmaZ8",
         "source_changed": false,
         "conflicts": [],
@@ -42161,7 +42384,7 @@
       "source_verification": {
         "status": "verified_social",
         "verification_method": "official_social_rss_or_inventory",
-        "checked_at": "2026-08-31T07:11:20.998452+00:00",
+        "checked_at": "2026-08-31T07:14:31.428712+00:00",
         "source_url": "https://www.instagram.com/p/DclNHimlta6",
         "source_changed": false,
         "conflicts": [],
@@ -42341,7 +42564,7 @@
       "source_verification": {
         "status": "verified_social",
         "verification_method": "official_social_rss_or_inventory",
-        "checked_at": "2026-08-31T07:11:20.998452+00:00",
+        "checked_at": "2026-08-31T07:14:31.428712+00:00",
         "source_url": "https://www.facebook.com/reel/2415225532300286/",
         "source_changed": false,
         "conflicts": [],
@@ -42449,7 +42672,7 @@
       "source_verification": {
         "status": "verified_social",
         "verification_method": "official_social_rss_or_inventory",
-        "checked_at": "2026-08-31T07:11:20.998452+00:00",
+        "checked_at": "2026-08-31T07:14:31.428712+00:00",
         "source_url": "https://x.com/MobilyPay/status/2092312502595952987",
         "source_changed": false,
         "conflicts": [],
@@ -42571,7 +42794,7 @@
       "source_verification": {
         "status": "verified_social",
         "verification_method": "official_social_rss_or_inventory",
-        "checked_at": "2026-08-31T07:11:20.998452+00:00",
+        "checked_at": "2026-08-31T07:14:31.428712+00:00",
         "source_url": "https://x.com/MobilyPay/status/2091571167866052701",
         "source_changed": false,
         "conflicts": [],
@@ -42691,7 +42914,7 @@
       "source_verification": {
         "status": "verified_social",
         "verification_method": "official_social_rss_or_inventory",
-        "checked_at": "2026-08-31T07:11:20.998452+00:00",
+        "checked_at": "2026-08-31T07:14:31.428712+00:00",
         "source_url": "https://x.com/MobilyPay/status/2089683923152654437",
         "source_changed": false,
         "conflicts": [],
@@ -42869,7 +43092,7 @@
       "source_verification": {
         "status": "verified_social",
         "verification_method": "official_social_rss_or_inventory",
-        "checked_at": "2026-08-31T07:11:20.998452+00:00",
+        "checked_at": "2026-08-31T07:14:31.428712+00:00",
         "source_url": "https://x.com/MobilyPay/status/2089321358291501415",
         "source_changed": false,
         "conflicts": [],
@@ -42991,7 +43214,7 @@
       "source_verification": {
         "status": "verified_social",
         "verification_method": "official_social_rss_or_inventory",
-        "checked_at": "2026-08-31T07:11:20.998452+00:00",
+        "checked_at": "2026-08-31T07:14:31.428712+00:00",
         "source_url": "https://x.com/MobilyPay/status/2089034453826039982",
         "source_changed": false,
         "conflicts": [],
@@ -43140,7 +43363,7 @@
       "source_verification": {
         "status": "verified_social",
         "verification_method": "official_social_rss_or_inventory",
-        "checked_at": "2026-08-31T07:11:20.998452+00:00",
+        "checked_at": "2026-08-31T07:14:31.428712+00:00",
         "source_url": "https://x.com/MobilyPay/status/2088309682456895660",
         "source_changed": false,
         "conflicts": [],
@@ -43261,7 +43484,7 @@
       "source_verification": {
         "status": "verified_social",
         "verification_method": "official_social_rss_or_inventory",
-        "checked_at": "2026-08-31T07:11:20.998452+00:00",
+        "checked_at": "2026-08-31T07:14:31.428712+00:00",
         "source_url": "https://www.instagram.com/p/Db6N_tkNgFI",
         "source_changed": false,
         "conflicts": [],
@@ -43368,7 +43591,7 @@
       "source_verification": {
         "status": "verified_social",
         "verification_method": "official_social_rss_or_inventory",
-        "checked_at": "2026-08-31T07:11:20.998452+00:00",
+        "checked_at": "2026-08-31T07:14:31.428712+00:00",
         "source_url": "https://x.com/barq/status/2087230805584011485",
         "source_changed": false,
         "conflicts": [],
@@ -43524,7 +43747,7 @@
       "source_verification": {
         "status": "verified_social",
         "verification_method": "official_social_rss_or_inventory",
-        "checked_at": "2026-08-31T07:11:20.998452+00:00",
+        "checked_at": "2026-08-31T07:14:31.428712+00:00",
         "source_url": "https://x.com/barq/status/2087181508222046216",
         "source_changed": false,
         "conflicts": [],
@@ -43647,7 +43870,7 @@
       "source_verification": {
         "status": "verified_social",
         "verification_method": "official_social_rss_or_inventory",
-        "checked_at": "2026-08-31T07:11:20.998452+00:00",
+        "checked_at": "2026-08-31T07:14:31.428712+00:00",
         "source_url": "https://x.com/MobilyPay/status/2086497737495957726",
         "source_changed": false,
         "conflicts": [],
@@ -43941,7 +44164,7 @@
       "source_verification": {
         "status": "verified_social",
         "verification_method": "official_social_rss_or_inventory",
-        "checked_at": "2026-08-31T07:11:20.998452+00:00",
+        "checked_at": "2026-08-31T07:14:31.428712+00:00",
         "source_url": "https://x.com/MobilyPay/status/2085772960887873742",
         "source_changed": false,
         "conflicts": [],
@@ -44077,7 +44300,7 @@
       "source_verification": {
         "status": "verified_social",
         "verification_method": "official_social_rss_or_inventory",
-        "checked_at": "2026-08-31T07:11:20.998452+00:00",
+        "checked_at": "2026-08-31T07:14:31.428712+00:00",
         "source_url": "https://www.instagram.com/p/DbQweKFDzN4",
         "source_changed": false,
         "conflicts": [],
@@ -45941,9 +46164,10 @@
       "primary_official_source_url": "https://www.instagram.com/p/Dazzjtdt1Jt/?utm_source=ig_web_button_share_sheet&igsh=MzRlODBiNWFlZA==",
       "social_links": {
         "instagram": "https://www.instagram.com/p/Dazzjtdt1Jt/?utm_source=ig_web_button_share_sheet&igsh=MzRlODBiNWFlZA==",
-        "facebook": "https://www.facebook.com/usebarq/videos/barq-transfer-fast-and-free/1218272083516944/"
+        "facebook": "https://www.facebook.com/usebarq/videos/barq-transfer-fast-and-free/1218272083516944/",
+        "tiktok": "https://www.tiktok.com/@barq/video/7667549953513884949"
       },
-      "social_link_count": 2,
+      "social_link_count": 3,
       "published_social_platforms": "Instagram, Facebook",
       "published_at": null,
       "start_date": "2026-08-06T00:00:00+00:00",
@@ -45995,7 +46219,7 @@
       "source_verification": {
         "status": "verified_social",
         "verification_method": "official_social_rss_or_inventory",
-        "checked_at": "2026-08-31T07:11:20.998452+00:00",
+        "checked_at": "2026-08-31T07:14:31.428712+00:00",
         "source_url": "https://www.instagram.com/p/Dazzjtdt1Jt/?utm_source=ig_web_button_share_sheet&igsh=MzRlODBiNWFlZA==",
         "source_changed": false,
         "conflicts": [],
@@ -46034,7 +46258,7 @@
             "thumbnail_url": "https://p16-common-sign.tiktokcdn-us.com/tos-alisg-p-0037/oUiQCg3RBDOa6UyRSaFzgwQERAieDiJfEUBqzJ~tplv-tiktokx-origin.image?dr=9636&idc=useast5&ps=13740610&shcp=43f4a2f9&shp=81f88b70&t=4d5b0474&x-expires=1787914800&x-signature=UyFplNwFODQt78LKOLYRt27vFos%3D"
           },
           "match_method": "full_review_campaign_semantic_strong",
-          "source_origin": "rss"
+          "source_origin": "master+rss"
         }
       ],
       "social_post_counts": {
@@ -46129,7 +46353,7 @@
       "source_verification": {
         "status": "verified_social",
         "verification_method": "official_social_rss_or_inventory",
-        "checked_at": "2026-08-31T07:11:20.998452+00:00",
+        "checked_at": "2026-08-31T07:14:31.428712+00:00",
         "source_url": "https://www.instagram.com/reel/DaaydiADUvg/?utm_source=ig_web_button_share_sheet&igsh=MzRlODBiNWFlZA==",
         "source_changed": false,
         "conflicts": [],
@@ -46368,7 +46592,7 @@
       "source_verification": {
         "status": "verified_social",
         "verification_method": "official_social_rss_or_inventory",
-        "checked_at": "2026-08-31T07:11:20.998452+00:00",
+        "checked_at": "2026-08-31T07:14:31.428712+00:00",
         "source_url": "https://www.facebook.com/mobilypay/videos/sar-20000-is-waiting-for-you-make-an-international-transfer-with-mobilypay-and-i/4300117560266135/",
         "source_changed": false,
         "conflicts": [],
@@ -46426,9 +46650,10 @@
       "social_links": {
         "instagram": "https://www.instagram.com/p/DbBUcjiIHS1/",
         "x": "https://x.com/tiqmo/status/2079235327240368574",
-        "facebook": "https://www.facebook.com/Tiqmoksa/posts/your-monthly-cashback-is-heretransfer-internationally-sar-1500-or-more-every-mon/1027166950077303/"
+        "facebook": "https://www.facebook.com/Tiqmoksa/posts/your-monthly-cashback-is-heretransfer-internationally-sar-1500-or-more-every-mon/1027166950077303/",
+        "tiktok": "https://www.tiktok.com/@tiqmoksa/video/7672683243400957201"
       },
-      "social_link_count": 3,
+      "social_link_count": 4,
       "published_social_platforms": "Instagram, X, Facebook",
       "published_at": null,
       "start_date": "2026-07-20T16:01:00+00:00",
@@ -46483,7 +46708,7 @@
       "source_verification": {
         "status": "verified_social",
         "verification_method": "official_social_rss_or_inventory",
-        "checked_at": "2026-08-31T07:11:20.998452+00:00",
+        "checked_at": "2026-08-31T07:14:31.428712+00:00",
         "source_url": "https://www.instagram.com/p/DbBUcjiIHS1/",
         "source_changed": false,
         "conflicts": [],
@@ -46564,7 +46789,7 @@
             "thumbnail_url": "https://p19-common-sign.tiktokcdn-us.com/tos-alisg-p-0037/o4NDkSD8F7cUe26zRjKlACbIe1KII4EfAUtiSE~tplv-tiktokx-origin.image?dr=9636&idc=useast5&ps=13740610&shcp=43f4a2f9&shp=81f88b70&t=4d5b0474&x-expires=1788328800&x-signature=CkFMuB%2Bu7ilu2DpYvNZGjZwFJdk%3D"
           },
           "match_method": "full_review_campaign_semantic_strong",
-          "source_origin": "rss"
+          "source_origin": "master+rss"
         },
         {
           "id": "post:tiqmo:instagram:92096996c1e15466fb53",
@@ -46691,7 +46916,7 @@
       "source_verification": {
         "status": "verified_social",
         "verification_method": "official_social_rss_or_inventory",
-        "checked_at": "2026-08-31T07:11:20.998452+00:00",
+        "checked_at": "2026-08-31T07:14:31.428712+00:00",
         "source_url": "https://www.facebook.com/urpay.sa/posts/scratch-win-with-every-international-transfer-via-urpay-and-you-could-win-up-to-/1079237764323076/",
         "source_changed": false,
         "conflicts": [],
@@ -46817,7 +47042,7 @@
       "source_verification": {
         "status": "verified_social",
         "verification_method": "official_social_rss_or_inventory",
-        "checked_at": "2026-08-31T07:11:20.998452+00:00",
+        "checked_at": "2026-08-31T07:14:31.428712+00:00",
         "source_url": "https://www.instagram.com/alinmapay/p/CC_U-JDB6yh/",
         "source_changed": false,
         "conflicts": [],
@@ -47062,120 +47287,6 @@
       "review_priority": 8
     },
     {
-      "id": "campaign:alinma-pay:4",
-      "record_id": "4",
-      "competitor_id": "alinma-pay",
-      "competitor_name": "alinma pay",
-      "source_key": "excel:alinma-pay",
-      "source_type": "inventory",
-      "platform": "inventory",
-      "content_type": "campaign",
-      "campaign_category": "remittance",
-      "primary_category": "remittance",
-      "categories": [
-        "remittance"
-      ],
-      "title": "Zero-Fee Transfers to India from SAR 700",
-      "snippet": "Transfers of SAR 700 or more to Indian bank accounts are promoted with zero transfer fees.",
-      "summary": "Transfers of SAR 700 or more to Indian bank accounts are promoted with zero transfer fees.",
-      "link": "https://www.facebook.com/AlinmaPaySA/videos/zero-fees-fast-transfers-to-india/873682655502395/",
-      "official_campaign_page_url": "",
-      "primary_official_source_url": "https://www.facebook.com/AlinmaPaySA/videos/zero-fees-fast-transfers-to-india/873682655502395/",
-      "social_links": {
-        "facebook": "https://www.facebook.com/AlinmaPaySA/videos/zero-fees-fast-transfers-to-india/873682655502395/"
-      },
-      "social_link_count": 1,
-      "published_social_platforms": "Facebook",
-      "published_at": "2026-02-15T00:00:00+00:00",
-      "start_date": "2026-02-15T00:00:00+00:00",
-      "end_date": null,
-      "days_remaining": null,
-      "current_status": "End Date Not Stated",
-      "active": true,
-      "operation_type": "International transfers to India",
-      "mechanic": "Zero transfer fee for transfers of SAR 700 or more",
-      "eligibility": "alinma pay Direct customers transferring to eligible Indian bank accounts",
-      "terms_note": "Campaign end date is not stated in the official video.",
-      "last_reviewed": "2026-08-06T00:00:00+00:00",
-      "direct_link": true,
-      "verified": true,
-      "review_required": false,
-      "review_reasons": [],
-      "mechanic_tags": [
-        "other"
-      ],
-      "theme_tags": [
-        "international_transfer"
-      ],
-      "version": 1,
-      "baseline_import": true,
-      "first_seen": "2026-08-06T00:00:00+00:00",
-      "last_seen": "2026-08-06T00:00:00+00:00",
-      "last_changed": "2026-08-06T00:00:00+00:00",
-      "change_history": [
-        {
-          "at": "2026-08-06T00:00:00+00:00",
-          "type": "excel_import",
-          "version": 1
-        },
-        {
-          "at": "2026-08-31T07:05:51.146861+00:00",
-          "type": "start_date_inferred",
-          "details": {
-            "basis": "record_publication",
-            "source": "https://www.facebook.com/AlinmaPaySA/videos/zero-fees-fast-transfers-to-india/873682655502395/"
-          }
-        }
-      ],
-      "excel_source": {
-        "workbook": "competitor_campaigns_all_competitors_social_verified_2026-08-06_updated.xlsx",
-        "sheet": "alinma pay",
-        "record_id": "4"
-      },
-      "manual_override": true,
-      "evidence_snapshot": null,
-      "source_verification": {
-        "status": "verified_social",
-        "verification_method": "official_social_rss_or_inventory",
-        "checked_at": "2026-08-31T07:11:20.998452+00:00",
-        "source_url": "https://www.facebook.com/AlinmaPaySA/videos/zero-fees-fast-transfers-to-india/873682655502395/",
-        "source_changed": false,
-        "conflicts": [],
-        "error": null
-      },
-      "linked_posts": [
-        {
-          "id": "source:campaign:alinma-pay:4:facebook:67194e400429a4302b28724c",
-          "platform": "facebook",
-          "title": "Official facebook post",
-          "link": "https://www.facebook.com/AlinmaPaySA/videos/zero-fees-fast-transfers-to-india/873682655502395/",
-          "published_at": null,
-          "media": null,
-          "match_method": "master_link",
-          "source_origin": "master"
-        }
-      ],
-      "social_post_counts": {
-        "instagram": 0,
-        "x": 0,
-        "facebook": 1,
-        "tiktok": 0
-      },
-      "social_posts_total": 1,
-      "social_platform_count": 1,
-      "social_first_post": null,
-      "social_latest_post": null,
-      "social_posts_7d": 0,
-      "social_posts_30d": 0,
-      "start_date_basis": "first_verified_social_post",
-      "start_date_estimated": true,
-      "start_date_evidence_type": "record_publication",
-      "start_date_source_url": "https://www.facebook.com/AlinmaPaySA/videos/zero-fees-fast-transfers-to-india/873682655502395/",
-      "review_priority": 8,
-      "market_launch_date": "2026-02-15T00:00:00+00:00",
-      "market_date_basis": "official_published_date"
-    },
-    {
       "id": "post:tiqmo:tiktok:c2bba62622c9d097b4d6",
       "competitor_id": "tiqmo",
       "source_key": "social:tiqmo:tiktok",
@@ -47231,65 +47342,6 @@
       "official_evidence_url": null,
       "official_campaign_page_url": null,
       "primary_official_source_url": "https://www.tiktok.com/@tiqmoksa/video/7452671196656667912",
-      "manual_override": true,
-      "corridors": [],
-      "review_priority": 8
-    },
-    {
-      "id": "post:alinma-pay:tiktok:e57017aae4e9be22deb3",
-      "competitor_id": "alinma-pay",
-      "source_key": "social:alinma-pay:tiktok",
-      "source_type": "social",
-      "platform": "tiktok",
-      "content_type": "social_post",
-      "campaign_category": "remittance",
-      "primary_category": "remittance",
-      "categories": [
-        "remittance"
-      ],
-      "title": "بمناسبة ⁧‫#اليوم_الوطني_السعودي‬⁩ الغالين عليك في أي دولة ثانية يستاهلون حوالة مالية منك 😍🇸🇦💚 ‏شاركهم الاحتفال وحوّل تحويل دولي بدون أي رسووووووم 😉0️⃣ ‏عن طريق ويسترن يونيون استخد…",
-      "snippet": "بمناسبة ⁧‫#اليوم_الوطني_السعودي‬⁩ الغالين عليك في أي دولة ثانية يستاهلون حوالة مالية منك 😍🇸🇦💚 ‏شاركهم الاحتفال وحوّل تحويل دولي بدون أي رسووووووم 😉0️⃣ ‏عن طريق ويسترن يونيون استخدم كود \" ALINMA \" 📲 ♬ Sunrise - Official Sound Studio",
-      "link": "https://www.tiktok.com/@alinmapay/video/7281638782733012242",
-      "social_links": {
-        "tiktok": "https://www.tiktok.com/@alinmapay/video/7281638782733012242"
-      },
-      "social_link_count": 1,
-      "published_at": "2023-09-22T13:17:28+00:00",
-      "active": true,
-      "direct_link": true,
-      "verified": true,
-      "review_required": false,
-      "review_reasons": [],
-      "current_status": null,
-      "post_role": "promotion_or_content",
-      "mechanic_tags": [
-        "discount"
-      ],
-      "theme_tags": [
-        "international_transfer"
-      ],
-      "media": {
-        "url": "https://p16-common-sign.tiktokcdn-us.com/tos-alisg-p-0037/72584148c2244b9d9fbd1184dbef6002_1695388650~tplv-tiktokx-origin.image?dr=9636&idc=useast8&ps=13740610&shcp=43f4a2f9&shp=81f88b70&t=4d5b0474&x-expires=1787061600&x-signature=P%2FtzeRiYPuB%2BhHeuZOI864pWmSE%3D",
-        "type": "image",
-        "thumbnail_url": "https://p16-common-sign.tiktokcdn-us.com/tos-alisg-p-0037/72584148c2244b9d9fbd1184dbef6002_1695388650~tplv-tiktokx-origin.image?dr=9636&idc=useast8&ps=13740610&shcp=43f4a2f9&shp=81f88b70&t=4d5b0474&x-expires=1787061600&x-signature=P%2FtzeRiYPuB%2BhHeuZOI864pWmSE%3D"
-      },
-      "first_seen": "2026-08-25T15:44:42.097858+00:00",
-      "last_seen": "2026-08-31T07:04:39.834195+00:00",
-      "last_changed": "2026-08-25T15:44:42.097858+00:00",
-      "version": 1,
-      "change_history": [
-        {
-          "at": "2026-08-25T15:44:42.097858+00:00",
-          "type": "detected",
-          "version": 1
-        }
-      ],
-      "outbound_links": [
-        "https://p16-common-sign.tiktokcdn-us.com/tos-alisg-p-0037/72584148c2244b9d9fbd1184dbef6002_1695388650~tplv-tiktokx-origin.image?dr=9636&idc=useast8&ps=13740610&shcp=43f4a2f9&shp=81f88b70&t=4d5b0474&x-expires=1787061600&x-signature=P%2FtzeRiYPuB%2BhHeuZOI864pWmSE%3D"
-      ],
-      "official_evidence_url": null,
-      "official_campaign_page_url": null,
-      "primary_official_source_url": "https://www.tiktok.com/@alinmapay/video/7281638782733012242",
       "manual_override": true,
       "corridors": [],
       "review_priority": 8
@@ -47355,6 +47407,14 @@
             "source": "https://m.facebook.com/Tiqmoksa/posts/pfbid02c7PJipWJA9SNNWsSqsG1H72VTzeqYR6PVsHx4Y3NagD5vLYJbDzgy7cc93XhXQT6l",
             "method": "official_social"
           }
+        },
+        {
+          "at": "2026-08-31T07:14:31.514460+00:00",
+          "type": "manual_source_verified",
+          "details": {
+            "source": "https://m.facebook.com/Tiqmoksa/posts/pfbid02c7PJipWJA9SNNWsSqsG1H72VTzeqYR6PVsHx4Y3NagD5vLYJbDzgy7cc93XhXQT6l",
+            "method": "official_social"
+          }
         }
       ],
       "review_approved": true,
@@ -47370,7 +47430,7 @@
       "source_verification": {
         "status": "verified_social",
         "verification_method": "official_social_rss_or_inventory",
-        "checked_at": "2026-08-31T07:11:20.998452+00:00",
+        "checked_at": "2026-08-31T07:14:31.428712+00:00",
         "source_url": "https://m.facebook.com/Tiqmoksa/posts/pfbid02c7PJipWJA9SNNWsSqsG1H72VTzeqYR6PVsHx4Y3NagD5vLYJbDzgy7cc93XhXQT6l",
         "source_changed": false,
         "conflicts": [],
@@ -48436,142 +48496,6 @@
       "mechanic": "Three winners receive 100% cashback up to SAR 1,000",
       "eligibility": "alinma pay customers transferring domestic-worker salaries through Musaned",
       "terms_note": ""
-    },
-    {
-      "id": "detected:alinma-pay:b4e4c06d766a276abafa",
-      "competitor_id": "alinma-pay",
-      "source_key": "website:alinma-pay:offers",
-      "source_type": "website",
-      "platform": "website",
-      "content_type": "campaign",
-      "suggested_record_type": "campaign",
-      "campaign_category": "other",
-      "primary_category": "other",
-      "categories": [
-        "other"
-      ],
-      "title": "عرض الهند على رسوم التحويلات الدولية",
-      "snippet": "حوّل دولياً إلى الهند برسوم ثابتة 5 ريال فقط عبر خدمة alinmapay Direct ، إلى الهند. رسوم تحويل دولية ثابتة بقيمة 5 ريال عبر خدمة alinmapay Direct .",
-      "link": "https://www.alinmapay.com.sa/Offers/India-Transfer-Fee-Offer-Aug26",
-      "official_campaign_page_url": "https://www.alinmapay.com.sa/Offers/India-Transfer-Fee-Offer-Aug26",
-      "primary_official_source_url": "https://www.alinmapay.com.sa/Offers/India-Transfer-Fee-Offer-Aug26",
-      "social_links": {
-        "tiktok": "https://www.tiktok.com/@alinmapay/video/7586667265882443024"
-      },
-      "social_link_count": 1,
-      "published_at": null,
-      "start_date": "2026-08-08T00:00:00+00:00",
-      "end_date": "2026-12-31T00:00:00+00:00",
-      "date_evidence": {
-        "start": "يسري العرض من 8 أغسطس 2026 حتى 31 ديسمبر 2026",
-        "end": "يسري العرض من 8 أغسطس 2026 حتى 31 ديسمبر 2026"
-      },
-      "current_status": "Active",
-      "active": true,
-      "direct_link": true,
-      "verified": true,
-      "official_discovery": true,
-      "discovery_section": "current",
-      "review_required": false,
-      "review_reasons": [],
-      "mechanic_tags": [
-        "other"
-      ],
-      "theme_tags": [
-        "other"
-      ],
-      "media": {
-        "type": "image",
-        "url": "https://www.alinmapay.com.sa/-/media/Project/AlinmaPay/AlinmaPay/Icons/logo/alinmapayDirect-(2).png",
-        "thumbnail_url": "https://www.alinmapay.com.sa/-/media/Project/AlinmaPay/AlinmaPay/Icons/logo/alinmapayDirect-(2).png",
-        "source_type": "official_website",
-        "source_url": "https://www.alinmapay.com.sa/Offers/India-Transfer-Fee-Offer-Aug26"
-      },
-      "first_seen": "2026-08-25T15:44:42.097858+00:00",
-      "last_seen": "2026-08-31T07:04:39.834195+00:00",
-      "last_changed": "2026-08-25T15:44:42.097858+00:00",
-      "version": 1,
-      "change_history": [
-        {
-          "at": "2026-08-25T15:44:42.097858+00:00",
-          "type": "detected",
-          "version": 1
-        },
-        {
-          "at": "2026-08-31T07:05:31.268319+00:00",
-          "type": "start_date_updated",
-          "details": {
-            "from": null,
-            "to": "2026-08-08T00:00:00+00:00"
-          }
-        },
-        {
-          "at": "2026-08-31T07:05:31.268324+00:00",
-          "type": "end_date_updated",
-          "details": {
-            "from": null,
-            "to": "2026-12-31T00:00:00+00:00"
-          }
-        }
-      ],
-      "detail_timeout_seconds": 30,
-      "manual_override": true,
-      "summary": "حوّل دولياً إلى الهند برسوم ثابتة 5 ريال فقط عبر خدمة alinmapay Direct ، إلى الهند. رسوم تحويل دولية ثابتة بقيمة 5 ريال عبر خدمة alinmapay Direct .",
-      "corridors": [
-        "India"
-      ],
-      "offer_values": [
-        "5 ريال",
-        "700 ريال",
-        "حتى 31"
-      ],
-      "evidence_snapshot": "يسري العرض من 8 أغسطس 2026 حتى 31 ديسمبر 2026",
-      "date_extraction_method": "structured_or_rules",
-      "source_verification": {
-        "status": "verified_website",
-        "verification_method": "official_website_page",
-        "checked_at": "2026-08-25T19:47:41.382402+00:00",
-        "source_url": "https://www.alinmapay.com.sa/Offers/India-Transfer-Fee-Offer-Aug26",
-        "source_changed": false,
-        "conflicts": [],
-        "error": null
-      },
-      "last_live_verified_at": "2026-08-25T19:47:41.382402+00:00",
-      "last_reviewed": "2026-08-25T19:47:41.382402+00:00",
-      "classification_method": "verified_official_rules_v6",
-      "linked_posts": [
-        {
-          "id": "post:alinma-pay:tiktok:c3a42518da666464caed",
-          "platform": "tiktok",
-          "title": "700 SAR se zyada bhejoge to fee zero.alinma pay direct se India bhejna simple, safe aur fast.",
-          "link": "https://www.tiktok.com/@alinmapay/video/7586667265882443024",
-          "published_at": "2025-12-22T13:04:04+00:00",
-          "media": {
-            "url": "https://p19-common-sign.tiktokcdn-us.com/tos-alisg-p-0051c001-sg/osfDCoSgkxYGfCV9A9gHneIdLGAbEBkulYnwaQ~tplv-tiktokx-origin.image?dr=9636&idc=useast8&ps=13740610&shcp=43f4a2f9&shp=81f88b70&t=4d5b0474&x-expires=1787126400&x-signature=EBdwJ%2BwBVvj9iyH9yGbV8NIoU%2FU%3D",
-            "type": "image",
-            "thumbnail_url": "https://p19-common-sign.tiktokcdn-us.com/tos-alisg-p-0051c001-sg/osfDCoSgkxYGfCV9A9gHneIdLGAbEBkulYnwaQ~tplv-tiktokx-origin.image?dr=9636&idc=useast8&ps=13740610&shcp=43f4a2f9&shp=81f88b70&t=4d5b0474&x-expires=1787126400&x-signature=EBdwJ%2BwBVvj9iyH9yGbV8NIoU%2FU%3D"
-          },
-          "match_method": "heuristic",
-          "source_origin": "master+rss"
-        }
-      ],
-      "social_post_counts": {
-        "instagram": 0,
-        "x": 0,
-        "facebook": 0,
-        "tiktok": 1
-      },
-      "social_posts_total": 1,
-      "social_platform_count": 1,
-      "social_first_post": "2025-12-22T13:04:04+00:00",
-      "social_latest_post": "2025-12-22T13:04:04+00:00",
-      "social_posts_7d": 0,
-      "social_posts_30d": 0,
-      "start_date_basis": "official_start_date",
-      "start_date_estimated": false,
-      "review_priority": 5,
-      "market_launch_date": "2026-08-08T00:00:00+00:00",
-      "market_date_basis": "official_start_date"
     },
     {
       "id": "post:urpay:instagram:c9cc48c204e29699d3e7",
@@ -102520,7 +102444,7 @@
       "source_verification": {
         "status": "verified_social",
         "verification_method": "official_social_rss_or_inventory",
-        "checked_at": "2026-08-31T07:11:20.998452+00:00",
+        "checked_at": "2026-08-31T07:14:31.428712+00:00",
         "source_url": "https://www.instagram.com/reel/DYxvJOWiZY5/",
         "source_changed": false,
         "conflicts": [],
@@ -102640,7 +102564,7 @@
       "source_verification": {
         "status": "verified_social",
         "verification_method": "official_social_rss_or_inventory",
-        "checked_at": "2026-08-31T07:11:20.998452+00:00",
+        "checked_at": "2026-08-31T07:14:31.428712+00:00",
         "source_url": "https://www.facebook.com/usebarq/posts/update-your-barq-app-and-join-the-prediction-game-win-your-share-of-prizes-worth/122197690844385166/",
         "source_changed": false,
         "conflicts": [],
@@ -102744,7 +102668,7 @@
       "source_verification": {
         "status": "verified_social",
         "verification_method": "official_social_rss_or_inventory",
-        "checked_at": "2026-08-31T07:11:20.998452+00:00",
+        "checked_at": "2026-08-31T07:14:31.428712+00:00",
         "source_url": "https://www.facebook.com/usebarq/posts/planning-a-trip-%EF%B8%8Fbook-through-almatarapp-with-your-barq-visa-and-get-up-to-10-of/122178668528385166/",
         "source_changed": false,
         "conflicts": [],
@@ -102857,7 +102781,7 @@
       "source_verification": {
         "status": "verified_social",
         "verification_method": "official_social_rss_or_inventory",
-        "checked_at": "2026-08-31T07:11:20.998452+00:00",
+        "checked_at": "2026-08-31T07:14:31.428712+00:00",
         "source_url": "https://www.instagram.com/p/DbAtiuQNGlf/",
         "source_changed": false,
         "conflicts": [],
@@ -103829,7 +103753,7 @@
       "source_verification": {
         "status": "verified_social",
         "verification_method": "official_social_rss_or_inventory",
-        "checked_at": "2026-08-31T07:11:20.998452+00:00",
+        "checked_at": "2026-08-31T07:14:31.428712+00:00",
         "source_url": "https://x.com/urpay_sa/status/2074433249682845889",
         "source_changed": false,
         "conflicts": [],
@@ -113065,7 +112989,7 @@
       "source_verification": {
         "status": "verified_social",
         "verification_method": "official_social_rss_or_inventory",
-        "checked_at": "2026-08-31T07:11:20.998452+00:00",
+        "checked_at": "2026-08-31T07:14:31.428712+00:00",
         "source_url": "https://www.instagram.com/tiqmoksa/p/DbLZ9Yfj6dy/",
         "source_changed": false,
         "conflicts": [],
@@ -115252,7 +115176,7 @@
       "source_verification": {
         "status": "verified_social",
         "verification_method": "official_social_rss_or_inventory",
-        "checked_at": "2026-08-31T07:11:20.998452+00:00",
+        "checked_at": "2026-08-31T07:14:31.428712+00:00",
         "source_url": "https://www.instagram.com/reel/DWots29j8fx/?hl=en",
         "source_changed": false,
         "conflicts": [],
@@ -145140,6 +145064,125 @@
       "market_expiry_date": "2026-05-31T00:00:00+00:00"
     },
     {
+      "id": "campaign:alinma-pay:4",
+      "record_id": "4",
+      "competitor_id": "alinma-pay",
+      "competitor_name": "alinma pay",
+      "source_key": "excel:alinma-pay",
+      "source_type": "inventory",
+      "platform": "inventory",
+      "content_type": "campaign",
+      "campaign_category": "remittance",
+      "primary_category": "remittance",
+      "categories": [
+        "remittance"
+      ],
+      "title": "Zero-Fee Transfers to India from SAR 700",
+      "snippet": "Transfers of SAR 700 or more to Indian bank accounts are promoted with zero transfer fees.",
+      "summary": "Transfers of SAR 700 or more to Indian bank accounts are promoted with zero transfer fees.",
+      "link": "https://www.facebook.com/AlinmaPaySA/videos/zero-fees-fast-transfers-to-india/873682655502395/",
+      "official_campaign_page_url": "",
+      "primary_official_source_url": "https://www.facebook.com/AlinmaPaySA/videos/zero-fees-fast-transfers-to-india/873682655502395/",
+      "social_links": {
+        "facebook": "https://www.facebook.com/AlinmaPaySA/videos/zero-fees-fast-transfers-to-india/873682655502395/"
+      },
+      "social_link_count": 1,
+      "published_social_platforms": "Facebook",
+      "published_at": "2026-02-15T00:00:00+00:00",
+      "start_date": "2026-02-15T00:00:00+00:00",
+      "end_date": null,
+      "days_remaining": null,
+      "current_status": "Merged",
+      "active": false,
+      "operation_type": "International transfers to India",
+      "mechanic": "Zero transfer fee for transfers of SAR 700 or more",
+      "eligibility": "alinma pay Direct customers transferring to eligible Indian bank accounts",
+      "terms_note": "Campaign end date is not stated in the official video.",
+      "last_reviewed": "2026-08-06T00:00:00+00:00",
+      "direct_link": true,
+      "verified": true,
+      "review_required": false,
+      "review_reasons": [],
+      "mechanic_tags": [
+        "other"
+      ],
+      "theme_tags": [
+        "international_transfer"
+      ],
+      "version": 1,
+      "baseline_import": true,
+      "first_seen": "2026-08-06T00:00:00+00:00",
+      "last_seen": "2026-08-06T00:00:00+00:00",
+      "last_changed": "2026-08-06T00:00:00+00:00",
+      "change_history": [
+        {
+          "at": "2026-08-06T00:00:00+00:00",
+          "type": "excel_import",
+          "version": 1
+        },
+        {
+          "at": "2026-08-31T07:05:51.146861+00:00",
+          "type": "start_date_inferred",
+          "details": {
+            "basis": "record_publication",
+            "source": "https://www.facebook.com/AlinmaPaySA/videos/zero-fees-fast-transfers-to-india/873682655502395/"
+          }
+        }
+      ],
+      "excel_source": {
+        "workbook": "competitor_campaigns_all_competitors_social_verified_2026-08-06_updated.xlsx",
+        "sheet": "alinma pay",
+        "record_id": "4"
+      },
+      "manual_override": true,
+      "evidence_snapshot": null,
+      "source_verification": {
+        "status": "verified_social",
+        "verification_method": "official_social_rss_or_inventory",
+        "checked_at": "2026-08-31T07:11:20.998452+00:00",
+        "source_url": "https://www.facebook.com/AlinmaPaySA/videos/zero-fees-fast-transfers-to-india/873682655502395/",
+        "source_changed": false,
+        "conflicts": [],
+        "error": null
+      },
+      "linked_posts": [
+        {
+          "id": "source:campaign:alinma-pay:4:facebook:67194e400429a4302b28724c",
+          "platform": "facebook",
+          "title": "Official facebook post",
+          "link": "https://www.facebook.com/AlinmaPaySA/videos/zero-fees-fast-transfers-to-india/873682655502395/",
+          "published_at": null,
+          "media": null,
+          "match_method": "master_link",
+          "source_origin": "master"
+        }
+      ],
+      "social_post_counts": {
+        "instagram": 0,
+        "x": 0,
+        "facebook": 1,
+        "tiktok": 0
+      },
+      "social_posts_total": 1,
+      "social_platform_count": 1,
+      "social_first_post": null,
+      "social_latest_post": null,
+      "social_posts_7d": 0,
+      "social_posts_30d": 0,
+      "start_date_basis": "first_verified_social_post",
+      "start_date_estimated": true,
+      "start_date_evidence_type": "record_publication",
+      "start_date_source_url": "https://www.facebook.com/AlinmaPaySA/videos/zero-fees-fast-transfers-to-india/873682655502395/",
+      "review_priority": 8,
+      "merged_into": "detected:alinma-pay:b4e4c06d766a276abafa",
+      "merge_previous_active": true,
+      "merge_previous_status": "End Date Not Stated",
+      "review_decision": "merge_campaigns",
+      "reviewed_by": "admin",
+      "reviewed_at": "2026-08-31T07:14:30.812110+00:00",
+      "review_request_id": "e5ac1218-18a6-471a-8915-2182d6c9e000"
+    },
+    {
       "id": "detected:mobily-pay:4232dc8e428d8da7c964",
       "competitor_id": "mobily-pay",
       "source_key": "website:mobily-pay:offers",
@@ -152383,20 +152426,20 @@
   "detail_verification_stats": {
     "network_checks": 0,
     "elapsed_seconds": 0.1,
-    "completed_at": "2026-08-31T07:11:21.073286+00:00"
+    "completed_at": "2026-08-31T07:14:31.515894+00:00"
   },
   "mobily_deterministic_classification": {
     "changed": 0,
-    "at": "2026-08-31T07:11:29.005796+00:00"
+    "at": "2026-08-31T07:14:39.979551+00:00"
   },
   "verified_official_classification": {
     "changed": 0,
-    "at": "2026-08-31T07:11:29.008371+00:00",
+    "at": "2026-08-31T07:14:39.982108+00:00",
     "version": "classifier-v6-merchant-review-cleanup"
   },
   "record_integrity": {
     "quarantined_or_demoted": 0,
-    "at": "2026-08-31T07:11:28.499553+00:00"
+    "at": "2026-08-31T07:14:39.439065+00:00"
   },
   "merchant_review_cleanup": {
     "cross_platform_merchant_offers_created": 0,
@@ -152406,46 +152449,46 @@
   },
   "winner_announcement_integrity": {
     "normalized": 0,
-    "at": "2026-08-31T07:11:28.498638+00:00"
+    "at": "2026-08-31T07:14:39.438064+00:00"
   },
   "deduplication": {
-    "removed": 1,
-    "at": "2026-08-31T07:11:28.952977+00:00"
+    "removed": 0,
+    "at": "2026-08-31T07:14:39.923741+00:00"
   },
   "final_status_normalization": {
-    "changed": 1,
-    "at": "2026-08-31T07:11:29.027542+00:00"
+    "changed": 2,
+    "at": "2026-08-31T07:14:40.003603+00:00"
   },
-  "social_analytics_rebuilt_at": "2026-08-31T07:11:29.047886+00:00",
+  "social_analytics_rebuilt_at": "2026-08-31T07:14:40.026403+00:00",
   "campaign_start_date_fill": {
     "official": 39,
     "from_verified_post": 0,
     "from_first_observed": 0,
     "remaining_missing": 0,
-    "at": "2026-08-31T07:11:29.111650+00:00"
+    "at": "2026-08-31T07:14:40.095910+00:00"
   },
   "media_sanitization": {
     "removed": 0,
-    "at": "2026-08-31T07:11:29.116786+00:00"
+    "at": "2026-08-31T07:14:40.101121+00:00"
   },
   "full_review_scan": {
-    "review_before": 394,
-    "linked_social": 6,
+    "review_before": 350,
+    "linked_social": 0,
     "matched_website_duplicates": 0,
-    "awareness_cleared": 174,
-    "potential_campaigns": 171,
+    "awareness_cleared": 135,
+    "potential_campaigns": 172,
     "potential_merchant_offers": 53,
     "stale_reasons_cleared": 0,
-    "completed_at": "2026-08-31T07:11:28.471162+00:00",
-    "counted_duplicates_removed": 1,
+    "completed_at": "2026-08-31T07:14:39.407406+00:00",
+    "counted_duplicates_removed": 0,
     "review_duplicates_removed": 0,
-    "review_after": 245,
-    "workflow_review_before": 242,
-    "cleaned": 149,
-    "workflow_net_change": 3
+    "review_after": 246,
+    "workflow_review_before": 245,
+    "cleaned": 104,
+    "workflow_net_change": 1
   },
   "ai_summary": {
-    "executive_view": "28 verified active campaigns are tracked across 6 competitors. Inventory coverage was corrected after source verification; that administrative adjustment is excluded from recent market developments.",
+    "executive_view": "27 verified active campaigns are tracked across 6 competitors. Inventory coverage was corrected after source verification; that administrative adjustment is excluded from recent market developments.",
     "key_developments": [
       "Mobily Pay — 10 SAR CASHBACK expired on 30 Aug 2026."
     ],
@@ -152456,116 +152499,73 @@
     "recommended_actions": [
       "Monitor the listed expiries for an extension or replacement campaign and refresh the response plan only when an official change is verified."
     ],
-    "portfolio_insight": "Remittance (11) and Card (8) account for 68% of the verified active campaign portfolio.",
+    "portfolio_insight": "Remittance (11) and Card (8) account for 70% of the verified active campaign portfolio.",
     "market_window_days": 7,
     "generated_by": "management-rules-v2",
-    "generated_at": "2026-08-31T07:11:29.125587+00:00"
+    "generated_at": "2026-08-31T07:14:40.111121+00:00"
   },
   "authoritative_delta": {
     "added": [],
     "removed": [
-      "campaign:alinma-pay:2",
-      "campaign:alinma-pay:5"
+      "campaign:alinma-pay:4"
     ],
     "changed": [
       {
-        "id": "detected:alinma-pay:e185f47787fe476946bf",
+        "id": "detected:alinma-pay:b4e4c06d766a276abafa",
         "fields": [
-          "mechanic",
-          "eligibility",
-          "terms_note"
-        ],
-        "before": {
-          "competitor_id": "alinma-pay",
-          "title": "صفر رسوم على المشتريات الدولية",
-          "campaign_category": "card",
-          "mechanic": null,
-          "eligibility": null,
-          "terms_note": null,
-          "start_date": "2026-06-24T00:00:00+00:00",
-          "end_date": "2026-08-31T00:00:00+00:00",
-          "offer_values": [
-            "حتى 31"
-          ],
-          "corridors": [],
-          "current_status": "Expiring ≤7 Days",
-          "active": true,
-          "market_launch_date": "2026-06-24T00:00:00+00:00",
-          "market_date_basis": "official_start_date",
-          "market_last_changed": null,
-          "market_expiry_date": null
-        },
-        "after": {
-          "competitor_id": "alinma-pay",
-          "title": "صفر رسوم على المشتريات الدولية",
-          "campaign_category": "card",
-          "mechanic": "Zero international transaction fees, first two international cash withdrawals free, plus cashback on eligible purchases",
-          "eligibility": "alinma pay Cashback Cards",
-          "terms_note": "Current summer messaging confirms no international transaction fees, no fees on the first two international cash withdrawals, and cashback on eligible purchases. No campaign end date is stated.",
-          "start_date": "2026-06-24T00:00:00+00:00",
-          "end_date": "2026-08-31T00:00:00+00:00",
-          "offer_values": [
-            "حتى 31"
-          ],
-          "corridors": [],
-          "current_status": "Expiring ≤7 Days",
-          "active": true,
-          "market_launch_date": "2026-06-24T00:00:00+00:00",
-          "market_date_basis": "official_start_date",
-          "market_last_changed": null,
-          "market_expiry_date": null
-        }
-      },
-      {
-        "id": "detected:alinma-pay:4388e8323ca781e0c1eb",
-        "fields": [
+          "campaign_category",
           "mechanic",
           "eligibility",
           "terms_note",
           "start_date",
-          "market_launch_date"
+          "market_launch_date",
+          "market_date_basis"
         ],
         "before": {
           "competitor_id": "alinma-pay",
-          "title": "كاش باك 100% على رواتب عمالتك المنزلية",
-          "campaign_category": "musaned",
+          "title": "عرض الهند على رسوم التحويلات الدولية",
+          "campaign_category": "other",
           "mechanic": null,
           "eligibility": null,
           "terms_note": null,
-          "start_date": "2026-07-28T15:34:27+00:00",
-          "end_date": "2026-12-28T00:00:00+00:00",
+          "start_date": "2026-08-08T00:00:00+00:00",
+          "end_date": "2026-12-31T00:00:00+00:00",
           "offer_values": [
-            "1,000 ريال",
-            "100%",
-            "حتى 28"
+            "5 ريال",
+            "700 ريال",
+            "حتى 31"
           ],
-          "corridors": [],
+          "corridors": [
+            "India"
+          ],
           "current_status": "Active",
           "active": true,
-          "market_launch_date": "2026-07-28T15:34:27+00:00",
-          "market_date_basis": "first_official_campaign_post",
+          "market_launch_date": "2026-08-08T00:00:00+00:00",
+          "market_date_basis": "official_start_date",
           "market_last_changed": null,
           "market_expiry_date": null
         },
         "after": {
           "competitor_id": "alinma-pay",
-          "title": "كاش باك 100% على رواتب عمالتك المنزلية",
-          "campaign_category": "musaned",
-          "mechanic": "Three winners receive 100% cashback up to SAR 1,000",
-          "eligibility": "alinma pay customers transferring domestic-worker salaries through Musaned",
+          "title": "عرض الهند على رسوم التحويلات الدولية",
+          "campaign_category": "remittance",
+          "mechanic": "Zero transfer fee for transfers of SAR 700 or more",
+          "eligibility": "alinma pay Direct customers transferring to eligible Indian bank accounts",
           "terms_note": "",
-          "start_date": "2026-07-17T12:01:00+00:00",
-          "end_date": "2026-12-28T00:00:00+00:00",
+          "start_date": "2026-02-15T00:00:00+00:00",
+          "end_date": "2026-12-31T00:00:00+00:00",
           "offer_values": [
-            "1,000 ريال",
-            "100%",
-            "حتى 28"
+            "5 ريال",
+            "700 ريال",
+            "حتى 31"
           ],
-          "corridors": [],
+          "corridors": [
+            "India"
+          ],
           "current_status": "Active",
           "active": true,
-          "market_launch_date": "2026-07-17T12:01:00+00:00",
-          "market_date_basis": "first_official_campaign_post",
+          "market_launch_date": "2026-02-15T00:00:00+00:00",
+          "market_date_basis": "official_published_date",
           "market_last_changed": null,
           "market_expiry_date": null
         }
@@ -152584,37 +152584,25 @@
     "new_market_expiries": [],
     "inventory_adjustments": [
       {
-        "id": "detected:alinma-pay:e185f47787fe476946bf",
+        "id": "detected:alinma-pay:b4e4c06d766a276abafa",
         "fields": [
-          "mechanic",
-          "eligibility",
-          "terms_note"
-        ]
-      },
-      {
-        "id": "detected:alinma-pay:4388e8323ca781e0c1eb",
-        "fields": [
+          "campaign_category",
           "mechanic",
           "eligibility",
           "terms_note",
           "start_date",
-          "market_launch_date"
+          "market_launch_date",
+          "market_date_basis"
         ]
       },
       {
-        "id": "campaign:alinma-pay:2",
-        "fields": [
-          "record_removed"
-        ]
-      },
-      {
-        "id": "campaign:alinma-pay:5",
+        "id": "campaign:alinma-pay:4",
         "fields": [
           "record_removed"
         ]
       }
     ],
-    "inventory_adjustment_count": 4,
+    "inventory_adjustment_count": 2,
     "new_event_detected": false,
     "material": true,
     "window_days": 7
@@ -153101,6 +153089,17 @@
         "campaign:alinma-pay:5"
       ],
       "campaign_id": "detected:alinma-pay:4388e8323ca781e0c1eb",
+      "record_ids": []
+    },
+    {
+      "request_id": "e5ac1218-18a6-471a-8915-2182d6c9e000",
+      "reviewed_at": "2026-08-31T07:14:30.812110+00:00",
+      "reviewed_by": "admin",
+      "action": "merge_campaigns",
+      "item_ids": [
+        "campaign:alinma-pay:4"
+      ],
+      "campaign_id": "detected:alinma-pay:b4e4c06d766a276abafa",
       "record_ids": []
     }
   ]

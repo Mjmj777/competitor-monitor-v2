@@ -1,6 +1,6 @@
 {
   "schema_version": 3,
-  "updated_at": "2026-08-31T07:11:20.546700+00:00",
+  "updated_at": "2026-08-31T07:14:30.812110+00:00",
   "site_preferences": {
     "home_layout": "classic",
     "updated_at": "2026-08-29T18:38:38.649282+00:00",
@@ -2812,6 +2812,46 @@
       "reviewed_by": "admin",
       "reviewed_at": "2026-08-31T07:11:20.546700+00:00",
       "review_request_id": "89b8b5d4-2d1f-4024-bb57-8f971e6d63d4"
+    },
+    "detected:alinma-pay:b4e4c06d766a276abafa": {
+      "manual_override": true,
+      "reviewed_by": "admin",
+      "reviewed_at": "2026-08-31T07:14:30.812110+00:00",
+      "review_request_id": "e5ac1218-18a6-471a-8915-2182d6c9e000",
+      "social_links": {
+        "tiktok": "https://www.tiktok.com/@alinmapay/video/7586667265882443024",
+        "facebook": "https://www.facebook.com/AlinmaPaySA/videos/zero-fees-fast-transfers-to-india/873682655502395/"
+      },
+      "evidence_ids": [
+        "campaign:alinma-pay:4"
+      ],
+      "mechanic": "Zero transfer fee for transfers of SAR 700 or more",
+      "eligibility": "alinma pay Direct customers transferring to eligible Indian bank accounts",
+      "terms_note": "Campaign end date is not stated in the official video.",
+      "start_date": "2026-02-15T00:00:00+00:00",
+      "start_date_basis": "first_verified_social_post",
+      "start_date_source_url": "https://www.facebook.com/AlinmaPaySA/videos/zero-fees-fast-transfers-to-india/873682655502395/",
+      "start_date_estimated": true,
+      "start_date_evidence_type": "record_publication",
+      "campaign_category": "remittance",
+      "primary_category": "remittance",
+      "categories": [
+        "remittance"
+      ]
+    },
+    "campaign:alinma-pay:4": {
+      "merged_into": "detected:alinma-pay:b4e4c06d766a276abafa",
+      "merge_previous_active": true,
+      "merge_previous_status": "End Date Not Stated",
+      "active": false,
+      "current_status": "Merged",
+      "review_required": false,
+      "review_reasons": [],
+      "manual_override": true,
+      "review_decision": "merge_campaigns",
+      "reviewed_by": "admin",
+      "reviewed_at": "2026-08-31T07:14:30.812110+00:00",
+      "review_request_id": "e5ac1218-18a6-471a-8915-2182d6c9e000"
     }
   },
   "new_items": [
@@ -3345,6 +3385,17 @@
         "campaign:alinma-pay:5"
       ],
       "campaign_id": "detected:alinma-pay:4388e8323ca781e0c1eb",
+      "record_ids": []
+    },
+    {
+      "request_id": "e5ac1218-18a6-471a-8915-2182d6c9e000",
+      "reviewed_at": "2026-08-31T07:14:30.812110+00:00",
+      "reviewed_by": "admin",
+      "action": "merge_campaigns",
+      "item_ids": [
+        "campaign:alinma-pay:4"
+      ],
+      "campaign_id": "detected:alinma-pay:b4e4c06d766a276abafa",
       "record_ids": []
     }
   ]
