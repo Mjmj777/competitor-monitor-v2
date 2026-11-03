@@ -5,6 +5,8 @@ from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from urllib.parse import urlsplit, parse_qsl, urlencode
 
+from enhance import is_winner_announcement
+
 BASE=Path(__file__).resolve().parent
 DATA=BASE/'data.json'; CONFIG=BASE/'config.json'
 errors=[]; warnings=[]
@@ -119,7 +121,11 @@ for i in items:
         if 'Ø' in rendered or 'Ù' in rendered or '\ufffd' in rendered:
             fail(f'{iid}: official offer text contains mojibake')
     if i.get('source_type')=='social' and ctype in {'campaign','merchant_offer'}:fail(f'{iid}: social item promoted to counted {ctype}')
-    if i.get('post_role')=='winner_announcement' and not i.get('campaign_id') and ctype!='review':fail(f'{iid}: unlinked winner announcement must be Needs Review')
+    # Legacy builds labelled any mention of a recurring winner as a result
+    # announcement. Validate the current text, not the stale role alone, so campaign
+    # mechanics such as "one winner every week" do not block the entire deployment.
+    if i.get('post_role')=='winner_announcement' and is_winner_announcement(i) and not i.get('campaign_id') and ctype!='review':
+        fail(f'{iid}: unlinked winner announcement must be Needs Review')
     cid=i.get('campaign_id')
     if cid:
         target=byid.get(cid)
