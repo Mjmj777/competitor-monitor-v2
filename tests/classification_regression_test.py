@@ -306,6 +306,13 @@ assert true_unlinked_winner["content_type"] == "review"
 assert true_unlinked_winner["review_required"] is True
 assert "winner_announcement_unlinked" in true_unlinked_winner["review_reasons"]
 
+# The integrity pass must also be the final gate after duplicate/replacement
+# transformations, otherwise a later merge can recreate an unlinked stale role.
+import inspect
+main_source = inspect.getsource(enhance.main)
+assert main_source.rfind("normalize_winner_announcements(data)") > main_source.find("detect_duplicates_replacements(data)")
+assert main_source.rfind("normalize_winner_announcements(data)") < main_source.find('scan_summary["review_after"]')
+
 # Full review reconciliation scans the existing backlog, links safe matches, clears ordinary
 # awareness posts and leaves genuinely new promotions as Potential Campaign/Merchant Offer.
 canonical_campaign = official_item(
