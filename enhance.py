@@ -1628,6 +1628,33 @@ _AUTO_SOCIAL_REVIEW_REASONS={
     "new_social_campaign_needs_review","potential_merchant_offer_unmatched","invalid_cross_competitor_match",
 }
 
+def normalize_awareness_review_state(data):
+    """Reconcile stale automatic review flags without discarding real promotions."""
+    changed = 0
+    for item in data.get("items", []):
+        if item.get("content_type") != "awareness":
+            continue
+        reasons = list(item.get("review_reasons") or [])
+        if not set(reasons) & _AUTO_SOCIAL_REVIEW_REASONS:
+            continue
+        manual = bool(item.get("review_approved") or item.get("review_decision") or item.get("manual_override"))
+        potential = social_promotion_type(item) if item.get("source_type") == "social" else None
+        if not manual and (potential or is_winner_announcement(item)) and not item.get("campaign_id"):
+            item["content_type"] = "review"
+            item["review_required"] = True
+            item["current_status"] = "Needs Review"
+            item["suggested_record_type"] = potential or "campaign"
+        else:
+            remaining = [reason for reason in reasons if reason not in _AUTO_SOCIAL_REVIEW_REASONS]
+            item["review_reasons"] = remaining
+            item["review_required"] = bool(remaining)
+            item.pop("suggested_record_type", None)
+            item.pop("suggested_campaign_id", None)
+            if not remaining and item.get("current_status") == "Needs Review":
+                item.pop("current_status", None)
+        changed += 1
+    return changed
+
 
 def _campaign_match_tokens(item):
     value=" ".join(str(item.get(field) or "") for field in ("title","summary","snippet","mechanic","eligibility","terms_note"))
@@ -2939,6 +2966,7 @@ def main():
     print("[STAGE 3/5] Reconcile the full Needs Review backlog",flush=True)
     # Every run now reconciles the complete Needs Review backlog with all canonical
     # campaigns and merchant offers, instead of looking only at newly fetched rows.
+    normalize_awareness_review_state(data)
     scan_summary=rescan_needs_review(data,config)
     normalize_winner_announcements(data)
     enforce_record_integrity(data,config)
@@ -2953,6 +2981,7 @@ def main():
     ensure_campaign_start_dates(data)
     sanitize_campaign_media(data)
     detect_duplicates_replacements(data)
+    normalize_awareness_review_state(data)
     # Final invariant after every merge/status transformation: a genuine winner
     # announcement must either be linked or remain Needs Review, while stale
     # automatic winner labels on campaign-mechanic posts are removed. Keep this
