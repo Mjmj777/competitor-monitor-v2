@@ -9,7 +9,7 @@ def fail(msg): ERRORS.append(msg)
 
 required=[
     'index.html','competitor.html','item.html','review.html','monitor.py','enhance.py','apply_review.py','export_excel.py','preflight_check.py','postflight_check.py','config.json','requirements.txt','cloudflare-worker.js',
-    'competitor_campaigns_template.xlsx','inventory.json','manual_overrides.json','.github/workflows/monitor.yml','.github/workflows/review.yml','assets/common.js','assets/index.js','assets/competitor.js','assets/item.js','assets/review.js','assets/styles.css','tests/chart_renderer_test.mjs','tests/worker_refresh_test.mjs','tests/worker_review_test.mjs','tests/classification_regression_test.py','tests/review_apply_test.py'
+    'competitor_campaigns_template.xlsx','inventory.json','manual_overrides.json','wrangler.toml','.github/workflows/monitor.yml','.github/workflows/review.yml','assets/common.js','assets/index.js','assets/competitor.js','assets/item.js','assets/review.js','assets/styles.css','tests/chart_renderer_test.mjs','tests/worker_refresh_test.mjs','tests/worker_review_test.mjs','tests/worker_assets_test.mjs','tests/classification_regression_test.py','tests/review_apply_test.py'
 ]
 for name in required:
     if not (BASE/name).exists(): fail(f'Missing required file: {name}')
@@ -249,8 +249,8 @@ try:
     idx=(BASE/'index.html').read_text(encoding='utf-8')
     competitor=(BASE/'competitor.html').read_text(encoding='utf-8')
     common=(BASE/'assets/common.js').read_text(encoding='utf-8')
-    if 'const WORKER_BUILD = "5.14.0"' not in worker:
-        fail('cloudflare-worker.js is outdated; upload the v5.14.0 Worker reference file')
+    if 'const WORKER_BUILD = "5.15.0"' not in worker:
+        fail('cloudflare-worker.js is outdated; upload the v5.15.0 Worker reference file')
     if '/__refresh-status' not in worker or 'workflowRuns(token)' not in worker:
         fail('Worker refresh-status tracking is missing')
     if 'request_id: requestId' not in worker or 'crypto.randomUUID()' not in worker:
@@ -322,10 +322,20 @@ try:
         fail('Review persistence workflow is incomplete')
     if '- manual_overrides.json' not in monitor_wf.split('jobs:',1)[0]:
         fail('Review persistence commits must not trigger a second monitor workflow')
-    if re.search(r'cp[^\n]*manual_overrides\.json[^\n]*_site', review_wf) or re.search(r'cp[^\n]*manual_overrides\.json[^\n]*_site', monitor_wf):
-        fail('manual_overrides.json must not be copied into the public Pages artifact')
+    if re.search(r'cp[^\n]*manual_overrides\.json[^\n]*cloudflare-site', review_wf) or re.search(r'cp[^\n]*manual_overrides\.json[^\n]*cloudflare-site', monitor_wf):
+        fail('manual_overrides.json must not be copied into Cloudflare static assets')
     if 'review.html' not in review_wf or 'review.html' not in monitor_wf:
         fail('Review page is not included in both deployment paths')
+    wrangler=(BASE/'wrangler.toml').read_text(encoding='utf-8')
+    if 'binding = "ASSETS"' not in wrangler or 'run_worker_first = true' not in wrangler:
+        fail('Cloudflare static assets must run through the authentication Worker')
+    if 'env.ASSETS.fetch(request)' not in worker or 'serveProtectedContent(request, env)' not in worker:
+        fail('Worker is not serving authenticated Cloudflare static assets')
+    for workflow_name, workflow in [('monitor',monitor_wf),('review',review_wf)]:
+        if 'cloudflare/wrangler-action@v3' not in workflow or 'CLOUDFLARE_WORKER_NAME' not in workflow:
+            fail(f'{workflow_name} workflow is missing Cloudflare deployment')
+        if 'actions/deploy-pages' in workflow or 'actions/upload-pages-artifact' in workflow:
+            fail(f'{workflow_name} workflow still deploys GitHub Pages')
 except Exception as exc: fail(f'v5.12.0 Admin review guard failed: {exc}')
 
 # Approved competitor identity assets and page navigation.

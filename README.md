@@ -1,4 +1,4 @@
-# Competitor Intelligence Monitor v5.14.0
+# Competitor Intelligence Monitor v5.15.0
 
 This hotfix improves Merchant Offer classification and adds safe separate-record bulk approval while preserving the v5.9 Admin review center.
 
@@ -22,7 +22,13 @@ This hotfix improves Merchant Offer classification and adds safe separate-record
 
 The Worker remains the security boundary. Viewer requests to `/__refresh`, `/__review` and their status endpoints receive HTTP 403. `review.html` hides its content from non-Admin sessions, while the server-side Worker role check is authoritative.
 
-## Cloudflare secrets
+## Hosting architecture
+
+Cloudflare now hosts the authenticated website, `data.json`, logos/assets and the generated Excel report directly through the existing Worker. GitHub remains responsible for scheduled collection, review persistence and version history; it no longer deploys GitHub Pages. The old Pages origin is retained only as a temporary no-downtime fallback until the first successful Cloudflare deployment.
+
+`run_worker_first = true` is intentional: every static file passes through the existing Admin/Viewer authentication before Cloudflare serves it.
+
+## Cloudflare Worker secrets
 
 - `ADMIN_USERNAME`
 - `ADMIN_PASSWORD`
@@ -33,8 +39,18 @@ The Worker remains the security boundary. Viewer requests to `/__refresh`, `/__r
 
 The fine-grained GitHub token needs repository access to `Mjmj777/competitor-monitor-v2`, `Actions: Read and write`, and automatic `Metadata: Read-only`. It does not need Contents write access.
 
+## GitHub deployment settings
+
+Create these repository settings before the first v5.15.0 run:
+
+- Actions variable `CLOUDFLARE_WORKER_NAME`: the exact name of the existing Worker currently connected to `competitor-monitors.com`.
+- Actions secret `CLOUDFLARE_ACCOUNT_ID`: the Cloudflare account ID.
+- Actions secret `CLOUDFLARE_API_TOKEN`: a scoped token with permission to edit Workers Scripts for this account.
+
+The workflows deliberately stop before deployment if any setting is missing. They never fall back to the placeholder name in `wrangler.toml`, preventing accidental creation of a second Worker. Deploying to the same Worker name preserves its custom domain and existing runtime secrets.
+
 ## Safe upload
 
 Use the final package's `UPLOAD_TO_GITHUB` directory only. It intentionally excludes existing generated/business data (`data.json`, `state.json`, `inventory.json`, `manual_overrides.json` and Excel files), so uploading the update cannot overwrite current monitoring history or manual decisions.
 
-After GitHub Actions succeeds, copy the complete `cloudflare-worker.js` from the repository update into the Cloudflare Worker editor and Deploy. `/__session` should then report `worker_build: "5.14.0"`.
+After the three repository settings are present, run **Competitor Intelligence Monitor** once for `all`. The workflow tests the project, refreshes the data, builds the Excel file, then deploys the Worker and static site together. `/__session` should report `worker_build: "5.15.0"`. Future hourly refreshes and Admin reviews deploy automatically; manual Worker copying is no longer required.

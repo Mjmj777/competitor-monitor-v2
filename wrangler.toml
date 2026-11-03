@@ -1,0 +1,8 @@
+name = "competitor-monitor-set-current-worker-name-in-github"
+main = "cloudflare-worker.js"
+compatibility_date = "2026-10-21"
+
+[assets]
+directory = "./cloudflare-site"
+binding = "ASSETS"
+run_worker_first = true

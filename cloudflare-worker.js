@@ -1,8 +1,8 @@
-const ORIGIN = "https://mjmj777.github.io/competitor-monitor-v2";
+const FALLBACK_ORIGIN = "https://mjmj777.github.io/competitor-monitor-v2";
 const GITHUB_REPOSITORY = "Mjmj777/competitor-monitor-v2";
 const GITHUB_WORKFLOW = "monitor.yml";
 const GITHUB_REVIEW_WORKFLOW = "review.yml";
-const WORKER_BUILD = "5.14.0";
+const WORKER_BUILD = "5.15.0";
 const REFRESH_TARGETS = new Set([
   "all",
   "stc-bank",
@@ -110,9 +110,10 @@ export default {
     }
 
     // ---------------------------------------------------------
-    // Proxy authenticated request to GitHub Pages
+    // Serve authenticated Cloudflare static assets. GitHub Pages remains a
+    // temporary fallback only when the ASSETS binding has not been deployed.
     // ---------------------------------------------------------
-    return proxyToOrigin(request);
+    return serveProtectedContent(request, env);
   },
 };
 
@@ -298,16 +299,39 @@ async function sign(value, secret) {
 
 
 // =============================================================
-// GITHUB PAGES PROXY
+// PROTECTED STATIC HOSTING
 // =============================================================
 
-async function proxyToOrigin(request) {
+async function serveProtectedContent(request, env) {
+  if (env?.ASSETS && typeof env.ASSETS.fetch === "function") {
+    const assetResponse = await env.ASSETS.fetch(request);
+    return privateAssetResponse(assetResponse);
+  }
+
+  return proxyToFallbackOrigin(request);
+}
+
+function privateAssetResponse(response) {
+  const responseHeaders = new Headers(response.headers);
+  responseHeaders.set("Cache-Control", "private, no-store");
+  responseHeaders.set("X-Content-Type-Options", "nosniff");
+  responseHeaders.set("X-Frame-Options", "DENY");
+  responseHeaders.set("Referrer-Policy", "same-origin");
+
+  return new Response(response.body, {
+    status: response.status,
+    statusText: response.statusText,
+    headers: responseHeaders,
+  });
+}
+
+async function proxyToFallbackOrigin(request) {
   const incomingUrl = new URL(request.url);
 
   // Keep the GitHub Pages project path:
   // /competitor-monitor-v2/
   const originUrl =
-    ORIGIN +
+    FALLBACK_ORIGIN +
     incomingUrl.pathname +
     incomingUrl.search;
 
@@ -330,18 +354,7 @@ async function proxyToOrigin(request) {
 
   const originResponse = await fetch(originUrl, init);
 
-  const responseHeaders = new Headers(originResponse.headers);
-
-  responseHeaders.set(
-    "Cache-Control",
-    "private, no-store"
-  );
-
-  return new Response(originResponse.body, {
-    status: originResponse.status,
-    statusText: originResponse.statusText,
-    headers: responseHeaders,
-  });
+  return privateAssetResponse(originResponse);
 }
 
 
