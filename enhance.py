@@ -141,7 +141,29 @@ def normalize_winner_announcements(data):
     changed = 0
     byid = {i.get("id"): i for i in data.get("items", []) if i.get("id")}
     for item in data.get("items", []):
-        if item.get("source_type") != "social" or not is_winner_announcement(item):
+        if item.get("source_type") != "social":
+            continue
+        winner_announcement = is_winner_announcement(item)
+        # Older builds labelled any mention of a winner (for example, "one winner
+        # every week") as a result announcement. Re-evaluate every automatic label,
+        # including records that are no longer in Needs Review, so a stale role can
+        # never fail postflight after a campaign link is removed or expires.
+        if (
+            item.get("post_role") == "winner_announcement"
+            and item.get("post_role_source") != "manual"
+            and not winner_announcement
+        ):
+            item.pop("post_role", None)
+            item.pop("post_role_source", None)
+            reasons = [r for r in (item.get("review_reasons") or []) if r != "winner_announcement_unlinked"]
+            item["review_reasons"] = reasons
+            if not reasons and item.get("review_required") and item.get("content_type") != "review":
+                item["review_required"] = False
+                if item.get("current_status") == "Needs Review":
+                    item.pop("current_status", None)
+            changed += 1
+            continue
+        if not winner_announcement:
             continue
         cid = item.get("campaign_id")
         target = byid.get(cid) if cid else None
