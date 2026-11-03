@@ -19,11 +19,9 @@ on:
 
 permissions:
   contents: write
-  pages: write
-  id-token: write
 
 concurrency:
-  group: competitor-monitor-pages
+  group: competitor-monitor-cloudflare
   cancel-in-progress: false
 
 jobs:
@@ -64,6 +62,7 @@ jobs:
           node --check assets/common.js
           node --check assets/review.js
           node --check cloudflare-worker.js
+          node tests/worker_assets_test.mjs
           python postflight_check.py
           python tests/classification_regression_test.py
           python tests/review_apply_test.py --self-check
@@ -96,31 +95,27 @@ jobs:
             exit 1
           fi
 
-      - name: Prepare GitHub Pages site
+      - name: Verify Cloudflare deployment settings
+        env:
+          CLOUDFLARE_WORKER_NAME: ${{ vars.CLOUDFLARE_WORKER_NAME }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
         shell: bash
         run: |
-          rm -rf _site
-          mkdir -p _site/assets
-          cp index.html competitor.html item.html review.html data.json competitor_campaigns_latest.xlsx _site/
-          cp -R assets/. _site/assets/
-          touch _site/.nojekyll
+          test -n "$CLOUDFLARE_WORKER_NAME" || { echo "Missing repository variable CLOUDFLARE_WORKER_NAME"; exit 1; }
+          test -n "$CLOUDFLARE_ACCOUNT_ID" || { echo "Missing repository secret CLOUDFLARE_ACCOUNT_ID"; exit 1; }
+          test -n "$CLOUDFLARE_API_TOKEN" || { echo "Missing repository secret CLOUDFLARE_API_TOKEN"; exit 1; }
 
-      - name: Configure GitHub Pages
-        uses: actions/configure-pages@v5
+      - name: Prepare Cloudflare static assets
+        shell: bash
+        run: |
+          mkdir -p cloudflare-site/assets
+          cp index.html competitor.html item.html review.html data.json competitor_campaigns_latest.xlsx cloudflare-site/
+          cp -R assets/. cloudflare-site/assets/
 
-      - name: Upload Pages artifact
-        uses: actions/upload-pages-artifact@v4
+      - name: Deploy Worker and site to Cloudflare
+        uses: cloudflare/wrangler-action@v3
         with:
-          path: ./_site
-
-  deploy:
-    needs: apply
-    runs-on: ubuntu-latest
-    timeout-minutes: 10
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: deploy --name ${{ vars.CLOUDFLARE_WORKER_NAME }}
