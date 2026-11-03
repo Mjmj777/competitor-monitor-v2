@@ -276,6 +276,36 @@ assert not enhance.is_winner_announcement({"title": "Spend SAR 100 and enter to 
 assert not enhance.is_winner_announcement({"title": "Spend SAR 100 and enter to win — one winner every week", "post_role": "winner_announcement"})
 assert enhance.is_winner_announcement({"title": "Congratulations to our winner, who received the prize"})
 
+# A stale automatic winner label from an older build must be removed globally,
+# even if the campaign link has disappeared and the post is not in Needs Review.
+legacy_winner_mechanic = social_post(
+    "post:stc-bank:x:legacy-winner-mechanic",
+    "كل حوالة دولية = فرصة فوز جديدة، فائز أسبوعي بسيارة و10 فائزين يوميًا",
+    competitor_id="stc-bank",
+    platform="x",
+    link="https://x.com/stcbank/status/902",
+    post_role="winner_announcement",
+    content_type="social_post",
+    review_required=False,
+)
+true_unlinked_winner = social_post(
+    "post:stc-bank:x:true-winner-announcement",
+    "مبروك للفائز الذي استلم الجائزة اليوم",
+    competitor_id="stc-bank",
+    platform="x",
+    link="https://x.com/stcbank/status/903",
+    content_type="social_post",
+    review_required=False,
+)
+winner_payload = {"items": [legacy_winner_mechanic, true_unlinked_winner]}
+assert enhance.normalize_winner_announcements(winner_payload) == 2
+assert "post_role" not in legacy_winner_mechanic
+assert legacy_winner_mechanic["content_type"] == "social_post"
+assert legacy_winner_mechanic["review_required"] is False
+assert true_unlinked_winner["content_type"] == "review"
+assert true_unlinked_winner["review_required"] is True
+assert "winner_announcement_unlinked" in true_unlinked_winner["review_reasons"]
+
 # Full review reconciliation scans the existing backlog, links safe matches, clears ordinary
 # awareness posts and leaves genuinely new promotions as Potential Campaign/Merchant Offer.
 canonical_campaign = official_item(
