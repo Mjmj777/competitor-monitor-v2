@@ -2953,6 +2953,11 @@ def main():
     ensure_campaign_start_dates(data)
     sanitize_campaign_media(data)
     detect_duplicates_replacements(data)
+    # Final invariant after every merge/status transformation: a genuine winner
+    # announcement must either be linked or remain Needs Review, while stale
+    # automatic winner labels on campaign-mechanic posts are removed. Keep this
+    # immediately before review_after so the persisted scan totals match the data.
+    normalize_winner_announcements(data)
     scan_summary["review_after"]=sum(item.get("active") is not False and item.get("review_required") for item in data.get("items",[]))
     # Stage 2 can legitimately surface previously unflagged social posts as Potential Campaigns
     # or Potential Merchant Offers. Measure the cleanup against the queue that the full scan
