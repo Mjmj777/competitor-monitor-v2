@@ -13,6 +13,10 @@ import enhance  # noqa: E402
 
 config = json.loads((ROOT / "config.json").read_text(encoding="utf-8"))
 
+# Keep historical fixtures deterministic. Without a frozen clock, campaign
+# fixtures eventually expire and unrelated CI runs begin failing with time.
+enhance.now = lambda: enhance.dt("2026-08-27T12:00:00+00:00")
+
 
 def official_item(**values):
     row = {
